@@ -1,0 +1,22 @@
+<header>
+
+  <nav class="navbar navbar-expand-lg navbar-light gradient-custom-2">
+    <div class="container-fluid">
+      <div class="navbar-brand">Bolnica-1-Front</div>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a [routerLink]="'/'" class="nav-link active" aria-current="page">LogIn</a>
+          <a [routerLink]="'/admin-workspace'" class="nav-link active" aria-current="page">WorkspaceAdmin</a>
+          <a [routerLink]="'/reset-password'" class="nav-link active" aria-current="page">ResetPassword</a>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div class="container pt-3">
+  <router-outlet></router-outlet>
+</div>
+
+
