@@ -10,4 +10,9 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  status: boolean = false;
+  clickEvent(){
+      this.status = !this.status;       
+  }
+
 }

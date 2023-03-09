@@ -1,0 +1,46 @@
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+.h-custom {
+  height: calc(100% - 73px);
+}
+@media (max-width: 450px) {
+  .h-custom {
+    height: 100%;
+  }
+}
+
+.profile-button {
+    padding: 5px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    box-shadow: none;
+    border: none;
+    background-color: white; 
+    color: black; 
+    border: 2px solid #23408e;
+}
+
+.profile-button:hover {
+    background-color: #23408e;
+    color: white;
+}
+
+.profile-button:focus {
+    background: #23408e;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #23408e;
+    box-shadow: none
+}

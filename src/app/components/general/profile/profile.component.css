@@ -1,0 +1,102 @@
+body {
+    background: rgb(99, 39, 120)
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #212fac
+}
+
+.profile-button {
+    padding: 5px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    box-shadow: none;
+    background-color: white; 
+    color: black; 
+    border: 2px solid #23408e;
+    border-radius: 8px;
+}
+
+.profile-button:hover {
+    background-color: #23408e;
+    color: white;
+}
+
+.profile-button:focus {
+    background: #23408e;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #23408e;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #212fac;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #212fac;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #212fac
+}
+
+
+
+#search {
+    width:90%;
+}
+
+.searchicon {
+    color:#5CB85C;
+}
+
+.items-collection{
+    margin:20px 0 0 0;
+}
+.items-collection label.btn-default.active{
+    background-color:#23408e;
+    color:#FFF;
+}
+.items-collection label.btn-default{
+    width:90%;
+    border:1px solid #23408e;
+    margin:5px; 
+    border-radius: 17px;
+    color: #23408e;
+}
+.items-collection label .itemcontent{
+    width:100%;
+}
+.items-collection .btn-group{
+    width:90%
+}
+
+.style-button{
+    font-size: 16px;
+    padding: 8px 12px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    box-shadow: none;
+    border: 2px solid #23408e;
+    border-radius: 8px;
+    margin: 6px 2px;
+}
+
+.style-button:hover{
+    background-color: #23408e;
+    color:white;
+}
