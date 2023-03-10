@@ -1,73 +1,89 @@
-<section class="vh-100">
-    <div class="container-fluid h-custom">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-md-9 col-lg-6 col-xl-3">
+<!DOCTYPE html>
 
-            <img src="assets/rlogo2.png" class="img-fluid"
-            alt="Sample image">
-        </div>
-        <div class="col-md-8 col-lg-6 col-xl-4 offset-sm-1">
-          <form>
-  
-            <div class="divider d-flex align-items-center my-4">
-              <p class="text-center fw-bold mx-3 mb-0">Prijavi se</p>
-            </div>
-  
-            <!-- Email input -->
-            <div class="form-outline mb-4">
-              <input type="email" id="form3Example3" class="form-control form-control-lg"
-                placeholder="Unesite email adresu" />
-              <label class="form-label" for="form3Example3">Email adresa</label>
-            </div>
-  
-            <!-- Password input -->
-            <div class="form-outline mb-3">
-              <input type="password" id="form3Example4" class="form-control form-control-lg"
-                placeholder="Unesite lozinku" />
-              <label class="form-label" for="form3Example4">Lozinka</label>
-            </div>
-  
-            <div class="d-flex justify-content-between align-items-center">
-              <!-- Checkbox -->
-              <div class="form-check mb-0">
-                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                <label class="form-check-label" for="form2Example3">
-                  Zapamti me
-                </label>
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+
+<body>
+
+  <main>
+    <div class="container">
+
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+              <div class="d-flex justify-content-center py-4">
+                <a href="index.html" class="logo d-flex align-items-center w-auto">
+                  <img src="assets/rlogo2.png" alt="">
+                  <span class="d-none d-lg-block">IBIS</span>
+                </a>
+              </div><!-- End Logo -->
+
+              <div class="card mb-3">
+
+                <div class="card-body">
+
+                  <div class="pt-4 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4">Prijavi se</h5>
+                    <p class="text-center small">Unesite korisnicko ime i lozinku</p>
+                  </div>
+
+                  <form class="row g-3 needs-validation" novalidate>
+
+                    <div class="col-12">
+                      <label for="yourUsername" class="form-label">Korisnicko ime</label>
+                      <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend">@</span>
+                        <input type="text" name="username" class="form-control" id="yourUsername" required>
+                        <div class="invalid-feedback">Please enter your username.</div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourPassword" class="form-label">Lozinka</label>
+                      <input type="password" name="password" class="form-control" id="yourPassword" required>
+                      <div class="invalid-feedback">Please enter your password!</div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Zapamti me</label>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <button class="btn btn-primary w-100" type="submit">Prijava</button>
+                    </div>
+                    <div class="col-12">
+                      <p class="small mb-0">Zaboravljena lozinka? <a href="pages-register.html">Resetuj lozinku</a></p>
+                    </div>
+                  </form>
+
+                </div>
               </div>
-              <a href="#!" class="text-body">Zaboravljena lozinka?</a>
             </div>
-            <div class="text-center text-lg-start mt-4 pt-2">
-                <button type="button" class="profile-button"
-                  style="padding-left: 2.5rem; padding-right: 2.5rem; border-radius: 8px;">Login</button>
-              </div>
-          </form>
+          </div>
         </div>
-      </div>
+
+      </section>
+
     </div>
-    <div class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
-      <!-- Copyright -->
-      <div class="text-white mb-3 mb-md-0">
-        Copyright © 2023. Bolnica-1. IBIS.
-      </div>
-      <!-- Copyright -->
-  
-      <!-- Right -->
-      <div>
-        <a href="#!" class="text-white me-4">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="#!" class="text-white me-4">
-          <i class="fab fa-twitter"></i>
-        </a>
-        <a href="#!" class="text-white me-4">
-          <i class="fab fa-google"></i>
-        </a>
-        <a href="#!" class="text-white">
-          <i class="fab fa-linkedin-in"></i>
-        </a>
-      </div>
-      <!-- Right -->
-    </div>
-  </section>
+  </main><!-- End #main -->
+
+</body>
 

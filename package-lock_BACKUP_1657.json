@@ -20,8 +20,11 @@
         "@tinymce/tinymce-angular": "^7.0.0",
         "bootstrap": "^5.2.3",
         "bootstrap-icons": "^1.10.3",
+<<<<<<< HEAD
         "i": "^0.3.7",
+=======
         "ngx-quill": "^20.0.1",
+>>>>>>> 7b547b5ec237e00172edb7f35bb36c4b350ea967
         "rxjs": "~7.5.0",
         "tslib": "^2.3.0",
         "zone.js": "~0.12.0"

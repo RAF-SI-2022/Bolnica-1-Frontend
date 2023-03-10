@@ -8,10 +8,9 @@ import {UserService} from "../services/user-service/user.service";
 })
 export class AppComponent {
   title = 'Bolnica-1-Frontend';
-
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-
+      
   }
 }

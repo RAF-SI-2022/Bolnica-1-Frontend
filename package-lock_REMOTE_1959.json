@@ -20,7 +20,6 @@
         "@tinymce/tinymce-angular": "^7.0.0",
         "bootstrap": "^5.2.3",
         "bootstrap-icons": "^1.10.3",
-        "i": "^0.3.7",
         "ngx-quill": "^20.0.1",
         "rxjs": "~7.5.0",
         "tslib": "^2.3.0",
@@ -6382,14 +6381,6 @@
       "dev": true,
       "dependencies": {
         "ms": "^2.0.0"
-      }
-    },
-    "node_modules/i": {
-      "version": "0.3.7",
-      "resolved": "https://registry.npmjs.org/i/-/i-0.3.7.tgz",
-      "integrity": "sha512-FYz4wlXgkQwIPqhzC5TdNMLSE5+GS1IIDJZY/1ZiEPCT2S3COUVZeT5OW4BmW4r5LHLQuOosSwsvnroG9GR59Q==",
-      "engines": {
-        "node": ">=0.4"
       }
     },
     "node_modules/iconv-lite": {
@@ -16586,11 +16577,6 @@
       "requires": {
         "ms": "^2.0.0"
       }
-    },
-    "i": {
-      "version": "0.3.7",
-      "resolved": "https://registry.npmjs.org/i/-/i-0.3.7.tgz",
-      "integrity": "sha512-FYz4wlXgkQwIPqhzC5TdNMLSE5+GS1IIDJZY/1ZiEPCT2S3COUVZeT5OW4BmW4r5LHLQuOosSwsvnroG9GR59Q=="
     },
     "iconv-lite": {
       "version": "0.4.24",

@@ -1,21 +1,30 @@
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+  
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
 <body>
     <div class="container">
         <div class="table-responsive">
             <div class="table-wrapper">
                 <div class="table-title">
-                    <div class="row">
-                        <div class="col-xs-5">
-                            <h2>Pretraga <b>zaposlenih</b></h2>
-                        </div>
-                        <div class="col-xs-7">		
-                        </div>
-                    </div>
+                        <h2><b>Pretraga zaposlenih</b></h2>
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-3"><label class="labels">Ime</label><input type="text" class="form-control" placeholder="" value=""></div>
                     <div class="col-md-3"><label class="labels">Prezime</label><input type="text" class="form-control" value="" placeholder=""></div>
                     <div class="col-md-3"><label class="labels">Ordinacija</label>                        
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <select class="form-select" aria-label="Default select example">
                             <option selected>Odaberite odeljenje</option>
                             <option value="1">Prof. dr. med</option>
                             <option value="2">Dr med. spec.</option>
@@ -25,7 +34,7 @@
                             <option value="6">Mr</option>
                           </select></div>
                           <div class="col-md-3"><label class="labels">Bolnica</label>                        
-                            <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <select class="form-select" aria-label="Default select example">
                                 <option selected>Odaberite bolnicu</option>
                                 <option value="1">Prof. dr. med</option>
                                 <option value="2">Dr med. spec.</option>
@@ -35,10 +44,10 @@
                                 <option value="6">Mr</option>
                               </select></div>
                 </div>
-                <div class="me-auto float-end text-end">
-                    <button class="button profile-button" type="button">Pretrazi</button>
+                <div class="me-auto float-end text-end mt-3 mb-3">
+                    <button type="button" class="btn btn-primary">Pretrazi</button>
                 </div>
-                <table class="table table-striped table-hover">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>#</th>

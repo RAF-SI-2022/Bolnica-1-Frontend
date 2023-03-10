@@ -1,180 +1,205 @@
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+
 <div class="container rounded bg-white mt-5 mb-5">
-    <div class="row">
-        <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Dr.Paun</span><span class="text-black-50">drpaun@gmail.com</span><span> </span></div>
-        </div>
-        <div class="col-md-5 border-right">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Profil</h4>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Ime</label><input type="text" class="form-control" placeholder="" value="" [(ngModel)]="ime" required></div>
-                    <div class="col-md-6"><label class="labels">Prezime</label><input type="text" class="form-control" value="" placeholder="" [(ngModel)]="prezime" required></div>
-                </div>
-                <div class="row mt-3">
-                    <label class="labels">Pol</label>
-
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-inline-block me-1">Musko</div> &nbsp;
-                                <div class="form-check form-switch d-inline-block"> &nbsp;
-                                    <input type="checkbox" class="form-check-input" id="site_state" style="cursor: pointer;" >
-
-                                    <label for="site_state" class="form-check-label"> Zensko</label>
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="" value="" [(ngModel)]="imejl" required></div>
-                    <div class="col-md-12"><label class="labels">Broj telefona</label><input type="text" class="form-control" placeholder="" value="" [(ngModel)]="brojTelefona"></div>
-                    <div class="col-md-12"><label class="labels">JMBG</label><input type="text" class="form-control" placeholder="" value="" [(ngModel)]="JMBG" required></div>
-                    <div class="col-md-12"><label class="labels">Adresa</label><input type="text" class="form-control" placeholder="" value="" [(ngModel)]="adresaStanovanja" required></div>
-                    <div class="col-md-12"><label class="labels">Mesto</label><input type="text" class="form-control" placeholder="" value="" [(ngModel)]="mestoStanovanja" required></div>
-                    <div class="col-md-12"><label class="labels">Datum</label><input type="text" class="form-control" placeholder="" value="" [(ngModel)]="datumRodjenja" required></div>
-                    <div class="col-md-12"><label class="labels">Titula</label>
-                        <select [(ngModel)]="titula")]  class="form-select form-select-sm" aria-label=".form-select-sm example" required>
-                            <option selected>Odaberite titulu</option>
-                            <option value="1">Prof. dr. med</option>
-                            <option value="2">Dr med. spec.</option>
-                            <option value="3">Dr sci. med.</option>
-                            <option value="4">Dipl. farm.</option>
-                            <option value="5">Mag. farm.</option>
-                            <option value="6">Mr</option>
-                          </select></div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">Odeljenje</label>
-                        <select [(ngModel)]="odeljenje")] class="form-select form-select-sm" aria-label=".form-select-sm example" required>
-                            <option selected>Odaberite odeljenje</option>
-                            <option value="1">Prof. dr. med</option>
-                            <option value="2">Dr med. spec.</option>
-                            <option value="3">Dr sci. med.</option>
-                            <option value="4">Dipl. farm.</option>
-                            <option value="5">Mag. farm.</option>
-                            <option value="6">Mr</option>
-                          </select></div>
-                    <div class="col-md-6"><label class="labels">Zanimanje</label>
-                        <select [(ngModel)]="zanimanje")]  class="form-select form-select-sm" aria-label=".form-select-sm example" required>
-                            <option selected>Odaberite zanimanje</option>
-                            <option value="1">Med. sestra</option>
-                            <option value="2">Spec. biohemicar</option>
-                            <option value="3">Spec. gastroenterolog</option>
-                            <option value="4">Spec. ginekolog</option>
-                            <option value="5">Spec. endrokrinolog</option>
-                            <option value="6">Spec. kardiolog</option>
-                            <option value="7">Spec. neurolog</option>
-                            <option value="8">Spec. nefrolog</option>
-                            <option value="9">Spec. psihijatar</option>
-                            <option value="10">Spec. pulmolog</option>
-                            <option value="11">Spec. urolog</option>
-                            <option value="12">Spec. hematolog</option>
-                            <option value="13">Spec. hirurg</option>
-                          </select>
-                    </div>
-                </div>
-                <div class="mt-5 text-center"><button class="button profile-button" type="button">Dodaj</button></div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center experience"><h4>Privilegije</h4></div>
-                <div class="items-collection">
-                    <div class="items col-xs-6 col-sm-3 col-md-3 col-lg-12">
-                        <div class="info-block block-info clearfix">
-                            <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
-                                    <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="var_id[]" autocomplete="off" value="">
-                                        <span class="m-0 p-2">Admin</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
-                                    <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="dr_spec_odeljenja">
-                                        <span class="m-0 p-2">Nacelink odeljenja</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
-                                    <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="var_id[]" autocomplete="off" value="">
-                                        <span class="m-0 p-2">Recepcioner</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
-                                    <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="var_id[]" autocomplete="off" value=""[(ngModel)]="dr_spec">
-                                        <span class="m-0 p-2">Doktor specijalista</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
-                                    <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="dr_spec_pov">
-                                        <span class="m-0 p-2">Doktor specijalista - poverljiv pristup</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
-                                    <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="visa_med_sestra">
-                                        <span class="m-0 p-2">Visa medicinska sestra</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
-                                    <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="med_sestra">
-                                        <span class="m-0 p-2">Medicinska sestra</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
-                                    <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="var_id[]" autocomplete="off" value="">
-                                        <span class="m-0 p-2">Visi laboratorijski tehnicar</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
-                                    <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="var_id[]" autocomplete="off" value="">
-                                        <span class="m-0 p-2">Laboratorijski tehnicar</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
-                                    <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="var_id[]" autocomplete="off" value="">
-                                        <span class="m-0 p-2">Medicinski biohemicar</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
-                                    <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="var_id[]" autocomplete="off" value="">
-                                        <span class="m-0 p-2">Specijalista medicinske biohemije</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-md-3 border-right">
+      <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Dr.Paun</span><span class="text-black-50">drpaun@gmail.com</span><span> </span></div>
     </div>
+    <div class="col-md-5 border-right">
+      <div class="p-3 py-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="text-right">Profil</h4>
+
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-6"><label class="labels">Ime</label><input type="text" class="form-control" placeholder="" value=""></div>
+          <div class="col-md-6"><label class="labels">Prezime</label><input type="text" class="form-control" value="" placeholder=""></div>
+        </div>
+        <div class="row mt-3">
+          <label class="labels">Pol</label>
+
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <div class="d-inline-block me-1">Musko</div> &nbsp;
+                <div class="form-check form-switch d-inline-block"> &nbsp;
+                  <input type="checkbox" class="form-check-input" id="site_state" style="cursor: pointer;">
+
+                  <label for="site_state" class="form-check-label"> Zensko</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="" value=""></div>
+          <div class="col-md-12"><label class="labels">Broj telefona</label><input type="text" class="form-control" placeholder="" value=""></div>
+          <div class="col-md-12"><label class="labels">JMBG</label><input type="text" class="form-control" placeholder="" value=""></div>
+          <div class="col-md-12"><label class="labels">Adresa</label><input type="text" class="form-control" placeholder="" value=""></div>
+
+          <div class="col-md-12"><label class="labels">Mesto</label><input type="text" class="form-control" placeholder="" value=""></div>
+          <div class="col-md-12"><label class="labels">
+            Datum</label><input type="date" class="form-control">
+          </div>
+          <div class="col-md-12"><label class="labels">Titula</label>
+
+            <select class="form-select" aria-label="Default select example">
+              <option selected>Odaberite titulu</option>
+              <option value="1">Prof. dr. med</option>
+              <option value="2">Dr med. spec.</option>
+              <option value="3">Dr sci. med.</option>
+              <option value="4">Dipl. farm.</option>
+              <option value="5">Mag. farm.</option>
+              <option value="6">Mr</option>
+            </select></div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6"><label class="labels">Odeljenje</label>
+            <select class="form-select" aria-label="Default select example">
+              <option selected>Odaberite odeljenje</option>
+              <option value="1">Prof. dr. med</option>
+              <option value="2">Dr med. spec.</option>
+              <option value="3">Dr sci. med.</option>
+              <option value="4">Dipl. farm.</option>
+              <option value="5">Mag. farm.</option>
+              <option value="6">Mr</option>
+            </select></div>
+          <div class="col-md-6"><label class="labels">Zanimanje</label>
+            <select class="form-select" aria-label="Default select example">
+              <option selected>Odaberite zanimanje</option>
+              <option value="1">Med. sestra</option>
+              <option value="2">Spec. biohemicar</option>
+              <option value="3">Spec. gastroenterolog</option>
+              <option value="4">Spec. ginekolog</option>
+              <option value="5">Spec. endrokrinolog</option>
+              <option value="6">Spec. kardiolog</option>
+              <option value="7">Spec. neurolog</option>
+              <option value="8">Spec. nefrolog</option>
+              <option value="9">Spec. psihijatar</option>
+              <option value="10">Spec. pulmolog</option>
+              <option value="11">Spec. urolog</option>
+              <option value="12">Spec. hematolog</option>
+              <option value="13">Spec. hirurg</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-4 text-center">
+          <button type="button" class="btn btn-primary"><i class="bi bi-save me-1"></i> Napravi</button>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-4">
+      <div class="p-3 py-5">
+        <div class="d-flex justify-content-between align-items-center experience"><h4>Privilegije</h4></div>
+        <div class="items-collection">
+          <div class="items col-xs-6 col-sm-3 col-md-3 col-lg-12">
+            <div class="info-block block-info clearfix">
+              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="">
+                    <span class="m-0 p-2">Admin</span>
+                  </div>
+                </label>
+              </div>
+              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="">
+                    <span class="m-0 p-2">Nacelink odeljenja</span>
+                  </div>
+                </label>
+              </div>
+              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="">
+                    <span class="m-0 p-2">Recepcioner</span>
+                  </div>
+                </label>
+              </div>
+              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="">
+                    <span class="m-0 p-2">Doktor specijalista</span>
+                  </div>
+                </label>
+              </div>
+              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="">
+                    <span class="m-0 p-2">Doktor specijalista - poverljiv pristup</span>
+                  </div>
+                </label>
+              </div>
+              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="">
+                    <span class="m-0 p-2">Visa medicinska sestra</span>
+                  </div>
+                </label>
+              </div>
+              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="">
+                    <span class="m-0 p-2">Medicinska sestra</span>
+                  </div>
+                </label>
+              </div>
+              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="">
+                    <span class="m-0 p-2">Visi laboratorijski tehnicar</span>
+                  </div>
+                </label>
+              </div>
+              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="">
+                    <span class="m-0 p-2">Laboratorijski tehnicar</span>
+                  </div>
+                </label>
+              </div>
+              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="">
+                    <span class="m-0 p-2">Medicinski biohemicar</span>
+                  </div>
+                </label>
+              </div>
+              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="">
+                    <span class="m-0 p-2">Specijalista medicinske biohemije</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

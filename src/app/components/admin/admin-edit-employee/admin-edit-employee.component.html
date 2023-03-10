@@ -1,3 +1,17 @@
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+  
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
@@ -32,9 +46,12 @@
                     <div class="col-md-12"><label class="labels">JMBG</label><input type="text" class="form-control" placeholder="" value=""></div>
                     <div class="col-md-12"><label class="labels">Adresa</label><input type="text" class="form-control" placeholder="" value=""></div>
                     <div class="col-md-12"><label class="labels">Mesto</label><input type="text" class="form-control" placeholder="" value=""></div>
-                    <div class="col-md-12"><label class="labels">Datum</label><input type="text" class="form-control" placeholder="" value=""></div>           
+                    <div class="col-md-12"><label class="labels">
+                        Datum</label><input type="date" class="form-control">
+                    </div>           
                     <div class="col-md-12"><label class="labels">Titula</label>                        
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+
+                          <select class="form-select" aria-label="Default select example">
                             <option selected>Odaberite titulu</option>
                             <option value="1">Prof. dr. med</option>
                             <option value="2">Dr med. spec.</option>
@@ -46,7 +63,7 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-6"><label class="labels">Odeljenje</label>                        
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <select class="form-select" aria-label="Default select example">
                             <option selected>Odaberite odeljenje</option>
                             <option value="1">Prof. dr. med</option>
                             <option value="2">Dr med. spec.</option>
@@ -56,7 +73,7 @@
                             <option value="6">Mr</option>
                           </select></div>
                     <div class="col-md-6"><label class="labels">Zanimanje</label>
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <select class="form-select" aria-label="Default select example">
                             <option selected>Odaberite zanimanje</option>
                             <option value="1">Med. sestra</option>
                             <option value="2">Spec. biohemicar</option>
@@ -74,7 +91,9 @@
                           </select>
                     </div>
                 </div>
-                <div class="mt-5 text-center"><button class="button profile-button" type="button">Sacuvaj</button></div>
+                <div class="mt-4 text-center">
+                    <button type="button" class="btn btn-primary"><i class="bi bi-save me-1"></i> Sacuvaj</button>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
@@ -84,7 +103,7 @@
                     <div class="items col-xs-6 col-sm-3 col-md-3 col-lg-12">
                         <div class="info-block block-info clearfix">
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
+                                <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
                                         <input type="checkbox" name="var_id[]" autocomplete="off" value="">
                                         <span class="m-0 p-2">Admin</span>
@@ -92,7 +111,7 @@
                                 </label>                                
                             </div>
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
+                                <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
                                         <input type="checkbox" name="var_id[]" autocomplete="off" value="">
                                         <span class="m-0 p-2">Nacelink odeljenja</span>
@@ -100,7 +119,7 @@
                                 </label>                                
                             </div>
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
+                                <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
                                         <input type="checkbox" name="var_id[]" autocomplete="off" value="">
                                         <span class="m-0 p-2">Recepcioner</span>
@@ -108,7 +127,7 @@
                                 </label>                                
                             </div>
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
+                                <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
                                         <input type="checkbox" name="var_id[]" autocomplete="off" value="">
                                         <span class="m-0 p-2">Doktor specijalista</span>
@@ -116,7 +135,7 @@
                                 </label>                                
                             </div>
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
+                                <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
                                         <input type="checkbox" name="var_id[]" autocomplete="off" value="">
                                         <span class="m-0 p-2">Doktor specijalista - poverljiv pristup</span>
@@ -124,7 +143,7 @@
                                 </label>                                
                             </div>
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
+                                <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
                                         <input type="checkbox" name="var_id[]" autocomplete="off" value="">
                                         <span class="m-0 p-2">Visa medicinska sestra</span>
@@ -132,7 +151,7 @@
                                 </label>                                
                             </div>
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
+                                <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
                                         <input type="checkbox" name="var_id[]" autocomplete="off" value="">
                                         <span class="m-0 p-2">Medicinska sestra</span>
@@ -140,7 +159,7 @@
                                 </label>                                
                             </div>
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
+                                <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
                                         <input type="checkbox" name="var_id[]" autocomplete="off" value="">
                                         <span class="m-0 p-2">Visi laboratorijski tehnicar</span>
@@ -148,7 +167,7 @@
                                 </label>                                
                             </div>
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
+                                <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
                                         <input type="checkbox" name="var_id[]" autocomplete="off" value="">
                                         <span class="m-0 p-2">Laboratorijski tehnicar</span>
@@ -156,7 +175,7 @@
                                 </label>                                
                             </div>
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
+                                <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
                                         <input type="checkbox" name="var_id[]" autocomplete="off" value="">
                                         <span class="m-0 p-2">Medicinski biohemicar</span>
@@ -164,7 +183,7 @@
                                 </label>                                
                             </div>
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
-                                <label class="style-button col-12">
+                                <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
                                         <input type="checkbox" name="var_id[]" autocomplete="off" value="">
                                         <span class="m-0 p-2">Specijalista medicinske biohemije</span>
