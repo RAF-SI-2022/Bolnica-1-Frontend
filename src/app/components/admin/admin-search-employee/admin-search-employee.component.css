@@ -1,9 +1,4 @@
-body {
-    color: #566787;
-    background: #fcfcfc;
-    font-family: 'Varela Round', sans-serif;
-    font-size: 13px;
-}
+
 .table-responsive {
     margin: 30px 0;
 }
@@ -16,7 +11,7 @@ body {
 }
 .table-title {
     padding-bottom: 15px;
-    background: #299be4;
+    background: #0f5581;
     color: #fff;
     padding: 16px 30px;
     margin: -20px -25px 10px;
@@ -129,7 +124,7 @@ table.table .avatar {
     font-size: 13px;
     min-width: 30px;
     min-height: 30px;
-    color: #999;
+    color: #4d4d4d;
     margin: 0 2px;
     line-height: 30px;
     border-radius: 2px !important;
@@ -140,10 +135,11 @@ table.table .avatar {
     color: #666;
 }	
 .pagination li.active a, .pagination li.active a.page-link {
-    background: #03A9F4;
+    background: #5e5e5e;
+    color:white;
 }
 .pagination li.active a:hover {        
-    background: #0397d6;
+    background: #888888;
 }
 .pagination li.disabled i {
     color: #ccc;
@@ -156,35 +152,4 @@ table.table .avatar {
     float: left;
     margin-top: 10px;
     font-size: 13px;
-}
-
-.profile-button {
-    padding: 5px 24px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px 2px;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    box-shadow: none;
-    background-color: white; 
-    color: black; 
-    border: 2px solid #23408e;
-    border-radius: 8px;
-}
-
-.profile-button:hover {
-    background-color: #23408e;
-    color: white;
-}
-
-.profile-button:focus {
-    background: #23408e;
-    box-shadow: none
-}
-
-.profile-button:active {
-    background: #23408e;
-    box-shadow: none
 }
