@@ -9,7 +9,7 @@ import {UserService} from "../services/user-service/user.service";
 
 export class AppComponent {
   toggleSb: boolean = true;
-  title = 'Bolnica-1-Frontend';
+  title = 'IBIS';
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {

@@ -45,6 +45,13 @@ export class AdminAddEmployeeComponent implements OnInit {
   }
 
   addEmployee(){
+
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    if(form.checkValidity() === false){
+    }
+
+    form.classList.add('was-validated');
+   
     this.userService.addEmployee(this.ime, this.prezime, this.datumRodjenja, this.JMBG, this.mestoStanovanja, this.adresaStanovanja
     , this.brojTelefona, this.imejl, this.musko, this.zensko, this.titula, this.zanimanje, this.odeljenje,
       this.ADMIN, this.DR_SPEC_ODELJENJA, this.DR_SPEC, this.VISA_MED_SESTRA, this.MED_SESTRA, this.DR_SPEC_POV, this.RECEPCIONER,
