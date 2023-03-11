@@ -91,7 +91,7 @@
       </a>
     </li><!-- End Profile Page Nav -->
 
-    <li class="nav-item">
+    <li *ngIf="canAddEmployee()" class="nav-item">
       <a class="nav-link collapsed" href="pages-faq.html">
         <i class="bi bi-journal-text"></i>
         <span>Dodaj zaposlenog</span>
@@ -104,4 +104,3 @@
     <router-outlet></router-outlet>
   </div>
 </body>
- 

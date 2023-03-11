@@ -11,6 +11,16 @@ export class AppComponent {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-      
+
   }
+
+  canAddEmployee(): boolean{
+
+    if(this.userService.checkAdmin()){
+      return true
+    }
+    return false
+
+  }
+
 }

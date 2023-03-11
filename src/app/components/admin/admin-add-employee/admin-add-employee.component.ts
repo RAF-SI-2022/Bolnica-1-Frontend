@@ -22,14 +22,21 @@ export class AdminAddEmployeeComponent implements OnInit {
   titula: string = '';
   zanimanje: string = '';
   odeljenje: string = '';
-  admin: boolean = false;
-  dr_spec_odeljenja: boolean = false;
-  dr_spec: boolean = false;
-  visa_med_sestra: boolean = false;
-  med_sestra: boolean = false;
-  dr_spec_pov: boolean = false;
+  ADMIN: boolean = false;
+  DR_SPEC_ODELJENJA: boolean = false;
+  DR_SPEC: boolean = false;
+  VISA_MED_SESTRA: boolean = false;
+  MED_SESTRA: boolean = false;
+  DR_SPEC_POV: boolean = false;
+  RECEPCIONER: boolean = false;
+  VISI_LABORATORIJSKI_TEHNICAR: boolean = false;
+  LABORATORIJSKI_TEHNICAR: boolean = false;
+  MEDICINSKI_BIOHEMICAR: boolean = false;
+  SPECIJALISTA_MEDICINSKE_BIOHEMIJE: boolean = false;
 
 
+  errorMessage: string = ''
+  successMessage: string = ''
 
 
   constructor(private userService: UserService) { }
@@ -37,16 +44,22 @@ export class AdminAddEmployeeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // addEmployee(){
-  //   this.userService.addEmployee(this.ime, this.prezime, this.datumRodjenja, this.JMBG, this.mestoStanovanja, this.adresaStanovanja
-  //   , this.brojTelefona, this.imejl, this.musko, this.zensko, this.titula, this.zanimanje, this.odeljenje,
-  //     this.admin, this.dr_spec_odeljenja, this.dr_spec, this.visa_med_sestra, this.med_sestra, this.dr_spec_pov).subscribe((response) => {
-  //   }, error => {
-  //     console.log(error)
-  //
-  //   })
-  //
-  // }
+  addEmployee(){
+    this.userService.addEmployee(this.ime, this.prezime, this.datumRodjenja, this.JMBG, this.mestoStanovanja, this.adresaStanovanja
+    , this.brojTelefona, this.imejl, this.musko, this.zensko, this.titula, this.zanimanje, this.odeljenje,
+      this.ADMIN, this.DR_SPEC_ODELJENJA, this.DR_SPEC, this.VISA_MED_SESTRA, this.MED_SESTRA, this.DR_SPEC_POV, this.RECEPCIONER,
+      this.VISI_LABORATORIJSKI_TEHNICAR, this.LABORATORIJSKI_TEHNICAR, this.MEDICINSKI_BIOHEMICAR, this.SPECIJALISTA_MEDICINSKE_BIOHEMIJE).subscribe((response) => {
+
+      this.errorMessage = ''
+      this.successMessage = 'Uspesno dodavanje'
+
+    }, error => {
+      this.successMessage = ''
+      this.errorMessage = 'Zahtev neuspesan'
+
+    })
+
+  }
 
 
 
