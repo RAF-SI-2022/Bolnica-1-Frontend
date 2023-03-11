@@ -13,10 +13,19 @@ export class AppComponent {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-      
-  }
+}
 
   toggleSidebar(){
       this.toggleSb = !this.toggleSb;
   }
+
+  canAddEmployee(): boolean{
+
+    if(this.userService.checkAdmin()){
+      return true
+    }
+    return false
+
+  }
+
 }

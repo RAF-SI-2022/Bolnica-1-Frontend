@@ -97,14 +97,14 @@
       </a>
     </li><!-- End Profile Page Nav -->
 
-    <li class="nav-item">
+    <li  class="nav-item">
       <a class="nav-link collapsed">
         <i class="bi bi-search"></i>
         <span>Pretraga zaposlenih</span>
       </a>
     </li>
 
-    <li class="nav-item">
+    <li *ngIf="canAddEmployee()" class="nav-item">
       <a class="nav-link collapsed">
         <i class="bi bi-journal-text"></i>
         <span>Dodaj zaposlenog</span>
@@ -117,4 +117,3 @@
     <router-outlet></router-outlet>
   </div>
 </body>
- 
