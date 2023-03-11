@@ -45,12 +45,13 @@ export class ProfileComponent implements OnInit {
 
     })
     this.userInfo = {
+      LBZ: 1,
       ime: '',
       prezime: '',
       datumRodjenja: '',
       JMBG: '',
       lozinka: '',
-      mestoStanovanje: '',
+      mestoStanovanja: '',
       adresaStanovanja: '',
       brojTelefona: '',
       imejl: '',
@@ -101,7 +102,7 @@ export class ProfileComponent implements OnInit {
       this.userInfo.prezime = result.prezime
       this.userInfo.datumRodjenja = result.datumRodjenja
       this.userInfo.JMBG = result.JMBG
-      this.userInfo.mestoStanovanje = result.mestoStanovanje
+      this.userInfo.mestoStanovanja = result.mestoStanovanja
       this.userInfo.adresaStanovanja = result.adresaStanovanja
       this.userInfo.brojTelefona = result.brojTelefona
       this.userInfo.imejl = result.ime

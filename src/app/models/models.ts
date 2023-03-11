@@ -1,10 +1,11 @@
 export class Zaposleni{
+  LBZ: number = 1;
   ime: string = '';
   prezime: string = '';
   datumRodjenja: string = '';
   JMBG: string = '';
   lozinka: string = ''
-  mestoStanovanje: string = '';
+  mestoStanovanja: string = '';
   adresaStanovanja: string = '';
   brojTelefona: string = '';
   imejl: string = '';
@@ -25,6 +26,5 @@ export class Zaposleni{
   LABORATORIJSKI_TEHNICAR: boolean = false;
   MEDICINSKI_BIOHEMICAR: boolean = false;
   SPECIJALISTA_MEDICINSKE_BIOHEMIJE: boolean = false;
-
-
 }
+

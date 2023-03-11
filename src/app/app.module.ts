@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app/app.component';
 import { LoginComponent } from './components/general/login/login.component';
@@ -18,12 +17,6 @@ import { ProfileComponent } from './components/general/profile/profile.component
 // import { ScheduleAdmissionComponent } from './components/nurse/schedule-admission/schedule-admission.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-// import { WorkspaceAdminComponent } from './components/admin/workspace-admin/workspace-admin.component';
-// import { WorkspaceBiochemistComponent } from './components/biochemist/workspace-biochemist/workspace-biochemist.component';
-// import { WorkspaceDoctorComponent } from './components/doctor/workspace-doctor/workspace-doctor.component';
-// import { WorkspaceNurseComponent } from './components/nurse/workspace-nurse/workspace-nurse.component';
-// import { WorkspaceReceptionistComponent } from './components/receptionist/workspace-receptionist/workspace-receptionist.component';
-// import { WorkspaceTechnicianComponent } from './components/technician/workspace-technician/workspace-technician.component';
 import { DoctorSearchPatientsComponent } from './components/doctor/doctor-search-patients/doctor-search-patients.component';
 import { NurseSearchPatientsComponent } from './components/nurse/nurse-search-patients/nurse-search-patients.component';
 import { ReceptionistSearchPatientsComponent } from './components/receptionist/receptionist-search-patients/receptionist-search-patients.component';
@@ -35,8 +28,6 @@ import { NursePatientAdmissionComponent } from './components/nurse/nurse-patient
 import { TechnicianPatientAdmissionComponent } from './components/technician/technician-patient-admission/technician-patient-admission.component';
 import { NurseScheduleAdmissionComponent } from './components/nurse/nurse-schedule-admission/nurse-schedule-admission.component';
 import { NurseSearchPatientsDepartmentsComponent } from './components/nurse/nurse-search-patients-departments/nurse-search-patients-departments.component';
-// import { NurseWorkspaceComponent } from './nurse-workspace/nurse-workspace.component';
-// import { ReceptionistWorkspaceComponent } from './receptionist-workspace/receptionist-workspace.component';
 import { TechnicianIssuingResultsComponent } from './components/technician/technician-issuing-results/technician-issuing-results.component';
 import { TechnicianScheduleVisitComponent } from './components/technician/technician-schedule-visit/technician-schedule-visit.component';
 import { TechnicianWorkspaceComponent } from './components/technician/technician-workspace/technician-workspace.component';
@@ -57,22 +48,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LoginComponent,
     ResetPasswordComponent,
     ProfileComponent,
-    // SearchEmployeeComponent,
-    // AddEmployeeComponent,
-    // EditEmployeeComponent,
-    // WorkspaceOnePatientComponent,
-    // MedicalChartComponent,
-    // IssuingResultsComponent,
-    // ScheduleVisitComponent,
-    // PatientAdmissionComponent,
-    // SearchPatientsDepartmentComponent,
-    // ScheduleAdmissionComponent,
-    // WorkspaceAdminComponent,
-    // WorkspaceBiochemistComponent,
-    // WorkspaceDoctorComponent,
-    // WorkspaceNurseComponent,
-    // WorkspaceReceptionistComponent,
-    // WorkspaceTechnicianComponent,
     DoctorSearchPatientsComponent,
     NurseSearchPatientsComponent,
     ReceptionistSearchPatientsComponent,
@@ -84,8 +59,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     TechnicianPatientAdmissionComponent,
     NurseScheduleAdmissionComponent,
     NurseSearchPatientsDepartmentsComponent,
-    // NurseWorkspaceComponent,
-    // ReceptionistWorkspaceComponent,
     TechnicianIssuingResultsComponent,
     TechnicianScheduleVisitComponent,
     TechnicianWorkspaceComponent,
