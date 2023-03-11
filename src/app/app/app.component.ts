@@ -11,6 +11,6 @@ export class AppComponent {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-      
+
   }
 }

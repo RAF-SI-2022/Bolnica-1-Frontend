@@ -16,7 +16,7 @@ import { ProfileComponent } from './components/general/profile/profile.component
 // import { PatientAdmissionComponent } from './components/technician/patient-admission/patient-admission.component';
 // import { SearchPatientsDepartmentComponent } from './components/nurse/search-patients-department/search-patients-department.component';
 // import { ScheduleAdmissionComponent } from './components/nurse/schedule-admission/schedule-admission.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 // import { WorkspaceAdminComponent } from './components/admin/workspace-admin/workspace-admin.component';
 // import { WorkspaceBiochemistComponent } from './components/biochemist/workspace-biochemist/workspace-biochemist.component';
@@ -48,6 +48,8 @@ import { AdminAddEmployeeComponent } from './components/admin/admin-add-employee
 import { AdminEditEmployeeComponent } from './components/admin/admin-edit-employee/admin-edit-employee.component';
 import { AdminSearchEmployeeComponent } from './components/admin/admin-search-employee/admin-search-employee.component';
 import { AdminWorkspaceComponent } from './components/admin/admin-workspace/admin-workspace.component';
+import {NgxPaginationModule} from "ngx-pagination";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -100,7 +102,10 @@ import { AdminWorkspaceComponent } from './components/admin/admin-workspace/admi
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    NgxPaginationModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
