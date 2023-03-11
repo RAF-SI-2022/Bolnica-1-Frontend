@@ -5,7 +5,17 @@ import { AppComponent } from './app/app.component';
 import { LoginComponent } from './components/general/login/login.component';
 import { ResetPasswordComponent } from './components/general/reset-password/reset-password.component';
 import { ProfileComponent } from './components/general/profile/profile.component';
-import {FormsModule} from "@angular/forms";
+// import { SearchEmployeeComponent } from './components/admin/search-employee/search-employee.component';
+// import { AddEmployeeComponent } from './components/admin/add-employee/add-employee.component';
+// import { EditEmployeeComponent } from './components/admin/edit-employee/edit-employee.component';
+// import { WorkspaceOnePatientComponent } from './components/doctor/workspace-one-patient/workspace-one-patient.component';
+// import { MedicalChartComponent } from './components/doctor/medical-chart/medical-chart.component';
+// import { IssuingResultsComponent } from './components/technician/issuing-results/issuing-results.component';
+// import { ScheduleVisitComponent } from './components/technician/schedule-visit/schedule-visit.component';
+// import { PatientAdmissionComponent } from './components/technician/patient-admission/patient-admission.component';
+// import { SearchPatientsDepartmentComponent } from './components/nurse/search-patients-department/search-patients-department.component';
+// import { ScheduleAdmissionComponent } from './components/nurse/schedule-admission/schedule-admission.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { DoctorSearchPatientsComponent } from './components/doctor/doctor-search-patients/doctor-search-patients.component';
 import { NurseSearchPatientsComponent } from './components/nurse/nurse-search-patients/nurse-search-patients.component';
@@ -29,6 +39,8 @@ import { AdminAddEmployeeComponent } from './components/admin/admin-add-employee
 import { AdminEditEmployeeComponent } from './components/admin/admin-edit-employee/admin-edit-employee.component';
 import { AdminSearchEmployeeComponent } from './components/admin/admin-search-employee/admin-search-employee.component';
 import { AdminWorkspaceComponent } from './components/admin/admin-workspace/admin-workspace.component';
+import {NgxPaginationModule} from "ngx-pagination";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -63,7 +75,10 @@ import { AdminWorkspaceComponent } from './components/admin/admin-workspace/admi
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    NgxPaginationModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
