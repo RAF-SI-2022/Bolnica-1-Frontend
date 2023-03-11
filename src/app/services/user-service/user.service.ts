@@ -3,6 +3,9 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {Zaposleni} from "../../models/models";
 import {Observable} from "rxjs";
+import {LoginResponse} from "../../models/LoginResponse";
+import {ResetPasswordResponse} from "../../models/ResetPasswordResponse";
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +13,9 @@ import {Observable} from "rxjs";
 export class UserService {
 
   public token: string = '';
+ // public lbz: number = 0;
+
+
 
   // @ts-ignore
   private zaposleni: Zaposleni = new Zaposleni()
@@ -19,18 +25,76 @@ export class UserService {
   constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
-
+    this.token = localStorage.getItem('token') || '';
+    console.log(this.token);
   }
+
+  login(formData: { username: string; password: string;
+  }): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`http://localhost:8080/auth/login`, {
+      username: formData.username, password:formData.password
+    });
+  }
+
+  resetPassword(formData: { email: string;
+  }): Observable<ResetPasswordResponse> {
+    return this.http.put<ResetPasswordResponse>(`http://localhost:8080/emp/pr `, {
+      email: formData.email
+    });
+  }
+
 
   checkAdmin(): boolean{
     if (localStorage.getItem('privilege') == null) return false;
     else { // @ts-ignore
       for (let item of localStorage.getItem('privilege')){
-        if (item.toUpperCase() == 'ADMIN') return true;
+            if (item.toUpperCase() == 'ADMIN') return true;
+          }
+    }
+    return false;
+  }
+
+  checkDrSpecOdeljenja(): boolean{
+    if (localStorage.getItem('privilege') == null) return false;
+    else { // @ts-ignore
+      for (let item of localStorage.getItem('privilege')){
+        if (item.toUpperCase() == 'DR_SPEC_ODELJENJA') return true;
       }
     }
     return false;
   }
+
+  checkDrSpec(): boolean{
+    if (localStorage.getItem('privilege') == null) return false;
+    else { // @ts-ignore
+      for (let item of localStorage.getItem('privilege')){
+        if (item.toUpperCase() == 'DR_SPEC') return true;
+      }
+    }
+    return false;
+  }
+
+  checkDrSpecPov(): boolean{
+    if (localStorage.getItem('privilege') == null) return false;
+    else { // @ts-ignore
+      for (let item of localStorage.getItem('privilege')){
+        if (item.toUpperCase() == 'DR_SPEC_POV') return true;
+      }
+    }
+    return false;
+  }
+
+  checkMedSestra(): boolean{
+    if (localStorage.getItem('privilege') == null) return false;
+    else { // @ts-ignore
+      for (let item of localStorage.getItem('privilege')){
+        if (item.toUpperCase() == 'MED_SESTRA') return true;
+      }
+    }
+    return false;
+  }
+
+
 
 
   setZaposleni(zaposleni: Zaposleni) {
@@ -99,6 +163,18 @@ export class UserService {
     // return this.http.post<Zaposleni>(`${proveri rutu}/emp`,zaposleni
     return this.http.put<Zaposleni>(`${""}/emp/edit/${this.zaposleni.LBZ}`,this.zaposleni
       , {headers: new HttpHeaders().append('Authorization', `Bearer ${this.token}`)});
+  }
+
+
+
+  checkVisaMedSestra(): boolean{
+    if (localStorage.getItem('privilege') == null) return false;
+    else { // @ts-ignore
+      for (let item of localStorage.getItem('privilege')){
+        if (item.toUpperCase() == 'VISA_MED_SESTRA') return true;
+      }
+    }
+    return false;
   }
 
 

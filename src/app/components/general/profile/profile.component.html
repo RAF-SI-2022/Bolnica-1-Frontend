@@ -16,7 +16,7 @@
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Dr.Paun</span><span class="text-black-50">drpaun@gmail.com</span><span> </span></div>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Dr Djole</span><span class="text-black-50">djole@gmail.com</span><span> </span></div>
         </div>
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
@@ -43,6 +43,20 @@
                         </div>
                     </div>
                     <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="" value="" disabled></div>
+                    <div class="col-12">
+                        <label for="yourPassword" class="form-label">Lozinka</label>
+                        <input type="password" name="password" class="form-control" id="yourPassword" disabled>
+                        <div class="invalid-feedback">Molim vas unesite lozinku!</div>
+                    </div>
+                    <div class="col-12">
+                        <label for="yourPassword" class="form-label">Nova lozinka</label>
+                        <input type="password" name="password" class="form-control" id="newPassword" disabled>
+                    </div>
+                    <div class="col-12">
+                        <label for="yourPassword" class="form-label">Potvrdi lozinku</label>
+                        <input type="password" name="password" class="form-control" id="confirmPassword" disabled>
+                        <div class="invalid-feedback">Lozinke se ne poklapaju!</div>
+                    </div>
                     <div class="col-md-12"><label class="labels">Broj telefona</label><input type="text" class="form-control" placeholder="" value="" disabled></div>
                     <div class="col-md-12"><label class="labels">JMBG</label><input type="text" class="form-control" placeholder="" value="" disabled></div>
                     <div class="col-md-12"><label class="labels">Adresa</label><input type="text" class="form-control" placeholder="" value="" disabled></div>
@@ -91,7 +105,10 @@
                           </select>
                     </div>
                 </div>
-                
+                <div class="mt-4 text-center">
+                    <button type="button" class="btn btn-primary"><i class="bi bi-pencil-square me-1"></i> Izmeni</button>
+                    <button type="button" class="btn btn-primary ms-4"><i class="bi bi-save me-1"></i> Sacuvaj</button>
+                </div>
             </div>
         </div>
         <div class="col-md-4">

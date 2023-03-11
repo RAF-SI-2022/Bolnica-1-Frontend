@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import {UserService} from "../services/user-service/user.service";
 
 @Component({
@@ -6,12 +6,17 @@ import {UserService} from "../services/user-service/user.service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
+  toggleSb: boolean = true;
   title = 'Bolnica-1-Frontend';
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+}
 
+  toggleSidebar(){
+      this.toggleSb = !this.toggleSb;
   }
 
   canAddEmployee(): boolean{
