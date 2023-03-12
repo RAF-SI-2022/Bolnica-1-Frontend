@@ -41,6 +41,8 @@ import { AdminSearchEmployeeComponent } from './components/admin/admin-search-em
 import { AdminWorkspaceComponent } from './components/admin/admin-workspace/admin-workspace.component';
 import {NgxPaginationModule} from "ngx-pagination";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NotFoundComponent } from './components/general/not-found/not-found.component';
+import { ResetPasswordLinkComponent } from './components/general/reset-password-link/reset-password-link.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AdminAddEmployeeComponent,
     AdminEditEmployeeComponent,
     AdminSearchEmployeeComponent,
-    AdminWorkspaceComponent
+    AdminWorkspaceComponent,
+    NotFoundComponent,
+    ResetPasswordLinkComponent
   ],
   imports: [
     BrowserModule,

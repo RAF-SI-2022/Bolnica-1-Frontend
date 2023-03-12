@@ -6,14 +6,13 @@ import {Zaposleni} from "../../models/models";
 import * as http from "http";
 import {LoginResponse} from "../../models/LoginResponse";
 import {ResetPasswordResponse} from "../../models/ResetPasswordResponse";
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
-
 
   private zaposleni: Zaposleni = new Zaposleni()
   public token: string = '';
@@ -35,14 +34,14 @@ export class UserService {
 
   login(formData: { username: string; password: string;
   }): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`http://localhost:8080/auth/login`, {
-      username: formData.username, password:formData.password
+    return this.http.post<LoginResponse>(environment.apiURL + '/auth/login', {
+        username: formData.username, password:formData.password
     });
   }
 
   resetPassword(formData: { email: string;
   }): Observable<ResetPasswordResponse> {
-    return this.http.put<ResetPasswordResponse>(`http://localhost:8080/emp/pr `, {
+    return this.http.put<ResetPasswordResponse>(environment.apiURL + `/emp/pr`, {
       email: formData.email
     });
   }
@@ -183,14 +182,33 @@ export class UserService {
     })
     return this.http.delete(`$/emp/path/${LBZ}`, { headers: headers })}
 
+    findEmplyeeInfo(): Observable<Zaposleni>{
+    let lbz = localStorage.getItem('LBZ')
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    })
+
+    return this.http.get<Zaposleni>(`${environment.apiURL}/find/${lbz}`, { headers: headers })
+
+    // if (localStorage.getItem('privilege') == null) return false;
+    // else { // @ts-ignore
+    //   for (let item of localStorage.getItem('privilege')){
+    //     if (item.toUpperCase() == 'ADMIN') return true;
+    //   }
+  //  }return false;
+  }
   checkAdmin(): boolean{
-    if (localStorage.getItem('privilege') == null) return false;
-    else { // @ts-ignore
-      for (let item of localStorage.getItem('privilege')){
-        if (item.toUpperCase() == 'ADMIN') return true;
-      }
-    }
-    return false;
+    this.findEmplyeeInfo().subscribe(response =>{
+        if(response.ADMIN == null){
+          return false
+        }else {
+          return true
+        }
+
+    })
+  return false
+
   }
   checkVisaMedSestra(): boolean{
     if (localStorage.getItem('privilege') == null) return false;

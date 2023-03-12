@@ -99,24 +99,28 @@ export class AdminEditEmployeeComponent implements OnInit {
 
 
   editEmployee(){
-    this.userService.editEmployee(
-      this.editGroup.get('name')?.value, this.editGroup.get('lastName')?.value,
-      this.editGroup.get('date')?.value, this.editGroup.get('JMBG')?.value, this.editGroup.get('city')?.value,
-      this.editGroup.get('adress')?.value, this.editGroup.get('phoneNumber')?.value, this.editGroup.get('email')?.value,
-      this.editGroup.get('gender')?.value,this.editGroup.get('gender')?.value, this.editGroup.get('title')?.value,
-      this.editGroup.get('profession')?.value, this.editGroup.get('department')?.value,
-      this.editGroup.get('ADMIN')?.value, this.editGroup.get('DR_SPEC_DEPARTMENT')?.value,
-      this.editGroup.get('DR_SPEC')?.value, this.editGroup.get('SENIOR_NURSE')?.value,
-      this.editGroup.get('NURSE')?.value, this.editGroup.get('DR_SPEC_POV')?.value, this.editGroup.get('RECEPCIONIST')?.value,
-      this.editGroup.get('SENIOR_LAB_TECHNICIAN')?.value, this.editGroup.get('LAB_TECHNICIAN')?.value,
-      this.editGroup.get('MED_BIOCHEMIST')?.value, this.editGroup.get('SPECIALIST_MED_BIOCHEMIST')?.value).subscribe((response) => {
 
-    }, error => {
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    if (form.checkValidity() === false) {
+    }
 
-    })
+    form.classList.add('was-validated');
 
-  }
+      this.userService.editEmployee(this.editGroup.get('name')?.value, this.editGroup.get('lastName')?.value,
+        this.editGroup.get('date')?.value, this.editGroup.get('JMBG')?.value, this.editGroup.get('city')?.value,
+        this.editGroup.get('adress')?.value, this.editGroup.get('phoneNumber')?.value, this.editGroup.get('email')?.value,
+        this.editGroup.get('gender')?.value,this.editGroup.get('gender')?.value, this.editGroup.get('title')?.value,
+        this.editGroup.get('profession')?.value, this.editGroup.get('department')?.value,
+        this.editGroup.get('ADMIN')?.value, this.editGroup.get('DR_SPEC_DEPARTMENT')?.value,
+        this.editGroup.get('DR_SPEC')?.value, this.editGroup.get('SENIOR_NURSE')?.value,
+        this.editGroup.get('NURSE')?.value, this.editGroup.get('DR_SPEC_POV')?.value, this.editGroup.get('RECEPCIONIST')?.value,
+        this.editGroup.get('SENIOR_LAB_TECHNICIAN')?.value, this.editGroup.get('LAB_TECHNICIAN')?.value,
+        this.editGroup.get('MED_BIOCHEMIST')?.value, this.editGroup.get('SPECIALIST_MED_BIOCHEMIST')?.value).subscribe((response) => {
+
+      }, error => {
+
+      })
 
 
-
+    }
 }

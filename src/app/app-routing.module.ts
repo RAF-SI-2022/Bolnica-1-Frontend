@@ -58,6 +58,8 @@ import {
 import {
   TechnicianScheduleVisitComponent
 } from "./components/technician/technician-schedule-visit/technician-schedule-visit.component";
+import { NotFoundComponent } from './components/general/not-found/not-found.component';
+import { ResetPasswordLinkComponent } from './components/general/reset-password-link/reset-password-link.component';
 
 
 const routes: Routes = [
@@ -68,6 +70,11 @@ const routes: Routes = [
   {
     path: "reset-password",
     component: ResetPasswordComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "reset-password-link",
+    component: ResetPasswordLinkComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -193,6 +200,11 @@ const routes: Routes = [
   {
     path: "technician-workspace",
     component: TechnicianWorkspaceComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "**",
+    component: NotFoundComponent,
     canActivate: [AuthGuard]
   }
 
