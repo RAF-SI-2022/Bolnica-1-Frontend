@@ -4,18 +4,20 @@ export class Zaposleni{
   prezime: string = '';
   datumRodjenja: string = '';
   JMBG: string = '';
-  mestoStanovanja: string  ='';
+  lozinka: string = ''
+  mestoStanovanja: string = '';
   adresaStanovanja: string = '';
   brojTelefona: string = '';
   imejl: string = '';
   musko: boolean = false;
   zensko: boolean = false;
   titula: string = '';
-  zanimanje: string = ' ';
+  zanimanje: string= '';
   odeljenje: string = '';
   ADMIN: boolean = false;
+  NACELNIK: boolean = false;
   DR_SPEC_ODELJENJA: boolean = false;
-  DR_SPEC: boolean = false;
+  DR_SPEC: boolean =false;
   DR_SPEC_POV: boolean = false;
   VISA_MED_SESTRA: boolean = false;
   MED_SESTRA: boolean = false;
@@ -25,3 +27,4 @@ export class Zaposleni{
   MEDICINSKI_BIOHEMICAR: boolean = false;
   SPECIJALISTA_MEDICINSKE_BIOHEMIJE: boolean = false;
 }
+

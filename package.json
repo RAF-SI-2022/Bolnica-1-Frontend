@@ -11,6 +11,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^15.0.0",
+    "@angular/cdk": "^15.2.2",
     "@angular/common": "^15.0.0",
     "@angular/compiler": "^15.0.0",
     "@angular/core": "^15.0.0",
@@ -24,6 +25,7 @@
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
     "i": "^0.3.7",
+    "ngx-pagination": "^6.0.3",
     "ngx-quill": "^20.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
