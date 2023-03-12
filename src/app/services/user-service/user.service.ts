@@ -14,8 +14,6 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
 
-
-
   private zaposleni: Zaposleni = new Zaposleni()
   public token: string = '';
  // public lbz: number = 0;
@@ -43,7 +41,7 @@ export class UserService {
 
   resetPassword(formData: { email: string;
   }): Observable<ResetPasswordResponse> {
-    return this.http.put<ResetPasswordResponse>(`http://localhost:8080/emp/pr`, {
+    return this.http.put<ResetPasswordResponse>(environment.apiURL + `/emp/pr`, {
       email: formData.email
     });
   }
@@ -184,14 +182,33 @@ export class UserService {
     })
     return this.http.delete(`$/emp/path/${LBZ}`, { headers: headers })}
 
+    findEmplyeeInfo(): Observable<Zaposleni>{
+    let lbz = localStorage.getItem('LBZ')
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    })
+
+    return this.http.get<Zaposleni>(`${environment.apiURL}/find/${lbz}`, { headers: headers })
+
+    // if (localStorage.getItem('privilege') == null) return false;
+    // else { // @ts-ignore
+    //   for (let item of localStorage.getItem('privilege')){
+    //     if (item.toUpperCase() == 'ADMIN') return true;
+    //   }
+  //  }return false;
+  }
   checkAdmin(): boolean{
-    if (localStorage.getItem('privilege') == null) return false;
-    else { // @ts-ignore
-      for (let item of localStorage.getItem('privilege')){
-        if (item.toUpperCase() == 'ADMIN') return true;
-      }
-    }
-    return false;
+    this.findEmplyeeInfo().subscribe(response =>{
+        if(response.ADMIN == null){
+          return false
+        }else {
+          return true
+        }
+
+    })
+  return false
+
   }
   checkVisaMedSestra(): boolean{
     if (localStorage.getItem('privilege') == null) return false;

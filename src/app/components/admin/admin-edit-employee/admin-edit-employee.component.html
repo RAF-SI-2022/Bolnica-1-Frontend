@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 </head>
 <div class="container rounded bg-white mt-5 mb-5">
-  <form name="search" (submit)="editEmployee()" class="mb-5">
+  <form [formGroup]="editGroup"  (submit)="editEmployee()" class="mb-5">
   <div class="row">
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Dr.Paun</span><span class="text-black-50">drpaun@gmail.com</span><span> </span></div>
@@ -20,8 +20,8 @@
                     <h4 class="text-right">Profil</h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Ime</label><input type="text" name = "ime" class="form-control" placeholder="{{ime}}" value="" [(ngModel)]="ime"> <div class="invalid-feedback">Unesite vase ime</div></div>
-                    <div class="col-md-6"><label class="labels">Prezime</label><input type="text" name = "prezime" class="form-control" value="" placeholder="{{prezime}}" [(ngModel)]="prezime"> <div class="invalid-feedback">Unesite vase prezime</div></div>
+                    <div class="col-md-6"><label class="labels">Ime</label><input type="text" name = "ime" class="form-control" placeholder="{{ime}}" value="" [(ngModel)]="ime" [formControlName]="'name'"> <div class="invalid-feedback">Unesite vase ime</div></div>
+                    <div class="col-md-6"><label class="labels">Prezime</label><input type="text" name = "prezime" class="form-control" value="" placeholder="{{prezime}}" [(ngModel)]="prezime" [formControlName]="'lastName'"> <div class="invalid-feedback">Unesite vase prezime</div></div>
                 </div>
                 <div class="row mt-3">
                     <label class="labels">Pol</label>
@@ -38,17 +38,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12"><label class="labels">Email</label><input type="email" name = "imejl" class="form-control" placeholder="{{imejl}}" value="" [(ngModel)]="imejl"> <div class="invalid-feedback">Unesite vas imejl</div></div>
-                    <div class="col-md-12"><label class="labels">Broj telefona</label><input type="text" name = "brojTelefona"  class="form-control" placeholder="{{brojTelefona}}" value="" [(ngModel)]="brojTelefona"> <div class="invalid-feedback">Unesite vas broj telefona</div></div>
-                    <div class="col-md-12"><label class="labels">JMBG</label><input type="text" class="form-control" name = "JMBG" placeholder="{{JMBG}}" value="" [(ngModel)]="JMBG"> <div class="invalid-feedback">Unesite vas JMBG</div></div>
-                    <div class="col-md-12"><label class="labels">Adresa</label><input type="text" class="form-control" name = "adresaStanovanja" placeholder="{{adresaStanovanja}}" value="" [(ngModel)]="adresaStanovanja"> <div class="invalid-feedback">Unesite vasu adresu stanovanja</div></div>
-                    <div class="col-md-12"><label class="labels">Mesto</label><input type="text" class="form-control" name="mestoStanovanja" placeholder="{{mestoStanovanja}}" value="" [(ngModel)]="mestoStanovanja"> <div class="invalid-feedback">Unesite vase mesto stanovanja</div></div>
+                    <div class="col-md-12"><label class="labels">Email</label><input type="email" name = "imejl" class="form-control" placeholder="{{imejl}}" value="" [(ngModel)]="imejl" [formControlName]="'email'"> <div class="invalid-feedback">Unesite vas imejl</div></div>
+                    <div class="col-md-12"><label class="labels">Broj telefona</label><input type="text" name = "brojTelefona"  class="form-control" placeholder="{{brojTelefona}}" value="" [(ngModel)]="brojTelefona" [formControlName]="'phoneNumber'"> <div class="invalid-feedback">Unesite vas broj telefona</div></div>
+                    <div class="col-md-12"><label class="labels">JMBG</label><input type="text" class="form-control" name = "JMBG" placeholder="{{JMBG}}" value="" [(ngModel)]="JMBG"[formControlName]="'JMBG'"> <div class="invalid-feedback">Unesite vas JMBG</div></div>
+                    <div class="col-md-12"><label class="labels">Adresa</label><input type="text" class="form-control" name = "adresaStanovanja" placeholder="{{adresaStanovanja}}" value="" [(ngModel)]="adresaStanovanja" [formControlName]="'adress'"> <div class="invalid-feedback">Unesite vasu adresu stanovanja</div></div>
+                    <div class="col-md-12"><label class="labels">Mesto</label><input type="text" class="form-control" name="mestoStanovanja" placeholder="{{mestoStanovanja}}" value="" [(ngModel)]="mestoStanovanja" [formControlName]="'city'"> <div class="invalid-feedback">Unesite vase mesto stanovanja</div></div>
                     <div class="col-md-12"><label class="labels">
-                        Datum</label><input type="date" class="form-control" [(ngModel)]="datumRodjenja" name = "datumRodjenja">
+                        Datum</label><input type="date" class="form-control" name = "datumRodjenja" [(ngModel)]="datumRodjenja" [formControlName]="'date'">
                       <div class="invalid-feedback">Unesite vas datum rodjenja</div>
                     </div>
                     <div class="col-md-12"><label class="labels">Titula</label>
-                          <select [(ngModel)]="titula" name = "titula" class="form-select" aria-label="Default select example">
+
+                          <select name = "titula" [(ngModel)]="titula" [formControlName]="'title'" class="form-select" aria-label="Default select example">
                             <option selected>Odaberite titulu</option>
                             <option value="1">Prof. dr. med</option>
                             <option value="2">Dr med. spec.</option>
@@ -61,7 +62,7 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-6"><label class="labels">Odeljenje</label>
-                        <select [(ngModel)]="odeljenje" name = "odeljenje" class="form-select" aria-label="Default select example">
+                        <select name = "odeljenje" [(ngModel)]="odeljenje" [formControlName]="'department'"  class="form-select" aria-label="Default select example">
                             <option selected>Odaberite odeljenje</option>
                             <option value="1">Prof. dr. med</option>
                             <option value="2">Dr med. spec.</option>
@@ -72,7 +73,7 @@
                           </select>
                     </div>
                     <div class="col-md-6"><label class="labels">Zanimanje</label>
-                        <select [(ngModel)]="zanimanje" name = "zanimanje" class="form-select" aria-label="Default select example">
+                        <select name = "zanimanje" [(ngModel)]="zanimanje" [formControlName]="'proffesion'" class="form-select" aria-label="Default select example">
                             <option selected>Odaberite zanimanje</option>
                             <option value="1">Med. sestra</option>
                             <option value="2">Spec. biohemicar</option>
@@ -104,7 +105,7 @@
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
                                 <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="ADMIN" autocomplete="off" value="" [(ngModel)]="ADMIN">
+                                        <input type="checkbox" name="ADMIN" autocomplete="off" value="" [(ngModel)]="ADMIN" [formControlName]="'ADMIN'">
                                         <span class="m-0 p-2">Admin</span>
                                     </div>
                                 </label>
@@ -112,7 +113,7 @@
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
                                 <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="DR_SPEC_ODELJENJA" autocomplete="off" value="" [(ngModel)]="DR_SPEC_ODELJENJA">
+                                        <input type="checkbox" name="DR_SPEC_ODELJENJA" autocomplete="off" value="" [(ngModel)]="DR_SPEC_ODELJENJA" [formControlName]="'DR_SPEC'">
                                         <span class="m-0 p-2">Nacelink odeljenja</span>
                                     </div>
                                 </label>
@@ -120,7 +121,7 @@
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
                                 <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="RECEPCIONER" autocomplete="off" value="" [(ngModel)]="RECEPCIONER">
+                                        <input type="checkbox" name="RECEPCIONER" autocomplete="off" value="" [(ngModel)]="RECEPCIONER" [formControlName]="'RECEPCIONIST'">
                                         <span class="m-0 p-2">Recepcioner</span>
                                     </div>
                                 </label>
@@ -128,7 +129,7 @@
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
                                 <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="DR_SPEC" autocomplete="off" value="" [(ngModel)]="DR_SPEC">
+                                        <input type="checkbox" name="DR_SPEC" autocomplete="off" value="" [(ngModel)]="DR_SPEC" [formControlName]="'DR_SPEC'">
                                         <span class="m-0 p-2">Doktor specijalista</span>
                                     </div>
                                 </label>
@@ -136,7 +137,7 @@
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
                                 <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="DR_SPEC_POV" autocomplete="off" value="" [(ngModel)]="DR_SPEC_POV">
+                                        <input type="checkbox" name="DR_SPEC_POV" autocomplete="off" value="" [(ngModel)]="DR_SPEC_POV" [formControlName]="'DR_SPEC_POV'">
                                         <span class="m-0 p-2">Doktor specijalista - poverljiv pristup</span>
                                     </div>
                                 </label>
@@ -144,7 +145,7 @@
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
                                 <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="VISA_MED_SESTRA" autocomplete="off" value="" [(ngModel)]="VISA_MED_SESTRA">
+                                        <input type="checkbox" name="VISA_MED_SESTRA" autocomplete="off" value="" [(ngModel)]="VISA_MED_SESTRA" [formControlName]="'SENIOR_NURSE'">
                                         <span class="m-0 p-2">Visa medicinska sestra</span>
                                     </div>
                                 </label>
@@ -152,7 +153,7 @@
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
                                 <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="MED_SESTRA" autocomplete="off" value="" [(ngModel)]="MED_SESTRA">
+                                        <input type="checkbox" name="MED_SESTRA" autocomplete="off" value="" [(ngModel)]="MED_SESTRA" [formControlName]="'NURSE'">
                                         <span class="m-0 p-2">Medicinska sestra</span>
                                     </div>
                                 </label>
@@ -160,7 +161,7 @@
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
                                 <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="VISI_LABORATORISJKI_TEHINICAR" autocomplete="off" value="" [(ngModel)]="VISI_LABORATORIJSKI_TEHNICAR">
+                                        <input type="checkbox" name="VISI_LABORATORISJKI_TEHINICAR" autocomplete="off" value="" [(ngModel)]="VISI_LABORATORIJSKI_TEHNICAR" [formControlName]="'SENIOR_LAB_TECHNICIAN'">
                                         <span class="m-0 p-2">Visi laboratorijski tehnicar</span>
                                     </div>
                                 </label>
@@ -168,7 +169,7 @@
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
                                 <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="LABORATORIJSKI_TEHNICAR" autocomplete="off" value="" [(ngModel)]="LABORATORIJSKI_TEHNICAR">
+                                        <input type="checkbox" name="LABORATORIJSKI_TEHNICAR" autocomplete="off" value="" [(ngModel)]="LABORATORIJSKI_TEHNICAR" [formControlName]="'LAB_TECHNICIAN'">
                                         <span class="m-0 p-2">Laboratorijski tehnicar</span>
                                     </div>
                                 </label>
@@ -176,7 +177,7 @@
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
                                 <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="MEDICINSKI_BIOHEMICAR" autocomplete="off" value="" [(ngModel)]="MEDICINSKI_BIOHEMICAR">
+                                        <input type="checkbox" name="MEDICINSKI_BIOHEMICAR" autocomplete="off" value="" [(ngModel)]="MEDICINSKI_BIOHEMICAR" [formControlName]="'MED_BIOCHEMIST'">
                                         <span class="m-0 p-2">Medicinski biohemicar</span>
                                     </div>
                                 </label>
@@ -184,7 +185,7 @@
                             <div data-toggle="buttons" class="btn-group bizmoduleselect">
                                 <label class="btn btn-outline-primary col-12 m-2">
                                     <div class="itemcontent ms-auto text-start ps-2">
-                                        <input type="checkbox" name="SPECIJALISTA_MEDICINSKE_BIOHEMIJA" autocomplete="off" value="" [(ngModel)]="SPECIJALISTA_MEDICINSKE_BIOHEMIJE">
+                                        <input type="checkbox" name="SPECIJALISTA_MEDICINSKE_BIOHEMIJA" autocomplete="off" value="" [(ngModel)]="SPECIJALISTA_MEDICINSKE_BIOHEMIJE"[formControlName]="'SPEC_MED_BIOCHEMIST'" >
                                         <span class="m-0 p-2">Specijalista medicinske biohemije</span>
                                     </div>
                                 </label>

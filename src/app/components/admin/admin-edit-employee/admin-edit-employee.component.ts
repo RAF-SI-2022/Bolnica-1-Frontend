@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../../services/user-service/user.service";
 import {Zaposleni} from "../../../models/models";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-admin-edit-employee',
@@ -8,7 +9,7 @@ import {Zaposleni} from "../../../models/models";
   styleUrls: ['./admin-edit-employee.component.css']
 })
 export class AdminEditEmployeeComponent implements OnInit {
-
+  editGroup: FormGroup;
   ime: string = '';
   prezime: string = '';
   datumRodjenja: string = '';
@@ -34,7 +35,40 @@ export class AdminEditEmployeeComponent implements OnInit {
   MEDICINSKI_BIOHEMICAR: boolean = false;
   SPECIJALISTA_MEDICINSKE_BIOHEMIJE: boolean = false;
 
-  constructor(private userService: UserService) { }
+
+  constructor(private formBuilder: FormBuilder, private userService: UserService) {
+    this.editGroup = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      yourPassword: ['', [Validators.required]],
+      newPassword: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required]],
+      JMBG: ['', [Validators.required]],
+      adress: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      date: ['', [Validators.required]],
+      title: ['', [Validators.required]],
+      department: ['', [Validators.required]],
+      profession: ['', [Validators.required]],
+      ADMIN: '',
+      CHIEF: '',
+      DR_SPEC_DEPARTMENT: '',
+      DR_SPEC: '',
+      DR_SPEC_POV: '',
+      SENIOR_NURSE: '',
+      NURSE: '',
+      RECEPTIONIST: '',
+      SENIOR_LAB_TECHNICIAN: '',
+      LAB_TECHNICIAN: '',
+      MED_BIOCHEMIST: '',
+      SPECIALIST_MED_BIOCHEMIST: ''
+
+    })
+
+  }
 
   ngOnInit(): void {
     let zaposleni: Zaposleni = this.userService.getZaposleni()
@@ -67,22 +101,26 @@ export class AdminEditEmployeeComponent implements OnInit {
   editEmployee(){
 
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
-    if(form.checkValidity() === false){
+    if (form.checkValidity() === false) {
     }
 
     form.classList.add('was-validated');
 
-    this.userService.editEmployee(this.ime, this.prezime, this.datumRodjenja, this.JMBG, this.mestoStanovanja, this.adresaStanovanja
-      , this.brojTelefona, this.imejl, this.musko, this.zensko, this.titula, this.zanimanje, this.odeljenje,
-      this.ADMIN, this.DR_SPEC_ODELJENJA, this.DR_SPEC, this.VISA_MED_SESTRA, this.MED_SESTRA, this.DR_SPEC_POV, this.RECEPCIONER,
-      this.VISI_LABORATORIJSKI_TEHNICAR, this.LABORATORIJSKI_TEHNICAR, this.MEDICINSKI_BIOHEMICAR, this.SPECIJALISTA_MEDICINSKE_BIOHEMIJE).subscribe((response) => {
+      this.userService.editEmployee(this.editGroup.get('name')?.value, this.editGroup.get('lastName')?.value,
+        this.editGroup.get('date')?.value, this.editGroup.get('JMBG')?.value, this.editGroup.get('city')?.value,
+        this.editGroup.get('adress')?.value, this.editGroup.get('phoneNumber')?.value, this.editGroup.get('email')?.value,
+        this.editGroup.get('gender')?.value,this.editGroup.get('gender')?.value, this.editGroup.get('title')?.value,
+        this.editGroup.get('profession')?.value, this.editGroup.get('department')?.value,
+        this.editGroup.get('ADMIN')?.value, this.editGroup.get('DR_SPEC_DEPARTMENT')?.value,
+        this.editGroup.get('DR_SPEC')?.value, this.editGroup.get('SENIOR_NURSE')?.value,
+        this.editGroup.get('NURSE')?.value, this.editGroup.get('DR_SPEC_POV')?.value, this.editGroup.get('RECEPCIONIST')?.value,
+        this.editGroup.get('SENIOR_LAB_TECHNICIAN')?.value, this.editGroup.get('LAB_TECHNICIAN')?.value,
+        this.editGroup.get('MED_BIOCHEMIST')?.value, this.editGroup.get('SPECIALIST_MED_BIOCHEMIST')?.value).subscribe((response) => {
 
-    }, error => {
+      }, error => {
 
-    })
-
-  }
+      })
 
 
-
+    }
 }

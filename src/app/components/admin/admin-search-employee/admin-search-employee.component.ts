@@ -41,17 +41,26 @@ export class AdminSearchEmployeeComponent implements OnInit {
   }
 
   search(){
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    if(form.checkValidity() === false){
+    }
+
+    form.classList.add('was-validated');
+
     console.log("IME " + this.ime + "PREZIME " + this.prezime + "BOLNICA " + this.selektovanaBolnica + "ORDINACIJA " + this.selektovanaOrdinacija )
-    this.userService.searchUsers(
-      this.ime,
-      this.prezime,
-      this.selektovanaBolnica,
-      this.selektovanaOrdinacija
-    ).subscribe(result => {
-      this.userList = result
-      this.total = this.userList.length;
-      console.log(this.userList)
-    })
+
+    if(this.searchForm.errors != null) {
+      this.userService.searchUsers(
+        this.ime,
+        this.prezime,
+        this.selektovanaBolnica,
+        this.selektovanaOrdinacija
+      ).subscribe(result => {
+        this.userList = result
+        this.total = this.userList.length;
+        console.log(this.userList)
+      })
+    }
   }
 
   updateUser(zaposleni: Zaposleni){

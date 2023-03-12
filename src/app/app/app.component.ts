@@ -18,15 +18,15 @@ export class AppComponent {
   toggleSidebar(){
       this.toggleSb = !this.toggleSb;
   }
-
+//todo proveri ovo
   canAddEmployee(): boolean{
-
-    if(this.userService.checkAdmin()){
-      return true
-    }
-    return false
-
-
+  //
+  //   if(this.userService.checkAdmin()){
+  //     return true
+  //   }
+    return true
+  //
+  //
   }
 
 }

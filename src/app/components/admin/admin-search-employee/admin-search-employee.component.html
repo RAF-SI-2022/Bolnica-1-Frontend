@@ -16,13 +16,17 @@
                 <div class="table-title">
                         <h2><b>Pretraga zaposlenih</b></h2>
                 </div>
-              <form [formGroup]="searchForm" (submit)="search()" class="mb-5">
+              <form [formGroup]="searchForm" (submit)="search()" class="mb-5 needs-validation" novalidate>
 
               <div class="row mt-2">
-                    <div class="col-md-3"><label class="labels">Ime</label><input [(ngModel)]="ime" type="text" class="form-control" id="ime" name="ime" placeholder="" value="" [ngModelOptions]="{standalone: true}"></div>
-                    <div class="col-md-3"><label class="labels">Prezime</label><input [(ngModel)]="prezime" type="text" class="form-control" value="" id="prezime" name="prezime" placeholder="" [ngModelOptions]="{standalone: true}"></div>
+                    <div class="col-md-3"><label class="labels">Ime</label><input [(ngModel)]="ime" type="text"  class="form-control" id="ime" name="ime" placeholder="" value="" [ngModelOptions]="{standalone: true}">
+                      <div class="invalid-feedback">Unesite vase ime</div>
+                    </div>
+                    <div class="col-md-3"><label class="labels">Prezime</label><input  [(ngModel)]="prezime" type="text" class="form-control" value="" id="prezime" name="prezime" placeholder="" [ngModelOptions]="{standalone: true}">
+                      <div class="invalid-feedback">Unesite vase prezime</div>
+                    </div>
                     <div class="col-md-3"><label class="labels">Ordinacija</label>
-                        <select [(ngModel)]="selektovanaOrdinacija" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
+                        <select name ="selektovanaOrdinacija" [(ngModel)]="selektovanaOrdinacija" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
                             <option selected>Odaberite odeljenje</option>
                             <option value="1">Prof. dr. med</option>
                             <option value="2">Dr med. spec.</option>
@@ -30,9 +34,11 @@
                             <option value="4">Dipl. farm.</option>
                             <option value="5">Mag. farm.</option>
                             <option value="6">Mr</option>
-                          </select></div>
+                          </select>
+                      <div class="invalid-feedback">Izaberite ordinaciju!</div>
+                    </div>
                           <div class="col-md-3"><label class="labels">Bolnica</label>
-                            <select [(ngModel)]="selektovanaBolnica" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
+                            <select name = "selektovanaBolnica" [(ngModel)]="selektovanaBolnica" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
                                 <option selected>Odaberite bolnicu</option>
                                 <option value="1">Prof. dr. med</option>
                                 <option value="2">Dr med. spec.</option>
@@ -40,7 +46,9 @@
                                 <option value="4">Dipl. farm.</option>
                                 <option value="5">Mag. farm.</option>
                                 <option value="6">Mr</option>
-                              </select></div>
+                              </select>
+                            <div class="invalid-feedback">Izaberite bolnicu!</div>
+                          </div>
                 </div>
                 <div class="me-auto float-end text-end mt-3 mb-3">
                     <button type="submit" class="btn btn-primary">Pretrazi</button>
