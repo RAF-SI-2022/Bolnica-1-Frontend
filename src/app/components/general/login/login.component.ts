@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../../services/user-service/user.service";
 import {Router} from "@angular/router";
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
   username: string = '';
   password: string = '';
 
@@ -19,7 +19,12 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    if(form.checkValidity() === false){
+    }
 
+    form.classList.add('was-validated');
+   
     this.userService.login({
       username: this.username,
       password: this.password
