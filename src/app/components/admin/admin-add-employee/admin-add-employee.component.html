@@ -29,8 +29,8 @@
 
 
         <div class="row mt-2">
-          <div class="col-md-6"><label class="labels">Ime</label><input type="text" class="form-control" placeholder="" value="" required [(ngModel)]="ime"></div>
-          <div class="col-md-6"><label class="labels">Prezime</label><input type="text" class="form-control" value="" placeholder="" required [(ngModel)]="prezime"></div>
+          <div class="col-md-6"><label class="labels">Ime</label><input type="text" name = "ime" class="form-control" placeholder="" value="" required [(ngModel)]="ime"></div>
+          <div class="col-md-6"><label class="labels">Prezime</label><input type="text" name ="prezime" class="form-control" value="" placeholder="" required [(ngModel)]="prezime"></div>
         </div>
         <div class="row mt-3">
           <label class="labels">Pol</label>
@@ -47,18 +47,18 @@
               </div>
             </div>
           </div>
-          <div class="col-md-12"><label class="labels">Email</label><input type="email" class="form-control" placeholder="" value="" required [(ngModel)]="imejl"></div>
-          <div class="col-md-12"><label class="labels">Broj telefona</label><input type="text" class="form-control" placeholder="" value="" required [(ngModel)]="brojTelefona"></div>
-          <div class="col-md-12"><label class="labels">JMBG</label><input type="text" class="form-control" placeholder="" value="" required [(ngModel)]="JMBG"></div>
-          <div class="col-md-12"><label class="labels">Adresa</label><input type="text" class="form-control" placeholder="" value="" required [(ngModel)]="adresaStanovanja"></div>
+          <div class="col-md-12"><label class="labels">Email</label><input type="email" name = "imejl" class="form-control" placeholder="" value="" required [(ngModel)]="imejl"></div>
+          <div class="col-md-12"><label class="labels">Broj telefona</label><input type="text" name = "brojTelfona" class="form-control" placeholder="" value="" required [(ngModel)]="brojTelefona"></div>
+          <div class="col-md-12"><label class="labels">JMBG</label><input type="text" name="JMBG" class="form-control" placeholder="" value="" required [(ngModel)]="JMBG"></div>
+          <div class="col-md-12"><label class="labels">Adresa</label><input type="text" name = "adresaStanovanja" class="form-control" placeholder="" value="" required [(ngModel)]="adresaStanovanja"></div>
 
-          <div class="col-md-12"><label class="labels">Mesto</label><input type="text" class="form-control" placeholder="" value="" required [(ngModel)]="mestoStanovanja"></div>
+          <div class="col-md-12"><label class="labels">Mesto</label><input type="text" name="mestoStanovanja" class="form-control" placeholder="" value="" required [(ngModel)]="mestoStanovanja"></div>
           <div class="col-md-12"><label class="labels">
-            Datum</label><input type="date" class="form-control">
+            Datum</label><input type="date" class="form-control" name = "datumRodjenja">
           </div>
           <div class="col-md-12"><label class="labels">Titula</label>
 
-            <select [(ngModel)]="titula" required class="form-select" aria-label="Default select example">
+            <select [(ngModel)]="titula" name ="titula" required class="form-select" aria-label="Default select example">
               <option selected>Odaberite titulu</option>
               <option value="1">Prof. dr. med</option>
               <option value="2">Dr med. spec.</option>
@@ -70,7 +70,7 @@
         </div>
         <div class="row mt-3">
           <div class="col-md-6"><label class="labels">Odeljenje</label>
-            <select [(ngModel)]="odeljenje" required class="form-select" aria-label="Default select example">
+            <select [(ngModel)]="odeljenje" name="odeljenje" required class="form-select" aria-label="Default select example">
               <option selected>Odaberite odeljenje</option>
               <option value="1">Prof. dr. med</option>
               <option value="2">Dr med. spec.</option>
@@ -80,7 +80,7 @@
               <option value="6">Mr</option>
             </select></div>
           <div class="col-md-6"><label class="labels">Zanimanje</label>
-            <select [(ngModel)]="zanimanje" required class="form-select" aria-label="Default select example">
+            <select [(ngModel)]="zanimanje" name="zanimanje" required class="form-select" aria-label="Default select example">
               <option selected>Odaberite zanimanje</option>
               <option value="1">Med. sestra</option>
               <option value="2">Spec. biohemicar</option>
@@ -113,7 +113,7 @@
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="ADMIN">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="ADMIN" name="ADMIN">
                     <span class="m-0 p-2">Admin</span>
                   </div>
                 </label>
@@ -121,7 +121,7 @@
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="DR_SPEC_ODELJENJA">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="DR_SPEC_ODELJENJA" name="DR_SPEC_ODELJENJA">
                     <span class="m-0 p-2">Nacelink odeljenja</span>
                   </div>
                 </label>
@@ -129,7 +129,7 @@
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="RECEPCIONER">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="RECEPCIONER" name="RECEPCIONER">
                     <span class="m-0 p-2">Recepcioner</span>
                   </div>
                 </label>
@@ -137,7 +137,7 @@
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="DR_SPEC">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="DR_SPEC" name="DR_SPEC">
                     <span class="m-0 p-2">Doktor specijalista</span>
                   </div>
                 </label>
@@ -145,7 +145,7 @@
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="DR_SPEC_POV" >
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="DR_SPEC_POV" name="DR_SPEC_POV" >
                     <span class="m-0 p-2">Doktor specijalista - poverljiv pristup</span>
                   </div>
                 </label>
@@ -154,7 +154,7 @@
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
 
-                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="VISA_MED_SESTRA">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="VISA_MED_SESTRA" name="VISA_MED_SESTRA">
                     <span class="m-0 p-2">Visa medicinska sestra</span>
                   </div>
                 </label>
@@ -162,7 +162,7 @@
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="MED_SESTRA">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="MED_SESTRA" name="MED_SESTRA">
                     <span class="m-0 p-2">Medicinska sestra</span>
                   </div>
                 </label>
@@ -170,7 +170,7 @@
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="VISI_LABORATORIJSKI_TEHNICAR">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="VISI_LABORATORIJSKI_TEHNICAR" name="VISI_LABORATORIJSKI_TEHNICAR">
                     <span class="m-0 p-2">Visi laboratorijski tehnicar</span>
                   </div>
                 </label>
@@ -178,7 +178,7 @@
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="LABORATORIJSKI_TEHNICAR">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="LABORATORIJSKI_TEHNICAR" name="LABORATORIJSKI_TEHNICAR">
                     <span class="m-0 p-2">Laboratorijski tehnicar</span>
                   </div>
                 </label>
@@ -186,7 +186,7 @@
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="MEDICINSKI_BIOHEMICAR">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="MEDICINSKI_BIOHEMICAR" name="MEDICINSKI_BIOHEMICAR">
                     <span class="m-0 p-2">Medicinski biohemicar</span>
                   </div>
                 </label>
@@ -194,7 +194,7 @@
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="SPECIJALISTA_MEDICINSKE_BIOHEMIJE">
+                    <input type="checkbox" name="var_id[]" autocomplete="off" value="" [(ngModel)]="SPECIJALISTA_MEDICINSKE_BIOHEMIJE" name="SPECIJALISTA_MEDICINSKE_BIOHEMIJE">
                     <span class="m-0 p-2">Specijalista medicinske biohemije</span>
                   </div>
                 </label>
