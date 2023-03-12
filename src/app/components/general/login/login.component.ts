@@ -12,8 +12,14 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
+  loginForm: FormGroup
 
-  constructor(private userService: UserService, private router: Router) { }
+
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
+    this.loginForm = this.formBuilder.group(
+      {username: ['', [Validators.required]],
+      password: ['', [Validators.required]],})
+  }
 
   ngOnInit(): void {
   }
@@ -24,7 +30,7 @@ export class LoginComponent implements OnInit {
     }
 
     form.classList.add('was-validated');
-   
+
     this.userService.login({
       username: this.username,
       password: this.password

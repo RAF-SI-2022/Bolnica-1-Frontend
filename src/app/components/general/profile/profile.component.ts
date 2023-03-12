@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      site_state: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       yourPassword: ['', [Validators.required]],
       newPassword: ['', [Validators.required]],
@@ -31,17 +31,18 @@ export class ProfileComponent implements OnInit {
       title: ['', [Validators.required]],
       department: ['', [Validators.required]],
       profession: ['', [Validators.required]],
-      admin: ['', [Validators.required]],
-      chief: ['', [Validators.required]],
-      receptionist: ['', [Validators.required]],
-      doctorSpecialist: ['', [Validators.required]],
-      doctorSpecialistPrivate: ['', [Validators.required]],
-      seniorNurse: ['', [Validators.required]],
-      nurse: ['', [Validators.required]],
-      seniorLabTechnician: ['', [Validators.required]],
-      labTechnician: ['', [Validators.required]],
-      biochemist: ['', [Validators.required]],
-      specMedBiohemist: ['', [Validators.required]],
+      ADMIN: '',
+      CHIEF: '',
+      DR_SPEC_DEPARTMENT: '',
+      DR_SPEC: '',
+      DR_SPEC_POV: '',
+      SENIOR_NURSE: '',
+      NURSE: '',
+      RECEPTIONIST: '',
+      SENIOR_LAB_TECHNICIAN: '',
+      LAB_TECHNICIAN: '',
+      MED_BIOCHEMIST: '',
+      SPECIALIST_MED_BIOCHEMIST: ''
 
     })
     this.userInfo = {
@@ -79,6 +80,7 @@ export class ProfileComponent implements OnInit {
     this.userForm.get('name')?.disable()
     this.userForm.get('lastName')?.disable()
     this.userForm.get('email')?.disable()
+    this.userForm.get('gender')?.disable()
     this.userForm.get('phoneNumber')?.disable()
     this.userForm.get('JMBG')?.disable()
     this.userForm.get('adress')?.disable()
@@ -95,7 +97,6 @@ export class ProfileComponent implements OnInit {
    // this.getUser(LBZ)
 
   }
-
   getUser(LBZ: number): void{
     this.userService.getUser(LBZ).subscribe(result => {
       this.userInfo.ime = result.ime
@@ -128,6 +129,7 @@ export class ProfileComponent implements OnInit {
   updateUser(): void {
     this.userForm.get('name')?.enable()
     this.userForm.get('lastName')?.enable()
+    this.userForm.get('gender')?.enable()
     this.userForm.get('email')?.enable()
     this.userForm.get('phoneNumber')?.enable()
     this.userForm.get('JMBG')?.enable()
@@ -140,23 +142,63 @@ export class ProfileComponent implements OnInit {
     this.userForm.get('yourPassword')?.enable()
     this.userForm.get('newPassword')?.enable()
     this.userForm.get('confirmPassword')?.enable()
-
     this.disabledValue = false
 
   }
 
   saveUser(): void {
+
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    form.classList.add('was-validated');
+
+    if(form.checkValidity() === false){
+      {
+        this.userService.editEmployee(
+        this.userForm.get('name')?.value,
+        this.userForm.get('lastName')?.value(),
+        this.userForm.get('gender')?.value(),
+        this.userForm.get('gender')?.value(),
+        this.userForm.get('email')?.value(),
+        this.userForm.get('phoneNumber')?.value(),
+        this.userForm.get('JMBG')?.value(),
+        this.userForm.get('adress')?.value(),
+        this.userForm.get('city')?.value(),
+        this.userForm.get('date')?.value(),
+        this.userForm.get('title')?.value(),
+        this.userForm.get('department')?.value(),
+        this.userForm.get('profession')?.value(),
+        this.userForm.get('yourPassword')?.value(),
+        this.userForm.get('newPassword')?.value(),
+        this.userForm.get('confirmPassword')?.value(),
+        this.userForm.get('ADMIN')?.value(),
+        this.userForm.get('CHIEF')?.value(),
+        this.userForm.get('RECEPCIONIST')?.value(),
+        this.userForm.get('DR_SPEC')?.value(),
+        this.userForm.get('DR_SPEC_POV')?.value(),
+        this.userForm.get('SENIOR_NURSE')?.value(),
+        this.userForm.get('NURSE')?.value(),
+        this.userForm.get('SENIOR_LAB_TECHNICIAN')?.value(),
+        // this.userForm.get('LAB_TECHNICIAN')?.value(),
+        // this.userForm.get('MED_BIOCHEMIST')?.value(),
+        // this.userForm.get('SPECIALIST_MED_BIOCHEMIST')?.value(),
+
+
+        ).subscribe(response =>{
+
+        })
+      }
+    }
+
+
     let newPassword = this.userForm.get('newPassword')?.value()
     let confirmPassword = this.userForm.get('confirmPassword')?.value()
 
-    if(newPassword.equals(confirmPassword))
-    {
-      this.userService.updateUser(this.userInfo, newPassword, confirmPassword ).subscribe(result => {
-      console.log(result)
-    })
+    if(this.userForm.errors != null) {
+      if (newPassword.equals(confirmPassword)) {
 
+
+      }
     }
-
   }
 
   status: boolean = false;
