@@ -68,7 +68,8 @@
               "browserTarget": "Bolnica-1-Frontend:build:production"
             },
             "development": {
-              "browserTarget": "Bolnica-1-Frontend:build:development"
+              "browserTarget": "Bolnica-1-Frontend:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

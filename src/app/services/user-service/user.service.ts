@@ -6,6 +6,7 @@ import {Zaposleni} from "../../models/models";
 import * as http from "http";
 import {LoginResponse} from "../../models/LoginResponse";
 import {ResetPasswordResponse} from "../../models/ResetPasswordResponse";
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -35,14 +36,14 @@ export class UserService {
 
   login(formData: { username: string; password: string;
   }): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`http://localhost:8080/auth/login`, {
-      username: formData.username, password:formData.password
+    return this.http.post<LoginResponse>(environment.apiURL + '/auth/login', {
+        username: formData.username, password:formData.password
     });
   }
 
   resetPassword(formData: { email: string;
   }): Observable<ResetPasswordResponse> {
-    return this.http.put<ResetPasswordResponse>(`http://localhost:8080/emp/pr `, {
+    return this.http.put<ResetPasswordResponse>(`http://localhost:8080/emp/pr`, {
       email: formData.email
     });
   }
