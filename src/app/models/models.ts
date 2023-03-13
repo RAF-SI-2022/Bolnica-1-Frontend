@@ -11,7 +11,8 @@ export class NapraviZaposlenog {
   email: string = '';
   title: Title = Title.DIPL_FARM;
   profession: Profession = Profession.MED_SESTRA;
-  department: number = 0;
+  departmentPbo: string = '';
+  permissions: string[] = [];
 }
 
 export class AdminPromeniZaposlenog{
@@ -29,7 +30,8 @@ export class AdminPromeniZaposlenog{
   deleted: boolean = false;
   title: Title = Title.DIPL_FARM;
   profession: Profession = Profession.MED_SESTRA;
-  department: Department = new Department();
+  departmentPbo: string = ''
+  permissions: string[] = [];
 } 
 
 export class Uloga{
@@ -119,3 +121,9 @@ export class Hospital {
   deleted: boolean = false;
 }
 
+export class DeparmentShort{
+  id: number = 0;
+  pbo: string = '';
+  name: string = '';
+  hospital: string = '';
+}

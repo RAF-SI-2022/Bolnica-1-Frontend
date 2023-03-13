@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminPromeniZaposlenog, Uloga, UlogaShort, UlogeZaposlenog, Zaposleni } from "../../../models/models";
+import { AdminPromeniZaposlenog, DeparmentShort, Uloga, UlogaShort, UlogeZaposlenog, Zaposleni } from "../../../models/models";
 import { UserService } from "../../../services/user-service/user.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
@@ -9,9 +9,10 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  userRoles: UlogeZaposlenog;
   userEdit: AdminPromeniZaposlenog;
+  userPermissionDisplayed: UlogeZaposlenog;
   userPermissions: Uloga[];
+  departments: DeparmentShort[];
 
   disabledValue: boolean = true;
   userForm: FormGroup
@@ -48,9 +49,10 @@ export class ProfileComponent implements OnInit {
       SPECIALIST_MED_BIOCHEMIST: ''
 
     })
-    this.userRoles = new UlogeZaposlenog();
+    this.userPermissionDisplayed = new UlogeZaposlenog();
     this.userEdit = new AdminPromeniZaposlenog();
     this.userPermissions = [];
+    this.departments = [];
   }
 
   ngOnInit(): void {
@@ -72,7 +74,20 @@ export class ProfileComponent implements OnInit {
     console.log("LBZ " + localStorage.getItem("LBZ")!);
     this.getUser(localStorage.getItem("LBZ")!);
     this.getUserPermissions();
+    this.getDepartments();
+
   }
+
+  getDepartments(){
+      this.userService.getDepartments().subscribe(result => {
+          this.departments = result;
+          for(let d of this.departments)
+            console.log("de " + d.name);
+      }, err =>{
+
+      });
+  }
+
   getUser(LBZ: string): void {
     this.userService.getUser(LBZ).subscribe(result => {
     }, err => {
@@ -114,17 +129,17 @@ export class ProfileComponent implements OnInit {
   fillPagePermissions(): void{
     for(let p of this.userPermissions){
       if(p.shortName == 'ADMIN')
-        this.userRoles.admin = true;
+        this.userPermissionDisplayed.admin = true;
       else if(p.shortName == 'DR_SPEC')
-        this.userRoles.dr_spec = true;
+        this.userPermissionDisplayed.dr_spec = true;
       else if(p.shortName == 'DR_SPEC_ODELJENJA')
-        this.userRoles.dr_spec_odeljenja = true;
+        this.userPermissionDisplayed.dr_spec_odeljenja = true;
       else if(p.shortName == 'MED_SESTRA')
-        this.userRoles.med_sestra = true;
+        this.userPermissionDisplayed.med_sestra = true;
       else if(p.shortName == 'VISA_MED_SES')
-        this.userRoles.visa_med_sestra = true;
+        this.userPermissionDisplayed.visa_med_sestra = true;
         else if(p.shortName == 'DR_SPEC_POV')
-        this.userRoles.dr_spec_pov = true;
+        this.userPermissionDisplayed.dr_spec_pov = true;
     }
 }
   saveUser(): void {

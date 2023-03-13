@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { AdminPromeniZaposlenog, Department, Profession, Title, Uloga, UlogaShort, Zaposleni } from "../../models/models";
+import { AdminPromeniZaposlenog, DeparmentShort, Department, Profession, Title, Uloga, UlogaShort, Zaposleni } from "../../models/models";
 import { LoginResponse } from "../../models/LoginResponse";
 import { ResetPasswordResponse } from "../../models/ResetPasswordResponse";
 import { environment } from 'src/environments/environment';
@@ -97,6 +97,9 @@ export class UserService {
       , { headers: this.getHeaders() });
   }
 
+  getDepartments(): Observable<DeparmentShort[]>{
+    return this.http.get<DeparmentShort[]>(`${environment.apiURL}/department`, { headers: this.getHeaders() });
+  }
 
   public getUser(lbz: string): Observable<Zaposleni> {
     return this.http.get<Zaposleni>(`${environment.apiURL}/employee/admin/find/${lbz}`, { headers: this.getHeaders() });

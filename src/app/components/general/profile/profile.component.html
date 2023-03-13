@@ -99,13 +99,8 @@
         </div>
         <div class="row mt-3">
           <div class="col-md-6"><label class="labels">Odeljenje</label>
-            <select class="form-select" name = "odeljenje" [(ngModel)]="userEdit.department" id = "department" aria-label="Default select example" [formControlName]="'department'">
-              <option value="1">Prof. dr. med</option>
-              <option value="2">Dr med. spec.</option>
-              <option value="3">Dr sci. med.</option>
-              <option value="4">Dipl. farm.</option>
-              <option value="5">Mag. farm.</option>
-              <option value="6">Mr</option>
+            <select class="form-select" name = "odeljenje" [(ngModel)]="userEdit.departmentPbo" id = "department" aria-label="Default select example" [formControlName]="'department'">
+              <option *ngFor="let item of departments" [value]="item.pbo">{{item.name}}</option>
             </select>
             <div class="invalid-feedback">Izaberite vase odeljenje</div>
           </div>
@@ -152,7 +147,7 @@
                 <label class="btn btn-outline-primary col-12 m-2">
 
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" name = "ADMIN" [(ngModel)]="userRoles.admin"  id = "admin" autocomplete="off" value="" [formControlName]="'ADMIN'" [disabled]="disabledValue">
+                    <input type="checkbox" name = "ADMIN" [(ngModel)]="userPermissionDisplayed.admin"  id = "admin" autocomplete="off" value="" [formControlName]="'ADMIN'" [disabled]="disabledValue">
                     <span class="m-0 p-2">Admin</span>
                   </div>
                 </label>
@@ -176,7 +171,7 @@
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox"  [(ngModel)]="userRoles.dr_spec"name="DR_SPEC" id = "drSpec"autocomplete="off" value="" [formControlName]="'DR_SPEC'" [disabled]="disabledValue">
+                    <input type="checkbox"  [(ngModel)]="userPermissionDisplayed.dr_spec"name="DR_SPEC" id = "drSpec"autocomplete="off" value="" [formControlName]="'DR_SPEC'" [disabled]="disabledValue">
                     <span class="m-0 p-2">Doktor specijalista</span>
                   </div>
                 </label>
@@ -184,7 +179,7 @@
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" [(ngModel)]="userRoles.dr_spec_pov" name="DR_SPEC_POV" id = "drSpecPrivate"autocomplete="off" value=""[formControlName]="'DR_SPEC_POV'" [disabled]="disabledValue">
+                    <input type="checkbox" [(ngModel)]="userPermissionDisplayed.dr_spec_pov" name="DR_SPEC_POV" id = "drSpecPrivate"autocomplete="off" value=""[formControlName]="'DR_SPEC_POV'" [disabled]="disabledValue">
                     <span class="m-0 p-2">Doktor specijalista - poverljiv pristup</span>
                   </div>
                 </label>
@@ -192,7 +187,7 @@
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" [(ngModel)]="userRoles.visa_med_sestra" name="VISA_MED_SESTRA" id= "visaMedSestra"autocomplete="off" value="" [formControlName]="'SENIOR_NURSE'" [disabled]="disabledValue">
+                    <input type="checkbox" [(ngModel)]="userPermissionDisplayed.visa_med_sestra" name="VISA_MED_SESTRA" id= "visaMedSestra"autocomplete="off" value="" [formControlName]="'SENIOR_NURSE'" [disabled]="disabledValue">
                     <span class="m-0 p-2">Visa medicinska sestra</span>
                   </div>
                 </label>
@@ -200,7 +195,7 @@
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" [(ngModel)]="userRoles.med_sestra" name="MED_SESTRA" id = "medSestra" autocomplete="off" value=""[formControlName]="'NURSE'"  [disabled]="disabledValue">
+                    <input type="checkbox" [(ngModel)]="userPermissionDisplayed.med_sestra" name="MED_SESTRA" id = "medSestra" autocomplete="off" value=""[formControlName]="'NURSE'"  [disabled]="disabledValue">
                     <span class="m-0 p-2">Medicinska sestra</span>
                   </div>
                 </label>
