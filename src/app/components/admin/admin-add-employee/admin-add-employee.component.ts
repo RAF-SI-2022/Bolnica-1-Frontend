@@ -59,11 +59,15 @@ export class AdminAddEmployeeComponent implements OnInit {
     if(form.checkValidity() === false){
     }
     form.classList.add('was-validated');
+
     if(this.addGroup.get('ADMIN')?.value){
       this.permissions.push('ADMIN')
     }
     if(this.addGroup.get('DR_SPEC_DEPARTMENT')?.value){
       this.permissions.push('DR_SPEC_ODELJENJA')
+    }
+    if(this.addGroup.get('RECEPTIONIST')?.value){
+      this.permissions.push('RECEPTIONIST')
     }
     if(this.addGroup.get('DR_SPEC')?.value){
       this.permissions.push('DR_SPEC')
@@ -77,8 +81,19 @@ export class AdminAddEmployeeComponent implements OnInit {
     if(this.addGroup.get('SENIOR_NURSE')?.value){
       this.permissions.push('SENIOR_NURSE')
     }
+    if(this.addGroup.get('SENIOR_LAB_TECHNICIAN')?.value){
+      this.permissions.push('SENIOR_LAB_TECHNICIAN')
+    }
+    if(this.addGroup.get('LAB_TECHNICIAN')?.value){
+      this.permissions.push('LAB_TECHNICIAN')
+    }
+    if(this.addGroup.get('MED_BIOCHEMIST')?.value){
+      this.permissions.push('MED_BIOCHEMIST')
+    }
+    if(this.addGroup.get('SPECIALIST_MED_BIOCHEMIST')?.value){
+      this.permissions.push('SPECIALIST_MED_BIOCHEMIST')
+    }
 
-    // @ts-ignore
     let gender = employee.gender
     let genderValue =  gender ? 'female' : 'male'
     this.userService.addEmployee(employee.name, employee.lastName, employee.date, genderValue, employee.JMBG, employee.adress, employee.city,
