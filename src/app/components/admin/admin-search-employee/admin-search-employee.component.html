@@ -42,13 +42,13 @@
                       <div class="invalid-feedback">Izaberite ordinaciju!</div>
                       -->
                       <select name="selektovanaOrdinacija" [(ngModel)]="selektovanaOrdinacija" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
-                <option selected>Odaberite odeljenje</option>
-                <option *ngFor="let department of departments" [value]="department.id">{{ department.name }}</option>
-              </select>
-              <div class="invalid-feedback">Izaberite odeljenje!</div>
-            </div>
-            <!--
-                          
+                        <option selected>Odaberite odeljenje</option>
+                        <option *ngFor="let department of departments" [value]="department.id">{{ department.name }}</option>
+                      </select>
+                      <div class="invalid-feedback">Izaberite odeljenje!</div>
+                    </div>
+                    <!--
+
                             <select name = "selektovanaBolnica" [(ngModel)]="selektovanaBolnica" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
                                 <option selected>Odaberite bolnicu</option>
                                 <option value="1">Prof. dr. med</option>
@@ -60,7 +60,7 @@
                               </select>
                             <div class="invalid-feedback">Izaberite bolnicu!</div>
                           </div>
-                          
+
                         -->
             <div class="col-md-3"><label class="labels">Bolnica</label>
                         <select name="selektovanaOrdinacija" [(ngModel)]="selektovanaBolnica" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
@@ -99,22 +99,23 @@
                 <td>{{user.email}}</td>
 
 
-                <td><span class="status text-warning">&bull;</span> Inactive</td>
-                <td>
-                  <a class="settings" title="Podesavanja" data-toggle="tooltip" (click)="updateUser(user)"><i
-                      class="bi bi-gear-fill"></i></a>
-                  <a class="delete" title="Brisanje" data-toggle="tooltip" (click)="deleteUser(user.lbz)"><i
-                      class="bi bi-x-circle-fill"></i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="h-100 d-flex align-items-center justify-content-center">
-            <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
-            </pagination-controls>
-          </div>
-        </form>
-      </div>
+                      <td><span class="status text-warning">&bull;</span> Inactive</td>
+                            <td>
+                                <a (click)="updateUser(user)" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>
+                                <a href="#" class="delete" title="Brisanje" data-toggle="tooltip"><i class="bi bi-x-circle-fill"></i></a>
+                            </td>
+                        </tr>
+                      </tbody>
+                      </table>
+                        <div>
+                          <pagination-controls
+                          previousLabel="Pret"
+                          nextLabel="Sled"
+                          (pageChange)="onTableDataChange($event)">
+                      </pagination-controls>
+                    </div>
+              </form>
+            </div>
+        </div>
     </div>
-  </div>
-</body>
+    </body>

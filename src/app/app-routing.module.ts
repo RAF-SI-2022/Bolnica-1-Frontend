@@ -88,7 +88,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: "admin-edit-employee",
+    path: "admin-edit-employee/:lbz",
     component: AdminEditEmployeeComponent,
     canActivate: [AuthGuard]
   },
