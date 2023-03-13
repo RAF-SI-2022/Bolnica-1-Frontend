@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Zaposleni} from "../../../models/models";
+import {DeparmentShort, Zaposleni} from "../../../models/models";
 import {UserService} from "../../../services/user-service/user.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
@@ -14,10 +14,10 @@ export class AdminAddEmployeeComponent implements OnInit {
   addGroup: FormGroup;
   permissions: string[] = [];
 
-
+  departments: DeparmentShort[] = [];
   errorMessage: string = ''
   successMessage: string = ''
-
+  selectedDepartment: DeparmentShort = new DeparmentShort();
 
   constructor(private userService: UserService, private formBuilder: FormBuilder,) {
 
@@ -33,7 +33,7 @@ export class AdminAddEmployeeComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       title: ['', [Validators.required]],
       profession: ['', [Validators.required]],
-      department: ['', [Validators.required]],
+      department: [new DeparmentShort(), [Validators.required]],
       ADMIN: '',
       CHIEF: '',
       DR_SPEC_DEPARTMENT: '',
@@ -51,12 +51,19 @@ export class AdminAddEmployeeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+      this.getDepartments();
   }
 
+  getDepartments(){
+      this.userService.getDepartments().subscribe(res=>{
+          this.departments = res;
+      });
+  }
   addEmployee(){
     const employee = this.addGroup.value
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     if(form.checkValidity() === false){
+        return;
     }
     form.classList.add('was-validated');
 
@@ -97,7 +104,7 @@ export class AdminAddEmployeeComponent implements OnInit {
     let gender = employee.gender
     let genderValue =  gender ? 'female' : 'male'
     this.userService.addEmployee(employee.name, employee.lastName, employee.date, genderValue, employee.JMBG, employee.adress, employee.city,
-    employee.phoneNumber, employee.email, employee.title, employee.profession, employee.department, this.permissions).subscribe((response) => {
+    employee.phoneNumber, employee.email, employee.title, employee.profession, this.selectedDepartment.pbo, this.permissions).subscribe((response) => {
 
       this.errorMessage = ''
       this.successMessage = 'Uspesno dodavanje'

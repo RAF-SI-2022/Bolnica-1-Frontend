@@ -90,7 +90,7 @@ export class UserService {
     obj.address = address; obj.phone = phone; obj.email = email; obj.gender = gender ? 'female' : 'male';
     obj.title = <Title>title; obj.profession = <Profession>profession; obj.permissions = permissions; obj.username = username,
     obj.password = password; obj.departmentPbo = departmentPbo
-
+      console.log("USAO SAM");
     return this.http.put<Zaposleni>(`${environment.apiURL}/employee/edit/admin/${lbz}`, obj, { headers: this.getHeaders() });
   }
 

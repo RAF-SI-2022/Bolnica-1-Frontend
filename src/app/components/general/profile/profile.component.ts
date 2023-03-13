@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminPromeniZaposlenog, DeparmentShort, Uloga, UlogaShort, UlogeZaposlenog, Zaposleni } from "../../../models/models";
 import { UserService } from "../../../services/user-service/user.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -18,13 +19,14 @@ export class ProfileComponent implements OnInit {
   userForm: FormGroup
   gender: boolean = false;
 
-  constructor(private userService: UserService, private formBuilder: FormBuilder) {
+  constructor(private userService: UserService, private formBuilder: FormBuilder, private authService: AuthService) {
     this.userForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       gender: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       yourPassword: ['', [Validators.required]],
+      username: ['', Validators.required],
       newPassword: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
@@ -63,6 +65,7 @@ export class ProfileComponent implements OnInit {
     this.userForm.get('phoneNumber')?.disable()
     this.userForm.get('JMBG')?.disable()
     this.userForm.get('adress')?.disable()
+    this.userForm.get('username')?.disable()
     this.userForm.get('city')?.disable()
     this.userForm.get('date')?.disable()
     this.userForm.get('title')?.disable()
@@ -78,109 +81,128 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  getDepartments(){
-      this.userService.getDepartments().subscribe(result => {
-          this.departments = result;
-          for(let d of this.departments)
-            console.log("de " + d.name);
-      }, err =>{
+  getDepartments() {
+    this.userService.getDepartments().subscribe(result => {
+      this.departments = result;
+      for (let d of this.departments)
+        console.log("de " + d.name);
+    }, err => {
 
-      });
+    });
   }
 
   getUser(LBZ: string): void {
     this.userService.getUser(LBZ).subscribe(result => {
     }, err => {
-      console.log()
       if (err.status == 302) { // found!
         this.userEdit = err.error; // citanje poruka je sa err.errors TO JE BODY-PORUKA
-        console.log("sss " + err.error.profession);
+        this.userEdit.departmentPbo = err.error.department.name;
+        console.log("sss " + this.userEdit.departmentPbo);
       }
     })
   }
-  getUserPermissions(){
+  getUserPermissions() {
     this.userService.getUserPermissions().subscribe(result => {
       this.userPermissions = <Uloga[]><unknown>result;
       this.fillPagePermissions();
     }, err => {
-        console.log(" nesto " + err.error);
+      console.log(" nesto " + err.error);
     });
   }
+  status: boolean = false;
   updateUser(): void {
-    this.userForm.get('name')?.enable()
-    this.userForm.get('lastName')?.enable()
-    this.userForm.get('gender')?.enable()
-    this.userForm.get('email')?.enable()
-    this.userForm.get('phoneNumber')?.enable()
-    this.userForm.get('JMBG')?.enable()
-    this.userForm.get('adress')?.enable()
-    this.userForm.get('city')?.enable()
-    this.userForm.get('date')?.enable()
-    this.userForm.get('title')?.enable()
-    this.userForm.get('department')?.enable()
-    this.userForm.get('profession')?.enable()
-    this.userForm.get('yourPassword')?.enable()
-    this.userForm.get('newPassword')?.enable()
-    this.userForm.get('confirmPassword')?.enable()
-    this.disabledValue = false
-
+    if (!this.status) {
+      this.userForm.get('name')?.enable();
+      this.userForm.get('lastName')?.enable()
+      this.userForm.get('gender')?.enable()
+      this.userForm.get('email')?.enable()
+      this.userForm.get('username')?.enable()
+      this.userForm.get('phoneNumber')?.enable()
+      this.userForm.get('JMBG')?.enable()
+      this.userForm.get('adress')?.enable()
+      this.userForm.get('city')?.enable()
+      this.userForm.get('date')?.enable()
+      this.userForm.get('title')?.enable()
+      this.userForm.get('department')?.enable()
+      this.userForm.get('profession')?.enable()
+      this.userForm.get('yourPassword')?.enable()
+      this.userForm.get('newPassword')?.enable()
+      this.userForm.get('confirmPassword')?.enable()
+      this.disabledValue = false
+    }
+    else {
+        this.userForm.get('name')?.disable();
+        this.userForm.get('lastName')?.disable()
+        this.userForm.get('gender')?.disable()
+        this.userForm.get('email')?.disable()
+        this.userForm.get('username')?.disable()
+        this.userForm.get('phoneNumber')?.disable()
+        this.userForm.get('JMBG')?.disable()
+        this.userForm.get('adress')?.disable()
+        this.userForm.get('city')?.disable()
+        this.userForm.get('date')?.disable()
+        this.userForm.get('title')?.disable()
+        this.userForm.get('department')?.disable()
+        this.userForm.get('profession')?.disable()
+        this.userForm.get('yourPassword')?.disable()
+        this.userForm.get('newPassword')?.disable()
+        this.userForm.get('confirmPassword')?.disable()
+        this.disabledValue = true;
+      
+    }
+    this.status = !this.status;
   }
 
-  fillPagePermissions(): void{
-    for(let p of this.userPermissions){
-      if(p.shortName == 'ADMIN')
+  fillPagePermissions(): void {
+    for (let p of this.userPermissions) {
+      if (p.shortName == 'ADMIN')
         this.userPermissionDisplayed.admin = true;
-      else if(p.shortName == 'DR_SPEC')
+      else if (p.shortName == 'DR_SPEC')
         this.userPermissionDisplayed.dr_spec = true;
-      else if(p.shortName == 'DR_SPEC_ODELJENJA')
+      else if (p.shortName == 'DR_SPEC_ODELJENJA')
         this.userPermissionDisplayed.dr_spec_odeljenja = true;
-      else if(p.shortName == 'MED_SESTRA')
+      else if (p.shortName == 'MED_SESTRA')
         this.userPermissionDisplayed.med_sestra = true;
-      else if(p.shortName == 'VISA_MED_SES')
+      else if (p.shortName == 'VISA_MED_SES')
         this.userPermissionDisplayed.visa_med_sestra = true;
-        else if(p.shortName == 'DR_SPEC_POV')
+      else if (p.shortName == 'DR_SPEC_POV')
         this.userPermissionDisplayed.dr_spec_pov = true;
     }
-}
+  }
   saveUser(): void {
 
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     form.classList.add('was-validated');
 
     //todo ovo treba da se popravi
-    if (form.checkValidity() === false) {
+    /*
+lbz: string, name: string, surname: string, dateOfBirth: Date, gender: string,  
+jmbg: string, address: string, placeOfLiving: string, phone: string,
+    email: string, username: string, password: string, deleted: boolean,
+    title: Title, profession: Profession, departmentPbo: string,permissions: string[]
+    */
+    if (form.checkValidity() === true) {
       {
         this.userService.editEmployee(
+          this.authService.getLBZ(),
           this.userForm.get('name')?.value,
-          this.userForm.get('lastName')?.value(),
-          this.userForm.get('gender')?.value(),
-          this.userForm.get('gender')?.value(),
-          this.userForm.get('email')?.value(),
+          this.userForm.get('surname')?.value(),
+          this.userForm.get('dateOfBirth')?.value(),
+          'male',
+          this.userForm.get('jmbg')?.value(),
+          this.userForm.get('address')?.value(),
+          this.userForm.get('placeOfLiving')?.value(),
           this.userForm.get('phoneNumber')?.value(),
-          this.userForm.get('JMBG')?.value(),
-          this.userForm.get('adress')?.value(),
-          this.userForm.get('city')?.value(),
-          this.userForm.get('date')?.value(),
+          this.userForm.get('email')?.value(),
+          this.userForm.get('username')?.value(),
+          this.userForm.get('password')?.value(),
+          this.userForm.get('deleted')?.value(),
           this.userForm.get('title')?.value(),
-          this.userForm.get('department')?.value(),
           this.userForm.get('profession')?.value(),
-          this.userForm.get('yourPassword')?.value(),
-          this.userForm.get('newPassword')?.value(),
-          this.userForm.get('confirmPassword')?.value(),
-          this.userForm.get('ADMIN')?.value(),
-          // this.userForm.get('CHIEF')?.value(),
-          // this.userForm.get('RECEPCIONIST')?.value(),
-          // this.userForm.get('DR_SPEC')?.value(),
-          // this.userForm.get('DR_SPEC_POV')?.value(),
-          // this.userForm.get('SENIOR_NURSE')?.value(),
-          // this.userForm.get('NURSE')?.value(),
-          // this.userForm.get('SENIOR_LAB_TECHNICIAN')?.value(),
-          // this.userForm.get('LAB_TECHNICIAN')?.value(),
-          // this.userForm.get('MED_BIOCHEMIST')?.value(),
-          // this.userForm.get('SPECIALIST_MED_BIOCHEMIST')?.value(),
-
+          this.userForm.get('departmentName')?.value(),
+          this.userForm.get('userPermission')?.value()
         ).subscribe(response => {
-
+            console.log("USPEH " + response.name);
         })
       }
     }
@@ -196,7 +218,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  status: boolean = false;
+
   clickEvent() {
     this.status = !this.status;
   }

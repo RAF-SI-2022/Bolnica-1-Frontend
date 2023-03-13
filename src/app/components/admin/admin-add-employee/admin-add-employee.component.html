@@ -72,14 +72,8 @@
         </div>
         <div class="row mt-3">
           <div class="col-md-6"><label class="labels">Odeljenje</label>
-            <select  name="deparment" [formControlName]="'department'" required class="form-select" aria-label="Default select example">
-              <option selected>Odaberite odeljenje</option>
-              <option value="">Prof. dr. med</option>
-              <option value="2">Dr med. spec.</option>
-              <option value="3">Dr sci. med.</option>
-              <option value="4">Dipl. farm.</option>
-              <option value="5">Mag. farm.</option>
-              <option value="6">Mr</option>
+            <select name = "odeljenje" [(ngModel)]="selectedDepartment" [formControlName]="'department'"  id = "department" class="form-select" aria-label="Default select example">
+              <option *ngFor="let item of departments" [value]="item.pbo">{{item.name}}</option>
             </select>
           </div>
           <div class="col-md-6"><label class="labels">Zanimanje</label>
@@ -121,22 +115,22 @@
                   </div>
                 </label>
               </div>
-              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+              <!-- <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
                     <input type="checkbox" name="DR_SPEC_DEPARTMENT" autocomplete="off" value=""  [formControlName]="'DR_SPEC_DEPARTMENT'">
                     <span class="m-0 p-2">Nacelink odeljenja</span>
                   </div>
                 </label>
-              </div>
-              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+              </div> -->
+              <!-- <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
                     <input type="checkbox" name="RECEPTIONIST" autocomplete="off" value=""  [formControlName]="'RECEPTIONIST'" >
                     <span class="m-0 p-2">Recepcioner</span>
                   </div>
                 </label>
-              </div>
+              </div> -->
               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
@@ -170,38 +164,38 @@
                   </div>
                 </label>
               </div>
-              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+              <!-- <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
                     <input type="checkbox" name="SENIOR_LAB_TECHNICIAN" autocomplete="off" value="" [formControlName]="'SENIOR_LAB_TECHNICIAN'" >
                     <span class="m-0 p-2">Visi laboratorijski tehnicar</span>
                   </div>
                 </label>
-              </div>
-              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+              </div> -->
+              <!-- <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
                     <input type="checkbox" name="LAB_TECHNICIAN" autocomplete="off" value="" [formControlName]="'LAB_TECHNICIAN'">
                     <span class="m-0 p-2">Laboratorijski tehnicar</span>
                   </div>
                 </label>
-              </div>
-              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+              </div> -->
+              <!-- <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
                     <input type="checkbox" name="MED_BIOCHEMIST" autocomplete="off" value="" [formControlName]="'MED_BIOCHEMIST'" >
                     <span class="m-0 p-2">Medicinski biohemicar</span>
                   </div>
                 </label>
-              </div>
-              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+              </div> -->
+              <!-- <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
                     <input type="checkbox" name="SPECIALIST_MED_BIOCHEMIST" autocomplete="off" value="" [formControlName]="'SPECIALIST_MED_BIOCHEMIST'">
                     <span class="m-0 p-2">Specijalista medicinske biohemije</span>
                   </div>
                 </label>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

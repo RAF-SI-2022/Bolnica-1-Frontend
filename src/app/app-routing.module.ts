@@ -60,22 +60,29 @@ import {
 } from "./components/technician/technician-schedule-visit/technician-schedule-visit.component";
 import { NotFoundComponent } from './components/general/not-found/not-found.component';
 import { ResetPasswordLinkComponent } from './components/general/reset-password-link/reset-password-link.component';
+import { LoggedOutGuard } from './guards/logged-out.guard';
 
 
 const routes: Routes = [
-  {
+  { 
     path: "",
-    component: LoginComponent
+    component: AdminWorkspaceComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "login",
+    component: LoginComponent,
+    canActivate: [LoggedOutGuard]
   },
   {
     path: "reset-password",
     component: ResetPasswordComponent,
-    canActivate: [AuthGuard]
+    canActivate: [LoggedOutGuard]
   },
   {
     path: "reset-password-link",
     component: ResetPasswordLinkComponent,
-    canActivate: [AuthGuard]
+    canActivate: [LoggedOutGuard]
   },
   {
     path: "profile",

@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import {UserService} from "../services/user-service/user.service";
+import { AuthService } from '../services/auth.service';
+import { UserService } from "../services/user-service/user.service";
 
 @Component({
   selector: 'app-root',
@@ -10,27 +11,33 @@ import {UserService} from "../services/user-service/user.service";
 export class AppComponent {
   toggleSb: boolean = true;
   title = 'IBIS';
-  constructor(private userService: UserService) { }
+  isLoggedIn: boolean = false;
+  constructor(private userService: UserService, private authService: AuthService) { }
 
   ngOnInit(): void {
-}
-
-  toggleSidebar(){
-      this.toggleSb = !this.toggleSb;
+      this.isLoggedIn = this.isLogged();
   }
-//todo proveri ovo
-  canAddEmployee(): boolean{
-  //
-  //   if(this.userService.checkAdmin()){
-  //     return true
-  //   }
+
+  toggleSidebar() {
+    this.toggleSb = !this.toggleSb;
+  }
+  //todo proveri ovo
+  canAddEmployee(): boolean {
+    //
+    //   if(this.userService.checkAdmin()){
+    //     return true
+    //   }
     return true
-  //
-  //
+    //
+    //
   }
 
-  logout(){
-      this.userService.logout();
+  logout() {
+    this.userService.logout();
   }
 
+  isLogged(): boolean {
+    console.log("BAJOO");
+    return this.authService.isLoggedIn();
+  }
 }
