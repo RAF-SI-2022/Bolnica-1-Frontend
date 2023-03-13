@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Zaposleni} from "../../../models/models";
 import {UserService} from "../../../services/user-service/user.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-admin-add-employee',
@@ -9,53 +10,79 @@ import {UserService} from "../../../services/user-service/user.service";
 })
 export class AdminAddEmployeeComponent implements OnInit {
 
-  ime: string = '';
-  prezime: string = '';
-  datumRodjenja: string = '';
-  JMBG: string = '';
-  mestoStanovanja: string = '';
-  adresaStanovanja: string = '';
-  brojTelefona: string = '';
-  imejl: string = '';
-  musko: boolean = false;
-  zensko: boolean = false;
-  titula: string = '';
-  zanimanje: string = '';
-  odeljenje: string = '';
-  ADMIN: boolean = false;
-  DR_SPEC_ODELJENJA: boolean = false;
-  DR_SPEC: boolean = false;
-  VISA_MED_SESTRA: boolean = false;
-  MED_SESTRA: boolean = false;
-  DR_SPEC_POV: boolean = false;
-  RECEPCIONER: boolean = false;
-  VISI_LABORATORIJSKI_TEHNICAR: boolean = false;
-  LABORATORIJSKI_TEHNICAR: boolean = false;
-  MEDICINSKI_BIOHEMICAR: boolean = false;
-  SPECIJALISTA_MEDICINSKE_BIOHEMIJE: boolean = false;
+
+  addGroup: FormGroup;
+  permissions: string[] = [];
 
 
   errorMessage: string = ''
   successMessage: string = ''
 
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private formBuilder: FormBuilder,) {
+
+    this.addGroup = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      date: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      JMBG: ['', [Validators.required]],
+      adress: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      title: ['', [Validators.required]],
+      profession: ['', [Validators.required]],
+      department: ['', [Validators.required]],
+      ADMIN: '',
+      CHIEF: '',
+      DR_SPEC_DEPARTMENT: '',
+      DR_SPEC: '',
+      DR_SPEC_POV: '',
+      SENIOR_NURSE: '',
+      NURSE: '',
+      RECEPTIONIST: '',
+      SENIOR_LAB_TECHNICIAN: '',
+      LAB_TECHNICIAN: '',
+      MED_BIOCHEMIST: '',
+      SPECIALIST_MED_BIOCHEMIST: ''
+
+    })
+  }
 
   ngOnInit(): void {
   }
 
   addEmployee(){
-
+    const employee = this.addGroup.value
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     if(form.checkValidity() === false){
     }
-
     form.classList.add('was-validated');
-   
-    this.userService.addEmployee(this.ime, this.prezime, this.datumRodjenja, this.JMBG, this.mestoStanovanja, this.adresaStanovanja
-    , this.brojTelefona, this.imejl, this.musko, this.zensko, this.titula, this.zanimanje, this.odeljenje,
-      this.ADMIN, this.DR_SPEC_ODELJENJA, this.DR_SPEC, this.VISA_MED_SESTRA, this.MED_SESTRA, this.DR_SPEC_POV, this.RECEPCIONER,
-      this.VISI_LABORATORIJSKI_TEHNICAR, this.LABORATORIJSKI_TEHNICAR, this.MEDICINSKI_BIOHEMICAR, this.SPECIJALISTA_MEDICINSKE_BIOHEMIJE).subscribe((response) => {
+    if(this.addGroup.get('ADMIN')?.value){
+      this.permissions.push('ADMIN')
+    }
+    if(this.addGroup.get('DR_SPEC_DEPARTMENT')?.value){
+      this.permissions.push('DR_SPEC_ODELJENJA')
+    }
+    if(this.addGroup.get('DR_SPEC')?.value){
+      this.permissions.push('DR_SPEC')
+    }
+    if(this.addGroup.get('DR_SPEC_POV')?.value){
+      this.permissions.push('DR_SPEC_POV')
+    }
+    if(this.addGroup.get('NURSE')?.value){
+      this.permissions.push('NURSE')
+    }
+    if(this.addGroup.get('SENIOR_NURSE')?.value){
+      this.permissions.push('SENIOR_NURSE')
+    }
+
+    // @ts-ignore
+    let gender = employee.gender
+    let genderValue =  gender ? 'female' : 'male'
+    this.userService.addEmployee(employee.name, employee.lastName, employee.date, genderValue, employee.JMBG, employee.adress, employee.city,
+    employee.phoneNumber, employee.email, employee.title, employee.profession, employee.department, this.permissions).subscribe((response) => {
 
       this.errorMessage = ''
       this.successMessage = 'Uspesno dodavanje'
