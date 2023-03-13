@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
   loginForm: FormGroup
-
+  showError: boolean = false;
   constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
     this.loginForm = this.formBuilder.group(
       {
@@ -26,9 +26,9 @@ export class LoginComponent implements OnInit {
 
   logIn(): void {
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
-    form.classList.add('was-validated');
 
-    if (form.checkValidity() === false) {
+    if (this.username.length == 0 || this.password.length == 0) {
+      form.classList.add('was-validated');
       return;
     }
 
@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit {
       });
     }, err => {
       console.log(err);
-      //switch za razlicite poruke ili name
+        this.showError = true;
     })
   }
 

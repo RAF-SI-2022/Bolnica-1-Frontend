@@ -5,7 +5,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Zaposleni, Page, DeparmentShort, HospitalShort } from "../../../models/models";
 import { NgxPaginationModule } from 'ngx-pagination';
 
-
 @Component({
   selector: 'app-admin-search-employee',
   templateUrl: './admin-search-employee.component.html',
@@ -55,7 +54,7 @@ export class AdminSearchEmployeeComponent implements OnInit {
     this.getUserList();
   }
 
-  updateUser(zaposleni: Zaposleni){
+  updateUser(zaposleni: Zaposleni) {
     //this.userService.setZaposleni(zaposleni)
     this.router.navigate(['/admin-edit-employee/', zaposleni.lbz]);
   }

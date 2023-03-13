@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { UserService } from "../services/user-service/user.service";
 
@@ -12,7 +13,7 @@ export class AppComponent {
   toggleSb: boolean = true;
   title = 'IBIS';
   isLoggedIn: boolean = false;
-  constructor(private userService: UserService, private authService: AuthService) { }
+  constructor(private userService: UserService, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
       this.isLoggedIn = this.isLogged();
@@ -34,10 +35,14 @@ export class AppComponent {
 
   logout() {
     this.userService.logout();
+    this.router.navigate(['/login']);
   }
 
   isLogged(): boolean {
-    console.log("BAJOO");
     return this.authService.isLoggedIn();
   }
+
+    getFullName(){
+        return localStorage.getItem("username");
+    }
 }

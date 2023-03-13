@@ -47,7 +47,8 @@ export class AdminAddEmployeeComponent implements OnInit {
       MED_BIOCHEMIST: '',
       SPECIALIST_MED_BIOCHEMIST: ''
 
-    })
+    });
+
   }
 
   ngOnInit(): void {
@@ -60,11 +61,14 @@ export class AdminAddEmployeeComponent implements OnInit {
       });
   }
   addEmployee(){
+   
     const employee = this.addGroup.value
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    form.classList.add('was-validated');
     if(form.checkValidity() === false){
         return;
     }
+
     form.classList.add('was-validated');
 
     if(this.addGroup.get('ADMIN')?.value){
@@ -99,6 +103,10 @@ export class AdminAddEmployeeComponent implements OnInit {
     }
     if(this.addGroup.get('SPECIALIST_MED_BIOCHEMIST')?.value){
       this.permissions.push('SPECIALIST_MED_BIOCHEMIST')
+    }
+    if(this.permissions.length == 0){
+        
+        return;
     }
 
     let gender = employee.gender

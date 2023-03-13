@@ -43,6 +43,7 @@ import {NgxPaginationModule} from "ngx-pagination";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotFoundComponent } from './components/general/not-found/not-found.component';
 import { ResetPasswordLinkComponent } from './components/general/reset-password-link/reset-password-link.component';
+import { NewPasswordComponent } from './components/general/new-password/new-password.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { ResetPasswordLinkComponent } from './components/general/reset-password-
     AdminSearchEmployeeComponent,
     AdminWorkspaceComponent,
     NotFoundComponent,
-    ResetPasswordLinkComponent
+    ResetPasswordLinkComponent,
+    NewPasswordComponent
   ],
   imports: [
     BrowserModule,

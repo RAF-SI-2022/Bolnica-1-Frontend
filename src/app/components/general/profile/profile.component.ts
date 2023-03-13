@@ -131,24 +131,24 @@ export class ProfileComponent implements OnInit {
       this.disabledValue = false
     }
     else {
-        this.userForm.get('name')?.disable();
-        this.userForm.get('lastName')?.disable()
-        this.userForm.get('gender')?.disable()
-        this.userForm.get('email')?.disable()
-        this.userForm.get('username')?.disable()
-        this.userForm.get('phoneNumber')?.disable()
-        this.userForm.get('JMBG')?.disable()
-        this.userForm.get('adress')?.disable()
-        this.userForm.get('city')?.disable()
-        this.userForm.get('date')?.disable()
-        this.userForm.get('title')?.disable()
-        this.userForm.get('department')?.disable()
-        this.userForm.get('profession')?.disable()
-        this.userForm.get('yourPassword')?.disable()
-        this.userForm.get('newPassword')?.disable()
-        this.userForm.get('confirmPassword')?.disable()
-        this.disabledValue = true;
-      
+      this.userForm.get('name')?.disable();
+      this.userForm.get('lastName')?.disable()
+      this.userForm.get('gender')?.disable()
+      this.userForm.get('email')?.disable()
+      this.userForm.get('username')?.disable()
+      this.userForm.get('phoneNumber')?.disable()
+      this.userForm.get('JMBG')?.disable()
+      this.userForm.get('adress')?.disable()
+      this.userForm.get('city')?.disable()
+      this.userForm.get('date')?.disable()
+      this.userForm.get('title')?.disable()
+      this.userForm.get('department')?.disable()
+      this.userForm.get('profession')?.disable()
+      this.userForm.get('yourPassword')?.disable()
+      this.userForm.get('newPassword')?.disable()
+      this.userForm.get('confirmPassword')?.disable()
+      this.disabledValue = true;
+
     }
     this.status = !this.status;
   }
@@ -202,7 +202,7 @@ jmbg: string, address: string, placeOfLiving: string, phone: string,
           this.userForm.get('departmentName')?.value(),
           this.userForm.get('userPermission')?.value()
         ).subscribe(response => {
-            console.log("USPEH " + response.name);
+          console.log("USPEH " + response.name);
         })
       }
     }

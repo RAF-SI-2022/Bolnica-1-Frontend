@@ -61,6 +61,7 @@ import {
 import { NotFoundComponent } from './components/general/not-found/not-found.component';
 import { ResetPasswordLinkComponent } from './components/general/reset-password-link/reset-password-link.component';
 import { LoggedOutGuard } from './guards/logged-out.guard';
+import { NewPasswordComponent } from './components/general/new-password/new-password.component';
 
 
 const routes: Routes = [
@@ -77,6 +78,11 @@ const routes: Routes = [
   {
     path: "reset-password",
     component: ResetPasswordComponent,
+    canActivate: [LoggedOutGuard]
+  },
+  {
+    path: "new-password",
+    component: NewPasswordComponent,
     canActivate: [LoggedOutGuard]
   },
   {
