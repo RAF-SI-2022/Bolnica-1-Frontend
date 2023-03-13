@@ -127,3 +127,19 @@ export class DeparmentShort{
   name: string = '';
   hospital: string = '';
 }
+
+export class HospitalShort{
+  id: number = 0;
+  name: string = '';
+}
+
+export class Page<T> {
+  content: T[] = [];
+  totalPages: number = 1;
+  totalElements: number = 10;
+  size: number = 10;
+  number: number = 1;
+  first: boolean = true;
+  last: boolean = true;
+  numberOfElements: number = 10;
+}
