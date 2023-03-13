@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { AdminPromeniZaposlenog, DeparmentShort, Department, Profession, Title, Uloga, UlogaShort, Zaposleni } from "../../models/models";
+import { AdminPromeniZaposlenog, DeparmentShort, Department, NapraviZaposlenog, Profession, Title, Uloga, UlogaShort, Zaposleni } from "../../models/models";
 import { LoginResponse } from "../../models/LoginResponse";
 import { ResetPasswordResponse } from "../../models/ResetPasswordResponse";
 import { environment } from 'src/environments/environment';
@@ -78,7 +78,8 @@ export class UserService {
       DR_SPEC_ODELJENJA, DR_SPEC, DR_SPEC_POV, VISA_MED_SESTRA, MED_SESTRA, RECEPCIONER, VISI_LABORATORIJSKI_TEHNICAR, LABORATORIJSKI_TEHNICAR, MEDICINSKI_BIOHEMICAR, SPECIJALISTA_MEDICINSKE_BIOHEMIJE);
 */
     // return this.http.post<Zaposleni>(`${proveri rutu}/emp`,this.zaposleni
-    return this.http.post<Zaposleni>(`${""}/emp`, this.zaposleni
+    console.log("Pravim zaposlenog");
+    return this.http.post<Zaposleni>(`${environment.apiURL}/employee/create`, {body: new NapraviZaposlenog()}
       , { headers: this.getHeaders() });
   }
 

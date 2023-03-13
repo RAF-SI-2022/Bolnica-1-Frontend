@@ -1,111 +1,122 @@
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <meta content="" name="description">
-    <meta content="" name="keywords">
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 </head>
+
 <body>
-    <div class="container">
-        <div class="table-responsive">
-            <div class="table-wrapper">
-                <div class="table-title">
-                        <h2><b>Pretraga zaposlenih</b></h2>
-                </div>
-              <form [formGroup]="searchForm" (submit)="search()" class="mb-5 needs-validation" novalidate>
-
-              <div class="row mt-2">
-                    <div class="col-md-3"><label class="labels">Ime</label><input [(ngModel)]="ime" type="text"  class="form-control" id="ime" name="ime" placeholder="" value="" [ngModelOptions]="{standalone: true}">
-                      <div class="invalid-feedback">Unesite vase ime</div>
-                    </div>
-                    <div class="col-md-3"><label class="labels">Prezime</label><input  [(ngModel)]="prezime" type="text" class="form-control" value="" id="prezime" name="prezime" placeholder="" [ngModelOptions]="{standalone: true}">
-                      <div class="invalid-feedback">Unesite vase prezime</div>
-                    </div>
-                    <div class="col-md-3"><label class="labels">Ordinacija</label>
-                        <select name ="selektovanaOrdinacija" [(ngModel)]="selektovanaOrdinacija" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
-                            <option selected>Odaberite odeljenje</option>
-                            <option value="1">Prof. dr. med</option>
-                            <option value="2">Dr med. spec.</option>
-                            <option value="3">Dr sci. med.</option>
-                            <option value="4">Dipl. farm.</option>
-                            <option value="5">Mag. farm.</option>
-                            <option value="6">Mr</option>
-                          </select>
-                      <div class="invalid-feedback">Izaberite ordinaciju!</div>
-                    </div>
-                          <div class="col-md-3"><label class="labels">Bolnica</label>
-                            <select name = "selektovanaBolnica" [(ngModel)]="selektovanaBolnica" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
-                                <option selected>Odaberite bolnicu</option>
-                                <option value="1">Prof. dr. med</option>
-                                <option value="2">Dr med. spec.</option>
-                                <option value="3">Dr sci. med.</option>
-                                <option value="4">Dipl. farm.</option>
-                                <option value="5">Mag. farm.</option>
-                                <option value="6">Mr</option>
-                              </select>
-                            <div class="invalid-feedback">Izaberite bolnicu!</div>
-                          </div>
-                </div>
-                <div class="me-auto float-end text-end mt-3 mb-3">
-                    <button type="submit" class="btn btn-primary">Pretrazi</button>
-                </div>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Ime</th>
-                            <th>Prezime</th>
-                            <th>Datum rodjenja</th>
-                            <th>Titula</th>
-                            <th>Zanimanje</th>
-                            <th>Broj telefona</th>
-                            <th>Email</th>
-                            <th>Akcija</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <ng-container *ngFor="let user of userList | paginate: { itemsPerPage: pageSize, currentPage: page, totalItems: total }">
-
-                    <tr>
-                      <td>{{user.ime}}</td>
-                      <td>{{user.prezime}}</td>
-                      <td>{{user.datumRodjenja}}</td>
-                      <td>{{user.titula}}</td>
-                      <td>{{user.zanimanje}}</td>
-                      <td>{{user.brojTelefona}}</td>
-                      <td>{{user.email}}</td>
-
-
-                      <td><span class="status text-warning">&bull;</span> Inactive</td>
-                            <td>
-                                <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>
-                                <a href="#" class="delete" title="Brisanje" data-toggle="tooltip"><i class="bi bi-x-circle-fill"></i></a>
-                            </td>
-                        </tr>
-
-                    </ng-container>
-                    <pagination-controls (pageChange)="page = $event"></pagination-controls>
-                    </tbody>
-
-                </table>
-                <div class="clearfix">
-                    <div class="hint-text">Prikazano <b>5</b> od <b>25</b> redova</div>
-                    <ul class="pagination">
-                        <li class="page-item disabled"><a href="#">Prethodno</a></li>
-                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        <li class="page-item"><a href="#" class="page-link">Sledece</a></li>
-                    </ul>
-                </div>
-              </form>
-            </div>
+  <div class="container">
+    <div class="table-responsive">
+      <div class="table-wrapper">
+        <div class="table-title">
+          <h2><b>Pretraga zaposlenih</b></h2>
         </div>
+        <form [formGroup]="searchForm" (submit)="search()" class="mb-5 needs-validation" novalidate>
+
+          <div class="row mt-2">
+            <div class="col-md-3"><label class="labels">Ime</label><input [(ngModel)]="ime" type="text"
+                class="form-control" id="ime" name="ime" placeholder="" value="" [ngModelOptions]="{standalone: true}">
+              <div class="invalid-feedback">Unesite vase ime</div>
+            </div>
+            <div class="col-md-3"><label class="labels">Prezime</label><input [(ngModel)]="prezime" type="text"
+                class="form-control" value="" id="prezime" name="prezime" placeholder=""
+                [ngModelOptions]="{standalone: true}">
+              <div class="invalid-feedback">Unesite vase prezime</div>
+            </div>
+            <div class="col-md-3"><label class="labels">Ordinacija</label>
+              <select name="selektovanaOrdinacija" [(ngModel)]="selektovanaOrdinacija" class="form-select"
+                aria-label="Default select example" [ngModelOptions]="{standalone: true}">
+                <option selected>Odaberite odeljenje</option>
+                <option value="1">Prof. dr. med</option>
+                <option value="2">Dr med. spec.</option>
+                <option value="3">Dr sci. med.</option>
+                <option value="4">Dipl. farm.</option>
+                <option value="5">Mag. farm.</option>
+                <option value="6">Mr</option>
+              </select>
+              <div class="invalid-feedback">Izaberite ordinaciju!</div>
+            </div>
+            <div class="col-md-3"><label class="labels">Bolnica</label>
+              <select name="selektovanaBolnica" [(ngModel)]="selektovanaBolnica" class="form-select"
+                aria-label="Default select example" [ngModelOptions]="{standalone: true}">
+                <option selected>Odaberite bolnicu</option>
+                <option value="1">Prof. dr. med</option>
+                <option value="2">Dr med. spec.</option>
+                <option value="3">Dr sci. med.</option>
+                <option value="4">Dipl. farm.</option>
+                <option value="5">Mag. farm.</option>
+                <option value="6">Mr</option>
+              </select>
+              <div class="invalid-feedback">Izaberite bolnicu!</div>
+            </div>
+          </div>
+          <div class="me-auto float-end text-end mt-3 mb-3">
+            <button type="submit" class="btn btn-primary">Pretrazi</button>
+          </div>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Datum rodjenja</th>
+                <th>Titula</th>
+                <th>Zanimanje</th>
+                <th>Broj telefona</th>
+                <th>Email</th>
+                <th>Akcija</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container
+                *ngFor="let user of userList | paginate: { itemsPerPage: pageSize, currentPage: page, totalItems: total }">
+
+                <tr>
+                  <td>{{user.ime}}</td>
+                  <td>{{user.prezime}}</td>
+                  <td>{{user.datumRodjenja}}</td>
+                  <td>{{user.titula}}</td>
+                  <td>{{user.zanimanje}}</td>
+                  <td>{{user.brojTelefona}}</td>
+                  <td>{{user.email}}</td>
+
+
+                  <td><span class="status text-warning">&bull;</span> Inactive</td>
+                  <td>
+                    <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i
+                        class="bi bi-gear-fill"></i></a>
+                    <a href="#" class="delete" title="Brisanje" data-toggle="tooltip"><i
+                        class="bi bi-x-circle-fill"></i></a>
+                  </td>
+                </tr>
+
+              </ng-container>
+              <pagination-controls (pageChange)="page = $event"></pagination-controls>
+            </tbody>
+
+          </table>
+          <div class="clearfix">
+            <div class="hint-text">Prikazano <b>5</b> od <b>25</b> redova</div>
+            <ul class="pagination">
+              <li class="page-item disabled"><a href="#">Prethodno</a></li>
+              <li class="page-item"><a href="#" class="page-link">1</a></li>
+              <li class="page-item"><a href="#" class="page-link">2</a></li>
+              <li class="page-item active"><a href="#" class="page-link">3</a></li>
+              <li class="page-item"><a href="#" class="page-link">4</a></li>
+              <li class="page-item"><a href="#" class="page-link">5</a></li>
+              <li class="page-item"><a href="#" class="page-link">Sledece</a></li>
+            </ul>
+          </div>
+        </form>
+      </div>
     </div>
-    </body>
+  </div>
+</body>
