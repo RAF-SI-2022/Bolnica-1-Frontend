@@ -21,15 +21,15 @@
         </div>
         <form [formGroup]="searchForm" (submit)="search()" class="mb-5 needs-validation" novalidate>
 
-              <div class="row mt-2">
+          <div class="row mt-2">
                     <div class="col-md-3"><label class="labels">Ime</label><input [(ngModel)]="ime" type="text"  class="form-control" id="ime" name="ime" placeholder="" value="" [ngModelOptions]="{standalone: true}">
-                      <div class="invalid-feedback">Unesite vase ime</div>
-                    </div>
+              <div class="invalid-feedback">Unesite vase ime</div>
+            </div>
                     <div class="col-md-3"><label class="labels">Prezime</label><input  [(ngModel)]="prezime" type="text" class="form-control" value="" id="prezime" name="prezime" placeholder="" [ngModelOptions]="{standalone: true}">
-                      <div class="invalid-feedback">Unesite vase prezime</div>
-                    </div>
-                    <div class="col-md-3"><label class="labels">Odeljenje</label>
-                      <!--
+              <div class="invalid-feedback">Unesite vase prezime</div>
+            </div>
+            <div class="col-md-3"><label class="labels">Odeljenje</label>
+              <!--
                         <select name ="selektovanaOrdinacija" [(ngModel)]="selektovanaOrdinacija" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
                             <option selected>Odaberite odeljenje</option>
                             <option value="1">Prof. dr. med</option>
@@ -42,12 +42,12 @@
                       <div class="invalid-feedback">Izaberite ordinaciju!</div>
                       -->
                       <select name="selektovanaOrdinacija" [(ngModel)]="selektovanaOrdinacija" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
-                        <option selected>Odaberite odeljenje</option>
-                        <option *ngFor="let department of departments" [value]="department.id">{{ department.name }}</option>
-                      </select>
-                      <div class="invalid-feedback">Izaberite odeljenje!</div>
-                    </div>
-                    <!--
+                <option selected>Odaberite odeljenje</option>
+                <option *ngFor="let department of departments" [value]="department.id">{{ department.name }}</option>
+              </select>
+              <div class="invalid-feedback">Izaberite odeljenje!</div>
+            </div>
+            <!--
                           
                             <select name = "selektovanaBolnica" [(ngModel)]="selektovanaBolnica" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
                                 <option selected>Odaberite bolnicu</option>
@@ -62,60 +62,59 @@
                           </div>
                           
                         -->
-                        <div class="col-md-3"><label class="labels">Bolnica</label>
+            <div class="col-md-3"><label class="labels">Bolnica</label>
                         <select name="selektovanaOrdinacija" [(ngModel)]="selektovanaBolnica" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
-                          <option selected>Odaberite bolnicu</option>
-                          <option *ngFor="let hospital of hospitals" [value]="hospital.id">{{ hospital.name }}</option>
-                        </select>
-                        <div class="invalid-feedback">Izaberite bolnicu!</div>
-                      </div>
-                    </div>
-                <div class="me-auto float-end text-end mt-3 mb-3">
-                    <button type="submit" class="btn btn-primary">Pretrazi</button>
-                </div>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Ime</th>
-                            <th>Prezime</th>
-                            <th>Datum rodjenja</th>
-                            <th>Titula</th>
-                            <th>Zanimanje</th>
-                            <th>Broj telefona</th>
-                            <th>Email</th>
-                            <th>Akcija</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor ="let user of userList | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total}; let i = index">
-                      <td>i</td>
-                      <td>{{user.name}}</td>
-                      <td>{{user.surname}}</td>
-                      <td>{{user.dateOfBirth}}</td>
-                      <td>{{user.title}}</td>
-                      <td>{{user.profession}}</td>
-                      <td>{{user.phone}}</td>
-                      <td>{{user.email}}</td>
-
-
-                      <td><span class="status text-warning">&bull;</span> Inactive</td>
-                            <td>
-                                <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>
-                                <a href="#" class="delete" title="Brisanje" data-toggle="tooltip"><i class="bi bi-x-circle-fill"></i></a>
-                            </td>
-                        </tr>
-                      </tbody>
-                      </table>
-                        <div>
-                          <pagination-controls
-                          previousLabel="Pret"
-                          nextLabel="Sled"
-                          (pageChange)="onTableDataChange($event)">
-                      </pagination-controls>
-                    </div>
-              </form>
+                <option selected>Odaberite bolnicu</option>
+                <option *ngFor="let hospital of hospitals" [value]="hospital.id">{{ hospital.name }}</option>
+              </select>
+              <div class="invalid-feedback">Izaberite bolnicu!</div>
             </div>
-        </div>
+          </div>
+          <div class="me-auto float-end text-end mt-3 mb-3">
+            <button type="submit" class="btn btn-primary">Pretrazi</button>
+          </div>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Datum rodjenja</th>
+                <th>Titula</th>
+                <th>Zanimanje</th>
+                <th>Broj telefona</th>
+                <th>Email</th>
+                <th>Akcija</th>
+              </tr>
+            </thead>
+            <tbody>
+                    <tr *ngFor ="let user of userList | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total}; let i = index">
+                <td>i</td>
+                <td>{{user.name}}</td>
+                <td>{{user.surname}}</td>
+                <td>{{user.dateOfBirth}}</td>
+                <td>{{user.title}}</td>
+                <td>{{user.profession}}</td>
+                <td>{{user.phone}}</td>
+                <td>{{user.email}}</td>
+
+
+                <td><span class="status text-warning">&bull;</span> Inactive</td>
+                <td>
+                  <a class="settings" title="Podesavanja" data-toggle="tooltip" (click)="updateUser(user)"><i
+                      class="bi bi-gear-fill"></i></a>
+                  <a class="delete" title="Brisanje" data-toggle="tooltip" (click)="deleteUser(user.lbz)"><i
+                      class="bi bi-x-circle-fill"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="h-100 d-flex align-items-center justify-content-center">
+            <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
+            </pagination-controls>
+          </div>
+        </form>
+      </div>
     </div>
-    </body>
+  </div>
+</body>

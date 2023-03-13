@@ -25,7 +25,7 @@
             <p class="card-text">Pretrazi zaposlene na osnovu njihovog imena, odeljenja i bolnice</p>
           </div>
           <div class="card-footer" style="background: inherit; border-color: inherit;">
-            <a href="#" class="btn btn-primary">Kreni</a>
+            <a class="btn btn-primary" style="color: white" (click)="pretrazi()">Kreni</a>
           </div>
         </div>
         <!-- Copy until here -->
@@ -42,10 +42,10 @@
           </div>
           <div class="card-body" style="overflow-y: auto">
             <h4 class="card-title">Dodaj zaposlenog</h4>
-            <p class="card-text">Pretrazi zaposlene na osnovu njihovog imena, odeljenja i bolnice</p>
+            <p class="card-text">Unesi nove zaposlene i prosiri medicinski tim</p>
           </div>
           <div class="card-footer" style="background: inherit; border-color: inherit;">
-            <a href="#" class="btn btn-primary">Kreni</a>
+            <a (click)="dodajZaposlenog()" style="color: white" class="btn btn-primary">Kreni</a>
           </div>
         </div>
         <!-- Copy until here -->
@@ -62,10 +62,10 @@
           </div>
           <div class="card-body" style="overflow-y: auto">
             <h4 class="card-title">Profil</h4>
-            <p class="card-text">Pretrazi zaposlene na osnovu njihovog imena, odeljenja i bolnice</p>
+            <p class="card-text">Pogledaj svoje podatke</p>
           </div>
           <div class="card-footer" style="background: inherit; border-color: inherit;">
-            <a href="#" class="btn btn-primary">Kreni</a>
+            <a (click)="profil()" style="color: white" class="btn btn-primary">Kreni</a>
           </div>
         </div>
         <!-- Copy until here -->

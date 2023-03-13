@@ -1,8 +1,8 @@
-import {Component, NgModule, OnInit, ViewChild} from '@angular/core';
-import {UserService} from "../../../services/user-service/user.service";
-import {Router} from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Zaposleni, Page, DeparmentShort, HospitalShort} from "../../../models/models";
+import { Component, NgModule, OnInit, ViewChild } from '@angular/core';
+import { UserService } from "../../../services/user-service/user.service";
+import { Router } from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Zaposleni, Page, DeparmentShort, HospitalShort } from "../../../models/models";
 import { NgxPaginationModule } from 'ngx-pagination';
 
 
@@ -32,50 +32,51 @@ export class AdminSearchEmployeeComponent implements OnInit {
   pageSize = 10;
   total = 0;
 
-  constructor(private userService: UserService, private router: Router, private formBuilder: FormBuilder){
-  this.routerUpper = router
-  this.searchForm = this.formBuilder.group({
-    ime: '',
-    prezime: '',
-    selektovanaOrdinacija: '',
-    selektovanaBolnica: ''
+  constructor(private userService: UserService, private router: Router, private formBuilder: FormBuilder) {
+    this.routerUpper = router
+    this.searchForm = this.formBuilder.group({
+      ime: '',
+      prezime: '',
+      selektovanaOrdinacija: '',
+      selektovanaBolnica: ''
 
-  })
+    })
   }
 
-  search(){
+  search() {
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
-    if(form.checkValidity() === false){
+    if (form.checkValidity() === false) {
     }
 
     form.classList.add('was-validated');
 
-    console.log("IME " + this.ime + "PREZIME " + this.prezime + "BOLNICA " + this.selektovanaBolnica + "ORDINACIJA " + this.selektovanaOrdinacija )
+    console.log("IME " + this.ime + "PREZIME " + this.prezime + "BOLNICA " + this.selektovanaBolnica + "ORDINACIJA " + this.selektovanaOrdinacija)
 
     this.getUserList();
   }
 
-  updateUser(zaposleni: Zaposleni){
+  updateUser(zaposleni: Zaposleni) {
     this.userService.setZaposleni(zaposleni)
     this.router.navigate(['/admin-edit-employee']);
   }
 
-  deleteUser(LBZ: number){
-    if(confirm("Da li ste sigurni da zelite da obrisite zaposlenog " + LBZ + "?")) {
+  deleteUser(LBZ: string) {
+    if (confirm("Da li ste sigurni da zelite da obrisite zaposlenog " + LBZ + "?")) {
       this.userService.deleteUser(
         LBZ
       ).subscribe(
-        response =>{
+        response => {
           this.search();
         }
-      )}
+      )
+    }
 
   }
 
   ngOnInit(): void {
     /// popuni odeljenja
     this.userService.getDepartments().subscribe((response) => {
-        this.departments = response
+      this.departments = response
     })
 
     /// popuni bolnice
@@ -90,10 +91,10 @@ export class AdminSearchEmployeeComponent implements OnInit {
   }
 
   getUserList(): void {
-    if(this.selektovanaOrdinacija == "Odaberite odeljenje")
-    this.selektovanaOrdinacija = ""
-    if(this.selektovanaBolnica ==  "Odaberite bolnicu")
-    this.selektovanaBolnica = ""
+    if (this.selektovanaOrdinacija == "Odaberite odeljenje")
+      this.selektovanaOrdinacija = ""
+    if (this.selektovanaBolnica == "Odaberite bolnicu")
+      this.selektovanaBolnica = ""
     this.userService.getAllUsers(this.ime, this.prezime, this.selektovanaOrdinacija, this.selektovanaBolnica).subscribe((response) => {
       this.userPage = response;
       this.userList = this.userPage.content;
@@ -101,7 +102,7 @@ export class AdminSearchEmployeeComponent implements OnInit {
   }
 
 
-  onTableDataChange(event: any): void{
+  onTableDataChange(event: any): void {
     this.page = event;
     this.getUserList();
   }
