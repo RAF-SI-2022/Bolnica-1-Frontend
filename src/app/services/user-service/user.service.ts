@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { AdminPromeniZaposlenog, DeparmentShort, Department, Profession, Title, Uloga, UlogaShort, Zaposleni } from "../../models/models";
+import { AdminPromeniZaposlenog, DeparmentShort, Department, Profession, Title, Uloga, UlogaShort, Zaposleni, Page, HospitalShort } from "../../models/models";
 import { LoginResponse } from "../../models/LoginResponse";
 import { ResetPasswordResponse } from "../../models/ResetPasswordResponse";
 import { environment } from 'src/environments/environment';
@@ -100,6 +100,9 @@ export class UserService {
   getDepartments(): Observable<DeparmentShort[]>{
     return this.http.get<DeparmentShort[]>(`${environment.apiURL}/department`, { headers: this.getHeaders() });
   }
+  getHospitals(): Observable<HospitalShort[]>{
+    return this.http.get<HospitalShort[]>(`${environment.apiURL}/department/hospital`, { headers: this.getHeaders() });
+  }
 
   public getUser(lbz: string): Observable<Zaposleni> {
     return this.http.get<Zaposleni>(`${environment.apiURL}/employee/admin/find/${lbz}`, { headers: this.getHeaders() });
@@ -137,4 +140,9 @@ export class UserService {
   public updateUser(zaposleni: Zaposleni, novaSifra: string, potvrdaNoveSife: string): Observable<Zaposleni> {
     return this.http.put<Zaposleni>(`$/emp/edit/path param (LBZ)`, zaposleni)
   };
+
+  getAllUsers(ime: string, prezime:string, bolnica: string, odeljenje: string): Observable<Page<Zaposleni>> {
+    let httpParams = new HttpParams().append("name",ime).append("surname", prezime).append("departmentName", odeljenje).append("hospitalShortName",bolnica).append("deleted",false);
+    return this.http.get<Page<Zaposleni>>(`${environment.apiURL}/employee/list`, {params: httpParams, headers:this.getHeaders()});
+  }
 }
