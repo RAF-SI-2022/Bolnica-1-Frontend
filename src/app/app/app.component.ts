@@ -29,4 +29,8 @@ export class AppComponent {
   //
   }
 
+  logout(){
+      this.userService.logout();
+  }
+
 }

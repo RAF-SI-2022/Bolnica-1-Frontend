@@ -72,7 +72,7 @@ export class AdminEditEmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     let zaposleni: Zaposleni = this.userService.getZaposleni()
-    this.ime = zaposleni.ime
+    /*this.ime = zaposleni.ime
     this.prezime = zaposleni.prezime
     this.datumRodjenja = zaposleni.datumRodjenja
     this.JMBG = zaposleni.JMBG;
@@ -94,7 +94,7 @@ export class AdminEditEmployeeComponent implements OnInit {
     this.VISI_LABORATORIJSKI_TEHNICAR = zaposleni.VISI_LABORATORIJSKI_TEHNICAR;
     this.LABORATORIJSKI_TEHNICAR = zaposleni.LABORATORIJSKI_TEHNICAR;
     this.MEDICINSKI_BIOHEMICAR = zaposleni.MEDICINSKI_BIOHEMICAR;
-    this.SPECIJALISTA_MEDICINSKE_BIOHEMIJE = zaposleni.SPECIJALISTA_MEDICINSKE_BIOHEMIJE;
+    this.SPECIJALISTA_MEDICINSKE_BIOHEMIJE = zaposleni.SPECIJALISTA_MEDICINSKE_BIOHEMIJE;*/
   }
 
 

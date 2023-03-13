@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {UserService} from "../../../services/user-service/user.service";
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { UserService } from "../../../services/user-service/user.service";
+import { Router } from "@angular/router";
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -14,22 +14,24 @@ export class LoginComponent implements OnInit {
   password: string = '';
   loginForm: FormGroup
 
-
   constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
     this.loginForm = this.formBuilder.group(
-      {username: ['', [Validators.required]],
-      password: ['', [Validators.required]],})
+      {
+        username: ['', [Validators.required]],
+        password: ['', [Validators.required]],
+      })
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   logIn(): void {
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
-    if(form.checkValidity() === false){
+    form.classList.add('was-validated');
+
+    if (form.checkValidity() === false) {
+      return;
     }
 
-    form.classList.add('was-validated');
     this.userService.login({
       username: this.username,
       password: this.password
@@ -37,29 +39,59 @@ export class LoginComponent implements OnInit {
 
       localStorage.setItem('token', response.message);
       this.userService.token = response.message;
-      const helper = new JwtHelperService();
+      const decodedToken = new JwtHelperService().decodeToken(response.message);
 
-      const decodedToken = helper.decodeToken(response.message);
+      localStorage.setItem('username', decodedToken.username);
+      localStorage.setItem('LBZ', decodedToken.lbz);
+      localStorage.setItem('PBO', decodedToken.PBO);
+      console.log("ADMIN SAMss");
 
-      /* Cuvati i username */
-      // localStorage cuvati i username
-      localStorage.setItem('username', decodedToken.username); // ne treba
-      localStorage.setItem('LBZ', decodedToken.lbz); // cuva ovo
-      console.log("LBZZZZ + " + localStorage.getItem('LBZ'))
-      localStorage.setItem('PBO', decodedToken.PBO); // cuva ovo
-
-
-      if (this.userService.checkAdmin()) this.router.navigate(['/admin-workspace']);
-      // else if (this.userService.checkDrSpec() || this.userService.checkDrSpecPov()
-      //   || this.userService.checkDrSpecOdeljenja()) this.router.navigate(['/doctor-workspace']);
-      // else if (this.userService.checkMedSestra() || this.userService.checkVisaMedSestra())
-      //   this.router.navigate(['/nurse-workspace']);
-
+      this.userService.checkRole('ADMIN').subscribe(hasRole => {
+        if (hasRole) {
+          this.router.navigate(['/admin-workspace']);
+        }
+        else {
+          this.userService.checkRole('DR_SPEC').subscribe(hasDrSpecRole => {
+            if (hasDrSpecRole) {
+              this.router.navigate(['/doctor-workspace']);
+            }
+            else {
+              this.userService.checkRole('DR_SPEC_POV').subscribe(hasDrSpecPovRole => {
+                if (hasDrSpecPovRole) {
+                  this.router.navigate(['/doctor-workspace']);
+                }
+                else {
+                  this.userService.checkRole('DR_SPEC_ODE').subscribe(hasDrSpecOdeRole => {
+                    if (hasDrSpecOdeRole) {
+                      this.router.navigate(['/doctor-workspace']);
+                    }
+                    else {
+                      this.userService.checkRole('MED_SES').subscribe(hasMedSesRole => {
+                        if (hasMedSesRole) {
+                          this.router.navigate(['/nurse-workspace']);
+                        }
+                        else {
+                          this.userService.checkRole('VISA_MED_SES').subscribe(hasVisaMedSesRole => {
+                            if (hasVisaMedSesRole) {
+                              this.router.navigate(['/nurse-workspace']);
+                            }
+                            else {
+                              // Handle the case where the user has no roles
+                            }
+                          });
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
     }, err => {
-     console.log(err);
-
+      console.log(err);
       //switch za razlicite poruke ili name
-
     })
   }
 
