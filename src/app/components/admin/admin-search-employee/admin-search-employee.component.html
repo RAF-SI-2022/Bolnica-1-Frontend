@@ -45,7 +45,7 @@
                       <div class="invalid-feedback">Izaberite odeljenje!</div>
                     </div>
                     <!--
-                          
+
                             <select name = "selektovanaBolnica" [(ngModel)]="selektovanaBolnica" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
                                 <option selected>Odaberite bolnicu</option>
                                 <option value="1">Prof. dr. med</option>
@@ -57,7 +57,7 @@
                               </select>
                             <div class="invalid-feedback">Izaberite bolnicu!</div>
                           </div>
-                          
+
                         -->
                         <div class="col-md-3"><label class="labels">Bolnica</label>
                         <select name="selektovanaOrdinacija" [(ngModel)]="selektovanaBolnica" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
@@ -98,7 +98,7 @@
 
                       <td><span class="status text-warning">&bull;</span> Inactive</td>
                             <td>
-                                <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>
+                                <a (click)="updateUser(user)" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>
                                 <a href="#" class="delete" title="Brisanje" data-toggle="tooltip"><i class="bi bi-x-circle-fill"></i></a>
                             </td>
                         </tr>

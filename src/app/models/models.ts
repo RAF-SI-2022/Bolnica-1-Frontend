@@ -1,4 +1,4 @@
-export class NapraviZaposlenog {
+export class EmployeeCreateDto {
   lbz: string = '';
   name: string = '';
   surname: string = '';
@@ -13,6 +13,25 @@ export class NapraviZaposlenog {
   profession: Profession = Profession.MED_SESTRA;
   departmentPbo: string = '';
   permissions: string[] = [];
+
+  constructor(lbz: string, name: string, surname: string, dateOfBirth: Date, gender: string, jmbg: string ,address: string,
+              placeOfLiving: string, phone: string, email: string, title: Title, profession: Profession, departmentPbo: string, permissions: string[]) {
+    this.lbz = lbz
+    this.name= name
+    this.surname = surname
+    this.dateOfBirth = dateOfBirth
+    this.gender = gender
+    this.jmbg = jmbg
+    this.address = address
+    this.placeOfLiving = placeOfLiving
+    this.phone = phone
+    this.email = email
+    this.title = title
+    this.profession = profession
+    this.departmentPbo = departmentPbo
+    this.permissions = permissions
+  }
+
 }
 
 export class AdminPromeniZaposlenog{
@@ -32,7 +51,9 @@ export class AdminPromeniZaposlenog{
   profession: Profession = Profession.MED_SESTRA;
   departmentPbo: string = ''
   permissions: string[] = [];
-} 
+
+
+}
 
 export class Uloga{
     id: number = 1;

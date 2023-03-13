@@ -147,6 +147,7 @@ export class ProfileComponent implements OnInit {
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     form.classList.add('was-validated');
 
+    //todo ovo treba da se popravi
     if (form.checkValidity() === false) {
       {
         this.userService.editEmployee(
@@ -167,13 +168,13 @@ export class ProfileComponent implements OnInit {
           this.userForm.get('newPassword')?.value(),
           this.userForm.get('confirmPassword')?.value(),
           this.userForm.get('ADMIN')?.value(),
-          this.userForm.get('CHIEF')?.value(),
-          this.userForm.get('RECEPCIONIST')?.value(),
-          this.userForm.get('DR_SPEC')?.value(),
-          this.userForm.get('DR_SPEC_POV')?.value(),
-          this.userForm.get('SENIOR_NURSE')?.value(),
-          this.userForm.get('NURSE')?.value(),
-          this.userForm.get('SENIOR_LAB_TECHNICIAN')?.value(),
+          // this.userForm.get('CHIEF')?.value(),
+          // this.userForm.get('RECEPCIONIST')?.value(),
+          // this.userForm.get('DR_SPEC')?.value(),
+          // this.userForm.get('DR_SPEC_POV')?.value(),
+          // this.userForm.get('SENIOR_NURSE')?.value(),
+          // this.userForm.get('NURSE')?.value(),
+          // this.userForm.get('SENIOR_LAB_TECHNICIAN')?.value(),
           // this.userForm.get('LAB_TECHNICIAN')?.value(),
           // this.userForm.get('MED_BIOCHEMIST')?.value(),
           // this.userForm.get('SPECIALIST_MED_BIOCHEMIST')?.value(),

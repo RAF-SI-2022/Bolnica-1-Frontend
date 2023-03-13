@@ -56,8 +56,8 @@ export class AdminSearchEmployeeComponent implements OnInit {
   }
 
   updateUser(zaposleni: Zaposleni){
-    this.userService.setZaposleni(zaposleni)
-    this.router.navigate(['/admin-edit-employee']);
+    //this.userService.setZaposleni(zaposleni)
+    this.router.navigate(['/admin-edit-employee/', zaposleni.lbz]);
   }
 
   deleteUser(LBZ: number){

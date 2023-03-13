@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import { Observable } from "rxjs";
-import { environment } from 'src/environments/environment';
-import { DeparmentShort } from 'src/app/models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -15,5 +12,4 @@ export class ReceptionistService {
   ngOnInit(): void {
 
   }
-
 }
