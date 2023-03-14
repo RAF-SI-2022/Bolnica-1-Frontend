@@ -77,7 +77,7 @@
                 [formControlName]="'username'">
               <div class="invalid-feedback">Unesite vas username</div>
             </div>
-            <div class="col-12">
+            <!-- <div class="col-12">
               <label for="yourPassword" class="form-label">Lozinka</label>
               <input name="lozinka" [(ngModel)]="userEdit.password" type="password" class="form-control"
                 id="yourPassword" value="" [formControlName]="'yourPassword'">
@@ -93,7 +93,7 @@
               <input *ngIf="canUpdate() && status" type="password" name="password" class="form-control" id="confirmPassword"
                 [formControlName]="'confirmPassword'">
               <div class="invalid-feedback">Lozinke se ne poklapaju!</div>
-            </div>
+            </div> -->
 
             <div class="col-md-12"><label class="labels">Broj telefona</label><input name="phoneNumber"
                 [(ngModel)]="userEdit.phone" type="text" class="form-control" id="phoneNumber" placeholder="" value=""
@@ -172,6 +172,9 @@
                 class="bi bi-save me-1"></i> Sacuvaj</button>
             <button *ngIf="!canUpdate()" type="submit" disabled class="btn btn-primary ms-4"><i
                 class="bi bi-save me-1"></i> Sacuvaj</button>
+          </div>
+          <div *ngIf="errorMessage.length != 0">
+            <label style="color: red" > {{ errorMessage }} </label>
           </div>
           <div *ngIf="successMessage.length != 0">
             <label style="color: green" > {{ successMessage }} </label>

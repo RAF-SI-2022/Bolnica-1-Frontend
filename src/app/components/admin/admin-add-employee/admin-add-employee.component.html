@@ -35,7 +35,6 @@
             <div class="col-md-6"><label class="labels">Ime</label>
               <input name="ime" type="text" name="name" class="form-control" placeholder="" value="" required
                 [formControlName]="'name'">
-              <div class="invalid-feedback">Ime je obavezno!</div>
               <div class="invalid-feedback">Unesite vase ime</div>
             </div>
             <div class="col-md-6"><label class="labels">Prezime</label><input type="text" name="lastName"
@@ -61,8 +60,9 @@
             </div>
             <div class="col-md-12"><label class="labels">Email</label><input type="email" name="email"
                 class="form-control" placeholder="" value="" required [formControlName]="'email'">
-              <div class="invalid-feedback">Unesite vas imejl</div>
+              <div class="invalid-feedback">{{emailErrorMessage}}</div>
             </div>
+
             <div class="col-md-12"><label class="labels">Broj telefona</label><input type="text" name="phoneNumber"
                 class="form-control" placeholder="" value="" required [formControlName]="'phoneNumber'">
               <div class="invalid-feedback">Unesite vas broj telefona</div>
@@ -129,9 +129,10 @@
           <div class="mt-4 text-center">
             <button type="submit" (click)="addEmployee()" class="btn btn-primary"><i class="bi bi-save me-1"></i>
               Napravi</button>
-          </div>                         
+          </div>      
+          <br>                   
           <div *ngIf="errorMessage.length != 0">
-            <label style="color: red"> {{ errorMessage }} </label>
+            <label style="color: red"> Neuspeh: {{ errorMessage }} </label>
           </div>
 
           <div *ngIf="successMessage.length != 0">

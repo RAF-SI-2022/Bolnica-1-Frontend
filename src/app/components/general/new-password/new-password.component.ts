@@ -20,6 +20,7 @@ constructor(private authService: AuthService){}
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     
     if(form.checkValidity() === false){
+      form.classList.add('was-validated');
         return;
     }
 
@@ -27,7 +28,6 @@ constructor(private authService: AuthService){}
         this.resetPasswordMessage = result.message;
         console.log("message " + this.resetPasswordMessage);
         this.authService.resetPasswordConfirmed(this.resetPasswordMessage).subscribe(res => {
-          form.classList.add('was-validated');
         });
     }, error => {
         this.errorMessage = "Lozinka nije ispravna"
