@@ -10,7 +10,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class AdminAddEmployeeComponent implements OnInit {
 
-
+  showSuccess = false;
   addGroup: FormGroup;
   permissions: string[] = [];
 
@@ -18,7 +18,7 @@ export class AdminAddEmployeeComponent implements OnInit {
   errorMessage: string = ''
   successMessage: string = ''
   selectedDepartment: DeparmentShort = new DeparmentShort();
-
+  successPopup = document.getElementById('successPopup') as HTMLDivElement;
   constructor(private userService: UserService, private formBuilder: FormBuilder,) {
 
     this.addGroup = this.formBuilder.group({
@@ -48,11 +48,12 @@ export class AdminAddEmployeeComponent implements OnInit {
       SPECIALIST_MED_BIOCHEMIST: ''
 
     });
-
+    
   }
 
   ngOnInit(): void {
       this.getDepartments();
+      this.successPopup = document.getElementById('successPopup') as HTMLDivElement;
   }
 
   getDepartments(){
@@ -60,8 +61,17 @@ export class AdminAddEmployeeComponent implements OnInit {
           this.departments = res;
       });
   }
+
+
+
+  showSuccessPopup() {
+    this.successPopup.style.display = 'block';
+    setTimeout(() => {
+      this.successPopup.style.display = 'none';
+    }, 3000);
+  }
+
   addEmployee(){
-   
     const employee = this.addGroup.value
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     form.classList.add('was-validated');
@@ -114,9 +124,11 @@ export class AdminAddEmployeeComponent implements OnInit {
     this.userService.addEmployee(employee.name, employee.lastName, employee.date, genderValue, employee.JMBG, employee.adress, employee.city,
     employee.phoneNumber, employee.email, employee.title, employee.profession, this.selectedDepartment.pbo, this.permissions).subscribe((response) => {
 
-      this.errorMessage = ''
-      this.successMessage = 'Uspesno dodavanje'
-
+      this.errorMessage = '';
+      this.successMessage = 'Uspesno dodat korisnik!'
+      setTimeout(() => {
+        this.successMessage = ''
+      }, 3000);
     }, error => {
       this.successMessage = ''
       this.errorMessage = 'Zahtev neuspesan'

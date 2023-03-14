@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   disabledValue: boolean = true;
   userForm: FormGroup
   gender: boolean = false;
+  successMessage: string = '';
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private authService: AuthService) {
     this.userForm = this.formBuilder.group({
@@ -57,6 +58,13 @@ export class ProfileComponent implements OnInit {
     this.departments = [];
   }
 
+  showSuccessMessage(){
+    this.successMessage = 'Uspesno dodat korisnik!'
+    setTimeout(() => {
+      this.successMessage = ''
+    }, 3000);
+  }
+  
   ngOnInit(): void {
     this.userForm.get('name')?.disable()
     this.userForm.get('lastName')?.disable()

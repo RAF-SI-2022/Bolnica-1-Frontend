@@ -10,6 +10,8 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./admin-edit-employee.component.css']
 })
 export class AdminEditEmployeeComponent implements OnInit {
+
+  successMessage: string = '';
   userEdit: AdminPromeniZaposlenog;
   editGroup: FormGroup;
   ime: string = '';
@@ -194,5 +196,12 @@ export class AdminEditEmployeeComponent implements OnInit {
       })
 
 
+    }
+
+    showSuccessMessage(){
+      this.successMessage = 'Uspesno dodat korisnik!'
+      setTimeout(() => {
+        this.successMessage = ''
+      }, 3000);
     }
 }
