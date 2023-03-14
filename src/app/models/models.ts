@@ -53,6 +53,8 @@ export class AdminPromeniZaposlenog{
   permissions: string[] = [];
 }
 
+
+
 export interface AdminPromeniZaposlenogDto{
   name: string;
   surname: string;
@@ -65,6 +67,24 @@ export interface AdminPromeniZaposlenogDto{
   email: string;
   username: string;
   password: string;
+  deleted: boolean;
+  title: Title;
+  profession: Profession;
+  departmentPbo: string;
+  permissions: string[];
+}
+
+export interface AdminPromeniZaposlenogBezSifreDto{
+  name: string;
+  surname: string;
+  dateOfBirth: Date;
+  gender: string;
+  jmbg: string;
+  address: string;
+  placeOfLiving: string;
+  phone: string;
+  email: string;
+  username: string;
   deleted: boolean;
   title: Title;
   profession: Profession;

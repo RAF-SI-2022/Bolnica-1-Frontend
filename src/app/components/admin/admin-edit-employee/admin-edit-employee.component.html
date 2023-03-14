@@ -103,6 +103,7 @@
                               <option *ngFor="let item of departments" [attr.data-id]="item.pbo" [value]="item.name" >{{item.name}}</option>
                             </select>
                         </div>
+
                         <div class="col-md-6"><label class="labels">Zanimanje</label>
                             <select class="form-select" name="zanimanje" [(ngModel)]="userEdit.profession"
                                 id="proffesion" aria-label="Default select example" [formControlName]="'profession'">
