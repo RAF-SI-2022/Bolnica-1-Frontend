@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
   gender: boolean = false;
   successMessage: string = '';
   errorMessage: string = '';
+  department: string = '';
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
     this.userForm = this.formBuilder.group({
@@ -86,7 +87,7 @@ export class ProfileComponent implements OnInit {
     this.userForm.get('confirmPassword')?.disable()
     console.log("LBZ " + localStorage.getItem("LBZ")!);
     this.getUser(localStorage.getItem("LBZ")!);
-    this.getUserPermissions();
+    this.getUserPermissions(localStorage.getItem("LBZ")!);
     this.getDepartments();
 
   }
@@ -104,13 +105,14 @@ export class ProfileComponent implements OnInit {
     }, err => {
       if (err.status == 302) { // found!
         this.userEdit = err.error; // citanje poruka je sa err.errors TO JE BODY-PORUKA
-        this.userEdit.departmentPbo = err.error.department.name;
-        console.log("sss " + this.userEdit.departmentPbo);
+        ///this.userEdit.department = err.error.department;
+        this.department = this.userEdit.department.pbo
+        console.log("sss " + this.userEdit.department.name);
       }
     })
   }
-  getUserPermissions() {
-    this.userService.getUserPermissions().subscribe(result => {
+  getUserPermissions(lbz:string) {
+    this.userService.getUserPermissions(lbz).subscribe(result => {
       this.userPermissions = <Uloga[]><unknown>result;
       this.fillPagePermissions();
     }, err => {
@@ -210,7 +212,7 @@ jmbg: string, address: string, placeOfLiving: string, phone: string,
       this.userForm.get('deleted')?.value(),
       this.userForm.get('title')?.value(),
       this.userForm.get('profession')?.value(),
-      this.userForm.get('departmentName')?.value(),
+      this.department,
       this.userForm.get('userPermission')?.value()
     ).subscribe(response => {
       console.log("USPEH " + response.name);
@@ -245,5 +247,10 @@ jmbg: string, address: string, placeOfLiving: string, phone: string,
 
   resetPassword(){
       this.router.navigate(['/new-password']);
+  }
+
+  onSelectionChange(event: any) {
+    const id = event.target.options[event.target.selectedIndex].getAttribute('data-id');
+    this.department = id;
   }
 }

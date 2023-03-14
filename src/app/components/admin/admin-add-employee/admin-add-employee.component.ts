@@ -95,10 +95,10 @@ export class AdminAddEmployeeComponent implements OnInit {
       this.permissions.push('DR_SPEC_POV')
     }
     if(this.addGroup.get('NURSE')?.value){
-      this.permissions.push('NURSE')
+      this.permissions.push('MED_SESTRA')
     }
     if(this.addGroup.get('SENIOR_NURSE')?.value){
-      this.permissions.push('SENIOR_NURSE')
+      this.permissions.push('VISA_MED_SESTRA')
     }
     if(this.addGroup.get('SENIOR_LAB_TECHNICIAN')?.value){
       this.permissions.push('SENIOR_LAB_TECHNICIAN')

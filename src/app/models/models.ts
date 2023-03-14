@@ -34,7 +34,7 @@ export class EmployeeCreateDto {
 
 }
 
-export class AdminPromeniZaposlenog {
+export class AdminPromeniZaposlenog{
   name: string = '';
   surname: string = '';
   dateOfBirth: Date = new Date();
@@ -49,10 +49,27 @@ export class AdminPromeniZaposlenog {
   deleted: boolean = false;
   title: Title = Title.DIPL_FARM;
   profession: Profession = Profession.MED_SESTRA;
-  departmentPbo: string = ''
+  department: Department = new Department();
   permissions: string[] = [];
+}
 
-
+export interface AdminPromeniZaposlenogDto{
+  name: string;
+  surname: string;
+  dateOfBirth: Date;
+  gender: string;
+  jmbg: string;
+  address: string;
+  placeOfLiving: string;
+  phone: string;
+  email: string;
+  username: string;
+  password: string;
+  deleted: boolean;
+  title: Title;
+  profession: Profession;
+  departmentPbo: string;
+  permissions: string[];
 }
 
 export class Uloga {

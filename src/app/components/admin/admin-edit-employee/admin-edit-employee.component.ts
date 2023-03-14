@@ -45,6 +45,7 @@ export class AdminEditEmployeeComponent implements OnInit {
   departments: DeparmentShort[];
   permissions: string[] = [];
   lbz: string = ''
+  department: string = '';
 
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, private route: ActivatedRoute) {
@@ -89,7 +90,7 @@ export class AdminEditEmployeeComponent implements OnInit {
     this.lbz = <string>this.route.snapshot.paramMap.get('lbz');
     //let zaposleni: Zaposleni = this.userService.getZaposleni()
     this.getUser(this.lbz);
-    this.getUserPermissions();
+    this.getUserPermissions(this.lbz);
     this.getDepartments();
 
     /*this.ime = zaposleni.ime
@@ -148,14 +149,16 @@ export class AdminEditEmployeeComponent implements OnInit {
       console.log()
       if (err.status == 302) { // found!
         this.userEdit = err.error; // citanje poruka je sa err.errors TO JE BODY-PORUKA
-        console.log("sss " + err.error.profession);
+        this.department = this.userEdit.department.pbo
+        console.log("sss " + err.error.department.name);
       }
     })
   }
 
-  getUserPermissions() {
-    this.userService.getUserPermissions().subscribe(result => {
-      this.userPermissions = <Uloga[]><unknown>result;
+  getUserPermissions(lbz:string){
+    this.userService.getUserPermissions(lbz).subscribe(result => {
+      this.userPermissions = result;
+      console.log("jejee" + result)
       this.fillPagePermissions();
     }, err => {
       console.log(" nesto " + err.error);
@@ -180,7 +183,7 @@ export class AdminEditEmployeeComponent implements OnInit {
       this.permissions.push('DR_SPEC_POV')
     }
     if (this.editGroup.get('NURSE')?.value) {
-      this.permissions.push('NURSE')
+      this.permissions.push('MED_SESTRA')
     }
     if (this.editGroup.get('SENIOR_NURSE')?.value) {
       this.permissions.push('SENIOR_NURSE')
@@ -190,13 +193,13 @@ export class AdminEditEmployeeComponent implements OnInit {
       return;
     }
     this.userService.editEmployee(this.lbz, this.editGroup.get('name')?.value, this.editGroup.get('lastName')?.value,
-      this.editGroup.get('date')?.value, this.editGroup.get('gender')?.value, this.editGroup.get('JMBG')?.value,
-      this.editGroup.get('adress')?.value,
-      this.editGroup.get('city')?.value, this.editGroup.get('phoneNumber')?.value, this.editGroup.get('email')?.value,
-      this.userEdit.username, "", this.userEdit.deleted, this.editGroup.get('title')?.value,
-      this.editGroup.get('profession')?.value, this.editGroup.get('department')?.value, this.permissions).subscribe((response) => {
+        this.editGroup.get('date')?.value, "female", this.editGroup.get('JMBG')?.value,
+        this.editGroup.get('adress')?.value,
+        this.editGroup.get('city')?.value, this.editGroup.get('phoneNumber')?.value, this.editGroup.get('email')?.value,
+        this.userEdit.username, this.editGroup.get('password')?.value, this.userEdit.deleted, this.editGroup.get('title')?.value,
+        this.editGroup.get('profession')?.value, this.department, this.permissions).subscribe((response) => {
 
-
+            console.log(response)
       }, error => {
 
       })
@@ -210,4 +213,10 @@ export class AdminEditEmployeeComponent implements OnInit {
       this.successMessage = ''
     }, 3000);
   }
+
+  onSelectionChange(event: any) {
+    const id = event.target.options[event.target.selectedIndex].getAttribute('data-id');
+    this.department = id;
+  }
+
 }
