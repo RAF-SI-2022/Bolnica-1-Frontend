@@ -2,7 +2,21 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams, HttpStatusCode} from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { AdminPromeniZaposlenog, DeparmentShort, Department, Profession, Title, Uloga, UlogaShort, Zaposleni, Page, EmployeeCreateDto, HospitalShort, AdminPromeniZaposlenogDto } from "../../models/models";
+import {
+  AdminPromeniZaposlenog,
+  DeparmentShort,
+  Department,
+  Profession,
+  Title,
+  Uloga,
+  UlogaShort,
+  Zaposleni,
+  Page,
+  EmployeeCreateDto,
+  HospitalShort,
+  AdminPromeniZaposlenogDto,
+  AdminPromeniZaposlenogBezSifreDto
+} from "../../models/models";
 import * as uuid from 'uuid';
 
 
@@ -92,9 +106,9 @@ export class UserService {
     placeOfLiving: placeOfLiving,
     address: address,
     phone: phone,
-    email: email, 
+    email: email,
     gender: gender,
-    title: title, 
+    title: title,
     profession: profession,
     permissions: permissions,
     username: username,
@@ -103,6 +117,30 @@ export class UserService {
     deleted:deleted
     }
       console.log("USAO SAM");
+    return this.http.put<Zaposleni>(`${environment.apiURL}/employee/edit/admin/${lbz}`, obj, { headers: this.getHeaders() });
+  }
+
+  public editProfile(lbz: string, name: string, surname: string, dateOfBirth: Date, gender: string,  jmbg: string, address: string, placeOfLiving: string, phone: string,
+                      email: string, username: string, deleted: boolean,
+                      title: Title, profession: Profession, department: string,permissions: string[]): Observable<Zaposleni> {
+    const obj : AdminPromeniZaposlenogBezSifreDto = {
+      name: name,
+      surname: surname,
+      dateOfBirth: dateOfBirth,
+      jmbg: jmbg,
+      placeOfLiving: placeOfLiving,
+      address: address,
+      phone: phone,
+      email: email,
+      gender: gender,
+      title: title,
+      profession: profession,
+      permissions: permissions,
+      username: username,
+      departmentPbo: department,
+      deleted:false
+    }
+    console.log("USAO SAM");
     return this.http.put<Zaposleni>(`${environment.apiURL}/employee/edit/admin/${lbz}`, obj, { headers: this.getHeaders() });
   }
 
