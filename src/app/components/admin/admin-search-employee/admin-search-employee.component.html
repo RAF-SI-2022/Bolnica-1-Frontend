@@ -109,7 +109,7 @@
                 <td>
                   <a (click)="updateUser(user)" class="settings" title="Podesavanja" data-toggle="tooltip"><i
                       class="bi bi-gear-fill"></i></a>
-                  <a href="#" class="delete" title="Brisanje" data-toggle="tooltip"><i
+                  <a href="#" class="delete" (click)="deleteUser(user.lbz)" title="Brisanje" data-toggle="tooltip"><i
                       class="bi bi-x-circle-fill"></i></a>
                 </td>
               </tr>
