@@ -166,7 +166,7 @@ export class AdminEditEmployeeComponent implements OnInit {
           this.showSuccessMessage()
             console.log(response)
       }, error => {
-          this.errorMessage = 'Greska pri kreiranju korisnika, obratiti paznju na mejl!'
+          this.errorMessage = 'Mejl mora biti unikat sadrzati bar 5 slova i biti na domenu @ibis.rs';
       })
 
 
@@ -181,7 +181,7 @@ export class AdminEditEmployeeComponent implements OnInit {
   }
 
   showErrorMessage() {
-    this.errorMessage = 'Greska pri kreiranju korisnika, obratiti paznju na mejl!'
+    this.errorMessage = 'Mejl mora biti unikat sadrzati bar 5 slova i biti na domenu @ibis.rs';
     setTimeout(() => {
       this.errorMessage = ''
     }, 3000);

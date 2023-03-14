@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -8,11 +9,12 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class NewPasswordComponent {
 
-constructor(private authService: AuthService){}
+constructor(private authService: AuthService, private router: Router){}
 
   newPassword: string = '';
   oldPassword: string = '';
   errorMessage: string = '';
+  successMessage: string = '';
 
   resetPasswordMessage: string = '';
 
@@ -28,8 +30,14 @@ constructor(private authService: AuthService){}
         this.resetPasswordMessage = result.message;
         console.log("message " + this.resetPasswordMessage);
         this.authService.resetPasswordConfirmed(this.resetPasswordMessage).subscribe(res => {
+            this.errorMessage = '';
+            this.successMessage = 'Lozinka uspesno promenjena';
+            setTimeout(() => {
+              this.router.navigate(['/profile']);
+            }, 3000);
         });
     }, error => {
+        this.successMessage = '';
         this.errorMessage = "Lozinka nije ispravna"
     });
   }
