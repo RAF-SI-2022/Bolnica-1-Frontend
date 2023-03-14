@@ -24,6 +24,8 @@ export class AdminEditEmployeeComponent implements OnInit {
   adresaStanovanja: string = '';
   brojTelefona: string = '';
   imejl: string = '';
+  korisnickoIme: string = '';
+  lozinka: string ='';
   musko: boolean = false;
   zensko: boolean = false;
   titula: string = '';
@@ -54,9 +56,8 @@ export class AdminEditEmployeeComponent implements OnInit {
       lastName: ['', [Validators.required]],
       gender: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      yourPassword: ['', [Validators.required]],
-      newPassword: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]],
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
       JMBG: ['', [Validators.required]],
       adress: ['', [Validators.required]],
@@ -65,6 +66,7 @@ export class AdminEditEmployeeComponent implements OnInit {
       title: ['', [Validators.required]],
       department: ['', [Validators.required]],
       profession: ['', [Validators.required]],
+      deleted: false,
       ADMIN: '',
       CHIEF: '',
       DR_SPEC_DEPARTMENT: '',
@@ -192,13 +194,14 @@ export class AdminEditEmployeeComponent implements OnInit {
       this.errorMessage = 'Izaberi barem jednu privilegiju!';
       return;
     }
+    console.log(this.editGroup.get('deleted')?.value )
     this.userService.editEmployee(this.lbz, this.editGroup.get('name')?.value, this.editGroup.get('lastName')?.value,
         this.editGroup.get('date')?.value, "female", this.editGroup.get('JMBG')?.value,
         this.editGroup.get('adress')?.value,
         this.editGroup.get('city')?.value, this.editGroup.get('phoneNumber')?.value, this.editGroup.get('email')?.value,
-        this.userEdit.username, this.editGroup.get('password')?.value, this.userEdit.deleted, this.editGroup.get('title')?.value,
+        this.editGroup.get('username')?.value, this.editGroup.get('password')?.value, this.editGroup.get('deleted')?.value , this.editGroup.get('title')?.value,
         this.editGroup.get('profession')?.value, this.department, this.permissions).subscribe((response) => {
-
+          this.showSuccessMessage()
             console.log(response)
       }, error => {
 

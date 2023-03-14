@@ -18,7 +18,22 @@
                         width="150px"
                         src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
                         class="font-weight-bold">{{ime}}  {{prezime}}</span><span class="text-black-50">{{imejl}}</span><span>
-                    </span></div>
+                    </span>
+                    <br>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <div class="d-inline-block me-1">Aktivan</div> &nbsp;
+                                <div class="form-check form-switch d-inline-block"> &nbsp;
+                                    <input type="checkbox" [(ngModel)]="userEdit.deleted"
+                                        [formControlName]="'deleted'" name="deleted" class="form-check-input"
+                                        id="site_state" style="cursor: pointer;">
+
+                                    <label for="site_state" class="form-check-label"> Obrisan</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div></div>
             </div>
             <div class="col-md-5 border-right">
                 <div class="p-3 py-5">
@@ -57,8 +72,18 @@
                         <div class="col-md-12"><label class="labels">Email</label><input type="email" name="imejl"
                                 class="form-control" placeholder="{{imejl}}" value="" [(ngModel)]="userEdit.email"
                                 [formControlName]="'email'">
-                            <div class="invalid-feedback">Unesite vas imejl</div>
+                            <div class="invalid-feedback">Unesite imejl</div>
                         </div>
+                        <div class="col-md-12"><label class="labels">Username</label><input type="text" name="korisnickoIme"
+                            class="form-control" placeholder="{{korisnickoIme}}" value="" [(ngModel)]="userEdit.username"
+                            [formControlName]="'username'">
+                        <div class="invalid-feedback">Unesite korisnicko ime</div>
+                    </div>
+                    <div class="col-md-12"><label class="labels">Password</label><input type="password" name="lozinka"
+                        class="form-control" placeholder="{{lozinka}}" value="" [(ngModel)]="userEdit.password"
+                        [formControlName]="'password'">
+                    <div class="invalid-feedback">Unesite vas imejl</div>
+                </div>
                         <div class="col-md-12"><label class="labels">Broj telefona</label><input type="text"
                                 name="brojTelefona" class="form-control" placeholder="{{brojTelefona}}" value=""
                                 [(ngModel)]="userEdit.phone" [formControlName]="'phoneNumber'">

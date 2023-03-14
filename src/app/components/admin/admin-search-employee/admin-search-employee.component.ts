@@ -45,12 +45,13 @@ export class AdminSearchEmployeeComponent implements OnInit {
   }
 
   search() {
+    /** 
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     if (form.checkValidity() === false) {
     }
 
     form.classList.add('was-validated');
-
+    */
     console.log("IME " + this.ime + "PREZIME " + this.prezime + "BOLNICA " + this.selektovanaBolnica + "ORDINACIJA " + this.selektovanaOrdinacija)
 
     this.getUserList();
@@ -67,7 +68,7 @@ export class AdminSearchEmployeeComponent implements OnInit {
         LBZ
       ).subscribe(
         response => {
-          this.search();
+          this.getUserList()
         }
       )
     }

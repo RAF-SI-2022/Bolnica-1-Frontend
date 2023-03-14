@@ -100,7 +100,7 @@ export class UserService {
     username: username,
     password: password,
     departmentPbo: department,
-    deleted:false
+    deleted:deleted
     }
       console.log("USAO SAM");
     return this.http.put<Zaposleni>(`${environment.apiURL}/employee/edit/admin/${lbz}`, obj, { headers: this.getHeaders() });
