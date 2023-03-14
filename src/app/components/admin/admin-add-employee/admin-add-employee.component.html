@@ -131,11 +131,11 @@
               Napravi</button>
           </div>      
           <br>                   
-          <div *ngIf="errorMessage.length != 0">
+          <div *ngIf="errorMessage.length != 0" class="mt-4 text-center">
             <label style="color: red"> Neuspeh: {{ errorMessage }} </label>
           </div>
 
-          <div *ngIf="successMessage.length != 0">
+          <div *ngIf="successMessage.length != 0" class="mt-4 text-center">
             <label style="color: green" > {{ successMessage }} </label>
           </div>
         </div>

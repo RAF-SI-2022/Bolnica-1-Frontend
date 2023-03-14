@@ -16,21 +16,7 @@ export class AdminEditEmployeeComponent implements OnInit {
 
   userEdit: AdminPromeniZaposlenog;
   editGroup: FormGroup;
-  ime: string = '';
-  prezime: string = '';
-  datumRodjenja: string = '';
-  JMBG: string = '';
-  mestoStanovanja: string = '';
-  adresaStanovanja: string = '';
-  brojTelefona: string = '';
-  imejl: string = '';
-  korisnickoIme: string = '';
-  lozinka: string ='';
-  musko: boolean = false;
-  zensko: boolean = false;
-  titula: string = '';
-  zanimanje: string = '';
-  odeljenje: string = '';
+
   ADMIN: boolean = false;
   DR_SPEC_ODELJENJA: boolean = false;
   DR_SPEC: boolean = false;
@@ -54,7 +40,7 @@ export class AdminEditEmployeeComponent implements OnInit {
     this.editGroup = this.formBuilder.group({
       name: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
+      gender: false,
       email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
@@ -90,34 +76,9 @@ export class AdminEditEmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.lbz = <string>this.route.snapshot.paramMap.get('lbz');
-    //let zaposleni: Zaposleni = this.userService.getZaposleni()
     this.getUser(this.lbz);
     this.getUserPermissions(this.lbz);
     this.getDepartments();
-
-    /*this.ime = zaposleni.ime
-    this.prezime = zaposleni.prezime
-    this.datumRodjenja = zaposleni.datumRodjenja
-    this.JMBG = zaposleni.JMBG;
-    this.mestoStanovanja = zaposleni.mestoStanovanja;
-    this.adresaStanovanja = zaposleni.adresaStanovanja;
-    this.brojTelefona = zaposleni.brojTelefona;
-    this.imejl = zaposleni.imejl;
-    this.musko = zaposleni.musko;
-    this.zensko = zaposleni.zensko;
-    this.titula = zaposleni.titula;
-    this.zanimanje = zaposleni.zanimanje;
-    this.ADMIN = zaposleni.ADMIN;
-    this.DR_SPEC_ODELJENJA = zaposleni.DR_SPEC_ODELJENJA;
-    this.DR_SPEC = zaposleni.DR_SPEC;
-    this.VISA_MED_SESTRA = zaposleni.VISA_MED_SESTRA;
-    this.MED_SESTRA = zaposleni.MED_SESTRA;
-    this.DR_SPEC_POV = zaposleni.DR_SPEC_POV;
-    this.RECEPCIONER = zaposleni.RECEPCIONER;
-    this.VISI_LABORATORIJSKI_TEHNICAR = zaposleni.VISI_LABORATORIJSKI_TEHNICAR;
-    this.LABORATORIJSKI_TEHNICAR = zaposleni.LABORATORIJSKI_TEHNICAR;
-    this.MEDICINSKI_BIOHEMICAR = zaposleni.MEDICINSKI_BIOHEMICAR;
-    this.SPECIJALISTA_MEDICINSKE_BIOHEMIJE = zaposleni.SPECIJALISTA_MEDICINSKE_BIOHEMIJE;*/
   }
   getDepartments() {
     this.userService.getDepartments().subscribe(result => {
@@ -152,7 +113,8 @@ export class AdminEditEmployeeComponent implements OnInit {
       if (err.status == 302) { // found!
         this.userEdit = err.error; // citanje poruka je sa err.errors TO JE BODY-PORUKA
         this.department = this.userEdit.department.pbo
-        console.log("sss " + err.error.department.name);
+        this.editGroup.get('gender')?.setValue(this.userEdit.gender.toLowerCase() === 'female');
+        console.log("sss " +  this.editGroup.get('gender')?.value);
       }
     })
   }
@@ -196,7 +158,7 @@ export class AdminEditEmployeeComponent implements OnInit {
     }
     console.log(this.editGroup.get('deleted')?.value )
     this.userService.editEmployee(this.lbz, this.editGroup.get('name')?.value, this.editGroup.get('lastName')?.value,
-        this.editGroup.get('date')?.value, "female", this.editGroup.get('JMBG')?.value,
+        this.editGroup.get('date')?.value, this.editGroup.get('gender')?.value, this.editGroup.get('JMBG')?.value,
         this.editGroup.get('adress')?.value,
         this.editGroup.get('city')?.value, this.editGroup.get('phoneNumber')?.value, this.editGroup.get('email')?.value,
         this.editGroup.get('username')?.value, this.editGroup.get('password')?.value, this.editGroup.get('deleted')?.value , this.editGroup.get('title')?.value,
@@ -204,16 +166,24 @@ export class AdminEditEmployeeComponent implements OnInit {
           this.showSuccessMessage()
             console.log(response)
       }, error => {
-
+          this.errorMessage = 'Greska pri kreiranju korisnika, obratiti paznju na mejl!'
       })
 
 
   }
 
   showSuccessMessage() {
-    this.successMessage = 'Uspesno dodat korisnik!'
+    this.errorMessage = '';
+    this.successMessage = 'Uspesno sacuvan korisnik!'
     setTimeout(() => {
       this.successMessage = ''
+    }, 3000);
+  }
+
+  showErrorMessage() {
+    this.errorMessage = 'Greska pri kreiranju korisnika, obratiti paznju na mejl!'
+    setTimeout(() => {
+      this.errorMessage = ''
     }, 3000);
   }
 
