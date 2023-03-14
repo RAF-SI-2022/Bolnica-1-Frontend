@@ -49,7 +49,7 @@ export class AdminAddEmployeeComponent implements OnInit {
       SPECIALIST_MED_BIOCHEMIST: ''
 
     });
-    
+
   }
 
   ibisEmailValidator(control: FormControl) {
@@ -123,7 +123,7 @@ export class AdminAddEmployeeComponent implements OnInit {
     let gender = employee.gender
     let genderValue =  gender ? 'female' : 'male'
     this.userService.addEmployee(employee.name, employee.lastName, employee.date, genderValue, employee.JMBG, employee.adress, employee.city,
-    employee.phoneNumber, employee.email, employee.title, employee.profession, this.selectedDepartment.pbo, this.permissions).subscribe((response) => {
+    employee.phoneNumber, employee.email, employee.title, employee.profession, employee.department, this.permissions).subscribe((response) => {
 
       this.errorMessage = '';
       this.successMessage = 'Uspesno dodat korisnik!'

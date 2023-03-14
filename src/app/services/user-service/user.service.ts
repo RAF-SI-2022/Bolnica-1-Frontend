@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {enableProdMode, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams, HttpStatusCode} from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
@@ -24,6 +24,7 @@ import { LoginResponse } from "../../models/LoginResponse";
 import { ResetPasswordResponse } from "../../models/ResetPasswordResponse";
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
+import {AdminEditEmployeeComponent} from "../../components/admin/admin-edit-employee/admin-edit-employee.component";
 
 @Injectable({
   providedIn: 'root'
@@ -90,9 +91,24 @@ export class UserService {
 
     const lbz = uuid.v4();
 
-    let employeeCreateDto = new EmployeeCreateDto(lbz, name, surname, dateOfBirth, gender, jmbg, adress, placeOfLiving,
-                                                phone, email, title, profession, "12345", permissions)
-    return this.http.post<HttpStatusCode>(`${environment.apiURL}/employee`,  employeeCreateDto, { headers: this.getHeaders() } );
+    const obj : EmployeeCreateDto = {
+      lbz: lbz,
+      name : name,
+      surname: surname,
+      dateOfBirth: dateOfBirth,
+      gender: gender,
+      jmbg: jmbg,
+      address: adress,
+      placeOfLiving: placeOfLiving,
+      phone: phone,
+      email: email,
+      title: title,
+      profession: profession,
+      departmentPbo: departmentPbo,
+      permissions: permissions
+    }
+
+    return this.http.post<HttpStatusCode>(`${environment.apiURL}/employee`,  obj, { headers: this.getHeaders() } );
   }
 
   public editEmployee(lbz: string, name: string, surname: string, dateOfBirth: Date, gender: string,  jmbg: string, address: string, placeOfLiving: string, phone: string,
