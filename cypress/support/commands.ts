@@ -35,3 +35,11 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add('login', (username, password) => {
+    cy.visit('/login')
+    cy.get("#username").type("johndoe")
+    cy.get("#yourPassword").type("password1")
+    cy.get(".btn-primary").click()
+    cy.url().should('contain', '/admin-workspace')
+  })
