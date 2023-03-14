@@ -24,6 +24,7 @@
     "@tinymce/tinymce-angular": "^7.0.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
+    "cypress": "^12.7.0",
     "i": "^0.3.7",
     "ngx-pagination": "^6.0.3",
     "ngx-quill": "^20.0.1",
