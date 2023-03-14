@@ -14,10 +14,10 @@ export class EmployeeCreateDto {
   departmentPbo: string = '';
   permissions: string[] = [];
 
-  constructor(lbz: string, name: string, surname: string, dateOfBirth: Date, gender: string, jmbg: string ,address: string,
-              placeOfLiving: string, phone: string, email: string, title: Title, profession: Profession, departmentPbo: string, permissions: string[]) {
+  constructor(lbz: string, name: string, surname: string, dateOfBirth: Date, gender: string, jmbg: string, address: string,
+    placeOfLiving: string, phone: string, email: string, title: Title, profession: Profession, departmentPbo: string, permissions: string[]) {
     this.lbz = lbz
-    this.name= name
+    this.name = name
     this.surname = surname
     this.dateOfBirth = dateOfBirth
     this.gender = gender
@@ -34,7 +34,7 @@ export class EmployeeCreateDto {
 
 }
 
-export class AdminPromeniZaposlenog{
+export class AdminPromeniZaposlenog {
   name: string = '';
   surname: string = '';
   dateOfBirth: Date = new Date();
@@ -55,27 +55,27 @@ export class AdminPromeniZaposlenog{
 
 }
 
-export class Uloga{
-    id: number = 1;
-    "shortName": string = ''
+export class Uloga {
+  id: number = 1;
+  "shortName": string = ''
 }
 
-export enum UlogaShort{
-    ADMIN,
-    DR_SPEC_ODELJENJA,
-    DR_SPEC,
-    DR_SPEC_POV,
-    MED_SESTRA,
-    VISA_MED_SES
+export enum UlogaShort {
+  ADMIN,
+  DR_SPEC_ODELJENJA,
+  DR_SPEC,
+  DR_SPEC_POV,
+  MED_SESTRA,
+  VISA_MED_SES
 }
 
-export class UlogeZaposlenog{
-    admin: boolean = false;
-    dr_spec_odeljenja: boolean = false;
-    dr_spec: boolean = false;
-    dr_spec_pov: boolean = false;
-    med_sestra: boolean = false;
-    visa_med_sestra: boolean = false;
+export class UlogeZaposlenog {
+  admin: boolean = false;
+  dr_spec_odeljenja: boolean = false;
+  dr_spec: boolean = false;
+  dr_spec_pov: boolean = false;
+  med_sestra: boolean = false;
+  visa_med_sestra: boolean = false;
 }
 
 export class Zaposleni {
@@ -142,14 +142,14 @@ export class Hospital {
   deleted: boolean = false;
 }
 
-export class DeparmentShort{
+export class DeparmentShort {
   id: number = 0;
   pbo: string = '';
   name: string = '';
   hospital: string = '';
 }
 
-export class HospitalShort{
+export class HospitalShort {
   id: number = 0;
   name: string = '';
 }
@@ -163,4 +163,13 @@ export class Page<T> {
   first: boolean = true;
   last: boolean = true;
   numberOfElements: number = 10;
+}
+
+export class PasswordResetDTO {
+  oldPassword: string = '';
+  newPassword: string = '';
+}
+
+export class EmployeeMessageDTO{
+  message: string = '';
 }

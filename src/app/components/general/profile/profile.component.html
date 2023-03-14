@@ -24,6 +24,12 @@
             class="font-weight-bold">{{userEdit.name}} {{userEdit.surname}}</span><span
             class="text-black-50">{{userEdit.email}}</span><span> </span>
         </div>
+        <div class="mt-4 text-center">
+
+          <button *ngIf="canUpdate()" type="button" class="btn btn-primary" (click)="resetPassword()"><i
+              class="bi bi-pencil-square me-1"></i> Resetuj lozinku</button>
+
+        </div>
       </div>
 
       <div class="col-md-5 border-right">

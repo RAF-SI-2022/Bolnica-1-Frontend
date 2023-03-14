@@ -3,6 +3,7 @@ import { AdminPromeniZaposlenog, DeparmentShort, Uloga, UlogaShort, UlogeZaposle
 import { UserService } from "../../../services/user-service/user.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -20,7 +21,7 @@ export class ProfileComponent implements OnInit {
   gender: boolean = false;
   successMessage: string = '';
 
-  constructor(private userService: UserService, private formBuilder: FormBuilder, private authService: AuthService) {
+  constructor(private userService: UserService, private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
     this.userForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
@@ -240,4 +241,7 @@ jmbg: string, address: string, placeOfLiving: string, phone: string,
 
   }
 
+  resetPassword(){
+      this.router.navigate(['/new-password']);
+  }
 }
