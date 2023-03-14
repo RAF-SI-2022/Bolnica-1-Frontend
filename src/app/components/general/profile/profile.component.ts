@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
+      gender: false,
       email: ['', [Validators.required, Validators.email]],
       yourPassword: ['', [Validators.required]],
       username: ['', Validators.required],
@@ -66,7 +66,7 @@ export class ProfileComponent implements OnInit {
   }
 
   showSuccessMessage(){
-    this.successMessage = 'Uspesno dodat korisnik!'
+    this.successMessage = 'Uspesno sacuvan korisnik!'
     setTimeout(() => {
       this.successMessage = ''
     }, 3000);
@@ -114,7 +114,8 @@ export class ProfileComponent implements OnInit {
       if (err.status == 302) { // found!
         this.userEdit = err.error; // citanje poruka je sa err.errors TO JE BODY-PORUKA
         this.department = this.userEdit.department.pbo
-        console.log("sss " + err.error.department.name);
+        console.log("sss " + this.userEdit.gender);
+        this.userForm.get('gender')?.setValue(this.userEdit.gender == 'true' ? true:false);
       }
     })
   }
@@ -240,6 +241,10 @@ export class ProfileComponent implements OnInit {
 
         ).subscribe(response => {
           console.log("USPEH " + response.name);
+          this.errorMessage = '';
+          this.showSuccessMessage();
+        }, err=>{
+          this.errorMessage="Mejl mora biti na domenu @ibis.rs";
         })
 
 
