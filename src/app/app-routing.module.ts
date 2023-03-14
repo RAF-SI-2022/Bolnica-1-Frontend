@@ -83,7 +83,7 @@ const routes: Routes = [
   {
     path: "new-password",
     component: NewPasswordComponent,
-    canActivate: [LoggedOutGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: "reset-password-link",

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DeparmentShort, Zaposleni} from "../../../models/models";
 import {UserService} from "../../../services/user-service/user.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-admin-add-employee',
@@ -10,7 +10,6 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class AdminAddEmployeeComponent implements OnInit {
 
-  showSuccess = false;
   addGroup: FormGroup;
   permissions: string[] = [];
 
@@ -18,8 +17,10 @@ export class AdminAddEmployeeComponent implements OnInit {
   errorMessage: string = ''
   successMessage: string = ''
   selectedDepartment: DeparmentShort = new DeparmentShort();
-  successPopup = document.getElementById('successPopup') as HTMLDivElement;
-  constructor(private userService: UserService, private formBuilder: FormBuilder,) {
+
+  emailErrorMessage: string = '';
+
+  constructor(private userService: UserService, private formBuilder: FormBuilder) {
 
     this.addGroup = this.formBuilder.group({
       name: ['', [Validators.required]],
@@ -51,9 +52,14 @@ export class AdminAddEmployeeComponent implements OnInit {
     
   }
 
+  ibisEmailValidator(control: FormControl) {
+    const email = control.value;
+    const isIbisEmail = email.endsWith('@ibis.rs');
+    return isIbisEmail ? null : { ibisEmail: true };
+  }
+
   ngOnInit(): void {
       this.getDepartments();
-      this.successPopup = document.getElementById('successPopup') as HTMLDivElement;
   }
 
   getDepartments(){
@@ -62,18 +68,10 @@ export class AdminAddEmployeeComponent implements OnInit {
       });
   }
 
-
-
-  showSuccessPopup() {
-    this.successPopup.style.display = 'block';
-    setTimeout(() => {
-      this.successPopup.style.display = 'none';
-    }, 3000);
-  }
-
   addEmployee(){
     const employee = this.addGroup.value
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    this.checkEmailError();
     form.classList.add('was-validated');
     if(form.checkValidity() === false){
         return;
@@ -97,10 +95,10 @@ export class AdminAddEmployeeComponent implements OnInit {
       this.permissions.push('DR_SPEC_POV')
     }
     if(this.addGroup.get('NURSE')?.value){
-      this.permissions.push('NURSE')
+      this.permissions.push('MED_SESTRA')
     }
     if(this.addGroup.get('SENIOR_NURSE')?.value){
-      this.permissions.push('SENIOR_NURSE')
+      this.permissions.push('VISA_MED_SESTRA')
     }
     if(this.addGroup.get('SENIOR_LAB_TECHNICIAN')?.value){
       this.permissions.push('SENIOR_LAB_TECHNICIAN')
@@ -114,11 +112,14 @@ export class AdminAddEmployeeComponent implements OnInit {
     if(this.addGroup.get('SPECIALIST_MED_BIOCHEMIST')?.value){
       this.permissions.push('SPECIALIST_MED_BIOCHEMIST')
     }
-    if(this.permissions.length == 0){
-        
-        return;
-    }
 
+    if(this.permissions.length == 0){
+      this.errorMessage = 'Izaberite barem 1 privilegiju!';
+      setTimeout(() => {
+        this.errorMessage = ''
+      }, 3000);
+      return;
+    }
     let gender = employee.gender
     let genderValue =  gender ? 'female' : 'male'
     this.userService.addEmployee(employee.name, employee.lastName, employee.date, genderValue, employee.JMBG, employee.adress, employee.city,
@@ -126,17 +127,22 @@ export class AdminAddEmployeeComponent implements OnInit {
 
       this.errorMessage = '';
       this.successMessage = 'Uspesno dodat korisnik!'
-      setTimeout(() => {
-        this.successMessage = ''
-      }, 3000);
     }, error => {
-      this.successMessage = ''
-      this.errorMessage = 'Zahtev neuspesan'
-
+        console.log("Error " + error.status);
+        if(error.status == 409){
+            this.errorMessage = 'Email je zauzet!';
+        }
     })
 
   }
 
-
+  checkEmailError(){
+    if(!(<string>this.addGroup.get('email')?.value).endsWith("@ibis.rs")){
+      this.emailErrorMessage = "Email mora da bude na domenu @ibis.rs";
+    }
+    else{
+      this.emailErrorMessage = "Email greska";
+    }
+  }
 
 }

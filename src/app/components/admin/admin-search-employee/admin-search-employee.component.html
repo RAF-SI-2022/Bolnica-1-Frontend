@@ -74,6 +74,9 @@
               </select>
               <div class="invalid-feedback">Izaberite bolnicu!</div>
             </div>
+            <div class="col-md-3"><label class="labels">Obrisani</label>
+              <input type="checkbox" [(ngModel)]="deleted" [ngModelOptions]="{standalone: true}"/><span class="checkmark"></span>
+            </div>
           </div>
           <div class="me-auto float-end text-end mt-3 mb-3">
             <button type="submit" class="btn btn-primary">Pretrazi</button>
@@ -106,7 +109,7 @@
                 <td>
                   <a (click)="updateUser(user)" class="settings" title="Podesavanja" data-toggle="tooltip"><i
                       class="bi bi-gear-fill"></i></a>
-                  <a href="#" class="delete" title="Brisanje" data-toggle="tooltip"><i
+                  <a href="#" class="delete" (click)="deleteUser(user.lbz)" title="Brisanje" data-toggle="tooltip"><i
                       class="bi bi-x-circle-fill"></i></a>
                 </td>
               </tr>

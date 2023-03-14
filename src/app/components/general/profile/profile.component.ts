@@ -3,6 +3,7 @@ import { AdminPromeniZaposlenog, DeparmentShort, Uloga, UlogaShort, UlogeZaposle
 import { UserService } from "../../../services/user-service/user.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -19,8 +20,10 @@ export class ProfileComponent implements OnInit {
   userForm: FormGroup
   gender: boolean = false;
   successMessage: string = '';
+  errorMessage: string = '';
+  department: string = '';
 
-  constructor(private userService: UserService, private formBuilder: FormBuilder, private authService: AuthService) {
+  constructor(private userService: UserService, private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
     this.userForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
@@ -84,7 +87,7 @@ export class ProfileComponent implements OnInit {
     this.userForm.get('confirmPassword')?.disable()
     console.log("LBZ " + localStorage.getItem("LBZ")!);
     this.getUser(localStorage.getItem("LBZ")!);
-    this.getUserPermissions();
+    this.getUserPermissions(localStorage.getItem("LBZ")!);
     this.getDepartments();
 
   }
@@ -92,8 +95,6 @@ export class ProfileComponent implements OnInit {
   getDepartments() {
     this.userService.getDepartments().subscribe(result => {
       this.departments = result;
-      for (let d of this.departments)
-        console.log("de " + d.name);
     }, err => {
 
     });
@@ -104,13 +105,14 @@ export class ProfileComponent implements OnInit {
     }, err => {
       if (err.status == 302) { // found!
         this.userEdit = err.error; // citanje poruka je sa err.errors TO JE BODY-PORUKA
-        this.userEdit.departmentPbo = err.error.department.name;
-        console.log("sss " + this.userEdit.departmentPbo);
+        ///this.userEdit.department = err.error.department;
+        this.department = this.userEdit.department.pbo
+        console.log("sss " + this.userEdit.department.name);
       }
     })
   }
-  getUserPermissions() {
-    this.userService.getUserPermissions().subscribe(result => {
+  getUserPermissions(lbz:string) {
+    this.userService.getUserPermissions(lbz).subscribe(result => {
       this.userPermissions = <Uloga[]><unknown>result;
       this.fillPagePermissions();
     }, err => {
@@ -181,6 +183,9 @@ export class ProfileComponent implements OnInit {
 
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     form.classList.add('was-validated');
+    if (form.checkValidity() === false) {
+        return;
+    }
 
     //todo ovo treba da se popravi
     /*
@@ -189,31 +194,31 @@ jmbg: string, address: string, placeOfLiving: string, phone: string,
     email: string, username: string, password: string, deleted: boolean,
     title: Title, profession: Profession, departmentPbo: string,permissions: string[]
     */
-    if (form.checkValidity() === true) {
-      {
-        this.userService.editEmployee(
-          this.authService.getLBZ(),
-          this.userForm.get('name')?.value,
-          this.userForm.get('surname')?.value(),
-          this.userForm.get('dateOfBirth')?.value(),
-          'male',
-          this.userForm.get('jmbg')?.value(),
-          this.userForm.get('address')?.value(),
-          this.userForm.get('placeOfLiving')?.value(),
-          this.userForm.get('phoneNumber')?.value(),
-          this.userForm.get('email')?.value(),
-          this.userForm.get('username')?.value(),
-          this.userForm.get('password')?.value(),
-          this.userForm.get('deleted')?.value(),
-          this.userForm.get('title')?.value(),
-          this.userForm.get('profession')?.value(),
-          this.userForm.get('departmentName')?.value(),
-          this.userForm.get('userPermission')?.value()
-        ).subscribe(response => {
-          console.log("USPEH " + response.name);
-        })
-      }
-    }
+
+      
+    this.userService.editEmployee(
+      this.authService.getLBZ(),
+      this.userForm.get('name')?.value,
+      this.userForm.get('surname')?.value(),
+      this.userForm.get('dateOfBirth')?.value(),
+      'male',
+      this.userForm.get('jmbg')?.value(),
+      this.userForm.get('address')?.value(),
+      this.userForm.get('placeOfLiving')?.value(),
+      this.userForm.get('phoneNumber')?.value(),
+      this.userForm.get('email')?.value(),
+      this.userForm.get('username')?.value(),
+      this.userForm.get('password')?.value(),
+      this.userForm.get('deleted')?.value(),
+      this.userForm.get('title')?.value(),
+      this.userForm.get('profession')?.value(),
+      this.department,
+      this.userForm.get('userPermission')?.value()
+    ).subscribe(response => {
+      console.log("USPEH " + response.name);
+    })
+      
+    
 
     let newPassword = this.userForm.get('newPassword')?.value()
     let confirmPassword = this.userForm.get('confirmPassword')?.value()
@@ -240,4 +245,12 @@ jmbg: string, address: string, placeOfLiving: string, phone: string,
 
   }
 
+  resetPassword(){
+      this.router.navigate(['/new-password']);
+  }
+
+  onSelectionChange(event: any) {
+    const id = event.target.options[event.target.selectedIndex].getAttribute('data-id');
+    this.department = id;
+  }
 }

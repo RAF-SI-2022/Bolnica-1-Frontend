@@ -17,6 +17,7 @@ export class AdminSearchEmployeeComponent implements OnInit {
     imports: [NgxPaginationModule]
   })
 
+  deleted: boolean = false;
   searchForm: FormGroup
   routerUpper: Router
   public selektovanaOrdinacija: string = '';
@@ -27,7 +28,7 @@ export class AdminSearchEmployeeComponent implements OnInit {
   userList: Zaposleni[] = []
   departments: DeparmentShort[] = []
   hospitals: HospitalShort[] = []
-  page = 1;
+  page = 0;
   pageSize = 10;
   total = 0;
 
@@ -37,18 +38,20 @@ export class AdminSearchEmployeeComponent implements OnInit {
       ime: '',
       prezime: '',
       selektovanaOrdinacija: '',
-      selektovanaBolnica: ''
+      selektovanaBolnica: '',
+      deleted: false
 
     })
   }
 
   search() {
+    /** 
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     if (form.checkValidity() === false) {
     }
 
     form.classList.add('was-validated');
-
+    */
     console.log("IME " + this.ime + "PREZIME " + this.prezime + "BOLNICA " + this.selektovanaBolnica + "ORDINACIJA " + this.selektovanaOrdinacija)
 
     this.getUserList();
@@ -65,7 +68,7 @@ export class AdminSearchEmployeeComponent implements OnInit {
         LBZ
       ).subscribe(
         response => {
-          this.search();
+          this.getUserList()
         }
       )
     }
@@ -83,7 +86,7 @@ export class AdminSearchEmployeeComponent implements OnInit {
       this.hospitals = response
     })
 
-    this.userService.getAllUsers(this.ime, this.prezime, this.selektovanaOrdinacija, this.selektovanaBolnica).subscribe((response) => {
+    this.userService.getAllUsers(this.ime, this.prezime, this.selektovanaOrdinacija, this.selektovanaBolnica, this.deleted, this.page, this.pageSize).subscribe((response) => {
       this.userPage = response;
       this.userList = this.userPage.content
     })
@@ -94,7 +97,9 @@ export class AdminSearchEmployeeComponent implements OnInit {
       this.selektovanaOrdinacija = ""
     if (this.selektovanaBolnica == "Odaberite bolnicu")
       this.selektovanaBolnica = ""
-    this.userService.getAllUsers(this.ime, this.prezime, this.selektovanaOrdinacija, this.selektovanaBolnica).subscribe((response) => {
+      if(this.page == 0)
+      this.page = 1;
+    this.userService.getAllUsers(this.ime, this.prezime, this.selektovanaOrdinacija, this.selektovanaBolnica, this.deleted, this.page-1, this.pageSize).subscribe((response) => {
       this.userPage = response;
       this.userList = this.userPage.content;
     })

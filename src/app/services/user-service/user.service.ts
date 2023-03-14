@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams, HttpStatusCode} from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { AdminPromeniZaposlenog, DeparmentShort, Department, Profession, Title, Uloga, UlogaShort, Zaposleni, Page, EmployeeCreateDto, HospitalShort } from "../../models/models";
+import { AdminPromeniZaposlenog, DeparmentShort, Department, Profession, Title, Uloga, UlogaShort, Zaposleni, Page, EmployeeCreateDto, HospitalShort, AdminPromeniZaposlenogDto } from "../../models/models";
 import * as uuid from 'uuid';
 
 
@@ -56,9 +56,8 @@ export class UserService {
     return this.zaposleni;
   }
 
-  getUserPermissions(): Observable<UlogaShort[]>{
-    let lbz = localStorage.getItem("LBZ");
-    return this.http.get<UlogaShort[]>(`${environment.apiURL}/employee/permissions/${lbz}`, {headers: this.getHeaders()});
+  getUserPermissions(lbz: string): Observable<Uloga[]>{
+    return this.http.get<Uloga[]>(`${environment.apiURL}/employee/permissions/${lbz}`, {headers: this.getHeaders()});
   }
 
   editZaposleniObjekat(ime: string, prezime: string, datumRodjenja: string, JMBG: string, mestoStanovanja: string, adresaStanovanja: string, brojTelefona: string,
@@ -84,12 +83,25 @@ export class UserService {
 
   public editEmployee(lbz: string, name: string, surname: string, dateOfBirth: Date, gender: string,  jmbg: string, address: string, placeOfLiving: string, phone: string,
     email: string, username: string, password: string, deleted: boolean,
-    title: Title, profession: Profession, departmentPbo: string,permissions: string[]): Observable<Zaposleni> {
-    let obj = new AdminPromeniZaposlenog();
-    obj.name = name; obj.surname = surname; obj.dateOfBirth = dateOfBirth; obj.jmbg = jmbg; obj.placeOfLiving = placeOfLiving;
-    obj.address = address; obj.phone = phone; obj.email = email; obj.gender = gender ? 'female' : 'male';
-    obj.title = <Title>title; obj.profession = <Profession>profession; obj.permissions = permissions; obj.username = username,
-    obj.password = password; obj.departmentPbo = departmentPbo
+    title: Title, profession: Profession, department: string,permissions: string[]): Observable<Zaposleni> {
+    const obj : AdminPromeniZaposlenogDto = {
+    name: name,
+    surname: surname,
+    dateOfBirth: dateOfBirth,
+    jmbg: jmbg,
+    placeOfLiving: placeOfLiving,
+    address: address,
+    phone: phone,
+    email: email, 
+    gender: gender,
+    title: title, 
+    profession: profession,
+    permissions: permissions,
+    username: username,
+    password: password,
+    departmentPbo: department,
+    deleted:deleted
+    }
       console.log("USAO SAM");
     return this.http.put<Zaposleni>(`${environment.apiURL}/employee/edit/admin/${lbz}`, obj, { headers: this.getHeaders() });
   }
@@ -138,8 +150,8 @@ export class UserService {
     return this.http.put<Zaposleni>(`$/emp/edit/path param (LBZ)`, zaposleni)
   };
 
-  getAllUsers(ime: string, prezime:string, bolnica: string, odeljenje: string): Observable<Page<Zaposleni>> {
-    let httpParams = new HttpParams().append("name",ime).append("surname", prezime).append("departmentName", odeljenje).append("hospitalShortName",bolnica).append("deleted",false);
+  getAllUsers(ime: string, prezime:string, bolnica: string, odeljenje: string, deleted:boolean, page: number, size:number): Observable<Page<Zaposleni>> {
+    let httpParams = new HttpParams().append("name",ime).append("surname", prezime).append("departmentName", odeljenje).append("hospitalShortName",bolnica).append("deleted",deleted).append("page",page).append("size",size);
     return this.http.get<Page<Zaposleni>>(`${environment.apiURL}/employee/list`, {params: httpParams, headers:this.getHeaders()});
   }
 }

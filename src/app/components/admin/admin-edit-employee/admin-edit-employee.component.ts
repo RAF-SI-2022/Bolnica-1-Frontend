@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {UserService} from "../../../services/user-service/user.service";
-import {AdminPromeniZaposlenog, DeparmentShort, Uloga, UlogeZaposlenog, Zaposleni} from "../../../models/models";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { UserService } from "../../../services/user-service/user.service";
+import { AdminPromeniZaposlenog, DeparmentShort, Uloga, UlogeZaposlenog, Zaposleni } from "../../../models/models";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-admin-edit-employee',
@@ -12,6 +12,8 @@ import {ActivatedRoute} from "@angular/router";
 export class AdminEditEmployeeComponent implements OnInit {
 
   successMessage: string = '';
+  errorMessage: string = '';
+
   userEdit: AdminPromeniZaposlenog;
   editGroup: FormGroup;
   ime: string = '';
@@ -22,6 +24,8 @@ export class AdminEditEmployeeComponent implements OnInit {
   adresaStanovanja: string = '';
   brojTelefona: string = '';
   imejl: string = '';
+  korisnickoIme: string = '';
+  lozinka: string ='';
   musko: boolean = false;
   zensko: boolean = false;
   titula: string = '';
@@ -43,6 +47,7 @@ export class AdminEditEmployeeComponent implements OnInit {
   departments: DeparmentShort[];
   permissions: string[] = [];
   lbz: string = ''
+  department: string = '';
 
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, private route: ActivatedRoute) {
@@ -51,9 +56,8 @@ export class AdminEditEmployeeComponent implements OnInit {
       lastName: ['', [Validators.required]],
       gender: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      yourPassword: ['', [Validators.required]],
-      newPassword: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]],
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
       JMBG: ['', [Validators.required]],
       adress: ['', [Validators.required]],
@@ -62,6 +66,7 @@ export class AdminEditEmployeeComponent implements OnInit {
       title: ['', [Validators.required]],
       department: ['', [Validators.required]],
       profession: ['', [Validators.required]],
+      deleted: false,
       ADMIN: '',
       CHIEF: '',
       DR_SPEC_DEPARTMENT: '',
@@ -87,7 +92,7 @@ export class AdminEditEmployeeComponent implements OnInit {
     this.lbz = <string>this.route.snapshot.paramMap.get('lbz');
     //let zaposleni: Zaposleni = this.userService.getZaposleni()
     this.getUser(this.lbz);
-    this.getUserPermissions();
+    this.getUserPermissions(this.lbz);
     this.getDepartments();
 
     /*this.ime = zaposleni.ime
@@ -114,28 +119,28 @@ export class AdminEditEmployeeComponent implements OnInit {
     this.MEDICINSKI_BIOHEMICAR = zaposleni.MEDICINSKI_BIOHEMICAR;
     this.SPECIJALISTA_MEDICINSKE_BIOHEMIJE = zaposleni.SPECIJALISTA_MEDICINSKE_BIOHEMIJE;*/
   }
-  getDepartments(){
+  getDepartments() {
     this.userService.getDepartments().subscribe(result => {
       this.departments = result;
-      for(let d of this.departments)
+      for (let d of this.departments)
         console.log("de " + d.name);
-    }, err =>{
+    }, err => {
 
     });
   }
-  fillPagePermissions(): void{
-    for(let p of this.userPermissions){
-      if(p.shortName == 'ADMIN')
+  fillPagePermissions(): void {
+    for (let p of this.userPermissions) {
+      if (p.shortName == 'ADMIN')
         this.userPermissionDisplayed.admin = true;
-      else if(p.shortName == 'DR_SPEC')
+      else if (p.shortName == 'DR_SPEC')
         this.userPermissionDisplayed.dr_spec = true;
-      else if(p.shortName == 'DR_SPEC_ODELJENJA')
+      else if (p.shortName == 'DR_SPEC_ODELJENJA')
         this.userPermissionDisplayed.dr_spec_odeljenja = true;
-      else if(p.shortName == 'MED_SESTRA')
+      else if (p.shortName == 'MED_SESTRA')
         this.userPermissionDisplayed.med_sestra = true;
-      else if(p.shortName == 'VISA_MED_SES')
+      else if (p.shortName == 'VISA_MED_SES')
         this.userPermissionDisplayed.visa_med_sestra = true;
-      else if(p.shortName == 'DR_SPEC_POV')
+      else if (p.shortName == 'DR_SPEC_POV')
         this.userPermissionDisplayed.dr_spec_pov = true;
     }
   }
@@ -146,62 +151,75 @@ export class AdminEditEmployeeComponent implements OnInit {
       console.log()
       if (err.status == 302) { // found!
         this.userEdit = err.error; // citanje poruka je sa err.errors TO JE BODY-PORUKA
-        console.log("sss " + err.error.profession);
+        this.department = this.userEdit.department.pbo
+        console.log("sss " + err.error.department.name);
       }
     })
   }
 
-  getUserPermissions(){
-    this.userService.getUserPermissions().subscribe(result => {
-      this.userPermissions = <Uloga[]><unknown>result;
+  getUserPermissions(lbz:string){
+    this.userService.getUserPermissions(lbz).subscribe(result => {
+      this.userPermissions = result;
+      console.log("jejee" + result)
       this.fillPagePermissions();
     }, err => {
       console.log(" nesto " + err.error);
     });
   }
 
-  editEmployee(){
+  editEmployee() {
 
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     if (form.checkValidity() === false) {
     }
 
     form.classList.add('was-validated');
-    if(this.editGroup.get('ADMIN')?.value){
+    if (this.editGroup.get('ADMIN')?.value) {
       this.permissions.push('ADMIN')
     }
 
-    if(this.editGroup.get('DR_SPEC')?.value){
+    if (this.editGroup.get('DR_SPEC')?.value) {
       this.permissions.push('DR_SPEC')
     }
-    if(this.editGroup.get('DR_SPEC_POV')?.value){
+    if (this.editGroup.get('DR_SPEC_POV')?.value) {
       this.permissions.push('DR_SPEC_POV')
     }
-    if(this.editGroup.get('NURSE')?.value){
-      this.permissions.push('NURSE')
+    if (this.editGroup.get('NURSE')?.value) {
+      this.permissions.push('MED_SESTRA')
     }
-    if(this.editGroup.get('SENIOR_NURSE')?.value){
+    if (this.editGroup.get('SENIOR_NURSE')?.value) {
       this.permissions.push('SENIOR_NURSE')
     }
-      this.userService.editEmployee(this.lbz, this.editGroup.get('name')?.value, this.editGroup.get('lastName')?.value,
-        this.editGroup.get('date')?.value, this.editGroup.get('gender')?.value, this.editGroup.get('JMBG')?.value,
+    if (this.permissions.length == 0) {
+      this.errorMessage = 'Izaberi barem jednu privilegiju!';
+      return;
+    }
+    console.log(this.editGroup.get('deleted')?.value )
+    this.userService.editEmployee(this.lbz, this.editGroup.get('name')?.value, this.editGroup.get('lastName')?.value,
+        this.editGroup.get('date')?.value, "female", this.editGroup.get('JMBG')?.value,
         this.editGroup.get('adress')?.value,
         this.editGroup.get('city')?.value, this.editGroup.get('phoneNumber')?.value, this.editGroup.get('email')?.value,
-        this.userEdit.username,"", this.userEdit.deleted, this.editGroup.get('title')?.value,
-        this.editGroup.get('profession')?.value, this.editGroup.get('department')?.value, this.permissions).subscribe((response) => {
-
-
+        this.editGroup.get('username')?.value, this.editGroup.get('password')?.value, this.editGroup.get('deleted')?.value , this.editGroup.get('title')?.value,
+        this.editGroup.get('profession')?.value, this.department, this.permissions).subscribe((response) => {
+          this.showSuccessMessage()
+            console.log(response)
       }, error => {
 
       })
 
 
-    }
+  }
 
-    showSuccessMessage(){
-      this.successMessage = 'Uspesno dodat korisnik!'
-      setTimeout(() => {
-        this.successMessage = ''
-      }, 3000);
-    }
+  showSuccessMessage() {
+    this.successMessage = 'Uspesno dodat korisnik!'
+    setTimeout(() => {
+      this.successMessage = ''
+    }, 3000);
+  }
+
+  onSelectionChange(event: any) {
+    const id = event.target.options[event.target.selectedIndex].getAttribute('data-id');
+    this.department = id;
+  }
+
 }
