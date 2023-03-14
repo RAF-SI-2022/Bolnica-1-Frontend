@@ -99,10 +99,8 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6"><label class="labels">Odeljenje</label>
-                            <select name="odeljenje" [(ngModel)]="userEdit.departmentPbo"
-                                [formControlName]="'department'" id="department" class="form-select"
-                                aria-label="Default select example">
-                                <option *ngFor="let item of departments" [value]="item.pbo">{{item.name}}</option>
+                            <select #departmentSelect name = "odeljenje" [(ngModel)]="userEdit.department.name" [formControlName]="'department'" id = "{{userEdit.department.pbo}}" class="form-select" aria-label="Default select example" (change)="onSelectionChange($event)">
+                              <option *ngFor="let item of departments" [attr.data-id]="item.pbo" [value]="item.name" >{{item.name}}</option>
                             </select>
                         </div>
                         <div class="col-md-6"><label class="labels">Zanimanje</label>

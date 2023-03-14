@@ -134,10 +134,9 @@
           </div>
           <div class="row mt-3">
             <div class="col-md-6"><label class="labels">Odeljenje</label>
-              <select class="form-select" name="department" [(ngModel)]="userEdit.departmentPbo" id="department"
-                aria-label="Default select example" [formControlName]="'department'">
-
-                <option *ngFor="let item of departments" [value]="item.pbo">{{item.name}}</option>
+              <select class="form-select" name = "department" [(ngModel)]="userEdit.department.name" id = "{{userEdit.department.pbo}}" aria-label="Default select example" [formControlName]="'department'" (change)="onSelectionChange($event)">
+                
+                <option *ngFor="let item of departments" [attr.data-id]="item.pbo" [value]="item.name">{{item.name}}</option>
               </select>
               <div class="invalid-feedback">Izaberite vase odeljenje</div>
             </div>
