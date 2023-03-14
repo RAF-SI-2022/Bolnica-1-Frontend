@@ -17,7 +17,7 @@
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
                         width="150px"
                         src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
-                        class="font-weight-bold">{{ime}}  {{prezime}}</span><span class="text-black-50">{{imejl}}</span><span>
+                        class="font-weight-bold">{{userEdit.name}}  {{userEdit.surname}}</span><span class="text-black-50">{{userEdit.email}}</span><span>
                     </span>
                     <br>
                     <div class="container">
@@ -42,12 +42,12 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-6"><label class="labels">Ime</label><input type="text" name="ime"
-                                class="form-control" placeholder="{{ime}}" value="" [(ngModel)]="userEdit.name"
+                                class="form-control" placeholder="" value="" [(ngModel)]="userEdit.name"
                                 [formControlName]="'name'">
                             <div class="invalid-feedback">Unesite vase ime</div>
                         </div>
                         <div class="col-md-6"><label class="labels">Prezime</label><input type="text" name="prezime"
-                                class="form-control" value="" placeholder="{{prezime}}" [(ngModel)]="userEdit.surname"
+                                class="form-control" value="" placeholder="" [(ngModel)]="userEdit.surname"
                                 [formControlName]="'lastName'">
                             <div class="invalid-feedback">Unesite vase prezime</div>
                         </div>
@@ -70,37 +70,37 @@
                             </div>
                         </div>
                         <div class="col-md-12"><label class="labels">Email</label><input type="email" name="imejl"
-                                class="form-control" placeholder="{{imejl}}" value="" [(ngModel)]="userEdit.email"
+                                class="form-control" placeholder="" value="" [(ngModel)]="userEdit.email"
                                 [formControlName]="'email'">
                             <div class="invalid-feedback">Unesite imejl</div>
                         </div>
                         <div class="col-md-12"><label class="labels">Username</label><input type="text" name="korisnickoIme"
-                            class="form-control" placeholder="{{korisnickoIme}}" value="" [(ngModel)]="userEdit.username"
+                            class="form-control" placeholder="" value="" [(ngModel)]="userEdit.username"
                             [formControlName]="'username'">
                         <div class="invalid-feedback">Unesite korisnicko ime</div>
                     </div>
                     <div class="col-md-12"><label class="labels">Password</label><input type="password" name="lozinka"
-                        class="form-control" placeholder="{{lozinka}}" value="" [(ngModel)]="userEdit.password"
+                        class="form-control" placeholder="" value="" [(ngModel)]="userEdit.password"
                         [formControlName]="'password'">
                     <div class="invalid-feedback">Unesite vas imejl</div>
                 </div>
                         <div class="col-md-12"><label class="labels">Broj telefona</label><input type="text"
-                                name="brojTelefona" class="form-control" placeholder="{{brojTelefona}}" value=""
+                                name="brojTelefona" class="form-control" placeholder="" value=""
                                 [(ngModel)]="userEdit.phone" [formControlName]="'phoneNumber'">
                             <div class="invalid-feedback">Unesite vas broj telefona</div>
                         </div>
                         <div class="col-md-12"><label class="labels">JMBG</label><input type="text" class="form-control"
-                                name="JMBG" placeholder="{{JMBG}}" value="" [(ngModel)]="userEdit.jmbg"
+                                name="JMBG" placeholder="" value="" [(ngModel)]="userEdit.jmbg"
                                 [formControlName]="'JMBG'">
                             <div class="invalid-feedback">Unesite vas JMBG</div>
                         </div>
                         <div class="col-md-12"><label class="labels">Adresa</label><input type="text"
-                                class="form-control" name="adresaStanovanja" placeholder="{{adresaStanovanja}}" value=""
+                                class="form-control" name="adresaStanovanja" placeholder="" value=""
                                 [(ngModel)]="userEdit.address" [formControlName]="'adress'">
                             <div class="invalid-feedback">Unesite vasu adresu stanovanja</div>
                         </div>
                         <div class="col-md-12"><label class="labels">Mesto</label><input type="text"
-                                class="form-control" name="mestoStanovanja" placeholder="{{mestoStanovanja}}" value=""
+                                class="form-control" name="mestoStanovanja" placeholder="" value=""
                                 [(ngModel)]="userEdit.placeOfLiving" [formControlName]="'city'">
                             <div class="invalid-feedback">Unesite vase mesto stanovanja</div>
                         </div>
@@ -128,6 +128,7 @@
                               <option *ngFor="let item of departments" [attr.data-id]="item.pbo" [value]="item.name" >{{item.name}}</option>
                             </select>
                         </div>
+
                         <div class="col-md-6"><label class="labels">Zanimanje</label>
                             <select class="form-select" name="zanimanje" [(ngModel)]="userEdit.profession"
                                 id="proffesion" aria-label="Default select example" [formControlName]="'profession'">
@@ -151,10 +152,10 @@
                     <div class="mt-4 text-center">
                         <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i> Sacuvaj</button>
                     </div>
-                    <div *ngIf="errorMessage.length != 0">
+                    <div *ngIf="errorMessage.length != 0" class="mt-4 text-center">
                         <label style="color: red"> {{ errorMessage }} </label>
                     </div>
-                    <div *ngIf="successMessage.length != 0">
+                    <div *ngIf="successMessage.length != 0" class="mt-4 text-center">
                         <label style="color: green"> {{ successMessage }} </label>
                     </div>
                 </div>

@@ -19,15 +19,15 @@
     <div class="row">
       <div class="col-md-3 border-right">
         <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
-            width="150px"
-            src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
-            class="font-weight-bold">{{userEdit.name}} {{userEdit.surname}}</span><span
-            class="text-black-50">{{userEdit.email}}</span><span> </span>
+                                                                                     width="150px"
+                                                                                     src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
+          class="font-weight-bold">{{userEdit.name}} {{userEdit.surname}}</span><span
+          class="text-black-50">{{userEdit.email}}</span><span> </span>
         </div>
         <div class="mt-4 text-center">
 
           <button *ngIf="canUpdate()" type="button" class="btn btn-primary" (click)="resetPassword()"><i
-              class="bi bi-pencil-square me-1"></i> Resetuj lozinku</button>
+            class="bi bi-pencil-square me-1"></i> Resetuj lozinku</button>
 
         </div>
       </div>
@@ -41,12 +41,12 @@
 
           <div class="row mt-2">
             <div class="col-md-6"><label class="labels">Ime</label><input name="name" [(ngModel)]="userEdit.name"
-                type="text" class="form-control" id="name" placeholder="" value="" [formControlName]="'name'">
+                                                                          type="text" class="form-control" id="name" placeholder="" value="" [formControlName]="'name'">
               <div class="invalid-feedback">Unesite vase ime</div>
             </div>
             <div class="col-md-6"><label class="labels">Prezime</label><input name="surname"
-                [(ngModel)]="userEdit.surname" type="text" class="form-control" id="lastName" value="" placeholder=""
-                [formControlName]="'lastName'">
+                                                                              [(ngModel)]="userEdit.surname" type="text" class="form-control" id="lastName" value="" placeholder=""
+                                                                              [formControlName]="'lastName'">
               <div class="invalid-feedback">Unesite vase prezime</div>
 
             </div>
@@ -61,20 +61,20 @@
                   <div class="d-inline-block me-1">Musko</div> &nbsp;
                   <div class="form-check form-switch d-inline-block"> &nbsp;
                     <input type="checkbox" [(ngModel)]="userEdit.gender" class="form-check-input" id="gender"
-                      name="gender" style="cursor: pointer;" [formControlName]="'gender'" [disabled]="disabledValue">
+                           name="gender" style="cursor: pointer;" [formControlName]="'gender'" [disabled]="disabledValue">
 
                   </div>
-                  <label for="site_state" class="form-check-label"> Zensko</label>
+                  <label for="gender" class="form-check-label"> Zensko</label>
                 </div>
               </div>
             </div>
             <div class="col-md-12"><label class="labels">Email</label><input name="email" [(ngModel)]="userEdit.email"
-                type="email" id="email" class="form-control" placeholder="" value="" [formControlName]="'email'">
+                                                                             type="email" id="email" class="form-control" placeholder="" value="" [formControlName]="'email'">
               <div class="invalid-feedback">Unesite vas imejl</div>
             </div>
             <div class="col-md-12"><label class="labels">Username</label><input name="username"
-                [(ngModel)]="userEdit.username" type="text" id="username" class="form-control" placeholder="" value=""
-                [formControlName]="'username'">
+                                                                                [(ngModel)]="userEdit.username" type="text" id="username" class="form-control" placeholder="" value=""
+                                                                                [formControlName]="'username'">
               <div class="invalid-feedback">Unesite vas username</div>
             </div>
             <!-- <div class="col-12">
@@ -96,32 +96,32 @@
             </div> -->
 
             <div class="col-md-12"><label class="labels">Broj telefona</label><input name="phoneNumber"
-                [(ngModel)]="userEdit.phone" type="text" class="form-control" id="phoneNumber" placeholder="" value=""
-                [formControlName]="'phoneNumber'">
+                                                                                     [(ngModel)]="userEdit.phone" type="text" class="form-control" id="phoneNumber" placeholder="" value=""
+                                                                                     [formControlName]="'phoneNumber'">
               <div class="invalid-feedback">Unesite vas broj telefona</div>
             </div>
             <div class="col-md-12"><label class="labels">JMBG</label><input name="jmbg" [(ngModel)]="userEdit.jmbg"
-                type="text" class="form-control" placeholder="" id="JMBG" value="" [formControlName]="'JMBG'">
+                                                                            type="text" class="form-control" placeholder="" id="JMBG" value="" [formControlName]="'JMBG'">
               <div class="invalid-feedback">Unesite vas JMBG</div>
             </div>
             <div class="col-md-12"><label class="labels">Adresa</label><input name="address"
-                [(ngModel)]="userEdit.address" type="text" class="form-control" placeholder="" id="adress" value=""
-                [formControlName]="'adress'">
+                                                                              [(ngModel)]="userEdit.address" type="text" class="form-control" placeholder="" id="adress" value=""
+                                                                              [formControlName]="'adress'">
               <div class="invalid-feedback">Unesite vasu adresu</div>
             </div>
             <div class="col-md-12"><label class="labels">Mesto</label><input name="placeOfLiving"
-                [(ngModel)]="userEdit.placeOfLiving" type="text" class="form-control" placeholder="" id="city" value=""
-                [formControlName]="'city'">
+                                                                             [(ngModel)]="userEdit.placeOfLiving" type="text" class="form-control" placeholder="" id="city" value=""
+                                                                             [formControlName]="'city'">
               <div class="invalid-feedback">Unesite vase mesto stanovanja</div>
             </div>
             <div class="col-md-12"><label class="labels">
-                Datum</label><input name="dateOfBirth" [(ngModel)]="userEdit.dateOfBirth" type="date" id="date"
-                class="form-control" [formControlName]="'date'">
+              Datum</label><input name="dateOfBirth" [(ngModel)]="userEdit.dateOfBirth" type="date" id="date"
+                                  class="form-control" [formControlName]="'date'">
               <div class="invalid-feedback">Unesite vas datum rodjenja</div>
             </div>
             <div class="col-md-12"><label class="labels">Titula</label>
               <select class="form-select" name="title" [(ngModel)]="userEdit.title" id="title"
-                aria-label="Default select example" [formControlName]="'title'">
+                      aria-label="Default select example" [formControlName]="'title'">
                 <option value="PROF_DR_MED">Prof. dr. med</option>
                 <option value="DR_MED_SPEC">Dr med. spec.</option>
                 <option value="DR_SCI_ME">Dr sci. med.</option>
@@ -133,16 +133,16 @@
             </div>
           </div>
           <div class="row mt-3">
+
             <div class="col-md-6"><label class="labels">Odeljenje</label>
-              <select class="form-select" name = "department" [(ngModel)]="userEdit.department.name" id = "{{userEdit.department.pbo}}" aria-label="Default select example" [formControlName]="'department'" (change)="onSelectionChange($event)">
-                
-                <option *ngFor="let item of departments" [attr.data-id]="item.pbo" [value]="item.name">{{item.name}}</option>
+              <select #departmentSelect name = "odeljenje" [(ngModel)]="userEdit.department.name" [formControlName]="'department'" id = "{{userEdit.department.pbo}}" class="form-select" aria-label="Default select example" (change)="onSelectionChange($event)">
+                <option *ngFor="let item of departments" [attr.data-id]="item.pbo" [value]="item.name" >{{item.name}}</option>
               </select>
-              <div class="invalid-feedback">Izaberite vase odeljenje</div>
             </div>
+
             <div class="col-md-6"><label class="labels">Zanimanje</label>
               <select class="form-select" name="profession" [(ngModel)]="userEdit.profession" id="proffesion"
-                aria-label="Default select example" [formControlName]="'profession'">
+                      aria-label="Default select example" [formControlName]="'profession'">
                 <option value="MED_SESTRA">Med. sestra</option>
                 <option value="SPEC_BIOHEMICAR">Spec. biohemicar</option>
                 <option value="SPEC_GASTROENTEROLOG">Spec. gastroenterolog</option>
@@ -163,19 +163,19 @@
           <div class="mt-4 text-center">
 
             <button *ngIf="canUpdate()" type="button" class="btn btn-primary" (click)="updateUser()"><i
-                class="bi bi-pencil-square me-1"></i> Izmeni</button>
+              class="bi bi-pencil-square me-1"></i> Izmeni</button>
             <button *ngIf="!canUpdate()" type="button" disabled class="btn btn-primary"><i
-                class="bi bi-pencil-square me-1"></i> Izmeni</button>
+              class="bi bi-pencil-square me-1"></i> Izmeni</button>
 
-            <button *ngIf="canUpdate()" type="submit" class="btn btn-primary ms-4" (click)="saveUser()"><i
-                class="bi bi-save me-1"></i> Sacuvaj</button>
+            <button *ngIf="canUpdate()" type="submit" class="btn btn-primary ms-4"><i
+              class="bi bi-save me-1"></i> Sacuvaj</button>
             <button *ngIf="!canUpdate()" type="submit" disabled class="btn btn-primary ms-4"><i
-                class="bi bi-save me-1"></i> Sacuvaj</button>
+              class="bi bi-save me-1"></i> Sacuvaj</button>
           </div>
-          <div *ngIf="errorMessage.length != 0">
+          <div *ngIf="errorMessage.length != 0" class="mt-4 text-center">
             <label style="color: red" > {{ errorMessage }} </label>
           </div>
-          <div *ngIf="successMessage.length != 0">
+          <div *ngIf="successMessage.length != 0" class="mt-4 text-center">
             <label style="color: green" > {{ successMessage }} </label>
           </div>
         </div>
@@ -195,7 +195,7 @@
 
                     <div class="itemcontent ms-auto text-start ps-2">
                       <input type="checkbox" name="ADMIN" [(ngModel)]="userPermissionDisplayed.admin" id="admin"
-                        autocomplete="off" value="" [formControlName]="'ADMIN'" [disabled]="disabledValue">
+                             autocomplete="off" value="" [formControlName]="'ADMIN'" [disabled]="disabledValue">
                       <span class="m-0 p-2">Admin</span>
                     </div>
                   </label>
@@ -204,7 +204,7 @@
                   <label class="btn btn-outline-primary col-12 m-2">
                     <div class="itemcontent ms-auto text-start ps-2">
                       <input type="checkbox" [(ngModel)]="userPermissionDisplayed.dr_spec" name="DR_SPEC" id="drSpec"
-                        autocomplete="off" value="" [formControlName]="'DR_SPEC'" [disabled]="disabledValue">
+                             autocomplete="off" value="" [formControlName]="'DR_SPEC'" [disabled]="disabledValue">
                       <span class="m-0 p-2">Doktor specijalista</span>
                     </div>
                   </label>
@@ -213,8 +213,8 @@
                   <label class="btn btn-outline-primary col-12 m-2">
                     <div class="itemcontent ms-auto text-start ps-2">
                       <input type="checkbox" [(ngModel)]="userPermissionDisplayed.dr_spec_pov" name="DR_SPEC_POV"
-                        id="drSpecPrivate" autocomplete="off" value="" [formControlName]="'DR_SPEC_POV'"
-                        [disabled]="disabledValue">
+                             id="drSpecPrivate" autocomplete="off" value="" [formControlName]="'DR_SPEC_POV'"
+                             [disabled]="disabledValue">
                       <span class="m-0 p-2">Doktor specijalista - poverljiv pristup</span>
                     </div>
                   </label>
@@ -223,8 +223,8 @@
                   <label class="btn btn-outline-primary col-12 m-2">
                     <div class="itemcontent ms-auto text-start ps-2">
                       <input type="checkbox" [(ngModel)]="userPermissionDisplayed.visa_med_sestra"
-                        name="VISA_MED_SESTRA" id="visaMedSestra" autocomplete="off" value=""
-                        [formControlName]="'SENIOR_NURSE'" [disabled]="disabledValue">
+                             name="VISA_MED_SESTRA" id="visaMedSestra" autocomplete="off" value=""
+                             [formControlName]="'VISA_MED_SESTRA'" [disabled]="disabledValue">
                       <span class="m-0 p-2">Visa medicinska sestra</span>
                     </div>
                   </label>
@@ -233,8 +233,8 @@
                   <label class="btn btn-outline-primary col-12 m-2">
                     <div class="itemcontent ms-auto text-start ps-2">
                       <input type="checkbox" [(ngModel)]="userPermissionDisplayed.med_sestra" name="MED_SESTRA"
-                        id="medSestra" autocomplete="off" value="" [formControlName]="'NURSE'"
-                        [disabled]="disabledValue">
+                             id="medSestra" autocomplete="off" value="" [formControlName]="'MED_SESTRA'"
+                             [disabled]="disabledValue">
                       <span class="m-0 p-2">Medicinska sestra</span>
                     </div>
                   </label>

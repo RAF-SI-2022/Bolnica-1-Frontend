@@ -21,13 +21,17 @@ export class ProfileComponent implements OnInit {
   gender: boolean = false;
   successMessage: string = '';
   errorMessage: string = '';
+
+  permissionsList: string[] = [];
+
   department: string = '';
+
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
     this.userForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
+      gender: false,
       email: ['', [Validators.required, Validators.email]],
       yourPassword: ['', [Validators.required]],
       username: ['', Validators.required],
@@ -42,17 +46,17 @@ export class ProfileComponent implements OnInit {
       department: ['', [Validators.required]],
       profession: ['', [Validators.required]],
       ADMIN: '',
-      CHIEF: '',
+      // CHIEF: '',
       DR_SPEC_DEPARTMENT: '',
       DR_SPEC: '',
       DR_SPEC_POV: '',
-      SENIOR_NURSE: '',
-      NURSE: '',
-      RECEPTIONIST: '',
-      SENIOR_LAB_TECHNICIAN: '',
-      LAB_TECHNICIAN: '',
-      MED_BIOCHEMIST: '',
-      SPECIALIST_MED_BIOCHEMIST: ''
+      VISA_MED_SESTRA: '',
+      MED_SESTRA: '',
+      // RECEPTIONIST: '',
+      // SENIOR_LAB_TECHNICIAN: '',
+      // LAB_TECHNICIAN: '',
+      // MED_BIOCHEMIST: '',
+      // SPECIALIST_MED_BIOCHEMIST: ''
 
     })
     this.userPermissionDisplayed = new UlogeZaposlenog();
@@ -62,12 +66,12 @@ export class ProfileComponent implements OnInit {
   }
 
   showSuccessMessage(){
-    this.successMessage = 'Uspesno dodat korisnik!'
+    this.successMessage = 'Uspesno sacuvan korisnik!'
     setTimeout(() => {
       this.successMessage = ''
     }, 3000);
   }
-  
+
   ngOnInit(): void {
     this.userForm.get('name')?.disable()
     this.userForm.get('lastName')?.disable()
@@ -86,8 +90,9 @@ export class ProfileComponent implements OnInit {
     this.userForm.get('newPassword')?.disable()
     this.userForm.get('confirmPassword')?.disable()
     console.log("LBZ " + localStorage.getItem("LBZ")!);
+
     this.getUser(localStorage.getItem("LBZ")!);
-    this.getUserPermissions(localStorage.getItem("LBZ")!);
+    this.getUserPermissions();
     this.getDepartments();
 
   }
@@ -95,6 +100,8 @@ export class ProfileComponent implements OnInit {
   getDepartments() {
     this.userService.getDepartments().subscribe(result => {
       this.departments = result;
+      for (let d of this.departments)
+        console.log("de " + d.name);
     }, err => {
 
     });
@@ -103,22 +110,25 @@ export class ProfileComponent implements OnInit {
   getUser(LBZ: string): void {
     this.userService.getUser(LBZ).subscribe(result => {
     }, err => {
+      console.log()
       if (err.status == 302) { // found!
         this.userEdit = err.error; // citanje poruka je sa err.errors TO JE BODY-PORUKA
-        ///this.userEdit.department = err.error.department;
         this.department = this.userEdit.department.pbo
-        console.log("sss " + this.userEdit.department.name);
+        console.log("sss " + this.userEdit.gender);
+        this.userForm.get('gender')?.setValue(this.userEdit.gender == 'true' ? true:false);
       }
     })
   }
-  getUserPermissions(lbz:string) {
-    this.userService.getUserPermissions(lbz).subscribe(result => {
+
+  getUserPermissions() {
+    this.userService.getUserRoles().subscribe(result => {
       this.userPermissions = <Uloga[]><unknown>result;
       this.fillPagePermissions();
     }, err => {
       console.log(" nesto " + err.error);
     });
   }
+
   status: boolean = false;
   updateUser(): void {
     if (!this.status) {
@@ -173,62 +183,89 @@ export class ProfileComponent implements OnInit {
         this.userPermissionDisplayed.dr_spec_odeljenja = true;
       else if (p.shortName == 'MED_SESTRA')
         this.userPermissionDisplayed.med_sestra = true;
-      else if (p.shortName == 'VISA_MED_SES')
+      else if (p.shortName == 'VISA_MED_SESTRA')
         this.userPermissionDisplayed.visa_med_sestra = true;
       else if (p.shortName == 'DR_SPEC_POV')
         this.userPermissionDisplayed.dr_spec_pov = true;
+
+      console.log(p)
     }
   }
+
+
   saveUser(): void {
+
+    console.log("zovem saveUser() metodu")
 
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     form.classList.add('was-validated');
-    if (form.checkValidity() === false) {
-        return;
+
+
+    if(this.userPermissionDisplayed.admin == true) this.permissionsList.push('ADMIN');
+    if(this.userPermissionDisplayed.dr_spec == true) this.permissionsList.push('DR_SPEC');
+    if(this.userPermissionDisplayed.dr_spec_pov == true) this.permissionsList.push('DR_SPEC_POV');
+    if(this.userPermissionDisplayed.med_sestra == true) this.permissionsList.push('MED_SESTRA');
+    if(this.userPermissionDisplayed.visa_med_sestra == true) this.permissionsList.push('VISA_MED_SESTRA');
+    if (this.permissionsList.length == 0) {
+      this.errorMessage = 'Izaberi barem jednu privilegiju!';
+      return;
     }
 
-    //todo ovo treba da se popravi
-    /*
-lbz: string, name: string, surname: string, dateOfBirth: Date, gender: string,  
-jmbg: string, address: string, placeOfLiving: string, phone: string,
-    email: string, username: string, password: string, deleted: boolean,
-    title: Title, profession: Profession, departmentPbo: string,permissions: string[]
-    */
+    console.log("uloge " + this.permissionsList)
 
-      
-    this.userService.editEmployee(
-      this.authService.getLBZ(),
-      this.userForm.get('name')?.value,
-      this.userForm.get('surname')?.value(),
-      this.userForm.get('dateOfBirth')?.value(),
-      'male',
-      this.userForm.get('jmbg')?.value(),
-      this.userForm.get('address')?.value(),
-      this.userForm.get('placeOfLiving')?.value(),
-      this.userForm.get('phoneNumber')?.value(),
-      this.userForm.get('email')?.value(),
-      this.userForm.get('username')?.value(),
-      this.userForm.get('password')?.value(),
-      this.userForm.get('deleted')?.value(),
-      this.userForm.get('title')?.value(),
-      this.userForm.get('profession')?.value(),
-      this.department,
-      this.userForm.get('userPermission')?.value()
-    ).subscribe(response => {
-      console.log("USPEH " + response.name);
-    })
-      
-    
+    if (form.checkValidity() === true) {
+      {
+        //let newPassword = this.userForm.get('newPassword')?.value
+        //let confirmPassword = this.userForm.get('confirmPassword')?.value
 
-    let newPassword = this.userForm.get('newPassword')?.value()
-    let confirmPassword = this.userForm.get('confirmPassword')?.value()
+        //if(newPassword == confirmPassword){
 
-    if (this.userForm.errors != null) {
-      if (newPassword.equals(confirmPassword)) {
+        this.userService.editProfile(
+
+          this.authService.getLBZ(),
+          this.userForm.get('name')?.value,
+          this.userForm.get('lastName')?.value,
+          this.userForm.get('date')?.value, //mora date
+          this.userForm.get('gender')?.value,
+          this.userForm.get('JMBG')?.value,
+          this.userForm.get('adress')?.value,
+          this.userForm.get('city')?.value,
+          this.userForm.get('phoneNumber')?.value,
+          this.userForm.get('email')?.value,
+          this.userForm.get('username')?.value,
+          false,
+          this.userForm.get('title')?.value,
+          this.userForm.get('profession')?.value,
+          this.department,
+          this.permissionsList
+
+        ).subscribe(response => {
+          console.log("USPEH " + response.name);
+          this.errorMessage = '';
+          this.showSuccessMessage();
+        }, err=>{
+          this.errorMessage="Mejl mora biti na domenu @ibis.rs";
+        })
+
+
+        //} else alert("Lozinke se ne poklapaju!")
 
 
       }
     }
+
+    this.permissionsList = [];
+    console.log("uloge prazne" + this.permissionsList)
+
+    //sta se ovde htelo?
+    // let newPassword = this.userForm.get('newPassword')?.value
+    // let confirmPassword = this.userForm.get('confirmPassword')?.value
+    //
+    // if (this.userForm.errors != null) {
+    //   if (newPassword.equals(confirmPassword)) {
+    //     // nesto
+    //   }
+    // }
   }
 
 
@@ -246,7 +283,7 @@ jmbg: string, address: string, placeOfLiving: string, phone: string,
   }
 
   resetPassword(){
-      this.router.navigate(['/new-password']);
+    this.router.navigate(['/new-password']);
   }
 
   onSelectionChange(event: any) {
