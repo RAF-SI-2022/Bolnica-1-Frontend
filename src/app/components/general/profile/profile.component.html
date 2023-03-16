@@ -1,0 +1,291 @@
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+</head>
+
+
+<form [formGroup]="userForm" (submit)="saveUser()" class="mb-5 needs-validation" novalidate>
+
+  <div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+      <div class="col-md-3 border-right">
+        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
+            width="150px"
+            src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
+            class="font-weight-bold">{{userEdit.name}} {{userEdit.surname}}</span><span
+            class="text-black-50">{{userEdit.email}}</span><span> </span>
+        </div>
+        <div class="mt-4 text-center">
+
+          <button *ngIf="canUpdate()" type="button" class="btn btn-primary" (click)="resetPassword()"><i
+              class="bi bi-pencil-square me-1"></i> Resetuj lozinku</button>
+
+        </div>
+      </div>
+
+      <div class="col-md-5 border-right">
+        <div class="p-3 py-5">
+
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-right">Profil</h4>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6"><label class="labels">Ime</label><input name="name" [(ngModel)]="userEdit.name"
+                required type="text" class="form-control" id="name" placeholder="" value="" [formControlName]="'name'">
+              <div class="invalid-feedback">Unesite vase ime</div>
+            </div>
+            <div class="col-md-6"><label class="labels">Prezime</label><input name="surname" required
+                [(ngModel)]="userEdit.surname" type="text" class="form-control" id="lastName" value="" placeholder=""
+                [formControlName]="'lastName'">
+              <div class="invalid-feedback">Unesite vase prezime</div>
+
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <label class="labels">Pol</label>
+
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <div class="d-inline-block me-1">Musko</div> &nbsp;
+                  <div class="form-check form-switch d-inline-block"> &nbsp;
+                    <input type="checkbox" [(ngModel)]="userEdit.gender" class="form-check-input" id="gender"
+                      name="gender" style="cursor: pointer;" [formControlName]="'gender'" [disabled]="disabledValue">
+
+                  </div>
+                  <label for="gender" class="form-check-label"> Zensko</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12"><label class="labels">Email</label><input name="email" [(ngModel)]="userEdit.email"
+                required type="email" id="email" class="form-control" placeholder="" value=""
+                [formControlName]="'email'">
+              <div class="invalid-feedback">Unesite vas imejl</div>
+            </div>
+            <div class="col-md-12"><label class="labels">Username</label><input name="username" required
+                [(ngModel)]="userEdit.username" type="text" id="username" class="form-control" placeholder="" value=""
+                [formControlName]="'username'">
+              <div class="invalid-feedback">Unesite vas username</div>
+            </div>
+            <!-- <div class="col-12">
+              <label for="yourPassword" class="form-label">Lozinka</label>
+              <input name="lozinka" [(ngModel)]="userEdit.password" type="password" class="form-control"
+                id="yourPassword" value="" [formControlName]="'yourPassword'">
+              <div class="invalid-feedback">Molim vas unesite lozinku!</div>
+            </div>
+            <div class="col-12">
+              <label *ngIf="canUpdate() && status" for="yourPassword" class="form-label">Nova lozinka</label>
+              <input *ngIf="canUpdate() && status" type="password" name="password" class="form-control" id="newPassword"
+                [formControlName]="'newPassword'">
+            </div>
+            <div class="col-12">
+              <label *ngIf="canUpdate() && status" for="yourPassword" class="form-label">Potvrdi lozinku</label>
+              <input *ngIf="canUpdate() && status" type="password" name="password" class="form-control" id="confirmPassword"
+                [formControlName]="'confirmPassword'">
+              <div class="invalid-feedback">Lozinke se ne poklapaju!</div>
+            </div> -->
+
+            <div class="col-md-12"><label class="labels">Broj telefona</label><input name="phoneNumber" required
+                [(ngModel)]="userEdit.phone" type="text" class="form-control" id="phoneNumber" placeholder="" value=""
+                [formControlName]="'phoneNumber'">
+              <div class="invalid-feedback">Unesite vas broj telefona</div>
+            </div>
+            <div class="col-md-12"><label class="labels">JMBG</label><input name="jmbg" [(ngModel)]="userEdit.jmbg"
+                required type="text" class="form-control" placeholder="" id="JMBG" value="" [formControlName]="'JMBG'">
+              <div class="invalid-feedback">Unesite vas JMBG</div>
+            </div>
+            <div class="col-md-12"><label class="labels">Adresa</label><input name="address" required
+                [(ngModel)]="userEdit.address" type="text" class="form-control" placeholder="" id="adress" value=""
+                [formControlName]="'adress'">
+              <div class="invalid-feedback">Unesite vasu adresu</div>
+            </div>
+            <div class="col-md-12"><label class="labels">Mesto</label><input name="placeOfLiving" required
+                [(ngModel)]="userEdit.placeOfLiving" type="text" class="form-control" placeholder="" id="city" value=""
+                [formControlName]="'city'">
+              <div class="invalid-feedback">Unesite vase mesto stanovanja</div>
+            </div>
+            <div class="col-md-12"><label class="labels">
+                Datum</label><input name="dateOfBirth" [(ngModel)]="userEdit.dateOfBirth" type="date" id="date" required
+                class="form-control" [formControlName]="'date'">
+              <div class="invalid-feedback">Unesite vas datum rodjenja</div>
+            </div>
+            <div class="col-md-12"><label class="labels">Titula</label>
+              <select class="form-select" name="title" [(ngModel)]="userEdit.title" id="title" required
+                aria-label="Default select example" [formControlName]="'title'">
+                <option value="PROF_DR_MED">Prof. dr. med</option>
+                <option value="DR_MED_SPEC">Dr med. spec.</option>
+                <option value="DR_SCI_ME">Dr sci. med.</option>
+                <option value="DIPL_FARM">Dipl. farm.</option>
+                <option value="MAG_FARM">Mag. farm.</option>
+                <option value="MR">Mr</option>
+              </select>
+              <div class="invalid-feedback">Izaberite vasu titulu</div>
+            </div>
+          </div>
+          <div class="row mt-3">
+
+            <div class="col-md-6"><label class="labels">Odeljenje</label>
+              <select #departmentSelect name="odeljenje" [(ngModel)]="userEdit.department.name"
+                [formControlName]="'department'" id="{{userEdit.department.pbo}}" class="form-select"
+                aria-label="Default select example" (change)="onSelectionChange($event)" required>
+                <option *ngFor="let item of departments" [attr.data-id]="item.pbo" [value]="item.name">{{item.name}}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-6"><label class="labels">Zanimanje</label>
+              <select class="form-select" name="profession" [(ngModel)]="userEdit.profession" id="proffesion" required
+                aria-label="Default select example" [formControlName]="'profession'">
+                <option value="MED_SESTRA">Med. sestra</option>
+                <option value="SPEC_BIOHEMICAR">Spec. biohemicar</option>
+                <option value="SPEC_GASTROENTEROLOG">Spec. gastroenterolog</option>
+                <option value="SPEC_GINEKOLOG">Spec. ginekolog</option>
+                <option value="SPEC_ENDOKRINOLOG">Spec. endrokrinolog</option>
+                <option value="SPEC_KARDIOLOG">Spec. kardiolog</option>
+                <option value="SPEC_NEUROLOG">Spec. neurolog</option>
+                <option value="SPEC_NEFROLOG">Spec. nefrolog</option>
+                <option value="SPEC_PSIHIJATAR">Spec. psihijatar</option>
+                <option value="SPEC_PULMOLOG">Spec. pulmolog</option>
+                <option value="SPEC_UROLOG">Spec. urolog</option>
+                <option value="SPEC_HEMATOLOG">Spec. hematolog</option>
+                <option value="SPEC_HIRURG">Spec. hirurg</option>
+              </select>
+              <div class="invalid-feedback">Izaberite vase zanimanje</div>
+            </div>
+          </div>
+          <div class="mt-4 text-center">
+
+            <button *ngIf="canUpdate()" type="button" class="btn btn-primary" (click)="updateUser()"><i
+                class="bi bi-pencil-square me-1"></i> Izmeni</button>
+            <button *ngIf="!canUpdate()" type="button" disabled class="btn btn-primary"><i
+                class="bi bi-pencil-square me-1"></i> Izmeni</button>
+
+            <button *ngIf="canUpdate()" type="submit" class="btn btn-primary ms-4"><i class="bi bi-save me-1"></i>
+              Sacuvaj</button>
+            <button *ngIf="!canUpdate()" type="submit" disabled class="btn btn-primary ms-4"><i
+                class="bi bi-save me-1"></i> Sacuvaj</button>
+          </div>
+          <div *ngIf="errorMessage.length != 0" class="mt-4 text-center">
+            <label style="color: red"> {{ errorMessage }} </label>
+          </div>
+          <div *ngIf="successMessage.length != 0" class="mt-4 text-center">
+            <label style="color: green"> {{ successMessage }} </label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-md-4">
+        <div class="p-3 py-5">
+          <div class="d-flex justify-content-between align-items-center experience">
+            <h4>Privilegije</h4>
+          </div>
+          <div class="items-collection">
+            <div class="items col-xs-6 col-sm-3 col-md-3 col-lg-12">
+              <div class="info-block block-info clearfix">
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" name="ADMIN" [(ngModel)]="userPermissionDisplayed.admin" id="admin"
+                        autocomplete="off" value="" [formControlName]="'ADMIN'" [disabled]="disabledValue">
+                      <span class="m-0 p-2">Admin</span>
+                    </div>
+                  </label>
+                </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" [(ngModel)]="userPermissionDisplayed.dr_spec" name="DR_SPEC" id="drSpec"
+                        autocomplete="off" value="" [formControlName]="'DR_SPEC'" [disabled]="disabledValue">
+                      <span class="m-0 p-2">Doktor specijalista</span>
+                    </div>
+                  </label>
+                </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" [(ngModel)]="userPermissionDisplayed.dr_spec_pov" name="DR_SPEC_POV"
+                        id="drSpecPrivate" autocomplete="off" value="" [formControlName]="'DR_SPEC_POV'"
+                        [disabled]="disabledValue">
+                      <span class="m-0 p-2">Doktor specijalista - poverljiv pristup</span>
+                    </div>
+                  </label>
+                </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" [(ngModel)]="userPermissionDisplayed.visa_med_sestra"
+                        name="VISA_MED_SESTRA" id="visaMedSestra" autocomplete="off" value=""
+                        [formControlName]="'VISA_MED_SESTRA'" [disabled]="disabledValue">
+                      <span class="m-0 p-2">Visa medicinska sestra</span>
+                    </div>
+                  </label>
+                </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" [(ngModel)]="userPermissionDisplayed.med_sestra" name="MED_SESTRA"
+                        id="medSestra" autocomplete="off" value="" [formControlName]="'MED_SESTRA'"
+                        [disabled]="disabledValue">
+                      <span class="m-0 p-2">Medicinska sestra</span>
+                    </div>
+                  </label>
+                </div>
+                <!-- <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+                    <input type="checkbox" [(ngModel)]="userEdit.VISI_LABORATORIJSKI_TEHNICAR" name="VISI_LABORATORIJSKI_TEHNICAR" id = "visiLabTeh" autocomplete="off" value=""  [formControlName]="'SENIOR_LAB_TECHNICIAN'" [disabled]="disabledValue">
+                    <span class="m-0 p-2">Visi laboratorijski tehnicar</span>
+                  </div>
+                </label>
+              </div> -->
+                <!-- <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+                    <input type="checkbox" [(ngModel)]="userEdit.LABORATORIJSKI_TEHNICAR" name="LABORATORIJSKI_TEHNICAR" id = "labTeh" autocomplete="off" value="" [formControlName]="'LAB_TECHNICIAN'" [disabled]="disabledValue">
+                    <span class="m-0 p-2">Laboratorijski tehnicar</span>
+                  </div>
+                </label>
+              </div> -->
+                <!-- <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+                    <input type="checkbox" [(ngModel)]="userEdit.MEDICINSKI_BIOHEMICAR" name="MEDICINSKI_BIOHEMICAR" id = "medBiohemicar"autocomplete="off" value="" [formControlName]="'MED_BIOCHEMIST'"[disabled]="disabledValue">
+                    <span class="m-0 p-2">Medicinski biohemicar</span>
+                  </div>
+                </label>
+              </div> -->
+                <!-- <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <label class="btn btn-outline-primary col-12 m-2">
+                  <div class="itemcontent ms-auto text-start ps-2">
+                    <input type="checkbox" [(ngModel)]="userEdit.SPECIJALISTA_MEDICINSKE_BIOHEMIJE" name="SPECIJALISTA_MEDICINSKE_BIOHEMIJE" id = "specMedBio"autocomplete="off" value=""[formControlName]="'SPECIALIST_MED_BIOCHEMIST'"  [disabled]="disabledValue">
+                    <span class="m-0 p-2">Specijalista medicinske biohemije</span>
+                  </div>
+                </label>
+              </div> -->
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</form>
