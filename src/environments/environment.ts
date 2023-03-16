@@ -3,3 +3,9 @@ export const environment = {
     title: 'Local Environment',
     apiURL: 'http://localhost:8080/api'
   };
+
+export const environmentPatient = {
+  production: false,
+  title: 'Local Patient Environment',
+  apiURL: 'http://localhost:8081/api'
+};
