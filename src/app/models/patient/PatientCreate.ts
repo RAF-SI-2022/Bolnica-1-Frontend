@@ -1,0 +1,30 @@
+import {Gender} from "../patient-enums/Gender";
+import {CountyCode} from "../patient-enums/CountyCode";
+import {MaritalStatus} from "../patient-enums/MaritalStatus";
+import {ExpertiseDegree} from "../patient-enums/ExpertiseDegree";
+import {FamilyStatus} from "../patient-enums/FamilyStatus";
+
+export interface PatientCreate{
+  jmbg: string;
+  lbp: string;
+  name: string;
+  parentName: string;
+  surname: string;
+  gender: Gender;
+  dateOfBirth: Date;
+  dateAndTimeOfDeath: Date; // kako se prikazuje timestamp?
+  birthPlace: string;
+  placeOfLiving: string;
+  citizenship: CountyCode;
+  phone: string;
+  email: string;
+  guardianJmbg: string;
+  guardianNameAndSurname: string;
+  maritalStatus: MaritalStatus;
+  numOfChildren: number;
+  expertiseDegree: ExpertiseDegree;
+  profession: string;
+  familyStatus: FamilyStatus;
+
+  registerDate: Date;
+}
