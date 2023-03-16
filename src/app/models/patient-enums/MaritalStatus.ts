@@ -1,0 +1,3 @@
+export enum MaritalStatus {
+  U_BRAKU, RAZVEDENI, UDOVAC_UDOVICA, SAMAC_SAMICA
+}
