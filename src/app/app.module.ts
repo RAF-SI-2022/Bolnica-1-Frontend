@@ -44,6 +44,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotFoundComponent } from './components/general/not-found/not-found.component';
 import { ResetPasswordLinkComponent } from './components/general/reset-password-link/reset-password-link.component';
 import { NewPasswordComponent } from './components/general/new-password/new-password.component';
+import { NurseEditPatientComponent } from './components/nurse/nurse-edit-patient/nurse-edit-patient.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { NewPasswordComponent } from './components/general/new-password/new-pass
     AdminWorkspaceComponent,
     NotFoundComponent,
     ResetPasswordLinkComponent,
-    NewPasswordComponent
+    NewPasswordComponent,
+    NurseEditPatientComponent
   ],
   imports: [
     BrowserModule,
