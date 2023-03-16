@@ -45,6 +45,7 @@ import { NotFoundComponent } from './components/general/not-found/not-found.comp
 import { ResetPasswordLinkComponent } from './components/general/reset-password-link/reset-password-link.component';
 import { NewPasswordComponent } from './components/general/new-password/new-password.component';
 import { NurseEditPatientComponent } from './components/nurse/nurse-edit-patient/nurse-edit-patient.component';
+import { DoctorCreateReferralComponent } from './components/doctor/doctor-create-referral/doctor-create-referral.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { NurseEditPatientComponent } from './components/nurse/nurse-edit-patient
     NotFoundComponent,
     ResetPasswordLinkComponent,
     NewPasswordComponent,
-    NurseEditPatientComponent
+    NurseEditPatientComponent,
+    DoctorCreateReferralComponent
   ],
   imports: [
     BrowserModule,
