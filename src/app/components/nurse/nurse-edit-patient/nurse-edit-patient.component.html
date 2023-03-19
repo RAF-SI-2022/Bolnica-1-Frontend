@@ -1,1 +1,153 @@
-<p>nurse-edit-patient works!</p>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+  
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  </head>
+  
+  <div class="container rounded bg-white mt-5 mb-5">
+    <form>
+        <div class="row justify-content-center">
+            <div class="col-md-8 border-right">
+                <div class="p-3 py-5">
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Profil</h4>
+                    </div>
+                    
+
+
+                    <div class="row">
+                        <div class="col-md-4"><label class="labels">Ime</label>
+                            <input type="text" name="firstName" class="form-control" data-cy="firstName">
+                            <div class="invalid-feedback">Unesite vase ime!</div>
+                        </div>
+                        <div class="col-md-4"><label class="labels">Ime roditelja</label>
+                            <input type="text" name ="middleName" class="form-control" data-cy="middleName">
+                            <div class="invalid-feedback">Unesite ime roditelja!</div>
+                        </div>
+                        <div class="col-md-4"><label class="labels">Prezime</label>
+                            <input type="text" name ="lastName" class="form-control" data-cy="lastName">
+                            <div class="invalid-feedback">Unesite vase prezime!</div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-1">
+                        <div class="col-md-8"><label class="labels">JMBG</label>
+                            <input type="text" name="JMBG" class="form-control">
+                            <div class="invalid-feedback">Unesite vas JMBG!</div>
+                        </div>
+
+                        <div class="col-md-4 ">
+                            <label class="labels">Pol: </label>
+                            <div class="container">
+                                <div class="col">
+                                    <div class="d-inline-block mt-1">Musko</div> &nbsp;
+                                    <div class="form-check form-switch d-inline-block"> &nbsp;
+                                        <input [formControlName]="'gender'" name=" gender" type="checkbox" class="form-check-input" id="site_state" style="cursor: pointer;">
+                                        <label for="site_state" class="form-check-label"> Zensko</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-1">
+                        <div class="col-md-4"><label class="labels">Datum rodjenja</label>
+                            <input type="date" name="dateOfBirth" class="form-control" data-cy="dateOfBirth">
+                            <div class="invalid-feedback">Unesite datum rodjenja!</div>
+                        </div>
+                        <div class="col-md-4"><label class="labels">Mesto rodjenja</label>
+                            <input type="text" name ="placeOfBirth" class="form-control" data-cy="placeOfBirth">
+                            <div class="invalid-feedback">Unesite mesto rodjenja!</div>
+                        </div>
+                        <div class="col-md-4"><label class="labels">Zemlja drzavljanstva</label>
+                            <input type="text" name ="countryOfBirth" class="form-control" data-cy="countryOfBirth">
+                            <div class="invalid-feedback">Unesite zemlju drzavljanstva!</div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-1">
+                        <div class="col-md-4"><label class="labels">Adresa stanovanja</label>
+                            <input type="text" name="adress" class="form-control" data-cy="adress">
+                        </div>
+                        <div class="col-md-4"><label class="labels">Mesto stanovanja</label>
+                            <input type="text" name ="city" class="form-control" data-cy="city">
+                        </div>
+                        <div class="col-md-4"><label class="labels">Zemlja stanovanja</label>
+                            <input type="text" name ="country" class="form-control" data-cy="country">
+                        </div>
+                    </div>
+
+                    <div class="row mt-1">
+                        <div class="col-md-6"><label class="labels">Kontakt telefon</label>
+                            <input type="text" name="phone" class="form-control" data-cy="phone">
+                        </div>
+                        <div class="col-md-6"><label class="labels">Email</label>
+                            <input type="text" name ="email" class="form-control" data-cy="email">
+                        </div>
+                    </div>
+
+                    <div class="row mt-1">
+                        <div class="col-md-6"><label class="labels">Ime i prezime staratelja</label>
+                            <input type="text" name="guardianName" class="form-control" data-cy="guardianName">
+                        </div>
+                        <div class="col-md-6"><label class="labels">JMBG staratelja</label>
+                            <input type="text" name ="guardianJMBG" class="form-control" data-cy="guardianJMBG">
+                        </div>
+                    </div>
+
+                    <div class="row mt-1">
+                        <div class="col-md-4"><label class="labels">Porodicni status</label>
+                            <select class="form-select" name="familyStatus"  data-cy="familyStatus">
+                                <option value="1"></option>
+                                <option value="2">Oba roditelja</option>
+                                <option value="3">Roditelji razdvojeni/razvedeni</option>
+                                <option value="4">Jedan roditelj</option>
+                                <option value="5">Bez roditelja</option>
+                                <option value="6">Usvojen</option>
+                              </select>
+                        </div>
+                        <div class="col-md-4"><label class="labels">Bracni status</label>
+                            <select class="form-select" name="maritalStatus"  data-cy="maritalStatus">
+                                <option value="1"></option>
+                                <option value="2">U braku</option>
+                                <option value="3">Razvedeni</option>
+                                <option value="4">Udovac/Udovica</option>
+                                <option value="5">Samac/Samica</option>
+                              </select>
+                        </div>
+                        <div class="col-md-4"><label class="labels">Broj Dece</label>
+                            <input type="text" name ="numberOfChildren" class="form-control" data-cy="numberOfChildren">
+                        </div>
+                    </div>
+
+                    <div class="row mt-1">
+                        <div class="col-md-6"><label class="labels">Stepen strucne spreme</label>
+                            <select class="form-select" name="education"  data-cy="education">
+                                <option value="1"></option>
+                                <option value="2">Bez osnovnog obrazovanja</option>
+                                <option value="3">Osnovno obrazovanje</option>
+                                <option value="4">Srednje obrazovanje</option>
+                                <option value="5">Vise obrazovanje</option>
+                                <option value="6">Visoko obrazovanje</option>
+                              </select>
+                        </div>
+                        <div class="col-md-6"><label class="labels">Zanimanje</label>
+                            <input type="text" name ="job" class="form-control" data-cy="job">
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <button type="submit" class="btn btn-primary" data-cy="button"><i class="bi bi-save me-1"></i> Napravi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>  
+  </div>
