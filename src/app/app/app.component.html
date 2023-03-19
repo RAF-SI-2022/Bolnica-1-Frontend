@@ -105,12 +105,6 @@
         </a>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" routerLink="../doctor-workspace">
-          <i class="bi bi-table"></i>
-          <span>Zakazani termini</span>
-        </a>
-      </li>
 
       <li *ngIf="canAddEmployee()" class="nav-item">
         <a class="nav-link collapsed" routerLink="../admin-add-employee">
@@ -118,6 +112,35 @@
           <span>Dodaj zaposlenog</span>
         </a>
       </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" routerLink="../doctor-workspace">
+          <i class="bi bi-table"></i>
+          <span>Zakazani termini</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-workspace">
+          <i class="bi bi-file-spreadsheet"></i>
+          <span>Zakazani pacijenti</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" routerLink="../biochemist-workspace">
+          <i class="bi bi-calendar-date"></i>
+          <span>Dnevni radni nalog</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" routerLink="../biochemist-search">
+          <i class="bi bi-calendar"></i>
+          <span>Radni nalozi</span>
+        </a>
+      </li>
+
     </ul>
 
   </aside>
