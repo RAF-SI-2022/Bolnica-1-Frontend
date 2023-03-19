@@ -12,7 +12,7 @@ export interface PatientUpdate{
   surname: string;
   gender: Gender;
   dateOfBirth: Date;
-  dateAndTimeOfDeath: Date; // kako se prikazuje timestamp?
+  dateAndTimeOfDeath: Date; // ovde je timestamp
   birthPlace: string;
   placeOfLiving: string;
   citizenship: CountyCode;
