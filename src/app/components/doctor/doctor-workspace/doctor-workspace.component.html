@@ -19,7 +19,7 @@
   <div class="table-responsive">
     <div class="table-wrapper">
       <div class="table-title">
-        <h2><b>Zakazani termina</b></h2>
+        <h2><b>Zakazani termini</b></h2>
       </div>
 
       <label for="date">Izaberite datum: </label>
@@ -29,7 +29,7 @@
       <div class="me-auto float-end text-end mt-3 mb-3">
         <button type="submit" class="btn btn-primary">Pretrazi</button>
       </div>
-        <table class="table table-hover" (click)="onTableRowClicked($event)">
+        <table class="table table-hover">
           <thead>
           <tr>
             <th>Ime</th>
@@ -37,10 +37,11 @@
             <th>Datum rodjenja</th>
             <th>Pol</th>
             <th>Status</th>
+            <th> </th>
           </tr>
           </thead>
           <tbody>
-          <tr>
+          <tr class="table-row"(click)="showPopup($event)">
           <tr>
             <td>Ime</td>
             <td>Prezime</td>
@@ -74,6 +75,7 @@
                 <li>Otkazano</li>
               </ul>
             </td>
+            <td><button (click)="showPopup($event)" class="btn btn-primary" >Pretrazi</button></td>
           </tr>
           </tbody>
         </table>

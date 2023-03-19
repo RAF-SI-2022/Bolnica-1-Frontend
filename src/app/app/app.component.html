@@ -105,6 +105,14 @@
         </a>
       </li>
 
+
+      <li *ngIf="canAddEmployee()" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../admin-add-employee">
+          <i class="bi bi-journal-text"></i>
+          <span>Dodaj zaposlenog</span>
+        </a>
+      </li>
+
       <li class="nav-item">
         <a class="nav-link collapsed" routerLink="../doctor-workspace">
           <i class="bi bi-table"></i>
@@ -112,10 +120,10 @@
         </a>
       </li>
 
-      <li *ngIf="canAddEmployee()" class="nav-item">
-        <a class="nav-link collapsed" routerLink="../admin-add-employee">
-          <i class="bi bi-journal-text"></i>
-          <span>Dodaj zaposlenog</span>
+      <li class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-workspace">
+          <i class="bi bi-file-spreadsheet"></i>
+          <span>Zakazani pacijenti</span>
         </a>
       </li>
     </ul>

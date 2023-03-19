@@ -7,6 +7,8 @@ import {Component, OnInit} from '@angular/core';
 })
 export class DoctorWorkspaceComponent implements OnInit {
   isPopupVisible = false;
+  /*
+  //popup se pojavljujem kliktajem na red
   selectedPerson: any;
 
   onTableRowClicked(event: any) {
@@ -14,6 +16,11 @@ export class DoctorWorkspaceComponent implements OnInit {
       this.selectedPerson = event.target.parentElement.cells[0].textContent;
       this.isPopupVisible = true;
     }
+  }
+*/
+  showPopup(event: any) {
+    const row = event.target.closest('.table-row');
+    this.isPopupVisible = true;
   }
 
   hidePopup() {

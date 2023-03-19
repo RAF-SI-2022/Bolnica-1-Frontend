@@ -1,1 +1,128 @@
-<p>nurse-workspace works!</p>
+<!DOCTYPE html>
+<html xmlns:width="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="dropdown">
+          <button class="dropbtn">Lekar</button>
+          <ul class="dropdown-content">
+            <li><a href="#">Ime Prezime</a></li>
+            <li><a href="#">Ime Prezime</a></li>
+            <li><a href="#">Ime Prezime</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+
+      <label class="label">Danasnji pacijenti </label>
+
+
+      <div class="me-auto float-end text-end mt-3 mb-3">
+        <button class="btn">Danas</button>
+        <button class="btn-dark">Sutra</button>
+      </div>
+
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th style="border-right: 2px solid lightgray;">Satnica</th>
+          <th>Pacijent</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr  style="width:60px;" >
+          <td  style="border-right: 2px solid lightgray;">
+            <ul class="vertical-list">
+              <li >8:00</li>
+              <li >8:30</li>
+              <li >9:00</li>
+              <li >9:30</li>
+              <li>10:00</li>
+              <li>10:30</li>
+              <li>11:00</li>
+              <li>11:30</li>
+              <li>12:00</li>
+              <li>12:30</li>
+              <li>13:00</li>
+              <li>13:30</li>
+              <li>14:00</li>
+              <li>14:30</li>
+              <li>15:00</li>
+              <li>15:30</li>
+              <li>16:00</li>
+              <li>16:30</li>
+              <li>17:00</li>
+              <li>17:30</li>
+              <li>18:00</li>
+              <li>18:30</li>
+              <li>19:00</li>
+              <li>19:30</li>
+              <li>20:00</li>
+            </ul>
+          </td>
+          <!--- Lista treba da se popuni pacijentima -->
+          <td style="padding: 0px">
+            <ul class="list" >
+              <li >Pacijent1 </li>
+              <li >Pacijent2</li>
+            </ul>
+          </td>
+        </tr>
+
+
+
+        </tbody>
+      </table>
+
+<!---
+      <tbody id="hourly-table">
+      </tbody>
+      </table>
+
+      <script>
+        var startTime = 9; // start time in hours (9:00 AM)
+        var endTime = 17; // end time in hours (5:00 PM)
+
+        var hourlyTable = document.getElementById("hourly-table");
+
+        for (var i = startTime; i <= endTime; i++) {
+          var hour = i < 12 ? i + ":00 AM" : (i - 12) + ":00 PM"; // convert 24-hour format to 12-hour format
+
+          var row = hourlyTable.insertRow();
+          var timeCell = row.insertCell(0);
+          var eventCell = row.insertCell(1);
+
+          timeCell.innerHTML = hour;
+          eventCell.innerHTML = "Event description goes here";
+        }
+      </script>
+      -->
+
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
+
+
