@@ -30,6 +30,7 @@ export class DoctorWorkspaceComponent implements OnInit {
   confirmPregled() {
     //otvori stranicu /doctor-workspace-one-patient
     //za selektovanog pacijenta
+
   }
 
 
