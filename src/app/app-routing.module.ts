@@ -62,10 +62,11 @@ import { NotFoundComponent } from './components/general/not-found/not-found.comp
 import { ResetPasswordLinkComponent } from './components/general/reset-password-link/reset-password-link.component';
 import { LoggedOutGuard } from './guards/logged-out.guard';
 import { NewPasswordComponent } from './components/general/new-password/new-password.component';
+import {NurseEditPatientComponent} from "./components/nurse/nurse-edit-patient/nurse-edit-patient.component";
 
 
 const routes: Routes = [
-  { 
+  {
     path: "",
     component: AdminWorkspaceComponent,
     canActivate: [AuthGuard]
@@ -143,6 +144,11 @@ const routes: Routes = [
   {
     path: "nurse-add-patient",
     component: NurseAddPatientComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "nurse-edit-patient",
+    component: NurseEditPatientComponent,
     canActivate: [AuthGuard]
   },
   {
