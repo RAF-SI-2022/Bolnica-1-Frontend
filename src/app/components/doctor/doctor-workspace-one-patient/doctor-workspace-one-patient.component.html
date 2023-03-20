@@ -1,1 +1,144 @@
-<p>doctor-workspace-one-patient works!</p>
+<!DOCTYPE html>
+<html xmlns:width="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+
+      <table class="table">
+        <tr>
+          <td><label class="activite-label">Pacijent</label></td>
+        </tr>
+        <tr>
+          <td><textarea class="bi-textarea">Alergije</textarea></td>
+        </tr>
+        <tr>
+          <td><textarea class="bi-textarea">Vakcine</textarea></td>
+        </tr>
+      </table>
+<!--- Za dugmice treba dodati logiku otvaranja zasebnih stranica
+-->
+      <div class="button-container">
+        <button class="btn btn-outline-primary">Pregled</button>
+        <button class="btn btn-outline-primary" >Karton</button>
+      </div>
+
+
+      <div style="padding-top: 20px">
+        <p class="p-0">Izvestaj</p>
+      </div>
+
+      <table>
+        <tr>
+          <td><label class="label">Amneza</label></td>
+        </tr>
+        <tr>
+          <td><textarea class="bi-textarea">Tegobe</textarea></td>
+        </tr>
+        <tr>
+          <td><textarea class="bi-textarea">Bolest</textarea></td>
+        </tr>
+        <tr>
+          <td><textarea class="bi-textarea">Licna amneza</textarea></td>
+        </tr>
+        <tr>
+          <td><textarea class="bi-textarea">Porodicna amneza</textarea></td>
+        </tr>
+        <tr>
+          <td><textarea class="bi-textarea">Misljenje pacijenta</textarea></td>
+        </tr>
+      </table>
+
+      <table>
+        <tr>
+          <td><label class="label" for="dijagnoza">Dijagnoza</label></td>
+        </tr>
+        <tr>
+          <td><textarea class="bi-textarea"  id="dijagnoza" name="dijagnoza"required>Objektivni nalaz</textarea>
+        </tr>
+      </table>
+
+      <div>
+        <button class="btn btn-outline-primary">Dodati dijagnozu</button>
+      </div>
+<!--- Treba da se namesti da je list-container vidljiv tek nakon kliktaja na dugme
+-->
+      <div class="list-container">
+        <div class="dropdown">
+          <select>
+            <option value="" disabled selected>Sifra</option>
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+          </select>
+        </div>
+        <div class="dropdown">
+          <select>
+            <option value="option1" >U toku</option>
+            <option value="option1">Oporavljen</option>
+            <option value="option2">Preminuo</option>
+            <option value="option4">Stalne posledice</option>
+          </select>
+        </div>
+        <div class="checkbox">
+          <input type="checkbox" id="checkbox" name="checkbox">
+          <label for="checkbox">Checkbox</label>
+        </div>
+
+      </div>
+
+
+
+
+
+      <table>
+        <tr>
+          <td><label class="label">Terapija</label></td>
+        </tr>
+        <tr>
+          <td><textarea class="bi-textarea">Predlagane</textarea></td>
+        </tr>
+        <tr>
+          <td><textarea class="bi-textarea">Savet</textarea></td>
+        </tr>
+      </table>
+
+      <div>
+        <button class="btn btn-primary" (click)="showPopup($event)">Sacuvaj</button>
+      </div>
+
+      <div class="popup-overlay" *ngIf="isPopupVisible">
+        <div class="popup">
+          <p>Zelite da sacuvate izvestaj?</p>
+          <div class="popup-buttons">
+            <button (click)="confirmSacuvaj()">OK</button>
+            <button (click)="hidePopup()">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
+
+
