@@ -54,6 +54,7 @@ export class UserService {
     localStorage.removeItem('PBO');
     localStorage.removeItem('username');
 
+
     this.router.navigate(['']);
   }
 
@@ -207,5 +208,9 @@ export class UserService {
   getAllUsers(ime: string, prezime:string, bolnica: string, odeljenje: string, deleted:boolean, page: number, size:number): Observable<Page<Zaposleni>> {
     let httpParams = new HttpParams().append("name",ime).append("surname", prezime).append("departmentName", odeljenje).append("hospitalShortName",bolnica).append("deleted",deleted).append("page",page).append("size",size);
     return this.http.get<Page<Zaposleni>>(`${environment.apiURL}/employee/list`, {params: httpParams, headers:this.getHeaders()});
+  }
+
+  public getEmployee(lbz: string): Observable<Zaposleni> {
+    return this.http.get<Zaposleni>(`${environment.apiURL}/employee/find/${lbz}`, { headers: this.getHeaders() });
   }
 }

@@ -37,7 +37,7 @@
 
       <div class="me-auto float-end text-end mt-3 mb-3">
         <button class="btn">Danas</button>
-        <button class="btn-dark">Sutra</button>
+        <button class="btn">Sutra</button>
       </div>
 
       <table class="table table-hover">
@@ -49,7 +49,6 @@
         </thead>
 
         <tbody>
-        <tr  style="width:60px;" >
           <td  style="border-right: 2px solid lightgray;">
             <ul class="vertical-list">
               <li >8:00</li>
@@ -86,36 +85,9 @@
               <li >Pacijent2</li>
             </ul>
           </td>
-        </tr>
-
-
 
         </tbody>
       </table>
-
-<!---
-      <tbody id="hourly-table">
-      </tbody>
-      </table>
-
-      <script>
-        var startTime = 9; // start time in hours (9:00 AM)
-        var endTime = 17; // end time in hours (5:00 PM)
-
-        var hourlyTable = document.getElementById("hourly-table");
-
-        for (var i = startTime; i <= endTime; i++) {
-          var hour = i < 12 ? i + ":00 AM" : (i - 12) + ":00 PM"; // convert 24-hour format to 12-hour format
-
-          var row = hourlyTable.insertRow();
-          var timeCell = row.insertCell(0);
-          var eventCell = row.insertCell(1);
-
-          timeCell.innerHTML = hour;
-          eventCell.innerHTML = "Event description goes here";
-        }
-      </script>
-      -->
 
     </div>
   </div>
@@ -124,5 +96,4 @@
 
 </body>
 </html>
-
 
