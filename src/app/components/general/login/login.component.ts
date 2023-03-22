@@ -3,6 +3,7 @@ import { UserService } from "../../../services/user-service/user.service";
 import { Router } from "@angular/router";
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {Zaposleni} from "../../../models/models";
 
 @Component({
   selector: 'app-login',
@@ -14,16 +15,37 @@ export class LoginComponent implements OnInit {
   password: string = '';
   loginForm: FormGroup
   showError: boolean = false;
+  lbz: string = '';
+  employee: Zaposleni;
+
+
   constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
     this.loginForm = this.formBuilder.group(
       {
         username: ['', [Validators.required]],
         password: ['', [Validators.required]],
       })
+    this.employee = new Zaposleni()
+
   }
 
   ngOnInit(): void { }
 
+  setUsername(){
+    // @ts-ignore
+    this.lbz = localStorage.getItem('LBZ').toString()
+    this.userService.getEmployee(this.lbz).subscribe(result => {
+    }, err => {
+      if (err.status == 302) { // found!
+        this.employee = err.error; // citanje poruka je sa err.errors TO JE BODY-PORUKA
+        localStorage.setItem('username', this.employee.username);
+
+      }
+    })
+
+    return this.employee.username
+
+  }
   logIn(): void {
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
 
@@ -31,6 +53,7 @@ export class LoginComponent implements OnInit {
       form.classList.add('was-validated');
       return;
     }
+
 
     this.userService.login({
       username: this.username,
@@ -41,37 +64,37 @@ export class LoginComponent implements OnInit {
       this.userService.token = response.message;
       const decodedToken = new JwtHelperService().decodeToken(response.message);
 
-      localStorage.setItem('username', decodedToken.username);
-      localStorage.setItem('LBZ', decodedToken.lbz);
+      localStorage.setItem('LBZ', decodedToken.sub);
+      this.setUsername()
       localStorage.setItem('PBO', decodedToken.pbo);
       console.log("ADMIN SAMss");
 
-      this.userService.checkRole('ADMIN').subscribe(hasRole => {
+      this.userService.checkRole('ROLE_ADMIN').subscribe(hasRole => {
         if (hasRole) {
           this.router.navigate(['/admin-workspace']);
         }
         else {
-          this.userService.checkRole('DR_SPEC').subscribe(hasDrSpecRole => {
+          this.userService.checkRole('ROLE_DR_SPEC').subscribe(hasDrSpecRole => {
             if (hasDrSpecRole) {
               this.router.navigate(['/doctor-workspace']);
             }
             else {
-              this.userService.checkRole('DR_SPEC_POV').subscribe(hasDrSpecPovRole => {
+              this.userService.checkRole('ROLE_DR_SPEC_POV').subscribe(hasDrSpecPovRole => {
                 if (hasDrSpecPovRole) {
                   this.router.navigate(['/doctor-workspace']);
                 }
                 else {
-                  this.userService.checkRole('DR_SPEC_ODE').subscribe(hasDrSpecOdeRole => {
+                  this.userService.checkRole('ROLE_DR_SPEC_ODE').subscribe(hasDrSpecOdeRole => {
                     if (hasDrSpecOdeRole) {
                       this.router.navigate(['/doctor-workspace']);
                     }
                     else {
-                      this.userService.checkRole('MED_SES').subscribe(hasMedSesRole => {
+                      this.userService.checkRole('ROLE_MED_SES').subscribe(hasMedSesRole => {
                         if (hasMedSesRole) {
                           this.router.navigate(['/nurse-workspace']);
                         }
                         else {
-                          this.userService.checkRole('VISA_MED_SES').subscribe(hasVisaMedSesRole => {
+                          this.userService.checkRole('ROLE_VISA_MED_SES').subscribe(hasVisaMedSesRole => {
                             if (hasVisaMedSesRole) {
                               this.router.navigate(['/nurse-workspace']);
                             }
@@ -94,5 +117,7 @@ export class LoginComponent implements OnInit {
         this.showError = true;
     })
   }
+
+
 
 }

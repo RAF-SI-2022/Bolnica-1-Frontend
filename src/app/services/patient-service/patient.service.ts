@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpStatusCode} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams, HttpStatusCode} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
-import {environmentPatient} from "../../../environments/environment";
+import {environment, environmentPatient} from "../../../environments/environment";
 import {PatientCreate} from "../../models/patient/PatientCreate";
 import {Gender} from "../../models/patient-enums/Gender";
 import {CountyCode} from "../../models/patient-enums/CountyCode";
@@ -23,6 +23,8 @@ import {MedicalHistory} from "../../models/patient/MedicalHistory";
 import {GeneralMedicalData} from "../../models/patient/GeneralMedicalData";
 import {ExaminationHistory} from "../../models/patient/ExaminationHistory";
 import {MedicalRecord} from "../../models/patient/MedicalRecord";
+import {Page, Zaposleni} from "../../models/models";
+import {Patient} from "../../models/patient/Patient";
 
 @Injectable({
   providedIn: 'root'
@@ -318,6 +320,12 @@ export class PatientService {
     return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,  obj, { headers: this.getHeaders() } );
   }
 
+
+  getAllPatients(name: string, surname:string, jmbg: string, lbp: string, page: number, size:number): Observable<Page<Patient>> {
+    let httpParams = new HttpParams().append("name",name).append("surname", surname).append("jmbg", jmbg).append("lbp",lbp).append("page",page).append("size",size);
+    //todo proveri ovu rutu kad dodaju
+    return this.http.get<Page<Patient>>(`${environment.apiURL}/patient/list`, {params: httpParams, headers:this.getHeaders()});
+  }
 
 
 

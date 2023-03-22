@@ -160,7 +160,7 @@ table.table .avatar {
 
 .btn{
   font-size: 15px;
-  border-bottom: 2px solid forestgreen;
+  //border-bottom: 2px solid forestgreen;
   border-radius: 0 ;
   margin-right: 5px;
 }
