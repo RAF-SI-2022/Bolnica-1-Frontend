@@ -46,6 +46,7 @@ import { ResetPasswordLinkComponent } from './components/general/reset-password-
 import { NewPasswordComponent } from './components/general/new-password/new-password.component';
 import { NurseEditPatientComponent } from './components/nurse/nurse-edit-patient/nurse-edit-patient.component';
 import { DoctorCreateReferralComponent } from './components/doctor/doctor-create-referral/doctor-create-referral.component';
+import {NurseWorkspaceComponent} from "./components/nurse/nurse-workspace/nurse-workspace.component";
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { DoctorCreateReferralComponent } from './components/doctor/doctor-create
     TechnicianPatientAdmissionComponent,
     NurseScheduleAdmissionComponent,
     NurseSearchPatientsDepartmentsComponent,
+    NurseWorkspaceComponent,
     TechnicianIssuingResultsComponent,
     TechnicianScheduleVisitComponent,
     TechnicianWorkspaceComponent,
