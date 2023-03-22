@@ -28,3 +28,6 @@ export interface PatientCreate{
 
   registerDate: Date;
 }
+
+
+

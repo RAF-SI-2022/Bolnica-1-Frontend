@@ -28,3 +28,30 @@ export interface PatientUpdate{
 
   deleted: boolean;
 }
+
+export class PatientUpdate{
+  jmbg: string = '';
+  lbp: string = '';
+  name: string = '';
+  parentName: string = '';
+  surname: string = '';
+  gender: Gender = 0;
+  dateOfBirth: Date = new Date();
+  dateAndTimeOfDeath: Date = new Date(); // ovde je timestamp
+  birthPlace: string = '';
+  placeOfLiving: string = '';
+  citizenship: CountyCode = 197;
+  phone: string = '';
+  email: string = '';
+  guardianJmbg: string = '';
+  guardianNameAndSurname: string = '';
+  maritalStatus: MaritalStatus = 0;
+  numOfChildren: number = 0;
+  expertiseDegree: ExpertiseDegree = 0;
+  profession: string = '';
+  familyStatus: FamilyStatus = 0;
+
+  deleted: boolean = false;
+}
+
+
