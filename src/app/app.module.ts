@@ -48,6 +48,19 @@ import { NurseEditPatientComponent } from './components/nurse/nurse-edit-patient
 import { DoctorCreateReferralComponent } from './components/doctor/doctor-create-referral/doctor-create-referral.component';
 import {NurseWorkspaceComponent} from "./components/nurse/nurse-workspace/nurse-workspace.component";
 
+//import {ScheduleModule, RecurrenceEditorModule,DayService, WeekService,WorkWeekService,MonthService, MonthAgendaService} from '@syncfusion/ej2-angular-schedule';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+
+/*
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  interactionPlugin
+]);
+
+ */
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -90,7 +103,10 @@ import {NurseWorkspaceComponent} from "./components/nurse/nurse-workspace/nurse-
     HttpClientModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+
+    //ScheduleModule,RecurrenceEditorModule
+    FullCalendarModule, ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
