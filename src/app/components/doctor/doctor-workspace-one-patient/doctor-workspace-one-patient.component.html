@@ -17,6 +17,7 @@
 
 <body>
 <div class="container">
+  <form [formGroup]="addReport" (submit)="confirmSacuvaj()" class="mb-5 needs-validation" novalidate>
   <div class="table-responsive">
     <div class="table-wrapper">
 
@@ -24,8 +25,17 @@
         <tr>
           <td><label class="activite-label">Pacijent</label></td>
         </tr>
+<!--        <tr>-->
+<!--          <td><textarea class="bi-textarea">Ime</textarea></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--          <td><textarea class="bi-textarea">Prezime</textarea></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--          <td><textarea class="bi-textarea">Datum rodjenja</textarea></td>-->
+<!--        </tr>-->
         <tr>
-          <td><textarea class="bi-textarea">Alergije</textarea></td>
+          <td><textarea class="bi-textarea" >Alergije</textarea></td>
         </tr>
         <tr>
           <td><textarea class="bi-textarea">Vakcine</textarea></td>
@@ -34,8 +44,8 @@
 <!--- Za dugmice treba dodati logiku otvaranja zasebnih stranica
 -->
       <div class="button-container">
-        <button class="btn btn-outline-primary">Pregled</button>
-        <button class="btn btn-outline-primary" >Karton</button>
+        <button class="btn btn-outline-primary" >Pregled</button>
+        <button class="btn btn-outline-primary" (click)="goToMedicalRecord()">Karton</button>
       </div>
 
 
@@ -48,20 +58,40 @@
           <td><label class="label">Amneza</label></td>
         </tr>
         <tr>
-          <td><textarea class="bi-textarea">Tegobe</textarea></td>
+          <td><textarea class="bi-textarea" placeholder="Tegobe" [formControlName]="'mainProblems'">Tegobe</textarea></td>
         </tr>
+<!--        <div class="col-md-12"><label class="labels"></label><input type="text" name="mainProblems"-->
+<!--                                                                    class="form-control" placeholder="Tegobe" value="" required [formControlName]="'mainProblems'">-->
+<!--          <div class="invalid-feedback">Unesite tegobe pacijenta</div>-->
+<!--        </div>-->
         <tr>
-          <td><textarea class="bi-textarea">Bolest</textarea></td>
+          <td><textarea class="bi-textarea" placeholder="Bolest" [formControlName]="'currDisease'">Bolest</textarea></td>
         </tr>
+<!--        <div class="col-md-12"><label class="labels"></label><input type="text" name="currDisease"-->
+<!--                                                                    class="form-control" placeholder="Bolest" value="" required [formControlName]="'currDisease'">-->
+<!--          <div class="invalid-feedback">Unesite trenutnu bolest</div>-->
+<!--        </div>-->
         <tr>
-          <td><textarea class="bi-textarea">Licna amneza</textarea></td>
+          <td><textarea class="bi-textarea" placeholder="Licna anamneza" [formControlName]="'personalAnamnesis'">Licna amneza</textarea></td>
         </tr>
+<!--        <div class="col-md-12"><label class="labels"></label><input type="text" name="personalAnamnesis"-->
+<!--                                                                    class="form-control" placeholder="Licna anamneza" value="" required [formControlName]="'personalAnamnesis'">-->
+<!--          <div class="invalid-feedback">Unesite anamnezu pacijenta</div>-->
+<!--        </div>-->
         <tr>
-          <td><textarea class="bi-textarea">Porodicna amneza</textarea></td>
+          <td><textarea class="bi-textarea" placeholder="Porodicna anamneza" [formControlName]="'familyAnamnesis'">Porodicna anamneza</textarea></td>
         </tr>
+<!--        <div class="col-md-12"><label class="labels"></label><input type="text" name="familyAnamnesis"-->
+<!--                                                                    class="form-control" placeholder="Porodicna anamneza" value="" required [formControlName]="'familyAnamnesis'">-->
+<!--          <div class="invalid-feedback">Unesite porodicnu anamnezu</div>-->
+<!--        </div>-->
         <tr>
-          <td><textarea class="bi-textarea">Misljenje pacijenta</textarea></td>
+          <td><textarea class="bi-textarea" placeholder="Misljenje pacijenta" [formControlName]="'patientOpinion'">Misljenje pacijenta</textarea></td>
         </tr>
+<!--        <div class="col-md-12"><label class="labels"></label><input type="text" name="patientOpinion"-->
+<!--                                                                    class="form-control" placeholder="Misljenje pacijenta" value="" required [formControlName]="'phoneNumber'">-->
+<!--          <div class="invalid-feedback">Unesite misljenje pacijenta</div>-->
+<!--        </div>-->
       </table>
 
       <table>
@@ -69,7 +99,7 @@
           <td><label class="label" for="dijagnoza">Dijagnoza</label></td>
         </tr>
         <tr>
-          <td><textarea class="bi-textarea"  id="dijagnoza" name="dijagnoza"required>Objektivni nalaz</textarea>
+          <td><textarea class="bi-textarea" placeholder="Objektivni nalaz" [formControlName]="'objectiveFinding'" required id="dijagnoza" name="dijagnoza" required>Objektivni nalaz</textarea>
         </tr>
       </table>
 
@@ -80,7 +110,7 @@
 -->
       <div class="list-container">
         <div class="dropdown">
-          <select>
+          <select [formControlName]="'selectedCode'">
             <option value="" disabled selected>Sifra</option>
             <option value="option1">Option 1</option>
             <option value="option2">Option 2</option>
@@ -88,7 +118,7 @@
           </select>
         </div>
         <div class="dropdown">
-          <select>
+          <select [formControlName]="'uToku'">
             <option value="option1" >U toku</option>
             <option value="option1">Oporavljen</option>
             <option value="option2">Preminuo</option>
@@ -102,20 +132,24 @@
 
       </div>
 
-
-
-
-
       <table>
         <tr>
           <td><label class="label">Terapija</label></td>
         </tr>
         <tr>
-          <td><textarea class="bi-textarea">Predlagane</textarea></td>
+          <td><textarea class="bi-textarea" placeholder="Predlagane terapije" [formControlName]="'suggestedTherapies'">Predlagane</textarea></td>
         </tr>
+<!--        <div class="col-md-12"><label class="labels"></label><input type="text" name="suggestedTherapies"-->
+<!--                                                                    class="form-control" placeholder="Predlagane terapije" value="" required [formControlName]="'suggestedTherapies'">-->
+<!--          <div class="invalid-feedback">Unesite predlagane terapije</div>-->
+<!--        </div>-->
         <tr>
-          <td><textarea class="bi-textarea">Savet</textarea></td>
+          <td><textarea class="bi-textarea" placeholder="Savet" [formControlName]="'advice'">Savet</textarea></td>
         </tr>
+<!--        <div class="col-md-12"><label class="labels"></label><input type="textarea" name="advice"-->
+<!--                                                                    class="form-control" placeholder="Savet" value="" required [formControlName]="'advice'">-->
+<!--          <div class="invalid-feedback">Unesite savet</div>-->
+<!--        </div>-->
       </table>
 
       <div>
@@ -135,6 +169,7 @@
 
     </div>
   </div>
+  </form>
 </div>
 
 

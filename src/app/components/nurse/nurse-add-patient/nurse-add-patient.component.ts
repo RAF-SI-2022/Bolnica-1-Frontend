@@ -2,7 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {AdminPromeniZaposlenog, DeparmentShort} from "../../../models/models";
 import {UserService} from "../../../services/user-service/user.service";
-import {PatientUpdate} from "../../../models/patient/PatientUpdate";
+// import {PatientUpdate} from "../../../models/patient/PatientUpdate";
+import {PatientService} from "../../../services/patient-service/patient.service";
+import {Timestamp} from "rxjs";
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-nurse-add-patient',
@@ -12,23 +15,13 @@ import {PatientUpdate} from "../../../models/patient/PatientUpdate";
 export class NurseAddPatientComponent implements OnInit{
 
   addGroup: FormGroup;
-  permissions: string[] = [];
-
-
-
-  departments: DeparmentShort[] = [];
   errorMessage: string = ''
   successMessage: string = ''
 
-
-
-  emailErrorMessage: string = '';
-
-  constructor(private userService: UserService, private formBuilder: FormBuilder) {
+  constructor(private patientService: PatientService, private formBuilder: FormBuilder) {
 
     this.addGroup = this.formBuilder.group({
       jmbg: ['', [Validators.required]],
-      lbp: ['', [Validators.required]],
       name: ['', [Validators.required]],
       parentName: ['', [Validators.required]],
       surname: ['', [Validators.required]],
@@ -37,33 +30,30 @@ export class NurseAddPatientComponent implements OnInit{
       dateAndTimeOfDeath: ['', [Validators.required]],
       birthPlace: ['', [Validators.required]],
       //fali adresa
-      placeOfLiving:  '',
-      // citizenship: ['', [Validators.required]],
-      phone:  '',
-      email:  '',
-      guardianJmbg:  '',
-      guardianNameAndSurname:  '',
-      // maritalStatus: ['', [Validators.required]],
-      numOfChildren:  '',
-      // expertiseDegree: ['', [Validators.required]],
-      profession:  ''
-      // familyStatus: ['', [Validators.required]],
-
+      placeOfLiving:  ['', [Validators.required]],
+      citizenship: ['', [Validators.required]],
+      phone:  ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      guardianJmbg: ['', [Validators.required]],
+      guardianNameAndSurname:  ['', [Validators.required]],
+      maritalStatus: ['', [Validators.required]],
+      numOfChildren:  ['', [Validators.required]],
+      expertiseDegree: ['', [Validators.required]],
+      profession: ['', [Validators.required]],
+      familyStatus: ['', [Validators.required]]
     });
 
   }
-
 
   ngOnInit(): void {
 
   }
 
-
   addPatient(){
-
-    //da li treba patient ili patientCreate
+    console.log("usao u addPatient iz ts")
     const patient = this.addGroup.value
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+
     form.classList.add('was-validated');
     if(form.checkValidity() === false){
       return;
@@ -71,13 +61,35 @@ export class NurseAddPatientComponent implements OnInit{
 
     form.classList.add('was-validated');
 
-
     let gender = patient.gender
-    let genderValue =  gender ? 'female' : 'male'
-    this.userService.addEmployee(patient.name, patient.surname, patient.parentName, genderValue, patient.jmbg, patient.dateOfBirth, patient.birthPlace,
-      patient.placeOfLiving, patient.phone, patient.email, patient.guardianJmbg, patient.guardianNameAndSurname, patient.numOfChildren).subscribe((response) => {
+    let genderValue =  gender ? 'ZENSKO' : 'MUSKO'
 
-      this.errorMessage = '';
+    console.log("patient name: " + patient.name)
+    console.log("patient surname:" + patient.surname)
+    console.log("patient jmbg: " + patient.jmbg)
+    console.log("patient lbp" + patient.lbp)
+    console.log("patient parentName" + patient.parentName)
+    console.log("patient gender" + genderValue)
+    console.log("patient birth place" + patient.birthPlace)
+    console.log("patient place of living" + patient.placeOfLiving)
+    console.log("patient citizenship" + patient.citizenship)
+    console.log("patient phone "+patient.phone)
+    console.log("patient email "+ patient.email)
+    console.log("patient guardianJmbg " + patient.guardianJmbg)
+    console.log("patient guardian name and surname " + patient.guardianNameAndSurname)
+    console.log("patient marital status "+ patient.maritalStatus)
+    console.log("patient num of children " + patient.numOfChildren)
+    console.log("patient expertise degree " + patient.expertiseDegree)
+    console.log("patient profession " + patient.profession)
+    console.log("patient family status " + patient.familyStatus)
+
+    console.log("patient date of birth" + patient.dateOfBirth)
+    console.log("patient date and time of death" + patient.dateAndTimeOfDeath)
+
+    this.patientService.registerPatient(patient.jmbg, patient.name,patient.parentName, patient.surname, genderValue, patient.dateOfBirth, patient.dateAndTimeOfDeath,
+      patient.birthPlace, patient.placeOfLiving, patient.citizenship, patient.phone, patient.email, patient.guardianJmbg, patient.guardianNameAndSurname, patient.maritalStatus, patient.numOfChildren, patient.expertiseDegree, patient.profession, patient.familyStatus,new Date() ).subscribe((response) => {
+
+        this.errorMessage = '';
       this.successMessage = 'Uspesno dodat pacijent!'
     }, error => {
       console.log("Error " + error.status);

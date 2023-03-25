@@ -11,7 +11,7 @@
   </head>
 
   <div class="container rounded bg-white mt-5 mb-5">
-    <form [formGroup]="editGroup" (submit)="editPatient()">
+    <form [formGroup]="editGroup" (submit)="editPatient()" class="mb-5  needs-validation" novalidate>
         <div class="row justify-content-center">
             <div class="col-md-8 border-right">
                 <div class="p-3 py-5">
@@ -20,30 +20,28 @@
                         <h4 class="text-right">Profil</h4>
                     </div>
 
-
-
                     <div class="row">
                         <div class="col-md-4"><label class="labels">Ime</label>
                             <input type="text" name="firstName" class="form-control" data-cy="firstName" [(ngModel)]="patientUpdate.name"
                                    [formControlName]="'name'">
-                            <div class="invalid-feedback">Unesite vase ime!</div>
+                            <div class="invalid-feedback">Unesite ime pacijenta!</div>
                         </div>
                         <div class="col-md-4"><label class="labels">Ime roditelja</label>
-                            <input type="text" name ="middleName" class="form-control" data-cy="middleName" [(ngModel)]="patientUpdate.guardianNameAndSurname"
-                                   [formControlName]="'guardianNameAndSurname'">
+                            <input type="text" name ="middleName" class="form-control" data-cy="parentName" [(ngModel)]="patientUpdate.parentName"
+                                   [formControlName]="'parentName'">
                             <div class="invalid-feedback">Unesite ime roditelja!</div>
                         </div>
                         <div class="col-md-4"><label class="labels">Prezime</label>
-                            <input type="text" name ="lastName" class="form-control" data-cy="lastName" [(ngModel)]="patientUpdate.surname"
+                            <input type="text" name ="lastName" class="form-control" data-cy="surname" [(ngModel)]="patientUpdate.surname"
                                    [formControlName]="'surname'">
-                            <div class="invalid-feedback">Unesite vase prezime!</div>
+                            <div class="invalid-feedback">Unesite prezime pacijenta!</div>
                         </div>
                     </div>
 
                     <div class="row mt-1">
                         <div class="col-md-8"><label class="labels">JMBG</label>
-                            <input type="text" name="JMBG" class="form-control" [(ngModel)]="patientUpdate.jmbg" [formControlName]="'jmbg'">
-                            <div class="invalid-feedback">Unesite vas JMBG!</div>
+                            <input type="text" name="JMBG" class="form-control" data-cy="jmbg" [(ngModel)]="patientUpdate.jmbg" [formControlName]="'jmbg'">
+                            <div class="invalid-feedback">Unesite JMBG pacijenta!</div>
                         </div>
 
                         <div class="col-md-4 ">
@@ -71,6 +69,10 @@
                                    [formControlName]="'birthPlace'">
                             <div class="invalid-feedback">Unesite mesto rodjenja!</div>
                         </div>
+                      <div class="col-md-4"><label class="labels">Datum i vreme smrti</label>
+                        <input type="datetime-local" name="dateAndTimeOfDeath" class="form-control" data-cy="dateAndTimeOfDeath" [formControlName]="'dateAndTimeOfDeath'">
+                        <div class="invalid-feedback"></div>
+                      </div>
                         <div class="col-md-4"><label class="labels">Zemlja drzavljanstva</label>
                             <input type="text" name ="countryOfBirth" class="form-control" data-cy="countryOfBirth" [(ngModel)]="patientUpdate.citizenship"
                                    [formControlName]="'citizenship'">
@@ -79,15 +81,16 @@
                     </div>
 
                     <div class="row mt-1">
-                        <div class="col-md-4"><label class="labels">Adresa stanovanja</label>
-                            <input type="text" name="adress" class="form-control" data-cy="adress">
-                        </div>
+<!--                        <div class="col-md-4"><label class="labels">Adresa stanovanja</label>-->
+<!--                            <input type="text" name="adress" class="form-control" data-cy="adress">-->
+<!--                        </div>-->
                         <div class="col-md-4"><label class="labels">Mesto stanovanja</label>
-                            <input type="text" name ="city" class="form-control" data-cy="city">
+                            <input type="text" name ="city" class="form-control" data-cy="placeOfLiving" [(ngModel)]="patientUpdate.placeOfLiving"
+                                   [formControlName]="'placeOfLiving'">
                         </div>
-                        <div class="col-md-4"><label class="labels">Zemlja stanovanja</label>
-                            <input type="text" name ="country" class="form-control" data-cy="country">
-                        </div>
+<!--                        <div class="col-md-4"><label class="labels">Zemlja stanovanja</label>-->
+<!--                            <input type="text" name ="country" class="form-control" data-cy="country">-->
+<!--                        </div>-->
                     </div>
 
                     <div class="row mt-1">
@@ -103,7 +106,7 @@
 
                     <div class="row mt-1">
                         <div class="col-md-6"><label class="labels">Ime i prezime staratelja</label>
-                            <input type="text" name="guardianName" class="form-control" data-cy="guardianName" [(ngModel)]="patientUpdate.guardianNameAndSurname"
+                            <input type="text" name="guardianName" class="form-control" data-cy="guardianNameAndSurname" [(ngModel)]="patientUpdate.guardianNameAndSurname"
                                    [formControlName]="'surname'">
                         </div>
                         <div class="col-md-6"><label class="labels">JMBG staratelja</label>
@@ -114,39 +117,39 @@
 
                     <div class="row mt-1">
                         <div class="col-md-4"><label class="labels">Porodicni status</label>
-                            <select class="form-select" name="familyStatus" data-cy="familyStatus">
+                            <select class="form-select" name="familyStatus" data-cy="familyStatus" [formControlName]="'familyStatus'">
                                 <option value="1"></option>
-                                <option value="2">Oba roditelja</option>
-                                <option value="3">Roditelji razdvojeni/razvedeni</option>
-                                <option value="4">Jedan roditelj</option>
-                                <option value="5">Bez roditelja</option>
-                                <option value="6">Usvojen</option>
+                                <option value="OBA_RODITELJA">Oba roditelja</option>
+                                <option value="RAZVEDENI">Roditelji razdvojeni/razvedeni</option>
+                                <option value="JEDAN_RODITELJ">Jedan roditelj</option>
+                                <option value="BEZ_RODITELJA">Bez roditelja</option>
+                                <option value="USVOJEN">Usvojen</option>
                               </select>
                         </div>
                         <div class="col-md-4"><label class="labels">Bracni status</label>
-                            <select class="form-select" name="maritalStatus"  data-cy="maritalStatus">
+                            <select class="form-select" name="maritalStatus"  data-cy="maritalStatus" [formControlName]="'maritalStatus'">
                                 <option value="1"></option>
-                                <option value="2">U braku</option>
-                                <option value="3">Razvedeni</option>
-                                <option value="4">Udovac/Udovica</option>
-                                <option value="5">Samac/Samica</option>
+                                <option value="U_BRAKU">U braku</option>
+                                <option value="RAZVEDENI">Razvedeni</option>
+                                <option value="UDOVAC_UDOVICA">Udovac/Udovica</option>
+                                <option value="SAMAC_SAMICA">Samac/Samica</option>
                               </select>
                         </div>
                         <div class="col-md-4"><label class="labels">Broj Dece</label>
-                            <input type="text" name ="numberOfChildren" class="form-control" data-cy="numberOfChildren" [(ngModel)]="patientUpdate.numOfChildren"
+                            <input type="text" name ="numberOfChildren" class="form-control" data-cy="numOfChildren" [(ngModel)]="patientUpdate.numOfChildren"
                                    [formControlName]="'numOfChildren'">
                         </div>
                     </div>
 
                     <div class="row mt-1">
                         <div class="col-md-6"><label class="labels">Stepen strucne spreme</label>
-                            <select class="form-select" name="education"  data-cy="education">
+                            <select class="form-select" name="expertiseDegree"  data-cy="expertiseDegree" [formControlName]="'expertiseDegree'">
                                 <option value="1"></option>
-                                <option value="2">Bez osnovnog obrazovanja</option>
-                                <option value="3">Osnovno obrazovanje</option>
-                                <option value="4">Srednje obrazovanje</option>
-                                <option value="5">Vise obrazovanje</option>
-                                <option value="6">Visoko obrazovanje</option>
+                                <option value="BEZ_OSNOVNOG">Bez osnovnog obrazovanja</option>
+                                <option value="OSNOVNO">Osnovno obrazovanje</option>
+                                <option value="SREDNJE">Srednje obrazovanje</option>
+                                <option value="VISE">Vise obrazovanje</option>
+                                <option value="VISOKO">Visoko obrazovanje</option>
                               </select>
                         </div>
                         <div class="col-md-6"><label class="labels">Zanimanje</label>

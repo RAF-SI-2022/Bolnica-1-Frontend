@@ -87,7 +87,7 @@ export class UserService {
     return obj;
   }
 
-  public addEmployee( name: string, surname: string, dateOfBirth: Date, gender: string,jmbg: string, adress:string,
+  public addEmployee( name: string, surname: string, dateOfBirth: Date, gender: string, jmbg: string, adress:string,
                      placeOfLiving: string, phone: string, email: string, title: Title, profession: Profession, departmentPbo: string, permissions: string[]): Observable<HttpStatusCode> {
 
     const lbz = uuid.v4();

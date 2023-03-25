@@ -4,7 +4,7 @@ import {UserService} from "../../../services/user-service/user.service";
 import {ActivatedRoute} from "@angular/router";
 import {AdminPromeniZaposlenog, UlogeZaposlenog} from "../../../models/models";
 import {PatientService} from "../../../services/patient-service/patient.service";
-import {PatientUpdate} from "../../../models/patient/PatientUpdate";
+import {PatientUpdateClass} from "../../../models/patient/PatientUpdate";
 
 @Component({
   selector: 'app-nurse-edit-patient',
@@ -16,16 +16,17 @@ export class NurseEditPatientComponent implements OnInit {
   successMessage: string = '';
   errorMessage: string = '';
 
-  patientUpdate: PatientUpdate;
+  patientUpdate: PatientUpdateClass;
   editGroup: FormGroup;
+  deleted: Boolean = false
 
-  lbp: string = ''
+  lbp: string = "d63b6394-5eb0-4229-9caf-212daa4dec44"
 
   ngOnInit(): void {
-    //sta je ovo
-    this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
+    // this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
     //stavi za pacijent
     this.getPatient(this.lbp);
+    console.log(this.lbp)
     //da li ovo treba
     // this.getUserPermissions(this.lbz);
   }
@@ -34,7 +35,7 @@ export class NurseEditPatientComponent implements OnInit {
     this.editGroup = this.formBuilder.group({
       jmbg: ['', [Validators.required]],
       name: ['', [Validators.required]],
-      parentName: false,
+      parentName: ['', [Validators.required]],
       surname: ['', [Validators.required, Validators.email]],
       gender: ['', [Validators.required]],
       dateOfBirth: ['', [Validators.required]],
@@ -51,32 +52,32 @@ export class NurseEditPatientComponent implements OnInit {
       expertiseDegree: ['', [Validators.required]],
       profession: ['', [Validators.required]],
       familyStatus: ['', [Validators.required]],
-      deleted: false
     })
-    this.patientUpdate = new PatientUpdate();
-    // this.userPermissions = [];
-    // this.userPermissionDisplayed = new UlogeZaposlenog();
-
+    this.patientUpdate = new PatientUpdateClass();
   }
 
   getPatient(LBP: string): void {
-    this.patientService.getGeneralMedicalDataByLbp(LBP).subscribe(result => {
+    console.log("usao u getPatient u ts")
+    this.patientService.getPatientByLbp(LBP).subscribe(result => {
+      this.patientUpdate = result;
     }, err => {
       console.log()
+      console.log(this.patientUpdate.name)
       if (err.status == 302) { // found!
-        // this.userEdit = err.error; // citanje poruka je sa err.errors TO JE BODY-PORUKA
-        // this.editGroup.get('gender')?.setValue(this.userEdit.gender.toLowerCase() === 'female');
+        this.patientUpdate = err.error; // citanje poruka je sa err.errors TO JE BODY-PORUKA
+        this.editGroup.get('gender')?.setValue(this.patientUpdate.gender.toLowerCase() === 'female');
         console.log("sss " +  this.editGroup.get('gender')?.value);
       }
     })
   }
 
   editPatient() {
+    console.log("usao u edit patient u ts")
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     if (form.checkValidity() === false) {
     }
 
-    console.log(this.editGroup.get('deleted')?.value )
+    // console.log(this.editGroup.get('deleted')?.value )
     this.patientService.updatePatient(this.lbp, this.editGroup.get('jmbg')?.value, this.editGroup.get('name')?.value,
       this.editGroup.get('parentName')?.value, this.editGroup.get('surname')?.value, this.editGroup.get('gender')?.value,
       this.editGroup.get('dateOfBirth')?.value,

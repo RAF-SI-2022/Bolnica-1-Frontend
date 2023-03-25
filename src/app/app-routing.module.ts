@@ -147,7 +147,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: "nurse-edit-patient",
+    path: "nurse-edit-patient/:lbp",
     component: NurseEditPatientComponent,
     canActivate: [AuthGuard]
   },
