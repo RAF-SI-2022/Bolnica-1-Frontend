@@ -14,13 +14,8 @@ export class AppComponent {
   toggleSb: boolean = true;
   title = 'IBIS';
   isLoggedIn: boolean = false;
-  employee: Zaposleni;
-  lbz: string = '';
-  flag: boolean = true
 
-  constructor(private userService: UserService, private authService: AuthService, private router: Router) {
-    this.employee = new Zaposleni()
-  }
+  constructor(private userService: UserService, private authService: AuthService, private router: Router) {}
 
 
   ngOnInit(): void {

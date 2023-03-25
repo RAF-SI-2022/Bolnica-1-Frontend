@@ -29,7 +29,7 @@ export class AdminSearchEmployeeComponent implements OnInit {
   departments: DeparmentShort[] = []
   hospitals: HospitalShort[] = []
   page = 0;
-  pageSize = 10;
+  pageSize = 5;
   total = 0;
 
   constructor(private userService: UserService, private router: Router, private formBuilder: FormBuilder) {
@@ -45,7 +45,7 @@ export class AdminSearchEmployeeComponent implements OnInit {
   }
 
   search() {
-    /** 
+    /**
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     if (form.checkValidity() === false) {
     }
@@ -89,6 +89,8 @@ export class AdminSearchEmployeeComponent implements OnInit {
     this.userService.getAllUsers(this.ime, this.prezime, this.selektovanaOrdinacija, this.selektovanaBolnica, this.deleted, this.page, this.pageSize).subscribe((response) => {
       this.userPage = response;
       this.userList = this.userPage.content
+     this.total = this.userPage.totalElements
+
     })
   }
 
@@ -102,6 +104,8 @@ export class AdminSearchEmployeeComponent implements OnInit {
     this.userService.getAllUsers(this.ime, this.prezime, this.selektovanaOrdinacija, this.selektovanaBolnica, this.deleted, this.page-1, this.pageSize).subscribe((response) => {
       this.userPage = response;
       this.userList = this.userPage.content;
+      this.total = this.userPage.totalElements
+
     })
   }
 

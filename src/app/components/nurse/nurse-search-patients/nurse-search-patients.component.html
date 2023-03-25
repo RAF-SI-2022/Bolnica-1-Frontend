@@ -5,7 +5,6 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <link rel="stylesheet" href="/path/to/bootstrap.min.css">
   <script src="/path/to/jquery.min.js"></script>
   <script src="/path/to/bootstrap.bundle.min.js"></script>
 
@@ -17,78 +16,71 @@
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 </head>
+<form [formGroup]="searchForm" (submit)="getPatientList()" class="mb-5 needs-validation" novalidate>
 
 <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
   <div class="row">
-      <div class="col-md-4 offset-2">
+
+    <div class="col-md-4 offset-2">
+
         <label class="labels">Ime</label>
-          <input type="text" class="form-control" data-cy = "ime">
+          <input [(ngModel)]="name" name = "name" type="text" class="form-control" data-cy = "ime" [ngModelOptions]="{standalone: true}">
       </div>
       <div class="col-md-4">
         <label class="labels">Prezime</label>
-          <input type="text" class="form-control" data-cy = "prezime">
+          <input  [(ngModel)]="surname" name = "surname" type="text" class="form-control" data-cy = "prezime" [ngModelOptions]="{standalone: true}">
       </div>
       <div class="col-md-4 offset-2">
         <label class="labels">JMBG</label>
-          <input type="text" class="form-control" data-cy = "jmbg">
+          <input  [(ngModel)]="jmbg" name = "jmbg" type="text" class="form-control" data-cy = "jmbg" [ngModelOptions]="{standalone: true}">
       </div>
       <div class="col-md-4">
-        <label class="labels">LBO</label>
-          <input type="text" class="form-control" data-cy = "lbo">
+        <label class="labels">LBP</label>
+          <input  [(ngModel)]="lbp" type="text" name = "lbp"class="form-control" data-cy = "lbp" [ngModelOptions]="{standalone: true}">
       </div>
 
       <div class="mt-4 text-center">
-          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
+          <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
       </div>
 
-  <div class="row py-5">          
+  <div class="row py-5">
       <table class="table table-hover" data-cy="table">
           <thead>
               <tr>
-                  <th>Ime</th>						
+                  <th>Ime</th>
                   <th>Prezime</th>
                   <th>Datum rodjenja</th>
                   <th>JMBG</th>
-                  <th>LBO</th>
+                  <th>LBP</th>
                   <th>Broj telefona</th>
                   <th>Akcija</th>
               </tr>
           </thead>
           <tbody>
-              <tr>
-                  <td>Martin Sommer</td>
-                  <td>Sommer</td>                        
-                  <td>12/08/2017</td>
-                  <td>1712366854236</td>
-                  <td>6214925</td>
-                  <td>+381639485729</td>
-                  <td>
-                      <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>
-                  </td>
-              </tr>
-              <tr>
-                <td>Martin Sommer</td>
-                <td>Sommer</td>                        
-                <td>12/08/2017</td>
-                <td>1712366854236</td>
-                <td>6214925</td>
-                <td>+381639485729</td>
-                <td>
-                    <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>Martin Sommer</td>
-                <td>Sommer</td>                        
-                <td>12/08/2017</td>
-                <td>1712366854236</td>
-                <td>6214925</td>
-                <td>+381639485729</td>
-                <td>
-                    <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>
-                </td>
-              </tr>
+          <tr
+            *ngFor="let user of patientList | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total}; let i = index">
+            <td>{{user.name}}</td>
+            <td>{{user.surname}}</td>
+            <td>{{user.dateOfBirth}}</td>
+            <td>{{user.jmbg}}</td>
+            <td>{{user.lbp}}</td>
+            <td>{{user.phone}}</td>
+            <td>
+              <a (click)="updatePatient(user)" class="settings" title="Podesavanja" data-toggle="tooltip"><i
+                class="bi bi-gear-fill"></i></a>
+               <a (click)="deletePatient(user.lbp)" class="delete" title="Brisanje" data-toggle="tooltip"><i
+                  class="bi bi-x-circle-fill"></i></a>
+            </td>
+          </tr>
+
           </tbody>
       </table>
+    <div class="d-flex align-items-center justify-content-center h-100">
+      <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
+      </pagination-controls>
+    </div>
+
   </div>
 </div>
+</div>
+</form>
