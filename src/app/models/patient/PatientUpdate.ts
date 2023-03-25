@@ -4,7 +4,7 @@ import {MaritalStatus} from "../patient-enums/MaritalStatus";
 import {ExpertiseDegree} from "../patient-enums/ExpertiseDegree";
 import {FamilyStatus} from "../patient-enums/FamilyStatus";
 
-export interface PatientUpdate{
+export interface PatientUpdate {
   jmbg: string;
   lbp: string;
   name: string;

@@ -168,6 +168,7 @@ export class PatientService {
    * Moze i da vraca Message
    * */
   public deletePatient(lbp: string) {
+    console.log("Da li udje")
     return this.http.delete<HttpStatusCode>(`${environmentPatient.apiURL}/patient/delete/${lbp}`, { headers: this.getHeaders() })
   }
 
@@ -321,10 +322,10 @@ export class PatientService {
   }
 
 
-  getAllPatients(name: string, surname:string, jmbg: string, lbp: string, page: number, size:number): Observable<Page<Patient>> {
-    let httpParams = new HttpParams().append("name",name).append("surname", surname).append("jmbg", jmbg).append("lbp",lbp).append("page",page).append("size",size);
-    //todo proveri ovu rutu kad dodaju
-    return this.http.get<Page<Patient>>(`${environment.apiURL}/patient/list`, {params: httpParams, headers:this.getHeaders()});
+  getAllPatients(lbp: string, jmbg:string, name: string, surname: string, page: number, size:number): Observable<Page<Patient>> {
+    console.log("Ime " + name + "Prezime "  + surname + "jmbg " + jmbg + "lbp " + lbp)
+    let httpParams = new HttpParams().append("lbp",lbp).append("jmbg", jmbg).append("name", name).append("surname",surname).append("page",page).append("size",size);
+    return this.http.get<Page<Patient>>(`${environmentPatient.apiURL}/patient/filter_patients`, {params: httpParams, headers:this.getHeaders()});
   }
 
 

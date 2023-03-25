@@ -25,91 +25,123 @@
         <section class="section faq">
           <div class="row">
             <div class="col-lg-12">
+              <form [formGroup]="generalForm" class="mb-5 needs-validation" novalidate>
 
               <div class="card basic">
                 <div class="card-body">
                   <h5 class="card-title">Petar petrovic</h5>
 
-                  <div>
-                    <h6>Nisi ut ut exercitationem voluptatem esse sunt rerum</h6>
-                    <p>Saepe perspiciatis ea. Incidunt blanditiis enim mollitia qui voluptates. Id rem nulla tenetur
-                      nihil in unde rerum. Quae consequatur placeat qui cumque earum eius omnis quos.</p>
-                  </div>
+                  <div class="row mt-3 align-items-center">
 
-                  <div class="pt-2">
-                    <h6>Reiciendis dolores repudiandae</h6>
-                    <p>Id ipsam non ut. Placeat doloremque deserunt quia tenetur inventore laboriosam dolores totam
-                      odio. Aperiam incidunt et. Totam ut quos sunt atque modi molestiae dolorem.</p>
-                  </div>
+                    <div class="col-md-3"><label  class="labels">Krvna grupa</label>
+                      <select class="form-select" name="profession"  id="odeljenje" required
+                              aria-label="Default select example" [formControlName]="'bloodGroup'">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="0">0</option>
+                        <option value="AB">AB</option>
 
-                  <div class="pt-2">
-                    <h6>Qui qui reprehenderit ut est illo numquam voluptatem</h6>
-                    <p>Enim inventore in consequuntur ipsam voluptatem consequatur beatae. Nostrum consequuntur
-                      voluptates et blanditiis.</p>
+
+                      </select>
+                    </div>
+
+                    <div class="col-md-3"><label class="labels">Rh faktor</label>
+                      <select class="form-select" name="profession"  id="zanimanje" required
+                              aria-label="Default select example" [formControlName]="'rhFactor'" >
+                        <option value="+">+</option>
+                        <option value="-">-</option>
+
+                      </select>
+                    </div>
+
+                    <div class="mt-4 text-center">
+
+                      <button type="button" class="btn btn-primary" (click)="updateGeneral()"><i
+                        class="bi bi-pencil-square me-1"></i> Izmeni</button>
+
+                      <button type="submit" class="btn btn-primary ms-4"><i class="bi bi-save me-1"></i>Sacuvaj</button>
+
+                    </div>
                   </div>
 
                 </div>
 
               </div>
-
+              </form>
             </div>
-            <div class="col-lg-6">
+
+            <div class="col-lg-12">
+              <form [formGroup]="allergyForm" class="mb-5 needs-validation" novalidate>
 
               <div class="card basic">
                 <div class="card-body">
-                  <h5 class="card-title">Lista alergija</h5>
-
-                  <div>
-                    <h6>Nisi ut ut exercitationem voluptatem esse sunt rerum</h6>
-                    <p>Saepe perspiciatis ea. Incidunt blanditiis enim mollitia qui voluptates. Id rem nulla tenetur
-                      nihil in unde rerum. Quae consequatur placeat qui cumque earum eius omnis quos.</p>
+                  <div class="container">
+                    <div class="row">
+                      <h5 class="card-title">Alergije</h5>
+                      <div class="col-md-6">
+                        <h4>Lista alergija</h4>
+                        <textarea class="form-control" rows="5" readonly>
+                        </textarea>
+                      </div>
+                      <div class="col-md-6">
+                        <h4>Dodaj novu alergiju</h4>
+                          <div class="mb-3">
+                            <label for="alergen" class="form-label">Izaberi alergen:</label>
+                            <select class="form-select" name="profession"  id="alergen" required
+                                    aria-label="Default select example" [formControlName]="'allergen'">                              <option value="alergen1">Alergen 1</option>
+                              <option value="alergen2">Alergen 2</option>
+                              <option value="alergen3">Alergen 3</option>
+                            </select>
+                          </div>
+                          <button type="submit" class="btn btn-primary">Dodaj alergiju</button>
+                      </div>
+                    </div>
                   </div>
-
-                  <div class="pt-2">
-                    <h6>Reiciendis dolores repudiandae</h6>
-                    <p>Id ipsam non ut. Placeat doloremque deserunt quia tenetur inventore laboriosam dolores totam
-                      odio. Aperiam incidunt et. Totam ut quos sunt atque modi molestiae dolorem.</p>
-                  </div>
-
-                  <div class="pt-2">
-                    <h6>Qui qui reprehenderit ut est illo numquam voluptatem</h6>
-                    <p>Enim inventore in consequuntur ipsam voluptatem consequatur beatae. Nostrum consequuntur
-                      voluptates et blanditiis.</p>
-                  </div>
-
                 </div>
-
               </div>
-
+              </form>
             </div>
 
-            <div class="col-lg-6">
+            <div class="col-lg-12">
+              <form [formGroup]="vaccineForm" class="mb-5 needs-validation" novalidate>
 
               <div class="card basic">
                 <div class="card-body">
-                  <h5 class="card-title">Lista vakcina</h5>
-
-                  <div>
-                    <h6>Nisi ut ut exercitationem voluptatem esse sunt rerum</h6>
-                    <p>Saepe perspiciatis ea. Incidunt blanditiis enim mollitia qui voluptates. Id rem nulla tenetur
-                      nihil in unde rerum. Quae consequatur placeat qui cumque earum eius omnis quos.</p>
+                  <div class="container">
+                    <div class="row">
+                      <h5 class="card-title">Vakcine</h5>
+                      <div class="col-md-6">
+                        <h4>Lista primljenih vakcina</h4>
+                        <textarea class="form-control" rows="8" readonly>
+                          Naziv vakcine 1 - datum primanja: 01.01.2022
+                          Naziv vakcine 2 - datum primanja: 15.02.2022
+                          Naziv vakcine 3 - datum primanja: 20.03.2022
+                              </textarea>
+                      </div>
+                      <div class="col-md-6">
+                        <h4>Dodaj novu vakcinu</h4>
+                          <div class="mb-3">
+                            <label for="vakcina" class="form-label">Izaberi vakcinu:</label>
+                            <select class="form-select" name="profession"  id="vakcina" required
+                                    aria-label="Default select example" [formControlName]="'vaccine'">                                <option value="vakcina1">Vakcina 1</option>
+                              <option value="vakcina2">Vakcina 2</option>
+                              <option value="vakcina3">Vakcina 3</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="datum" class="form-label">Datum primanja:</label>
+                            <input type="date" class="form-control" id="datum"[formControlName]="'dateOfReceiving'" >
+                          </div>
+                          <button type="submit" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da dodate novu vakcinu?')">Dodaj vakcinu</button>
+                      </div>
+                    </div>
                   </div>
 
-                  <div class="pt-2">
-                    <h6>Reiciendis dolores repudiandae</h6>
-                    <p>Id ipsam non ut. Placeat doloremque deserunt quia tenetur inventore laboriosam dolores totam
-                      odio. Aperiam incidunt et. Totam ut quos sunt atque modi molestiae dolorem.</p>
-                  </div>
-
-                  <div class="pt-2">
-                    <h6>Qui qui reprehenderit ut est illo numquam voluptatem</h6>
-                    <p>Enim inventore in consequuntur ipsam voluptatem consequatur beatae. Nostrum consequuntur
-                      voluptates et blanditiis.</p>
-                  </div>
 
                 </div>
 
               </div>
+              </form>
             </div>
           </div>
         </section>

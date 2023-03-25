@@ -52,11 +52,6 @@ export class ProfileComponent implements OnInit {
       DR_SPEC_POV: '',
       VISA_MED_SESTRA: '',
       MED_SESTRA: '',
-      // RECEPTIONIST: '',
-      // SENIOR_LAB_TECHNICIAN: '',
-      // LAB_TECHNICIAN: '',
-      // MED_BIOCHEMIST: '',
-      // SPECIALIST_MED_BIOCHEMIST: ''
 
     })
     this.userPermissionDisplayed = new UlogeZaposlenog();
@@ -108,7 +103,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getUser(LBZ: string): void {
-    this.userService.getUser(LBZ).subscribe(result => {
+    this.userService.getEmployee(LBZ).subscribe(result => {
     }, err => {
       console.log()
       if (err.status == 302) { // found!
@@ -126,8 +121,7 @@ export class ProfileComponent implements OnInit {
       this.fillPagePermissions();
     }, err => {
       console.log(" nesto " + err.error);
-    });
-  }
+    });}
 
   status: boolean = false;
   updateUser(): void {
@@ -201,11 +195,11 @@ export class ProfileComponent implements OnInit {
     form.classList.add('was-validated');
 
 
-    if(this.userPermissionDisplayed.admin == true) this.permissionsList.push('ADMIN');
-    if(this.userPermissionDisplayed.dr_spec == true) this.permissionsList.push('DR_SPEC');
-    if(this.userPermissionDisplayed.dr_spec_pov == true) this.permissionsList.push('DR_SPEC_POV');
-    if(this.userPermissionDisplayed.med_sestra == true) this.permissionsList.push('MED_SESTRA');
-    if(this.userPermissionDisplayed.visa_med_sestra == true) this.permissionsList.push('VISA_MED_SESTRA');
+    if(this.userPermissionDisplayed.admin == true) this.permissionsList.push('ROLE_ADMIN');
+    if(this.userPermissionDisplayed.dr_spec == true) this.permissionsList.push('ROLE_DR_SPEC');
+    if(this.userPermissionDisplayed.dr_spec_pov == true) this.permissionsList.push('ROLE_DR_SPEC_POV');
+    if(this.userPermissionDisplayed.med_sestra == true) this.permissionsList.push('ROLE_MED_SESTRA');
+    if(this.userPermissionDisplayed.visa_med_sestra == true) this.permissionsList.push('ROLE_VISA_MED_SESTRA');
     if (this.permissionsList.length == 0) {
       this.errorMessage = 'Izaberi barem jednu privilegiju!';
       return;
@@ -215,10 +209,6 @@ export class ProfileComponent implements OnInit {
 
     if (form.checkValidity() === true) {
       {
-        //let newPassword = this.userForm.get('newPassword')?.value
-        //let confirmPassword = this.userForm.get('confirmPassword')?.value
-
-        //if(newPassword == confirmPassword){
 
         this.userService.editProfile(
 
@@ -247,25 +237,12 @@ export class ProfileComponent implements OnInit {
           this.errorMessage="Mejl mora biti na domenu @ibis.rs";
         })
 
-
-        //} else alert("Lozinke se ne poklapaju!")
-
-
       }
     }
 
     this.permissionsList = [];
     console.log("uloge prazne" + this.permissionsList)
 
-    //sta se ovde htelo?
-    // let newPassword = this.userForm.get('newPassword')?.value
-    // let confirmPassword = this.userForm.get('confirmPassword')?.value
-    //
-    // if (this.userForm.errors != null) {
-    //   if (newPassword.equals(confirmPassword)) {
-    //     // nesto
-    //   }
-    // }
   }
 
 
@@ -275,7 +252,7 @@ export class ProfileComponent implements OnInit {
 
   canUpdate(): boolean {
 
-    if (this.userService.checkRole('ADMIN')) {
+    if (this.userService.checkRole('ROLE_ADMIN')) {
       return true
     }
     return false
