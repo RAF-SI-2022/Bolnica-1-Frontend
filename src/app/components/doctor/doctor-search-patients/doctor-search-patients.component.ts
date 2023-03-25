@@ -20,7 +20,7 @@ export class DoctorSearchPatientsComponent implements OnInit{
   patientList: Patient[] = []
   routerUpper: Router
   page = 0
-  pageSize = 1
+  pageSize = 5
   total = 0
 
 
@@ -35,9 +35,11 @@ export class DoctorSearchPatientsComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.patientService.getAllPatients(this.name, this.surname, this.jmbg, this.lbp, this.page, this.pageSize).subscribe((response) => {
+    this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.pageSize).subscribe((response) => {
       this.patientPage = response
       this.patientList = this.patientPage.content
+      this.total = this.patientPage.totalElements
+
     })
   }
 
@@ -46,9 +48,11 @@ export class DoctorSearchPatientsComponent implements OnInit{
     if(this.page == 0){
       this.page = 1
     }
-    this.patientService.getAllPatients(this.name, this.surname, this.jmbg, this.lbp, this.page, this.pageSize).subscribe((response) => {
+    this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.pageSize).subscribe((response) => {
       this.patientPage = response
       this.patientList = this.patientPage.content
+      this.total = this.patientPage.totalElements
+
     })
   }
 

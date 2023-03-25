@@ -5,6 +5,7 @@ import {ExpertiseDegree} from "../patient-enums/ExpertiseDegree";
 import {FamilyStatus} from "../patient-enums/FamilyStatus";
 import {PatientGeneral} from "./PatientGeneral";
 
+
 // export interface PatientUpdate{
 //   jmbg: string;
 //   lbp: string;
@@ -29,6 +30,7 @@ import {PatientGeneral} from "./PatientGeneral";
 //
 //   deleted: boolean;
 // }
+
 
 export class PatientUpdateClass extends PatientGeneral{
   deleted: boolean = false;

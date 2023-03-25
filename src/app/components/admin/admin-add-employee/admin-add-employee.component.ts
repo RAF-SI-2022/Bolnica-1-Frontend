@@ -73,6 +73,7 @@ export class AdminAddEmployeeComponent implements OnInit {
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     this.checkEmailError();
     form.classList.add('was-validated');
+
     if(form.checkValidity() === false){
         return;
     }
