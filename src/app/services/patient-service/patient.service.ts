@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams, HttpStatusCode} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
@@ -9,7 +9,7 @@ import {CountyCode} from "../../models/patient-enums/CountyCode";
 import {MaritalStatus} from "../../models/patient-enums/MaritalStatus";
 import {ExpertiseDegree} from "../../models/patient-enums/ExpertiseDegree";
 import {FamilyStatus} from "../../models/patient-enums/FamilyStatus";
-import {PatientUpdate} from "../../models/patient/PatientUpdate";
+import {PatientUpdateClass} from "../../models/patient/PatientUpdate";
 import {Vaccination} from "../../models/patient/Vaccination";
 import {Allergy} from "../../models/patient/Allergy";
 import {GeneralMedicalDataCreate} from "../../models/patient/GeneralMedicalDataCreate";
@@ -25,20 +25,24 @@ import {ExaminationHistory} from "../../models/patient/ExaminationHistory";
 import {MedicalRecord} from "../../models/patient/MedicalRecord";
 import {Page, Zaposleni} from "../../models/models";
 import {Patient} from "../../models/patient/Patient";
+import * as uuid from 'uuid';
+import {PatientGeneral} from "../../models/patient/PatientGeneral";
+import {PatientGeneralDto} from "../../models/patient/PatientGeneralDto";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientService {
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {
+  }
 
 
   /**
    * Header za autentifikaciju i autorizaciju
    * */
   getHeaders(): HttpHeaders {
-    return new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('token')}` });
+    return new HttpHeaders({'Authorization': `Bearer ${localStorage.getItem('token')}`});
   }
 
 
@@ -49,11 +53,11 @@ export class PatientService {
    * */
   public registerPatient(
     jmbg: string,
-    lbp: string,
     name: string,
     parentName: string,
     surname: string,
-    gender: Gender,
+    // gender: Gender,
+    gender: string,
     dateOfBirth: Date,
     dateAndTimeOfDeath: Date, // kako se prikazuje timestamp?
     birthPlace: string,
@@ -72,12 +76,15 @@ export class PatientService {
   ): Observable<HttpStatusCode> {
 
 
-    const obj: PatientCreate ={
+    const lbp = uuid.v4();
+
+    const obj: PatientCreate = {
       jmbg: jmbg,
       lbp: lbp,
       name: name,
       parentName: parentName,
       surname: surname,
+      // gender: Gender.MUSKO,
       gender: gender,
       dateOfBirth: dateOfBirth,
       dateAndTimeOfDeath: dateAndTimeOfDeath, // kako se prikazuje timestamp?
@@ -96,7 +103,30 @@ export class PatientService {
       registerDate: registerDate
     }
 
-    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/patient/register`,  obj, { headers: this.getHeaders() } );
+    console.log("patient name: " + obj.name)
+    console.log("patient surname:" + obj.surname)
+    console.log("patient jmbg: " + obj.jmbg)
+    console.log("patient lbp" + obj.lbp)
+    console.log("patient parentName" + obj.parentName)
+    console.log("patient gender" + obj.gender)
+    console.log("patient birth place" + obj.birthPlace)
+    console.log("patient place of living" + obj.placeOfLiving)
+    console.log("patient citizenship" + obj.citizenship)
+    console.log("patient phone "+obj.phone)
+    console.log("patient email "+ obj.email)
+    console.log("patient guardianJmbg " + obj.guardianJmbg)
+    console.log("patient guardian name and surname " + obj.guardianNameAndSurname)
+    console.log("patient marital status "+ obj.maritalStatus)
+    console.log("patient num of children " + obj.numOfChildren)
+    console.log("patient expertise degree " + obj.expertiseDegree)
+    console.log("patient profession " + obj.profession)
+    console.log("patient family status " + obj.familyStatus)
+
+    console.log("patient date of birth" + obj.dateOfBirth)
+    console.log("patient date and time of death" + obj.dateAndTimeOfDeath)
+
+
+    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/patient/register`, obj, {headers: this.getHeaders()});
   }
 
 
@@ -110,12 +140,12 @@ export class PatientService {
    * */
 
   public updatePatient(
-    jmbg: string,
     lbp: string,
+    jmbg: string,
     name: string,
     parentName: string,
     surname: string,
-    gender: Gender,
+    gender: string,
     dateOfBirth: Date,
     dateAndTimeOfDeath: Date, // kako se prikazuje timestamp?
     birthPlace: string,
@@ -134,7 +164,7 @@ export class PatientService {
   ): Observable<HttpStatusCode> {
 
 
-    const obj: PatientUpdate ={
+    const obj: PatientUpdateClass = {
       jmbg: jmbg,
       lbp: lbp,
       name: name,
@@ -158,8 +188,14 @@ export class PatientService {
       deleted: deleted
     }
 
-  return this.http.put<HttpStatusCode>(`${environmentPatient.apiURL}/patient/${lbp}`,  obj, { headers: this.getHeaders() } );
+    return this.http.put<HttpStatusCode>(`${environmentPatient.apiURL}/patient/update/${lbp}`, obj, {headers: this.getHeaders()});
   }
+
+  //dodat get patient by lbp
+  public getPatientByLbp(lbp: string): Observable<PatientGeneralDto> {
+    return this.http.get<PatientGeneralDto>(`${environmentPatient.apiURL}/patient/find_patient/${lbp}`, {headers: this.getHeaders()});
+  }
+
 
 
   /**
@@ -168,8 +204,7 @@ export class PatientService {
    * Moze i da vraca Message
    * */
   public deletePatient(lbp: string) {
-    console.log("Da li udje")
-    return this.http.delete<HttpStatusCode>(`${environmentPatient.apiURL}/patient/delete/${lbp}`, { headers: this.getHeaders() })
+    return this.http.delete<HttpStatusCode>(`${environmentPatient.apiURL}/patient/delete/${lbp}`, {headers: this.getHeaders()})
   }
 
 
@@ -177,35 +212,45 @@ export class PatientService {
    * Pronalazenje General Medical Data pacijenta na osnovu lbp
    * */
   public getGeneralMedicalDataByLbp(lbp: string): Observable<GeneralMedicalData> {
-    return this.http.get<GeneralMedicalData>(`${environmentPatient.apiURL}/info/myFindGMD/${lbp}`, { headers: this.getHeaders() });
+    return this.http.get<GeneralMedicalData>(`${environmentPatient.apiURL}/info/myFindGMD/${lbp}`, {headers: this.getHeaders()});
   }
 
   /**
    * Pronalazenje operacija pacijenta na osnovu lbp
    * */
   public getOperationsByLbp(lbp: string): Observable<Operation[]> {
-    return this.http.get<Operation[]>(`${environmentPatient.apiURL}/info/myFindOperations/${lbp}`, { headers: this.getHeaders() });
+    return this.http.get<Operation[]>(`${environmentPatient.apiURL}/info/myFindOperations/${lbp}`, {headers: this.getHeaders()});
   }
 
   /**
    * Pronalazenje Medical History (istorije pacijenta) na osnovu lbp
    * */
+
   public getMedicalHistoryByLbp(lbp: string): Observable<Page <MedicalHistory>> {
     return this.http.get< Page <MedicalHistory>>(`${environmentPatient.apiURL}/info/myFindMedicalHistories/${lbp}`, { headers: this.getHeaders() });
+
+  //public getMedicalHistoryByLbp(lbp: string): Observable<MedicalHistory[]> {
+   // return this.http.get<MedicalHistory[]>(`${environmentPatient.apiURL}/info/myFindMedicalHistories/${lbp}`, {headers: this.getHeaders()});
+
   }
 
   /**
    * Pronalazenje Examination History pacijenta na osnovu lbp
    * */
+
   public getExaminationHistoryByLbp(lbp: string): Observable<Page <ExaminationHistory>> {
     return this.http.get<Page<ExaminationHistory>>(`${environmentPatient.apiURL}/info/myFindExaminationHistories/${lbp}`, { headers: this.getHeaders() });
+
+ // public getExaminationHistoryByLbp(lbp: string): Observable<ExaminationHistory[]> {
+   // return this.http.get<ExaminationHistory[]>(`${environmentPatient.apiURL}/info/myFindExaminationHistories/${lbp}`, {headers: this.getHeaders()});
+
   }
 
   /**
    * Pronalazenje Medicinskog kartona pacijenta (Medical Record) na osnovu lbp
    * */
   public getMedicalRecordByLbp(lbp: string): Observable<MedicalRecord> {
-    return this.http.get<MedicalRecord>(`${environmentPatient.apiURL}/info/myFindMedicalRecord/${lbp}`, { headers: this.getHeaders() });
+    return this.http.get<MedicalRecord>(`${environmentPatient.apiURL}/info/myFindMedicalRecord/${lbp}`, {headers: this.getHeaders()});
   }
 
 
@@ -214,12 +259,13 @@ export class PatientService {
    * Moze i da vraca GeneralMedicalData
    * */
   public createMedicalData(
-    lbp:string,
+    lbp: string,
     bloodType: string,
     rh: string,
     vaccinationDtos: Vaccination[],
     allergyDtos: Allergy[]
-  ): Observable<HttpStatusCode>{
+  ): Observable<HttpStatusCode> {
+
 
     const obj: GeneralMedicalDataCreate ={
       bloodType: bloodType,
@@ -228,7 +274,7 @@ export class PatientService {
       allergyDtos: allergyDtos
     }
 
-    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/record/general_medical_data/${lbp}`,  obj, { headers: this.getHeaders() } );
+    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/record/general_medical_data/${lbp}`, obj, {headers: this.getHeaders()});
   }
 
 
@@ -242,17 +288,17 @@ export class PatientService {
     hospitalId: number,
     departmentId: number,
     description: string
-  ): Observable<HttpStatusCode>{
+  ): Observable<HttpStatusCode> {
 
 
-    const obj: OperationCreate ={
+    const obj: OperationCreate = {
       operationDate: operationDate,
       hospitalId: hospitalId,
       departmentId: departmentId,
       description: description
     }
 
-    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/record/operation/${lbp}`,  obj, { headers: this.getHeaders() } );
+    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/record/operation/${lbp}`, obj, {headers: this.getHeaders()});
   }
 
 
@@ -271,10 +317,10 @@ export class PatientService {
     therapy: string,
     DiagnosisCodeDto: DiagnosisCode,
     AnamnesisDto: Anamnesis
-  ): Observable<HttpStatusCode>{
+  ): Observable<HttpStatusCode> {
 
 
-    const obj: ExaminationHistoryCreate ={
+    const obj: ExaminationHistoryCreate = {
       examDate: examDate,
       lbz: lbz,
       confidential: confidential,
@@ -285,7 +331,7 @@ export class PatientService {
       AnamnesisDto: AnamnesisDto
     }
 
-    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/examination/${lbp}`,  obj, { headers: this.getHeaders() } );
+    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/examination/${lbp}`, obj, {headers: this.getHeaders()});
   }
 
 
@@ -300,25 +346,26 @@ export class PatientService {
     treatmentResult: TreatmentResult,
     currStateDesc: string,
     validFrom: Date,
-    validTo : Date,
+    validTo: Date,
     valid: boolean,
     diagnosisCodeDto: DiagnosisCode
-  ): Observable<HttpStatusCode>{
+  ): Observable<HttpStatusCode> {
 
 
-    const obj: MedicalHistory ={
+    const obj: MedicalHistory = {
       startDate: startDate,
       endDate: endDate,
       treatmentResult: treatmentResult,
       currStateDesc: currStateDesc,
       validFrom: validFrom,
-      validTo : validTo,
+      validTo: validTo,
       valid: valid,
       diagnosisCodeDto: diagnosisCodeDto
     }
 
-    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,  obj, { headers: this.getHeaders() } );
+    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`, obj, {headers: this.getHeaders()});
   }
+
 
 
   getExaminationHistoryByDate(lbp: string, date: string, page: number, size:number): Observable<Page<ExaminationHistory>> {
@@ -339,12 +386,39 @@ export class PatientService {
     return this.http.get<Page<MedicalHistory>>(`${environmentPatient.apiURL}/info/myFindMedicalHistoriesByDiagnosisCodePaged/${lbp}`, {params: httpParams, headers:this.getHeaders()});
   }
 
+
   getAllPatients(lbp: string, jmbg:string, name: string, surname: string, page: number, size:number): Observable<Page<Patient>> {
     console.log("Ime " + name + "Prezime "  + surname + "jmbg " + jmbg + "lbp " + lbp)
     let httpParams = new HttpParams().append("lbp",lbp).append("jmbg", jmbg).append("name", name).append("surname",surname).append("page",page).append("size",size);
     return this.http.get<Page<Patient>>(`${environmentPatient.apiURL}/patient/filter_patients`, {params: httpParams, headers:this.getHeaders()});
+
   }
 
+  public saveReport(
+    mainProblems: string,
+    currDisease: string,
+    personalAnamnesis: string,
+    familyAnamnesis: string,
+    patientOpinion: string,
+    objectiveFinding: string,
+    selectedCode: string,
+    uToku: boolean,
+    existingDiagnosis: string,
+    suggestedTherapies: string,
+    advice: string,
+
+  ): Observable<HttpStatusCode> {
+
+    let httpParams = new HttpParams().append("mainProblems", mainProblems).append("currDisease", currDisease).append("personalAnamnesis", personalAnamnesis).append("familyAnamnesis", familyAnamnesis).append("patientOpinion", patientOpinion).append("objectiveFinding", objectiveFinding)
+      .append("selectedCode",selectedCode).append("uToku",uToku).append("existingDiagnosis",existingDiagnosis).append("suggestedTherapies",suggestedTherapies).append("advice",advice);
 
 
+    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}""`, httpParams, {headers: this.getHeaders()});
+
+
+  }
 }
+
+
+
+

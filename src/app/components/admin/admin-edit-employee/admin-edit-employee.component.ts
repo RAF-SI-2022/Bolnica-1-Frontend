@@ -130,7 +130,6 @@ export class AdminEditEmployeeComponent implements OnInit {
   }
 
   editEmployee() {
-
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     if (form.checkValidity() === false) {
     }
