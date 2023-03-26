@@ -190,15 +190,15 @@ export class PatientService {
   /**
    * Pronalazenje Medical History (istorije pacijenta) na osnovu lbp
    * */
-  public getMedicalHistoryByLbp(lbp: string): Observable<MedicalHistory[]> {
-    return this.http.get<MedicalHistory[]>(`${environmentPatient.apiURL}/info/myFindMedicalHistories/${lbp}`, { headers: this.getHeaders() });
+  public getMedicalHistoryByLbp(lbp: string): Observable<Page <MedicalHistory>> {
+    return this.http.get< Page <MedicalHistory>>(`${environmentPatient.apiURL}/info/myFindMedicalHistories/${lbp}`, { headers: this.getHeaders() });
   }
 
   /**
    * Pronalazenje Examination History pacijenta na osnovu lbp
    * */
-  public getExaminationHistoryByLbp(lbp: string): Observable<ExaminationHistory[]> {
-    return this.http.get<ExaminationHistory[]>(`${environmentPatient.apiURL}/info/myFindExaminationHistories/${lbp}`, { headers: this.getHeaders() });
+  public getExaminationHistoryByLbp(lbp: string): Observable<Page <ExaminationHistory>> {
+    return this.http.get<Page<ExaminationHistory>>(`${environmentPatient.apiURL}/info/myFindExaminationHistories/${lbp}`, { headers: this.getHeaders() });
   }
 
   /**
@@ -216,15 +216,14 @@ export class PatientService {
   public createMedicalData(
     lbp:string,
     bloodType: string,
-    rH: string,
+    rh: string,
     vaccinationDtos: Vaccination[],
     allergyDtos: Allergy[]
   ): Observable<HttpStatusCode>{
 
-
     const obj: GeneralMedicalDataCreate ={
       bloodType: bloodType,
-      rH: rH,
+      rh: rh,
       vaccinationDtos: vaccinationDtos,
       allergyDtos: allergyDtos
     }
@@ -321,6 +320,24 @@ export class PatientService {
     return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,  obj, { headers: this.getHeaders() } );
   }
 
+
+  getExaminationHistoryByDate(lbp: string, date: string, page: number, size:number): Observable<Page<ExaminationHistory>> {
+
+    let httpParams = new HttpParams().append("lbp",lbp).append("date", date).append("page",page).append("size",size);
+    return this.http.get<Page<ExaminationHistory>>(`${environmentPatient.apiURL}/info/myFindExaminationHistoriesByLbpAndDatePaged/${lbp}`, {params: httpParams, headers:this.getHeaders()});
+  }
+
+  getExaminationHistoryByRange(lbp: string, start_date: string, end_date: string,  page: number, size:number): Observable<Page<ExaminationHistory>> {
+
+    let httpParams = new HttpParams().append("lbp",lbp).append("start_date", start_date).append("end_date", end_date).append("page",page).append("size",size);
+    return this.http.get<Page<ExaminationHistory>>(`${environmentPatient.apiURL}/info/myFindExaminationHistoriesByLbpAndDateRangePaged/${lbp}`, {params: httpParams, headers:this.getHeaders()});
+  }
+
+  getMedicalHistoriesByDiagnosisCodePaged(lbp: string, diagnosisCode: string, page: number, size:number): Observable<Page<MedicalHistory>> {
+
+    let httpParams = new HttpParams().append("lbp",lbp).append("diagnosisCode", diagnosisCode).append("page",page).append("size",size);
+    return this.http.get<Page<MedicalHistory>>(`${environmentPatient.apiURL}/info/myFindMedicalHistoriesByDiagnosisCodePaged/${lbp}`, {params: httpParams, headers:this.getHeaders()});
+  }
 
   getAllPatients(lbp: string, jmbg:string, name: string, surname: string, page: number, size:number): Observable<Page<Patient>> {
     console.log("Ime " + name + "Prezime "  + surname + "jmbg " + jmbg + "lbp " + lbp)

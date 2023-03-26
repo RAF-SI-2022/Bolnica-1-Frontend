@@ -122,7 +122,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: "doctor-medical-chart",
+    path: "doctor-medical-chart/:lbp",
     component: DoctorMedicalChartComponent,
     canActivate: [AuthGuard]
   },
