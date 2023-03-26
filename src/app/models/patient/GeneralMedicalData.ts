@@ -1,10 +1,10 @@
 import {Vaccination} from "./Vaccination";
 import {Allergy} from "./Allergy";
 
-export interface GeneralMedicalData {
-  id: number;
-  bloodType: string;
-  rH: string;
-  vaccinationDtos: Vaccination[];
-  allergyDtos: Allergy[];
+export class GeneralMedicalData {
+  id: number = 0;
+  bloodType: string = '';
+  rh: string = '';
+  vaccinationDtos: Vaccination[] = [] ;
+  allergyDtos: Allergy[] = [];
 }
