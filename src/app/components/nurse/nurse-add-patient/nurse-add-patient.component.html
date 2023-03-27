@@ -65,7 +65,12 @@
                             <div class="invalid-feedback">Unesite mesto rodjenja!</div>
                         </div>
                         <div class="col-md-4"><label class="labels">Zemlja drzavljanstva</label>
-                            <input type="text" name ="countryOfBirth" class="form-control" data-cy="countryOfBirth" required [formControlName]="'citizenship'">
+
+                          <select id="country" [(ngModel)]="selectedCountry">
+                            <option *ngFor="let countryCode of countryCodes" [value]="countryCode" required [formControlName]="'selectedCountry'">{{ countryCode }}</option>
+                          </select>
+
+<!--                            <input type="text" name ="countryOfBirth" class="form-control" data-cy="countryOfBirth" required [formControlName]="'citizenship'">-->
                             <div class="invalid-feedback">Unesite zemlju drzavljanstva!</div>
                         </div>
                     </div>

@@ -6,6 +6,8 @@ import {UserService} from "../../../services/user-service/user.service";
 import {PatientService} from "../../../services/patient-service/patient.service";
 import {Timestamp} from "rxjs";
 import * as uuid from 'uuid';
+import {CountryCode} from "../../../models/patient-enums/CountryCode";
+
 
 @Component({
   selector: 'app-nurse-add-patient',
@@ -18,7 +20,11 @@ export class NurseAddPatientComponent implements OnInit{
   errorMessage: string = ''
   successMessage: string = ''
 
+  countryCodes = Object.values(CountryCode);
+  selectedCountry: CountryCode;
+
   constructor(private patientService: PatientService, private formBuilder: FormBuilder) {
+    this.selectedCountry = CountryCode.SRB;
 
     this.addGroup = this.formBuilder.group({
       jmbg: ['', [Validators.required]],
@@ -31,7 +37,8 @@ export class NurseAddPatientComponent implements OnInit{
       birthPlace: ['', [Validators.required]],
       //fali adresa
       placeOfLiving:  ['', [Validators.required]],
-      citizenship: ['', [Validators.required]],
+      // citizenship: ['', [Validators.required]],
+      selectedCountry: [CountryCode.SRB, [Validators.required]],
       phone:  ['', [Validators.required]],
       email: ['', [Validators.required]],
       guardianJmbg: ['', [Validators.required]],
@@ -72,7 +79,8 @@ export class NurseAddPatientComponent implements OnInit{
     console.log("patient gender" + genderValue)
     console.log("patient birth place" + patient.birthPlace)
     console.log("patient place of living" + patient.placeOfLiving)
-    console.log("patient citizenship" + patient.citizenship)
+    //console.log("patient citizenship" + patient.citizenship)
+    console.log("patient selected country "+ patient.selectedCountry)
     console.log("patient phone "+patient.phone)
     console.log("patient email "+ patient.email)
     console.log("patient guardianJmbg " + patient.guardianJmbg)
@@ -87,7 +95,7 @@ export class NurseAddPatientComponent implements OnInit{
     console.log("patient date and time of death" + patient.dateAndTimeOfDeath)
 
     this.patientService.registerPatient(patient.jmbg, patient.name,patient.parentName, patient.surname, genderValue, patient.dateOfBirth, patient.dateAndTimeOfDeath,
-      patient.birthPlace, patient.placeOfLiving, patient.citizenship, patient.phone, patient.email, patient.guardianJmbg, patient.guardianNameAndSurname, patient.maritalStatus, patient.numOfChildren, patient.expertiseDegree, patient.profession, patient.familyStatus,new Date() ).subscribe((response) => {
+      patient.birthPlace, patient.placeOfLiving, patient.selectedCountry, patient.phone, patient.email, patient.guardianJmbg, patient.guardianNameAndSurname, patient.maritalStatus, patient.numOfChildren, patient.expertiseDegree, patient.profession, patient.familyStatus,new Date() ).subscribe((response) => {
 
         this.errorMessage = '';
       this.successMessage = 'Uspesno dodat pacijent!'

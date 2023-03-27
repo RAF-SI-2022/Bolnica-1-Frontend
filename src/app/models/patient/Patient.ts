@@ -1,5 +1,5 @@
 import {Gender} from "../patient-enums/Gender";
-import {CountyCode} from "../patient-enums/CountyCode";
+import {CountryCode} from "../patient-enums/CountryCode";
 import {MaritalStatus} from "../patient-enums/MaritalStatus";
 import {ExpertiseDegree} from "../patient-enums/ExpertiseDegree";
 import {FamilyStatus} from "../patient-enums/FamilyStatus";
@@ -16,7 +16,7 @@ export interface Patient{
   dateAndTimeOfDeath: Date; // ovde je timestamp
   birthPlace: string;
   placeOfLiving: string;
-  citizenship: CountyCode;
+  citizenship: CountryCode;
   phone: string;
   email: string;
   deleted: boolean;
@@ -41,7 +41,7 @@ export class Patient{
   dateAndTimeOfDeath: Date = new Date(); // ovde je timestamp
   birthPlace: string = '';
   placeOfLiving: string = '';
-  citizenship: CountyCode = 197;
+  citizenship: CountryCode = 197;
   phone: string = '';
   email: string = '';
   deleted: boolean = false;

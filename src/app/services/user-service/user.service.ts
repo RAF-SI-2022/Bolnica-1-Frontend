@@ -196,6 +196,15 @@ export class UserService {
     );
   }
 
+  checkRoles(rolesToCheck: string[]): Observable<boolean> {
+    return this.getUserRoles().pipe(
+      map(roles => {
+        return roles.some(role => rolesToCheck.includes(role.shortName));
+      })
+    );
+  }
+
+
   getHeaders(): HttpHeaders {
     return new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('token')}` });
   }

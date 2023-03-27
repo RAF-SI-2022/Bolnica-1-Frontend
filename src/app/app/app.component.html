@@ -52,7 +52,11 @@
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
               <h6>{{getFullName()}}</h6>
-              <span>Admin</span>
+              <span *ngIf="admin" >Admin</span>
+              <span *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" >Doktor</span>
+              <span *ngIf="nurse || nurseVisa" >Med Sestra</span>
+              <span *ngIf="biochemist || biochemistSpec" >Biohemicar</span>
+              <span *ngIf="technician|| technicianVisi" >Tehnicar</span>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -171,7 +175,7 @@
       </li>
 
 
-      <li *ngIf="biochemist" class="nav-item">
+      <li *ngIf="biochemist || biochemistSpec" class="nav-item">
         <a class="nav-link collapsed" routerLink="../biochemist-workspace">
           <i class="bi bi-calendar-date"></i>
           <span>Dnevni radni nalog</span>

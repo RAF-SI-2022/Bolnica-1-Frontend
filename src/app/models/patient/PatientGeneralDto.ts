@@ -1,4 +1,4 @@
-import {CountyCode} from "../patient-enums/CountyCode";
+import {CountryCode} from "../patient-enums/CountryCode";
 import {MaritalStatus} from "../patient-enums/MaritalStatus";
 import {ExpertiseDegree} from "../patient-enums/ExpertiseDegree";
 import {FamilyStatus} from "../patient-enums/FamilyStatus";
@@ -16,7 +16,7 @@ export class PatientGeneralDto{
   dateAndTimeOfDeath: Date = new Date(); // ovde je timestamp
   birthPlace: string = '';
   placeOfLiving: string = '';
-  citizenship: CountyCode  = CountyCode.SRB;
+  citizenship: CountryCode  = CountryCode.SRB;
   phone: string = '';
   email: string = '';
   deleted: boolean = false;

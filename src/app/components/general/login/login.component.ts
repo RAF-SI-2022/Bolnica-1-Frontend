@@ -54,20 +54,21 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-
+  console.log("oksi");
     this.userService.login({
       username: this.username,
       password: this.password
     }).subscribe(response => {
 
       localStorage.setItem('token', response.message);
+      console.log("res " + response.message)
       this.userService.token = response.message;
       const decodedToken = new JwtHelperService().decodeToken(response.message);
 
       localStorage.setItem('LBZ', decodedToken.sub);
       this.setUsername()
       localStorage.setItem('PBO', decodedToken.pbo);
-      //console.log("ADMIN SAMss");
+      console.log("ADMIN SAMss " + decodedToken.sub);
 
       this.userService.checkRole('ROLE_ADMIN').subscribe(hasRole => {
         if (hasRole) {
@@ -78,12 +79,13 @@ export class LoginComponent implements OnInit {
           console.log("nema rolu admin")
           this.userService.checkRole('ROLE_DR_SPEC').subscribe(hasDrSpecRole => {
             if (hasDrSpecRole) {
-              console.log("ima rolu doktor")
+              console.log("ima rolu dr spec")
               this.router.navigate(['/doctor-workspace']);
             }
             else {
               this.userService.checkRole('ROLE_DR_SPEC_POV').subscribe(hasDrSpecPovRole => {
                 if (hasDrSpecPovRole) {
+                  console.log("ima rolu dr spec pov")
                   this.router.navigate(['/doctor-workspace']);
                 }
                 else {

@@ -11,6 +11,7 @@ import {PatientService} from "../../../services/patient-service/patient.service"
   styleUrls: ['./doctor-search-patients.component.css']
 })
 export class DoctorSearchPatientsComponent implements OnInit{
+
   searchForm: FormGroup
   public name: string = ''
   public surname: string = ''
@@ -43,11 +44,10 @@ export class DoctorSearchPatientsComponent implements OnInit{
     })
   }
 
-
   getPatientList(){
-    if(this.page == 0){
-      this.page = 1
-    }
+    // if(this.page == 0){
+    //   this.page = 1
+    // }
     this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.pageSize).subscribe((response) => {
       this.patientPage = response
       this.patientList = this.patientPage.content
@@ -60,4 +60,54 @@ export class DoctorSearchPatientsComponent implements OnInit{
     this.page = event;
     this.getPatientList();
   }
+
+  // searchForm: FormGroup
+  // public name: string = ''
+  // public surname: string = ''
+  // public jmbg: string = ''
+  // public lbp: string = ''
+  // patientPage: Page<Patient> = new Page<Patient>()
+  // patientList: Patient[] = []
+  // routerUpper: Router
+  // page = 0
+  // pageSize = 5
+  // total = 0
+  //
+  //
+  // constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) {
+  //   this.routerUpper = router
+  //   this.searchForm = this.formBuilder.group({
+  //     name: '',
+  //     surname: '',
+  //     jmbg: '',
+  //     lbp: ''
+  //   })
+  // }
+  //
+  // ngOnInit(): void {
+  //   this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.pageSize).subscribe((response) => {
+  //     this.patientPage = response
+  //     this.patientList = this.patientPage.content
+  //     this.total = this.patientPage.totalElements
+  //
+  //   })
+  // }
+  //
+  //
+  // getPatientList(){
+  //   if(this.page == 0){
+  //     this.page = 1
+  //   }
+  //   this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.pageSize).subscribe((response) => {
+  //     this.patientPage = response
+  //     this.patientList = this.patientPage.content
+  //     this.total = this.patientPage.totalElements
+  //
+  //   })
+  // }
+  //
+  // onTableDataChange(event: any): void {
+  //   this.page = event;
+  //   this.getPatientList();
+  // }
 }

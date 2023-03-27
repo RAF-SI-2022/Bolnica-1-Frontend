@@ -5,7 +5,7 @@ import {Observable} from "rxjs";
 import {environment, environmentPatient} from "../../../environments/environment";
 import {PatientCreate} from "../../models/patient/PatientCreate";
 import {Gender} from "../../models/patient-enums/Gender";
-import {CountyCode} from "../../models/patient-enums/CountyCode";
+import {CountryCode} from "../../models/patient-enums/CountryCode";
 import {MaritalStatus} from "../../models/patient-enums/MaritalStatus";
 import {ExpertiseDegree} from "../../models/patient-enums/ExpertiseDegree";
 import {FamilyStatus} from "../../models/patient-enums/FamilyStatus";
@@ -62,7 +62,7 @@ export class PatientService {
     dateAndTimeOfDeath: Date, // kako se prikazuje timestamp?
     birthPlace: string,
     placeOfLiving: string,
-    citizenship: CountyCode,
+    citizenship: CountryCode,
     phone: string,
     email: string,
     guardianJmbg: string,
@@ -150,7 +150,7 @@ export class PatientService {
     dateAndTimeOfDeath: Date, // kako se prikazuje timestamp?
     birthPlace: string,
     placeOfLiving: string,
-    citizenship: CountyCode,
+    citizenship: CountryCode,
     phone: string,
     email: string,
     guardianJmbg: string,
