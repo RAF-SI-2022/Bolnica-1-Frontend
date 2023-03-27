@@ -63,13 +63,22 @@ import { ResetPasswordLinkComponent } from './components/general/reset-password-
 import { LoggedOutGuard } from './guards/logged-out.guard';
 import { NewPasswordComponent } from './components/general/new-password/new-password.component';
 import {NurseEditPatientComponent} from "./components/nurse/nurse-edit-patient/nurse-edit-patient.component";
+import {
+  DoctorCreateReferralComponent
+} from "./components/doctor/doctor-create-referral/doctor-create-referral.component";
+import {AdminGuard} from "./guards/role/admin.guard";
+import {BiochemistGuard} from "./guards/role/general/biochemist.guard";
+import {DoctorGuard} from "./guards/role/general/doctor.guard";
+import {NurseGuard} from "./guards/role/general/nurse.guard";
+import {TechnicianGuard} from "./guards/role/general/technician.guard";
+import {BiochemistSearchComponent} from "./components/biochemist/biochemist-search/biochemist-search.component";
 
 
 const routes: Routes = [
   {
     path: "",
     component: AdminWorkspaceComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: "login",
@@ -99,87 +108,97 @@ const routes: Routes = [
   {
     path: "admin-add-employee",
     component: AdminAddEmployeeComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: "admin-edit-employee/:lbz",
     component: AdminEditEmployeeComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: "admin-search-employee",
     component: AdminSearchEmployeeComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: "admin-workspace",
     component: AdminWorkspaceComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: "biochemist-workspace",
     component: BiochemistWorkspaceComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, BiochemistGuard]
+  },
+  {
+    path: "biochemist-search",
+    component: BiochemistSearchComponent,
+    canActivate: [AuthGuard, BiochemistGuard]
   },
   {
     path: "doctor-medical-chart/:lbp",
     component: DoctorMedicalChartComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, DoctorGuard]
   },
   {
     path: "doctor-search-patients",
     component: DoctorSearchPatientsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, DoctorGuard]
   },
   {
     path: "doctor-workspace",
     component: DoctorWorkspaceComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, DoctorGuard]
   },
   {
     path: "doctor-workspace-one",
     component: DoctorWorkspaceOnePatientComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-create-referral",
+    component: DoctorCreateReferralComponent,
+    canActivate: [AuthGuard, DoctorGuard]
   },
   {
     path: "nurse-add-patient",
     component: NurseAddPatientComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, NurseGuard]
   },
   {
     path: "nurse-edit-patient/:lbp",
     component: NurseEditPatientComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, NurseGuard]
   },
   {
     path: "nurse-patient-admission",
     component: NursePatientAdmissionComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, NurseGuard]
   },
   {
     path: "nurse-schedule-admission",
     component: NurseScheduleAdmissionComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, NurseGuard]
   },
   {
     path: "nurse-schedule-appointment",
     component: NurseScheduleAppointmentComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, NurseGuard]
   },
   {
     path: "nurse-search-patients",
     component: NurseSearchPatientsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, NurseGuard]
   },
   {
     path: "nurse-search-patients-dep",
     component: NurseSearchPatientsDepartmentsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, NurseGuard]
   },
   {
     path: "nurse-workspace",
     component: NurseWorkspaceComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, NurseGuard]
   },
   {
     path: "receptionist-add-patient",
@@ -209,17 +228,17 @@ const routes: Routes = [
   {
     path: "technician-patient-admission",
     component: TechnicianPatientAdmissionComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, TechnicianGuard]
   },
   {
     path: "technician-schedule-visit",
     component: TechnicianScheduleVisitComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, TechnicianGuard]
   },
   {
     path: "technician-workspace",
     component: TechnicianWorkspaceComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, TechnicianGuard]
   },
   {
     path: "**",

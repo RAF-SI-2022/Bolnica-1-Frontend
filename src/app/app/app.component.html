@@ -85,12 +85,13 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
-      <li class="nav-item">
+      <li *ngIf="admin" class="nav-item">
         <a class="nav-link collapsed" routerLink="">
           <i class="bi bi-house"></i>
           <span>Pocetna</span>
         </a>
       </li>
+
       <li class="nav-item">
         <a class="nav-link collapsed" routerLink="../profile">
           <i class="bi bi-person"></i>
@@ -98,7 +99,7 @@
         </a>
       </li><!-- End Profile Page Nav -->
 
-      <li class="nav-item">
+      <li  *ngIf="admin" class="nav-item">
         <a class="nav-link collapsed" routerLink="../admin-search-employee">
           <i class="bi bi-search"></i>
           <span>Pretraga zaposlenih</span>
@@ -106,54 +107,101 @@
       </li>
 
 
-      <li *ngIf="canAddEmployee()" class="nav-item">
+      <li *ngIf="admin" class="nav-item">
         <a class="nav-link collapsed" routerLink="../admin-add-employee">
           <i class="bi bi-journal-text"></i>
           <span>Dodaj zaposlenog</span>
         </a>
       </li>
 
-      <li class="nav-item">
+      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
         <a class="nav-link collapsed" routerLink="../doctor-workspace">
           <i class="bi bi-table"></i>
           <span>Zakazani termini</span>
         </a>
       </li>
 
-      <li class="nav-item">
+      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../doctor-search-patients">
+          <i class="bi bi-table"></i>
+          <span>Pretraga pacijenata</span>
+        </a>
+      </li>
+
+      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../doctor-create-referral">
+          <i class="bi bi-table"></i>
+          <span>Kreiranje uputa</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
         <a class="nav-link collapsed" routerLink="../nurse-workspace">
           <i class="bi bi-file-spreadsheet"></i>
           <span>Zakazani pacijenti</span>
         </a>
       </li>
 
-      <li class="nav-item">
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-search-patients">
+          <i class="bi bi-file-spreadsheet"></i>
+          <span>Pretraga pacijenata</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-add-patient">
+          <i class="bi bi-file-spreadsheet"></i>
+          <span>Dodaj pacijenta</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-schedule-appointment">
+          <i class="bi bi-calendar-range"></i>
+          <span>Zakazivanje pregleda</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-schedule-admission">
+          <i class="bi bi-calendar-range"></i>
+          <span>Zakazivanje prijema</span>
+        </a>
+      </li>
+
+
+      <li *ngIf="biochemist" class="nav-item">
         <a class="nav-link collapsed" routerLink="../biochemist-workspace">
           <i class="bi bi-calendar-date"></i>
           <span>Dnevni radni nalog</span>
         </a>
       </li>
 
-      <li class="nav-item">
+      <li *ngIf="biochemist || biochemistSpec" class="nav-item">
         <a class="nav-link collapsed" routerLink="../biochemist-search">
           <i class="bi bi-calendar"></i>
-          <span>Radni nalozi</span>
+          <span>Pretraga radnih naloga</span>
         </a>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" routerLink="../doctor-workspace-one">
-          <i class="bi bi-prescription2"></i>
-          <span>Rad sa pacijentom</span>
+      <li *ngIf="technician|| technicianVisi" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../technician-workspace">
+          <i class="bi bi-calendar"></i>
+          <span>Pocetna</span>
         </a>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" routerLink="../nurse-schedule-appointment">
-          <i class="bi bi-calendar-range"></i>
-          <span>Zakazivanje</span>
-        </a>
-      </li>
+
+
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link collapsed" routerLink="../doctor-workspace-one">-->
+<!--          <i class="bi bi-prescription2"></i>-->
+<!--          <span>Rad sa pacijentom</span>-->
+<!--        </a>-->
+<!--      </li>-->
+
+
 
     </ul>
 

@@ -67,15 +67,18 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('LBZ', decodedToken.sub);
       this.setUsername()
       localStorage.setItem('PBO', decodedToken.pbo);
-      console.log("ADMIN SAMss");
+      //console.log("ADMIN SAMss");
 
       this.userService.checkRole('ROLE_ADMIN').subscribe(hasRole => {
         if (hasRole) {
+          console.log("ima admin")
           this.router.navigate(['/admin-workspace']);
         }
         else {
+          console.log("nema rolu admin")
           this.userService.checkRole('ROLE_DR_SPEC').subscribe(hasDrSpecRole => {
             if (hasDrSpecRole) {
+              console.log("ima rolu doktor")
               this.router.navigate(['/doctor-workspace']);
             }
             else {
@@ -84,22 +87,55 @@ export class LoginComponent implements OnInit {
                   this.router.navigate(['/doctor-workspace']);
                 }
                 else {
-                  this.userService.checkRole('ROLE_DR_SPEC_ODE').subscribe(hasDrSpecOdeRole => {
+                  this.userService.checkRole('ROLE_DR_SPEC_ODELJENJA').subscribe(hasDrSpecOdeRole => {
                     if (hasDrSpecOdeRole) {
                       this.router.navigate(['/doctor-workspace']);
                     }
                     else {
-                      this.userService.checkRole('ROLE_MED_SES').subscribe(hasMedSesRole => {
+                      this.userService.checkRole('ROLE_MED_SESTRA').subscribe(hasMedSesRole => {
                         if (hasMedSesRole) {
                           this.router.navigate(['/nurse-workspace']);
                         }
                         else {
-                          this.userService.checkRole('ROLE_VISA_MED_SES').subscribe(hasVisaMedSesRole => {
+                          this.userService.checkRole('ROLE_VISA_MED_SESTRA').subscribe(hasVisaMedSesRole => {
                             if (hasVisaMedSesRole) {
                               this.router.navigate(['/nurse-workspace']);
                             }
                             else {
-                              // Handle the case where the user has no roles
+
+                              this.userService.checkRole('ROLE_VISI_LAB_TEHNICAR').subscribe(hasVisaMedSesRole => {
+                                if (hasVisaMedSesRole) {
+                                  this.router.navigate(['/technician-workspace']);
+                                }
+                                else {
+                                  this.userService.checkRole('ROLE_LAB_TEHNICAR').subscribe(hasVisaMedSesRole => {
+                                    if (hasVisaMedSesRole) {
+                                      this.router.navigate(['/technician-workspace']);
+                                    }
+                                    else {
+
+                                      this.userService.checkRole('ROLE_MED_BIOHEMICAR').subscribe(hasVisaMedSesRole => {
+                                        if (hasVisaMedSesRole) {
+                                          this.router.navigate(['/biochemist-workspace']);
+                                        }
+                                        else {
+
+                                          this.userService.checkRole('ROLE_SPEC_MED_BIOHEMIJE').subscribe(hasVisaMedSesRole => {
+                                            if (hasVisaMedSesRole) {
+                                              this.router.navigate(['/biochemist-workspace']);
+                                            }
+                                            else {
+                                              // Handle the case where the user has no roles
+                                            }
+                                          });
+                                        }
+                                      });
+                                    }
+                                  });
+
+                                }
+                              });
+
                             }
                           });
                         }
@@ -111,6 +147,9 @@ export class LoginComponent implements OnInit {
             }
           });
         }
+      },msg => {
+        console.log("nema rolu admin")
+        console.log(msg)
       });
     }, err => {
       console.log(err);

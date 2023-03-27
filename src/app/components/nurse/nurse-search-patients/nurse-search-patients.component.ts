@@ -57,6 +57,7 @@ export class NurseSearchPatientsComponent implements OnInit {
 
   updatePatient(patient: Patient) {
     //this.userService.setZaposleni(zaposleni)
+    //console.log(patient.lbp)
     this.router.navigate(['/nurse-edit-patient/', patient.lbp]);
   }
 

@@ -188,7 +188,7 @@ export class PatientService {
       deleted: deleted
     }
 
-    return this.http.put<HttpStatusCode>(`${environmentPatient.apiURL}/patient/update/${lbp}`, obj, {headers: this.getHeaders()});
+    return this.http.put<HttpStatusCode>(`${environmentPatient.apiURL}/patient/update`, obj, {headers: this.getHeaders()});
   }
 
   //dodat get patient by lbp
