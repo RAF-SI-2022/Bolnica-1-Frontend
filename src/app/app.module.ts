@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app/app.component';
+
+import {ScheduleModule,RecurrenceEditorModule, DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService} from '@syncfusion/ej2-angular-schedule';
+
 import { LoginComponent } from './components/general/login/login.component';
 import { ResetPasswordComponent } from './components/general/reset-password/reset-password.component';
 import { ProfileComponent } from './components/general/profile/profile.component';
@@ -48,18 +51,6 @@ import { NurseEditPatientComponent } from './components/nurse/nurse-edit-patient
 import { DoctorCreateReferralComponent } from './components/doctor/doctor-create-referral/doctor-create-referral.component';
 import {NurseWorkspaceComponent} from "./components/nurse/nurse-workspace/nurse-workspace.component";
 
-//import {ScheduleModule, RecurrenceEditorModule,DayService, WeekService,WorkWeekService,MonthService, MonthAgendaService} from '@syncfusion/ej2-angular-schedule';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
-
-/*
-FullCalendarModule.registerPlugins([
-  dayGridPlugin,
-  interactionPlugin
-]);
-
- */
 
 @NgModule({
   declarations: [
@@ -105,10 +96,10 @@ FullCalendarModule.registerPlugins([
     NgxPaginationModule,
     BrowserAnimationsModule,
 
-    //ScheduleModule,RecurrenceEditorModule
-    FullCalendarModule, ReactiveFormsModule
+    ScheduleModule,RecurrenceEditorModule
   ],
-  providers: [],
+  providers: [DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService],
+  //providers[],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
