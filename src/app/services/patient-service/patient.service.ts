@@ -386,7 +386,10 @@ export class PatientService {
     return this.http.get<Page<MedicalHistory>>(`${environmentPatient.apiURL}/info/myFindMedicalHistoriesByDiagnosisCodePaged/${lbp}`, {params: httpParams, headers:this.getHeaders()});
   }
 
-
+  /**
+   * Dohvata sve pacijente
+   * trebalo bi da se doda za delete
+   * */
   getAllPatients(lbp: string, jmbg:string, name: string, surname: string, page: number, size:number): Observable<Page<Patient>> {
     console.log("Ime " + name + "Prezime "  + surname + "jmbg " + jmbg + "lbp " + lbp)
     let httpParams = new HttpParams().append("lbp",lbp).append("jmbg", jmbg).append("name", name).append("surname",surname).append("page",page).append("size",size);

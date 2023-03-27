@@ -73,24 +73,23 @@
                         <input type="datetime-local" name="dateAndTimeOfDeath" class="form-control" data-cy="dateAndTimeOfDeath" [formControlName]="'dateAndTimeOfDeath'">
                         <div class="invalid-feedback"></div>
                       </div>
-                        <div class="col-md-4"><label class="labels">Zemlja drzavljanstva</label>
-                            <input type="text" name ="countryOfBirth" class="form-control" data-cy="countryOfBirth" [(ngModel)]="patientUpdate.citizenship"
-                                   [formControlName]="'citizenship'">
+<!--                        <div class="col-md-4"><label class="labels">Zemlja drzavljanstva</label>-->
+<!--                            <input type="text" name ="countryOfBirth" class="form-control" data-cy="countryOfBirth" [(ngModel)]="patientUpdate.citizenship"-->
+<!--                                   [formControlName]="'citizenship'">-->
+                      <div class="col-md-4"><label class="labels">Zemlja drzavljanstva</label>
+                      <select class="form-select" name="countryOfBirth" data-cy="countryOfBirth" [(ngModel)]="patientUpdate.citizenship"  [formControlName]="'citizenship'">
+                        <option *ngFor="let countryCode of countryCodes" [value]="countryCode">{{ countryCode }}</option>
+                      </select>
                             <div class="invalid-feedback">Unesite zemlju drzavljanstva!</div>
                         </div>
                     </div>
-
                     <div class="row mt-1">
-<!--                        <div class="col-md-4"><label class="labels">Adresa stanovanja</label>-->
-<!--                            <input type="text" name="adress" class="form-control" data-cy="adress">-->
-<!--                        </div>-->
+
                         <div class="col-md-4"><label class="labels">Mesto stanovanja</label>
                             <input type="text" name ="city" class="form-control" data-cy="placeOfLiving" [(ngModel)]="patientUpdate.placeOfLiving"
                                    [formControlName]="'placeOfLiving'">
                         </div>
-<!--                        <div class="col-md-4"><label class="labels">Zemlja stanovanja</label>-->
-<!--                            <input type="text" name ="country" class="form-control" data-cy="country">-->
-<!--                        </div>-->
+
                     </div>
 
                     <div class="row mt-1">
@@ -117,23 +116,16 @@
 
                     <div class="row mt-1">
                         <div class="col-md-4"><label class="labels">Porodicni status</label>
-                            <select class="form-select" name="familyStatus" data-cy="familyStatus" [formControlName]="'familyStatus'">
-                                <option value="1"></option>
-                                <option value="OBA_RODITELJA">Oba roditelja</option>
-                                <option value="RAZVEDENI">Roditelji razdvojeni/razvedeni</option>
-                                <option value="JEDAN_RODITELJ">Jedan roditelj</option>
-                                <option value="BEZ_RODITELJA">Bez roditelja</option>
-                                <option value="USVOJEN">Usvojen</option>
-                              </select>
+                            <select class="form-select" name="familyStatus" data-cy="familyStatus" [(ngModel)]="patientUpdate.familyStatus"  [formControlName]="'familyStatus'">
+                              <option *ngFor="let familyStatus of familyStatus" [value]="familyStatus">{{ familyStatus }}</option>
+
+                            </select>
                         </div>
                         <div class="col-md-4"><label class="labels">Bracni status</label>
-                            <select class="form-select" name="maritalStatus"  data-cy="maritalStatus" [formControlName]="'maritalStatus'">
-                                <option value="1"></option>
-                                <option value="U_BRAKU">U braku</option>
-                                <option value="RAZVEDENI">Razvedeni</option>
-                                <option value="UDOVAC_UDOVICA">Udovac/Udovica</option>
-                                <option value="SAMAC_SAMICA">Samac/Samica</option>
-                              </select>
+                            <select class="form-select" name="maritalStatus"  data-cy="maritalStatus" [(ngModel)]="patientUpdate.maritalStatus"[formControlName]="'maritalStatus'">
+                              <option *ngFor="let maritalStatus of maritalStatus" [value]="maritalStatus">{{ maritalStatus }}</option>
+
+                            </select>
                         </div>
                         <div class="col-md-4"><label class="labels">Broj Dece</label>
                             <input type="text" name ="numberOfChildren" class="form-control" data-cy="numOfChildren" [(ngModel)]="patientUpdate.numOfChildren"
@@ -143,14 +135,10 @@
 
                     <div class="row mt-1">
                         <div class="col-md-6"><label class="labels">Stepen strucne spreme</label>
-                            <select class="form-select" name="expertiseDegree"  data-cy="expertiseDegree" [formControlName]="'expertiseDegree'">
-                                <option value="1"></option>
-                                <option value="BEZ_OSNOVNOG">Bez osnovnog obrazovanja</option>
-                                <option value="OSNOVNO">Osnovno obrazovanje</option>
-                                <option value="SREDNJE">Srednje obrazovanje</option>
-                                <option value="VISE">Vise obrazovanje</option>
-                                <option value="VISOKO">Visoko obrazovanje</option>
-                              </select>
+                            <select class="form-select" name="expertiseDegree"  data-cy="expertiseDegree" [(ngModel)]="patientUpdate.expertiseDegree"  [formControlName]="'expertiseDegree'">
+                              <option *ngFor="let expertiseDegree of expertiseDegree" [value]="expertiseDegree">{{ expertiseDegree }}</option>
+
+                            </select>
                         </div>
                         <div class="col-md-6"><label class="labels">Zanimanje</label>
                             <input type="text" name ="job" class="form-control" data-cy="job" [(ngModel)]="patientUpdate.profession"

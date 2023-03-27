@@ -3,4 +3,5 @@ export class Allergy {
   constructor(name: string) {
     this.name = name
   }
+
 }

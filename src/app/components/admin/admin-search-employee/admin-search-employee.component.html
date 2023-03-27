@@ -32,18 +32,7 @@
               <div class="invalid-feedback">Unesite vase prezime</div>
             </div>
             <div class="col-md-3"><label class="labels">Odeljenje</label>
-              <!--
-                        <select name ="selektovanaOrdinacija" [(ngModel)]="selektovanaOrdinacija" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
-                            <option selected>Odaberite odeljenje</option>
-                            <option value="1">Prof. dr. med</option>
-                            <option value="2">Dr med. spec.</option>
-                            <option value="3">Dr sci. med.</option>
-                            <option value="4">Dipl. farm.</option>
-                            <option value="5">Mag. farm.</option>
-                            <option value="6">Mr</option>
-                          </select>
-                      <div class="invalid-feedback">Izaberite ordinaciju!</div>
-                      -->
+
               <select name="selektovanaOrdinacija" [(ngModel)]="selektovanaOrdinacija" class="form-select"
                 aria-label="Default select example" [ngModelOptions]="{standalone: true}">
                 <option selected>Odaberite odeljenje</option>
@@ -51,21 +40,7 @@
               </select>
               <div class="invalid-feedback">Izaberite odeljenje!</div>
             </div>
-            <!--
 
-                            <select name = "selektovanaBolnica" [(ngModel)]="selektovanaBolnica" class="form-select" aria-label="Default select example" [ngModelOptions]="{standalone: true}">
-                                <option selected>Odaberite bolnicu</option>
-                                <option value="1">Prof. dr. med</option>
-                                <option value="2">Dr med. spec.</option>
-                                <option value="3">Dr sci. med.</option>
-                                <option value="4">Dipl. farm.</option>
-                                <option value="5">Mag. farm.</option>
-                                <option value="6">Mr</option>
-                              </select>
-                            <div class="invalid-feedback">Izaberite bolnicu!</div>
-                          </div>
-
-                        -->
             <div class="col-md-3"><label class="labels">Bolnica</label>
               <select name="selektovanaOrdinacija" [(ngModel)]="selektovanaBolnica" class="form-select"
                 aria-label="Default select example" [ngModelOptions]="{standalone: true}">
@@ -80,17 +55,15 @@
                 <div class="form-check form-switch d-inline-block"> &nbsp;
                   <input [(ngModel)]="deleted" [ngModelOptions]="{standalone: true}" name=" gender" type="checkbox" class="form-check-input"
                     id="site_state" style="cursor: pointer;">
-  
+
                   <label for="site_state" class="form-check-label"> Obrisani</label>
                 </div>
               </div>
 
             </div>
-            <!-- <div class="col-md-3"><label class="labels">Obrisani</label>
-              <input type="checkbox" [(ngModel)]="deleted" [ngModelOptions]="{standalone: true}"/><span class="checkmark"></span>
-            </div> -->
+
           </div>
-          
+
           <div class="me-auto float-end text-end mt-3 mb-3">
             <button type="submit" class="btn btn-primary">Pretrazi</button>
           </div>
@@ -122,8 +95,6 @@
                 <td>
                   <a (click)="updateUser(user)" class="settings" title="Podesavanja" data-toggle="tooltip"><i
                       class="bi bi-gear-fill"></i></a>
-                  <!-- <a href="#" class="delete" (click)="deleteUser(user.lbz)" title="Brisanje" data-toggle="tooltip"><i
-                      class="bi bi-x-circle-fill"></i></a> -->
                 </td>
               </tr>
             </tbody>
@@ -136,5 +107,5 @@
       </div>
     </div>
   </div>
-  
+
 </body>
