@@ -50,6 +50,7 @@ import { NewPasswordComponent } from './components/general/new-password/new-pass
 import { NurseEditPatientComponent } from './components/nurse/nurse-edit-patient/nurse-edit-patient.component';
 import { DoctorCreateReferralComponent } from './components/doctor/doctor-create-referral/doctor-create-referral.component';
 import {NurseWorkspaceComponent} from "./components/nurse/nurse-workspace/nurse-workspace.component";
+import { BiochemistSearchComponent } from './components/biochemist/biochemist-search/biochemist-search.component';
 
 
 @NgModule({
@@ -85,7 +86,8 @@ import {NurseWorkspaceComponent} from "./components/nurse/nurse-workspace/nurse-
     ResetPasswordLinkComponent,
     NewPasswordComponent,
     NurseEditPatientComponent,
-    DoctorCreateReferralComponent
+    DoctorCreateReferralComponent,
+    BiochemistSearchComponent
   ],
   imports: [
     BrowserModule,

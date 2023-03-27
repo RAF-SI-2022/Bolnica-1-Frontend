@@ -20,10 +20,10 @@ export class NurseEditPatientComponent implements OnInit {
   editGroup: FormGroup;
   deleted: Boolean = false
 
-  lbp: string = "d63b6394-5eb0-4229-9caf-212daa4dec44"
+  lbp: string = ''
 
   ngOnInit(): void {
-    // this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
+    this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
     //stavi za pacijent
     this.getPatient(this.lbp);
     console.log(this.lbp)
