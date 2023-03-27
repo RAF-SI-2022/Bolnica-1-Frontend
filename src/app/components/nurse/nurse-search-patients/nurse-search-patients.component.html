@@ -80,7 +80,7 @@
             <td>
               <a (click)="updatePatient(user)" class="settings" title="Podesavanja" data-toggle="tooltip"><i
                 class="bi bi-gear-fill"></i></a>
-               <a (click)="deletePatient(user.lbp)" class="delete" title="Brisanje" data-toggle="tooltip"><i
+               <a *ngIf="rolaVisaMedSestra" (click)="deletePatient(user.lbp)" class="delete" title="Brisanje" data-toggle="tooltip"><i
                   class="bi bi-x-circle-fill"></i></a>
             </td>
           </tr>

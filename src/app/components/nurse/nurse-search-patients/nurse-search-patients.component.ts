@@ -4,6 +4,7 @@ import {PatientService} from "../../../services/patient-service/patient.service"
 import {Patient} from "../../../models/patient/Patient";
 import {Page, Zaposleni} from "../../../models/models";
 import {Router} from "@angular/router";
+import {UserService} from "../../../services/user-service/user.service";
 
 @Component({
   selector: 'app-nurse-search-patients',
@@ -24,9 +25,12 @@ export class NurseSearchPatientsComponent implements OnInit {
   pageSize = 5
   total = 0
 
+  rolaVisaMedSestra: boolean = false
 
-  constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) {
+
+  constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private userService: UserService) {
     this.routerUpper = router
+    this.userService = userService
     this.searchForm = this.formBuilder.group({
       name: '',
       surname: '',
@@ -42,6 +46,11 @@ export class NurseSearchPatientsComponent implements OnInit {
       this.total = this.patientPage.totalElements
 
     })
+
+    this.userService.checkRole("ROLE_VISA_MED_SESTRA").subscribe(res =>{
+      this.rolaVisaMedSestra = res
+    })
+
   }
 
   deletePatient(LBP: string) {
