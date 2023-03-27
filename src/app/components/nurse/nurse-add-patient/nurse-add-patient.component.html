@@ -66,19 +66,19 @@
                         </div>
                         <div class="col-md-4"><label class="labels">Zemlja drzavljanstva</label>
 
-                          <select id="country" [(ngModel)]="selectedCountry">
-                            <option *ngFor="let countryCode of countryCodes" [value]="countryCode" required [formControlName]="'selectedCountry'">{{ countryCode }}</option>
+<!--                          <select id="country" [(ngModel)]="selectedCountry">-->
+<!--                            <option *ngFor="let countryCode of countryCodes" [value]="countryCode" required [formControlName]="'selectedCountry'">{{ countryCode }}</option>-->
+<!--                          </select>-->
+                          <select class="form-select" name="countryOfBirth" data-cy="countryOfBirth"  [formControlName]="'selectedCountry'" required>
+                            <option *ngFor="let countryCode of countryCodes" [value]="countryCode">{{ countryCode }}</option>
                           </select>
-
 <!--                            <input type="text" name ="countryOfBirth" class="form-control" data-cy="countryOfBirth" required [formControlName]="'citizenship'">-->
                             <div class="invalid-feedback">Unesite zemlju drzavljanstva!</div>
                         </div>
                     </div>
 
                     <div class="row mt-1">
-<!--                        <div class="col-md-4"><label class="labels">Adresa stanovanja </label>-->
-<!--                            <input type="text" name="adress" class="form-control" data-cy="adress">-->
-<!--                        </div>-->
+
                         <div class="col-md-4"><label class="labels">Mesto stanovanja</label>
                             <input type="text" name ="city" class="form-control" data-cy="city" required [formControlName]="'placeOfLiving'">
                         </div>
@@ -87,9 +87,7 @@
                         <div class="invalid-feedback"></div>
                       </div>
 
-<!--                        <div class="col-md-4"><label class="labels">Zemlja stanovanja</label>-->
-<!--                            <input type="text" name ="country" class="form-control" data-cy="country">-->
-<!--                        </div>-->
+
                     </div>
 
                     <div class="row mt-1">
@@ -113,22 +111,13 @@
                     <div class="row mt-1">
                         <div class="col-md-4"><label class="labels">Porodicni status</label>
                             <select class="form-select" name="familyStatus"  data-cy="familyStatus"  [formControlName]="'familyStatus'" required>
-                                <option value="1"></option>
-                                <option value="OBA_RODITELJA">Oba roditelja</option>
-                                <option value="RAZVEDENI">Roditelji razdvojeni/razvedeni</option>
-                                <option value="JEDAN_RODITELJ">Jedan roditelj</option>
-                                <option value="BEZ_RODITELJA">Bez roditelja</option>
-                                <option value="USVOJEN">Usvojen</option>
-                              </select>
+                              <option *ngFor="let familyStatus of familyStatus" [value]="familyStatus">{{ familyStatus }}</option>
+                            </select>
                         </div>
                         <div class="col-md-4"><label class="labels">Bracni status</label>
                             <select class="form-select" name="maritalStatus"  data-cy="maritalStatus" [formControlName]="'maritalStatus'" required>
-                                <option value="1"></option>
-                                <option value="U_BRAKU">U braku</option>
-                                <option value="RAZVEDENI">Razvedeni</option>
-                                <option value="UDOVAC_UDOVICA">Udovac/Udovica</option>
-                                <option value="SAMAC_SAMICA">Samac/Samica</option>
-                              </select>
+                              <option *ngFor="let maritalStatus of maritalStatus" [value]="maritalStatus">{{ maritalStatus }}</option>
+                            </select>
                         </div>
                         <div class="col-md-4"><label class="labels">Broj Dece</label>
                             <input type="text" name ="numberOfChildren" class="form-control" data-cy="numberOfChildren" required [formControlName]="'numOfChildren'">
@@ -138,13 +127,9 @@
                     <div class="row mt-1">
                         <div class="col-md-6"><label class="labels">Stepen strucne spreme</label>
                             <select class="form-select" name="education"  data-cy="education" [formControlName]="'expertiseDegree'" required>
-                                <option value="1"></option>
-                                <option value="BEZ_OSNOVNOG">Bez osnovnog obrazovanja</option>
-                                <option value="OSNOVNO">Osnovno obrazovanje</option>
-                                <option value="SREDNJE">Srednje obrazovanje</option>
-                                <option value="VISE">Vise obrazovanje</option>
-                                <option value="VISOKO">Visoko obrazovanje</option>
-                              </select>
+                              <option *ngFor="let expertiseDegree of expertiseDegree" [value]="expertiseDegree">{{ expertiseDegree }}</option>
+
+                            </select>
                         </div>
                         <div class="col-md-6"><label class="labels">Zanimanje</label>
                             <input type="text" name ="job" class="form-control" data-cy="job" required [formControlName]="'profession'">

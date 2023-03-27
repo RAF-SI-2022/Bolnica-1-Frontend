@@ -7,6 +7,9 @@ import {PatientService} from "../../../services/patient-service/patient.service"
 import {Timestamp} from "rxjs";
 import * as uuid from 'uuid';
 import {CountryCode} from "../../../models/patient-enums/CountryCode";
+import {FamilyStatus} from "../../../models/patient-enums/FamilyStatus";
+import {MaritalStatus} from "../../../models/patient-enums/MaritalStatus";
+import {ExpertiseDegree} from "../../../models/patient-enums/ExpertiseDegree";
 
 
 @Component({
@@ -15,16 +18,15 @@ import {CountryCode} from "../../../models/patient-enums/CountryCode";
   styleUrls: ['./nurse-add-patient.component.css']
 })
 export class NurseAddPatientComponent implements OnInit{
-
+  countryCodes = Object.values(CountryCode).filter(value => typeof value === 'string');
+  familyStatus = Object.values(FamilyStatus).filter(value => typeof value === 'string');
+  maritalStatus = Object.values(MaritalStatus).filter(value => typeof value === 'string');
+  expertiseDegree =  Object.values(ExpertiseDegree).filter(value => typeof value === 'string');
   addGroup: FormGroup;
   errorMessage: string = ''
   successMessage: string = ''
 
-  countryCodes = Object.values(CountryCode);
-  selectedCountry: CountryCode;
-
   constructor(private patientService: PatientService, private formBuilder: FormBuilder) {
-    this.selectedCountry = CountryCode.SRB;
 
     this.addGroup = this.formBuilder.group({
       jmbg: ['', [Validators.required]],

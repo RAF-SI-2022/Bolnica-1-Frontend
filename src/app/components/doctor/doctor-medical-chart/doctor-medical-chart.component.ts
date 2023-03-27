@@ -32,7 +32,16 @@ export class DoctorMedicalChartComponent implements OnInit {
   medicalPage: Page<MedicalHistory> = new Page<MedicalHistory>()
   examinationPage: Page<ExaminationHistory> = new Page<ExaminationHistory>()
   allergy: Allergy
+  allergy2: Allergy
   vaccionation: Vaccination
+  vaccinationsList: Vaccination [] = []
+  allergiesList: Allergy [] = []
+  vaccination_PRIORIX: Vaccination
+  vaccination_HIBERIX: Vaccination
+  vaccination_INFLUVAC: Vaccination
+  vaccination_SYNFLORIX: Vaccination
+  vaccination_BCGVAKCINA: Vaccination
+  patientName: string = ''
   page = 0
   pageSize = 5
   total = 0
@@ -43,7 +52,16 @@ export class DoctorMedicalChartComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private patientService: PatientService,  private route: ActivatedRoute) {
     this.generalMedical = new GeneralMedicalData()
     this.allergy = new Allergy("")
-      this.vaccionation = new Vaccination("", "" , "" , "", new Date())
+    this.allergy2 = new Allergy("")
+
+    this.vaccionation = new Vaccination("", "" , "" , "", new Date())
+    this.vaccination_PRIORIX = new Vaccination("PRIORIX", "Virusne vakcine", "Vakcina protiv morbila (malih boginja)", "GlaxoSmithKline Biologicals S.A., Belgija", new Date())
+    this.vaccination_HIBERIX = new Vaccination("HIBERIX", "Bakterijske vakcine", "Kapsulirani antigen hemofilus influence tip B", "GlaxoSmithKline Biologicals S.A., Belgija", new Date())
+    this.vaccination_INFLUVAC = new Vaccination("INFLUVAC", "Virusne vakcine", "Virusne vakcine protiv influence (grip)", "Abbott Biologicals B.V., Holandija", new Date())
+    this.vaccination_SYNFLORIX = new Vaccination("SYNFLORIX", "Bakterijske vakcine", "Vakcine protiv pneumokoka", "GlaxoSmithKline Biologicals S.A., Belgija", new Date())
+    this.vaccination_BCGVAKCINA = new Vaccination("BCGVAKCINA", "Bakterijske vakcine", "Vakcine protiv tuberkuloze", "Institut za virusologiju, vakcine i serume \"Torlak\", Republika Srbija", new Date())
+
+
     this.generalForm = this.formBuilder.group(
       {
         bloodGroup: ['', [Validators.required]],
@@ -86,6 +104,7 @@ export class DoctorMedicalChartComponent implements OnInit {
     this.getMedicalHistoryByDiagnosisCode()
     this.getExaminationHistory()
 
+
   }
 
   updateGeneral(): void {
@@ -96,7 +115,9 @@ export class DoctorMedicalChartComponent implements OnInit {
   getGeneralMedical(lbp: string): void {
     this.patientService.getGeneralMedicalDataByLbp(lbp).subscribe(result => {
       this.generalMedical = result
+      this.vaccinationsList = result.vaccinationDtos
 
+      this.allergiesList  = result.allergyDtos
       }
     )
   }
@@ -114,7 +135,30 @@ export class DoctorMedicalChartComponent implements OnInit {
       result => {})
   }
   saveVaccine(): void{
-      this.vaccionation = new Vaccination(this.vaccineForm.get('vaccine')?.value, "", "", "",this.vaccineForm.get('dateOfReceiving')?.value)
+      if(this.vaccineForm.get('vaccine')?.value == "PRIORIX"){
+        this.vaccination_PRIORIX.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
+        this.vaccionation = this.vaccination_PRIORIX
+        }
+      if(this.vaccineForm.get('vaccine')?.value == "HIBERIX"){
+        this.vaccination_HIBERIX.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
+        this.vaccionation = this.vaccination_HIBERIX
+
+        }
+      if(this.vaccineForm.get('vaccine')?.value == "INFLUVAC"){
+        this.vaccination_INFLUVAC.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
+        this.vaccionation = this.vaccination_INFLUVAC
+
+        }
+      if(this.vaccineForm.get('vaccine')?.value == "SYNFLORIX"){
+        this.vaccination_SYNFLORIX.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
+        this.vaccionation = this.vaccination_SYNFLORIX
+
+        }
+      if(this.vaccineForm.get('vaccine')?.value == "BCGVAKCINA"){
+        this.vaccination_BCGVAKCINA.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
+        this.vaccionation = this.vaccination_BCGVAKCINA
+
+        }
       this.generalMedical.vaccinationDtos.push(this.vaccionation)
       this.patientService.createMedicalData(this.lbp, this.generalMedical.bloodType,this.generalMedical.rh,
       this.generalMedical.vaccinationDtos, this.generalMedical.allergyDtos).subscribe(

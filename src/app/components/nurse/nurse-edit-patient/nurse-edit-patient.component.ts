@@ -5,6 +5,10 @@ import {ActivatedRoute} from "@angular/router";
 import {AdminPromeniZaposlenog, UlogeZaposlenog} from "../../../models/models";
 import {PatientService} from "../../../services/patient-service/patient.service";
 import {PatientUpdateClass} from "../../../models/patient/PatientUpdate";
+import {CountryCode} from "../../../models/patient-enums/CountryCode";
+import {FamilyStatus} from "../../../models/patient-enums/FamilyStatus";
+import {MaritalStatus} from "../../../models/patient-enums/MaritalStatus";
+import {ExpertiseDegree} from "../../../models/patient-enums/ExpertiseDegree";
 
 @Component({
   selector: 'app-nurse-edit-patient',
@@ -12,7 +16,10 @@ import {PatientUpdateClass} from "../../../models/patient/PatientUpdate";
   styleUrls: ['./nurse-edit-patient.component.css']
 })
 export class NurseEditPatientComponent implements OnInit {
-
+  countryCodes = Object.values(CountryCode).filter(value => typeof value === 'string');
+  familyStatus = Object.values(FamilyStatus).filter(value => typeof value === 'string');
+  maritalStatus = Object.values(MaritalStatus).filter(value => typeof value === 'string');
+  expertiseDegree =  Object.values(ExpertiseDegree).filter(value => typeof value === 'string');
   successMessage: string = '';
   errorMessage: string = '';
 
@@ -60,6 +67,7 @@ export class NurseEditPatientComponent implements OnInit {
     console.log("usao u getPatient u ts")
     this.patientService.getPatientByLbp(LBP).subscribe(result => {
       this.patientUpdate = result;
+      console.log("RESUUUUUUULT" +  result.familyStatus)
     }, err => {
       console.log()
       console.log(this.patientUpdate.name)

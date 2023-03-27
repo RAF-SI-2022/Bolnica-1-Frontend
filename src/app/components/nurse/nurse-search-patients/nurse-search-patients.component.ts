@@ -11,6 +11,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./nurse-search-patients.component.css']
 })
 export class NurseSearchPatientsComponent implements OnInit {
+  deleted: boolean = false;
   searchForm: FormGroup
   public name: string = ''
   public surname: string = ''
@@ -72,6 +73,7 @@ export class NurseSearchPatientsComponent implements OnInit {
 
     })
   }
+
 
   onTableDataChange(event: any): void {
     this.page = event;

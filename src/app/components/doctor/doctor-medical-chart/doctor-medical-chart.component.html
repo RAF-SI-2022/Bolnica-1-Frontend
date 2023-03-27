@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-body">
+  <div style="margin-top: 25px;" class="card-body">
     <h5 class="card-title">Doctor medical chart</h5>
 
     <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
@@ -29,7 +29,7 @@
 
               <div class="card basic">
                 <div class="card-body">
-                  <h5 class="card-title">Petar petrovic</h5>
+                  <h5 class="card-title"></h5>
 
                   <div class="row mt-3 align-items-center">
 
@@ -80,9 +80,9 @@
                       <h5 class="card-title">Alergije</h5>
                       <div class="col-md-6">
                         <h4>Lista alergija</h4>
-                        <textarea class="form-control" rows="5" readonly>
-
-                        </textarea>
+                        <ul>
+                          <li *ngFor="let item of allergiesList">{{item}}</li>
+                        </ul>
                       </div>
                       <div class="col-md-6">
                         <h4>Dodaj novu alergiju</h4>
@@ -123,11 +123,9 @@
                       <h5 class="card-title">Vakcine</h5>
                       <div class="col-md-6">
                         <h4>Lista primljenih vakcina</h4>
-                        <textarea class="form-control" rows="8" readonly>
-                          Naziv vakcine 1 - datum primanja: 01.01.2022
-                          Naziv vakcine 2 - datum primanja: 15.02.2022
-                          Naziv vakcine 3 - datum primanja: 20.03.2022
-                              </textarea>
+                        <ul>
+                          <li *ngFor="let item of vaccinationsList">{{item}}</li>
+                        </ul>
                       </div>
                       <div class="col-md-6">
                         <h4>Dodaj novu vakcinu</h4>
@@ -139,7 +137,7 @@
                               <option value="HIBERIX">HIBERIX </option>
                               <option value="INFLUVAC">INFLUVAC </option>
                               <option value="SYNFLORIX">SYNFLORIX </option> <option value="PRIORIX">Vakcina 2</option>
-                              <option value="BCG VAKCINA">BCG VAKCINA </option>
+                              <option value="BCGVAKCINA">BCG VAKCINA </option>
                             </select>
                           </div>
                           <div class="mb-3">

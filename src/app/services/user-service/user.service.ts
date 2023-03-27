@@ -33,7 +33,6 @@ export class UserService {
 
   private zaposleni: Zaposleni = new Zaposleni()
   public token: string = '';
-  // public lbz: number = 0;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -64,9 +63,6 @@ export class UserService {
     });
   }
 
-  setZaposleni(zaposleni: Zaposleni) {
-    this.zaposleni = zaposleni;
-  }
 
   getZaposleni(): Zaposleni {
     return this.zaposleni;
