@@ -28,6 +28,11 @@ import {Patient} from "../../models/patient/Patient";
 import * as uuid from 'uuid';
 import {PatientGeneral} from "../../models/patient/PatientGeneral";
 import {PatientGeneralDto} from "../../models/patient/PatientGeneralDto";
+import {PrescriptionType} from "../../models/laboratory-enums/PrescriptionType";
+import {PrescriptionStatus} from "../../models/laboratory-enums/PrescriptionStatus";
+import {PrescriptionAnalysis} from "../../models/laboratory/PrescriptionAnalysis";
+import {PrescriptionCreate} from "../../models/laboratory/PrescriptionCreate";
+import {Prescription} from "../../models/laboratory/Prescription";
 
 @Injectable({
   providedIn: 'root'
@@ -103,27 +108,27 @@ export class PatientService {
       registerDate: registerDate
     }
 
-    console.log("patient name: " + obj.name)
-    console.log("patient surname:" + obj.surname)
-    console.log("patient jmbg: " + obj.jmbg)
-    console.log("patient lbp" + obj.lbp)
-    console.log("patient parentName" + obj.parentName)
-    console.log("patient gender" + obj.gender)
-    console.log("patient birth place" + obj.birthPlace)
-    console.log("patient place of living" + obj.placeOfLiving)
-    console.log("patient citizenship" + obj.citizenship)
-    console.log("patient phone "+obj.phone)
-    console.log("patient email "+ obj.email)
-    console.log("patient guardianJmbg " + obj.guardianJmbg)
-    console.log("patient guardian name and surname " + obj.guardianNameAndSurname)
-    console.log("patient marital status "+ obj.maritalStatus)
-    console.log("patient num of children " + obj.numOfChildren)
-    console.log("patient expertise degree " + obj.expertiseDegree)
-    console.log("patient profession " + obj.profession)
-    console.log("patient family status " + obj.familyStatus)
-
-    console.log("patient date of birth" + obj.dateOfBirth)
-    console.log("patient date and time of death" + obj.dateAndTimeOfDeath)
+    // console.log("patient name: " + obj.name)
+    // console.log("patient surname:" + obj.surname)
+    // console.log("patient jmbg: " + obj.jmbg)
+    // console.log("patient lbp" + obj.lbp)
+    // console.log("patient parentName" + obj.parentName)
+    // console.log("patient gender" + obj.gender)
+    // console.log("patient birth place" + obj.birthPlace)
+    // console.log("patient place of living" + obj.placeOfLiving)
+    // console.log("patient citizenship" + obj.citizenship)
+    // console.log("patient phone "+obj.phone)
+    // console.log("patient email "+ obj.email)
+    // console.log("patient guardianJmbg " + obj.guardianJmbg)
+    // console.log("patient guardian name and surname " + obj.guardianNameAndSurname)
+    // console.log("patient marital status "+ obj.maritalStatus)
+    // console.log("patient num of children " + obj.numOfChildren)
+    // console.log("patient expertise degree " + obj.expertiseDegree)
+    // console.log("patient profession " + obj.profession)
+    // console.log("patient family status " + obj.familyStatus)
+    //
+    // console.log("patient date of birth" + obj.dateOfBirth)
+    // console.log("patient date and time of death" + obj.dateAndTimeOfDeath)
 
 
     return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/patient/register`, obj, {headers: this.getHeaders()});
@@ -366,8 +371,6 @@ export class PatientService {
     return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`, obj, {headers: this.getHeaders()});
   }
 
-
-
   getExaminationHistoryByDate(lbp: string, date: string, page: number, size:number): Observable<Page<ExaminationHistory>> {
 
     let httpParams = new HttpParams().append("lbp",lbp).append("date", date).append("page",page).append("size",size);
@@ -385,6 +388,13 @@ export class PatientService {
     let httpParams = new HttpParams().append("lbp",lbp).append("diagnosisCode", diagnosisCode).append("page",page).append("size",size);
     return this.http.get<Page<MedicalHistory>>(`${environmentPatient.apiURL}/info/myFindMedicalHistoriesByDiagnosisCodePaged/${lbp}`, {params: httpParams, headers:this.getHeaders()});
   }
+
+  getMedicalHistoryByLbpPaged(lbp: string, page: number, size:number): Observable<Page<MedicalHistory>> {
+
+    let httpParams = new HttpParams().append("lbp",lbp).append("page",page).append("size",size);
+    return this.http.get<Page<MedicalHistory>>(`${environmentPatient.apiURL}/info/myFindMedicalHistoriesPaged/${lbp}`, {params: httpParams, headers:this.getHeaders()});
+  }
+
 
   /**
    * Dohvata sve pacijente
@@ -420,6 +430,106 @@ export class PatientService {
 
 
   }
+
+
+
+
+  /**
+   * Kreiranje prescription (videti da li je to uput ili recept) TREBA DA IH RAZLIKUJEMO
+   * */
+  public writePerscription(
+    type: PrescriptionType,
+    doctorId: number,
+    departmentFromId: number,
+    departmentToId: number,
+    lbp: string,
+    creationDateTime: Date, //ovde je timestamp
+    status: PrescriptionStatus,
+    comment: string,
+    referralDiagnosis: string,
+    referralReason: string,
+    prescriptionAnalysisDtos: PrescriptionAnalysis[]
+  ): Observable<HttpStatusCode> {
+
+    const obj: PrescriptionCreate = {
+      type: type,
+      doctorId: doctorId,
+      departmentFromId: departmentFromId,
+      departmentToId: departmentToId,
+      lbp: lbp,
+      creationDateTime: creationDateTime, //ovde je timestamp
+      status: status,
+      comment: comment,
+      referralDiagnosis: referralDiagnosis,
+      referralReason: referralReason,
+      prescriptionAnalysisDtos: prescriptionAnalysisDtos
+    }
+
+    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/patient/prescription`, obj, {headers: this.getHeaders()});
+  }
+
+  /**
+   * Azuriranje prescription
+   * */
+  public putPerscription(
+    type: PrescriptionType,
+    doctorId: number,
+    departmentFromId: number,
+    departmentToId: number,
+    lbp: string,
+    creationDateTime: Date, //ovde je timestamp
+    status: PrescriptionStatus,
+    comment: string,
+    referralDiagnosis: string,
+    referralReason: string,
+    prescriptionAnalysisDtos: PrescriptionAnalysis[]
+
+  ): Observable<HttpStatusCode> {
+
+    const obj: PrescriptionCreate = {
+      type: type,
+      doctorId: doctorId,
+      departmentFromId: departmentFromId,
+      departmentToId: departmentToId,
+      lbp: lbp,
+      creationDateTime: creationDateTime, //ovde je timestamp
+      status: status,
+      comment: comment,
+      referralDiagnosis: referralDiagnosis,
+      referralReason: referralReason,
+      prescriptionAnalysisDtos: prescriptionAnalysisDtos
+    }
+
+    return this.http.put<HttpStatusCode>(`${environmentPatient.apiURL}/patient/prescription`, obj, {headers: this.getHeaders()});
+  }
+
+
+  /**
+   * Brisanje pacijenta
+   * Permisije ce imati VISA_MED_SESTRA
+   * Moze i da vraca Message
+   * */
+  public deletePerscription(id: number) {
+    return this.http.delete<HttpStatusCode>(`${environmentPatient.apiURL}/patient/prescription/${id}`, {headers: this.getHeaders()})
+  }
+
+
+  /**
+   * Svi prescriptions vezani za pacijenta
+   * */
+  public getPrescriptions(
+    lbp: string, doctorId: number,
+    page: number, size:number): Observable<Page<Prescription>> {
+
+    let httpParams = new HttpParams()
+      .append("doctorId", doctorId)
+      .append("page",page)
+      .append("size",size);
+
+    return this.http.get<Page<Prescription>>(`${environmentPatient.apiURL}/patient/prescriptions/${lbp}`,
+      {params: httpParams, headers:this.getHeaders()});
+  }
+
 }
 
 

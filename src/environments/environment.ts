@@ -9,3 +9,10 @@ export const environmentPatient = {
   title: 'Local Patient Environment',
   apiURL: 'http://localhost:8081/api'
 };
+
+export const environmentLaboratory = {
+  production: false,
+  title: 'Local Laboratory Environment',
+  apiURL: 'http://localhost:8083/api/laboratory'
+};
+
