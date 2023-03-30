@@ -15,6 +15,9 @@ import {DiagnosisCode} from "../../../models/patient/DiagnosisCode";
 })
 export class DoctorWorkspaceOnePatientComponent implements OnInit {
 
+
+  show: boolean = false;
+
   addReport:  FormGroup;
   //treba da se uzme selektovani pacijent
   patient: Patient = new Patient();
@@ -45,7 +48,8 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
       patientOpinion: ['', [Validators.required]],
       objectiveFinding: ['', [Validators.required]],
       selectedCode: ['', [Validators.required]],
-      uToku: ['', [Validators.required]],
+      treatmentResult: ['', [Validators.required]],
+      currStateDesc: ['', [Validators.required]],
       existingDiagnosis: ['', [Validators.required]],
       suggestedTherapies: ['', [Validators.required]],
       advice: ['', [Validators.required]]
@@ -89,6 +93,10 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
   //  showDropdown() {
   //   document.getElementById('welcomeDiv').style.display = "block";
   // }
+
+  showElements(){
+    this.show = true;
+  }
 
 
 }
