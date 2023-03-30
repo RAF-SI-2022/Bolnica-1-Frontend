@@ -266,7 +266,7 @@ export class PatientService {
   public createMedicalData(
     lbp: string,
     bloodType: string,
-    rh: string,
+    rH: string,
     vaccinationDtos: Vaccination[],
     allergyDtos: Allergy[]
   ): Observable<HttpStatusCode> {
@@ -274,7 +274,7 @@ export class PatientService {
 
     const obj: GeneralMedicalDataCreate ={
       bloodType: bloodType,
-      rh: rh,
+      rH: rH,
       vaccinationDtos: vaccinationDtos,
       allergyDtos: allergyDtos
     }
