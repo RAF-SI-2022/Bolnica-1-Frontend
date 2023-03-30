@@ -55,9 +55,6 @@ import {
 import {
   TechnicianPatientAdmissionComponent
 } from "./components/technician/technician-patient-admission/technician-patient-admission.component";
-import {
-  TechnicianScheduleVisitComponent
-} from "./components/technician/technician-schedule-visit/technician-schedule-visit.component";
 import { NotFoundComponent } from './components/general/not-found/not-found.component';
 import { ResetPasswordLinkComponent } from './components/general/reset-password-link/reset-password-link.component';
 import { LoggedOutGuard } from './guards/logged-out.guard';
@@ -72,6 +69,9 @@ import {DoctorGuard} from "./guards/role/general/doctor.guard";
 import {NurseGuard} from "./guards/role/general/nurse.guard";
 import {TechnicianGuard} from "./guards/role/general/technician.guard";
 import {BiochemistSearchComponent} from "./components/biochemist/biochemist-search/biochemist-search.component";
+import {
+  TechnicianScheduleLabExaminationComponent
+} from "./components/technician/technician-schedule-lab-examination/technician-schedule-lab-examination.component";
 
 
 const routes: Routes = [
@@ -231,8 +231,8 @@ const routes: Routes = [
     canActivate: [AuthGuard, TechnicianGuard]
   },
   {
-    path: "technician-schedule-visit",
-    component: TechnicianScheduleVisitComponent,
+    path: "technician-schedule-lab-examination",
+    component: TechnicianScheduleLabExaminationComponent,
     canActivate: [AuthGuard, TechnicianGuard]
   },
   {
