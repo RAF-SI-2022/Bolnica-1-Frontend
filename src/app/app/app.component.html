@@ -203,6 +203,19 @@
         </a>
       </li>
 
+      <li *ngIf="technician|| technicianVisi" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../technician-issuing-results">
+          <i class="bi bi-calendar"></i>
+          <span>Lab analiza</span>
+        </a>
+      </li>
+      <li *ngIf="technician|| technicianVisi" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../technician-issuing-results-details">
+          <i class="bi bi-calendar"></i>
+          <span>Lab analiza detalji</span>
+        </a>
+      </li>
+
 
 
 <!--      <li class="nav-item">-->
