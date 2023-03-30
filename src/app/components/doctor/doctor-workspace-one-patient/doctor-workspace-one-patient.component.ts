@@ -6,6 +6,7 @@ import {UserService} from "../../../services/user-service/user.service";
 import {PatientService} from "../../../services/patient-service/patient.service";
 import {Zaposleni} from "../../../models/models";
 import {Router} from "@angular/router";
+import {DiagnosisCode} from "../../../models/patient/DiagnosisCode";
 
 @Component({
   selector: 'app-doctor-workspace-one-patient',
@@ -33,6 +34,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
   // advice: string = '';
 
   isPopupVisible = false;
+
 
   constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) {
     this.addReport = this.formBuilder.group({
@@ -69,6 +71,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     }
     form.classList.add('was-validated');
     //vidi koja je to metoda u servisu
+    // this.patientService.createExaminationHistory('lbp', new Date(), 'lbz', report.confidential, report.objectiveFinding, report.advice, report.therapy, )
   }
 
   ngOnInit(): void {
@@ -79,7 +82,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
   goToMedicalRecord() {
     //this.userService.setZaposleni(zaposleni)
     //promeni rutu kad je dodaju
-    this.router.navigate(['/admin-add-employee/']);
+    this.router.navigate(['/MEDICAL RECORD??/']);
   }
 
 

@@ -13,6 +13,8 @@ export class NurseScheduleAppointmentComponent implements OnInit{
   public setView: View= 'Month';
 
   ngOnInit(): void {
+
+
   }
 
 
