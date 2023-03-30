@@ -32,7 +32,7 @@ import { TechnicianPatientAdmissionComponent } from './components/technician/tec
 import { NurseScheduleAdmissionComponent } from './components/nurse/nurse-schedule-admission/nurse-schedule-admission.component';
 import { NurseSearchPatientsDepartmentsComponent } from './components/nurse/nurse-search-patients-departments/nurse-search-patients-departments.component';
 import { TechnicianIssuingResultsComponent } from './components/technician/technician-issuing-results/technician-issuing-results.component';
-import { TechnicianScheduleVisitComponent } from './components/technician/technician-schedule-visit/technician-schedule-visit.component';
+//import { TechnicianScheduleVisitComponent } from './components/technician/technician-schedule-visit/technician-schedule-visit.component';
 import { TechnicianWorkspaceComponent } from './components/technician/technician-workspace/technician-workspace.component';
 import { DoctorMedicalChartComponent } from './components/doctor/doctor-medical-chart/doctor-medical-chart.component';
 import { DoctorWorkspaceComponent } from './components/doctor/doctor-workspace/doctor-workspace.component';
@@ -51,6 +51,7 @@ import { NurseEditPatientComponent } from './components/nurse/nurse-edit-patient
 import { DoctorCreateReferralComponent } from './components/doctor/doctor-create-referral/doctor-create-referral.component';
 import {NurseWorkspaceComponent} from "./components/nurse/nurse-workspace/nurse-workspace.component";
 import { BiochemistSearchComponent } from './components/biochemist/biochemist-search/biochemist-search.component';
+import { TechnicianScheduleLabExaminationComponent } from './components/technician/technician-schedule-lab-examination/technician-schedule-lab-examination.component';
 
 
 @NgModule({
@@ -72,7 +73,6 @@ import { BiochemistSearchComponent } from './components/biochemist/biochemist-se
     NurseSearchPatientsDepartmentsComponent,
     NurseWorkspaceComponent,
     TechnicianIssuingResultsComponent,
-    TechnicianScheduleVisitComponent,
     TechnicianWorkspaceComponent,
     DoctorMedicalChartComponent,
     DoctorWorkspaceComponent,
@@ -87,7 +87,8 @@ import { BiochemistSearchComponent } from './components/biochemist/biochemist-se
     NewPasswordComponent,
     NurseEditPatientComponent,
     DoctorCreateReferralComponent,
-    BiochemistSearchComponent
+    BiochemistSearchComponent,
+    TechnicianScheduleLabExaminationComponent
   ],
   imports: [
     BrowserModule,
