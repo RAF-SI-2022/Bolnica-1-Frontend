@@ -518,7 +518,7 @@ export class PatientService {
    * Svi prescriptions vezani za pacijenta
    * */
   public getPrescriptions(
-    lbp: string, doctorId: number,
+    lbp: string, doctorId: string,
     page: number, size:number): Observable<Page<Prescription>> {
 
     let httpParams = new HttpParams()

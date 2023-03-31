@@ -42,6 +42,6 @@ export class LaboratoryService {
 
     return this.http.post<HttpStatusCode>(`${environmentLaboratory.apiURL}/examinations/create`,{ params: httpParams, headers: this.getHeaders()});
   }
-
+//todo dodaj za od-do
 
 }

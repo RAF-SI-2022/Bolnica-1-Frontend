@@ -8,6 +8,7 @@ import {Page} from "../../../models/models";
 import {ExaminationHistory} from "../../../models/patient/ExaminationHistory";
 import {Allergy} from "../../../models/patient/Allergy";
 import {Vaccination} from "../../../models/patient/Vaccination";
+import {Prescription} from "../../../models/laboratory/Prescription";
 
 @Component({
   selector: 'app-doctor-medical-chart',
@@ -21,15 +22,24 @@ export class DoctorMedicalChartComponent implements OnInit {
   vaccineForm: FormGroup
   examinationForm: FormGroup
   medicalForm: FormGroup
+  prescriptionForm: FormGroup
+  labaratoryForm: FormGroup
   lbp: string = ''
+  lbz: string = ''
   public dateFrom: string = ''
   public dateTo: string = ''
   public correctDate: string = ''
   public diagnosis: string = ''
+  public dateToPrescription: string = ''
+  public dateFromPrescription: string = ''
+  public dateToLabaratory: string = ''
+  public dateFromLabaratory: string = ''
   medicalHistories: MedicalHistory [] = []
   examinationHistories: ExaminationHistory [] = []
+  prescriptionHistories: Prescription [] = []
   pomocni: string = ''
   medicalPage: Page<MedicalHistory> = new Page<MedicalHistory>()
+  prescriptionPage: Page<Prescription> = new Page<Prescription>()
   examinationPage: Page<ExaminationHistory> = new Page<ExaminationHistory>()
   allergy: Allergy
   allergy2: Allergy
@@ -68,20 +78,17 @@ export class DoctorMedicalChartComponent implements OnInit {
         rhFactor: ['', [Validators.required]]
 
       })
-
     this.allergyForm = this.formBuilder.group(
       {
         allergen: ['', [Validators.required]]
       }
       )
-
     this.vaccineForm = this.formBuilder.group(
       {
         vaccine: ['', [Validators.required]],
         dateOfReceiving: ['', [Validators.required]]
       }
     )
-
     this.examinationForm = this.formBuilder.group(
         {
           dateFrom: '',
@@ -94,15 +101,31 @@ export class DoctorMedicalChartComponent implements OnInit {
           diagnosis: ''
         }
     )
+    this.prescriptionForm = this.formBuilder.group(
+      {
+        dateFromPrescription: '',
+        dateToPrescription: '',
+      }
+    )
+    this.labaratoryForm = this.formBuilder.group(
+      {
+        dateFrom: '',
+        dateTo: '',
+      }
+    )
     }
 
   ngOnInit(): void {
     this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
+    // @ts-ignore
+    this.lbz  = localStorage.getItem('LBZ')
     this.generalForm.get('bloodGroup')?.disable()
     this.generalForm.get('rhFactor')?.disable()
     this.getGeneralMedical(this.lbp)
     this.getMedicalHistoryByDiagnosisCode()
     this.getExaminationHistory()
+    this.getPrescriptions()
+    this.getLabaratory()
 
 
   }
@@ -216,6 +239,19 @@ export class DoctorMedicalChartComponent implements OnInit {
           this.total = this.medicalPage.totalElements
         })
   }
+//todo gde je od - do ????
+  getPrescriptions(){
+    this.patientService.getPrescriptions(this.lbp, this.lbz, this.page, this.pageSize).subscribe(
+      response => {
+        this.prescriptionPage = response
+        this.prescriptionHistories = this.prescriptionPage.content
+        this.total = this.prescriptionPage.totalElements
+      })
+  }
+//todo sta ovde?
+  getLabaratory(){
+
+  }
 
   onTableDataChange(event: any): void {
     this.page = event;
@@ -240,5 +276,7 @@ export class DoctorMedicalChartComponent implements OnInit {
   //     })
   //
   // }
+
+  //todo SREDI PAGINACIJU
 
 }
