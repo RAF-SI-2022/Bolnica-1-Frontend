@@ -3,7 +3,7 @@ import {Allergy} from "./Allergy";
 
 export class GeneralMedicalDataCreate {
   bloodType: string = '';
-  rh: string = '';
+  rH: string = '';
   vaccinationDtos: Vaccination[] = [];
   allergyDtos: Allergy[] = [];
 }

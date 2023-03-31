@@ -72,6 +72,9 @@ import {BiochemistSearchComponent} from "./components/biochemist/biochemist-sear
 import {
   TechnicianScheduleLabExaminationComponent
 } from "./components/technician/technician-schedule-lab-examination/technician-schedule-lab-examination.component";
+import {
+  TechnicianIssuingResultsDetailsComponent
+} from "./components/technician/technician-issuing-results-details/technician-issuing-results-details.component";
 
 
 const routes: Routes = [
@@ -223,7 +226,12 @@ const routes: Routes = [
   {
     path: "technician-issuing-results",
     component: TechnicianIssuingResultsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, TechnicianGuard]
+  },
+  {
+    path: "technician-issuing-results-details",
+    component: TechnicianIssuingResultsDetailsComponent,
+    canActivate: [AuthGuard, TechnicianGuard]
   },
   {
     path: "technician-patient-admission",
