@@ -62,14 +62,14 @@
                                     <div class="form-check form-switch d-inline-block"> &nbsp;
                                         <input type="checkbox" [(ngModel)]="userEdit.gender"
                                             [formControlName]="'gender'" name="gender" class="form-check-input"
-                                            id="site_state" style="cursor: pointer;">
+                                            id="site_state2" style="cursor: pointer;">
 
                                         <label for="site_state" class="form-check-label"> Zensko</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12"><label class="labels">Email</label><input type="email" name="imejl" 
+                        <div class="col-md-12"><label class="labels">Email</label><input type="email" name="imejl"
                                 class="form-control" placeholder="" value="" [(ngModel)]="userEdit.email" required
                                 [formControlName]="'email'">
                             <div class="invalid-feedback">Unesite imejl</div>
@@ -177,6 +177,16 @@
                                         </div>
                                     </label>
                                 </div>
+                              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                                <label class="btn btn-outline-primary col-12 m-2">
+
+                                  <div class="itemcontent ms-auto text-start ps-2">
+                                    <input type="checkbox" name="DR_SPEC_ODELJENJA" [(ngModel)]="userPermissionDisplayed.dr_spec_odeljenja" id="drSpecOdeljenja"
+                                           autocomplete="off" value="" [formControlName]="'DR_SPEC_ODELJENJA'">
+                                    <span class="m-0 p-2">Doktor specijalista odeljenja</span>
+                                  </div>
+                                </label>
+                              </div>
                                 <div data-toggle="buttons" class="btn-group bizmoduleselect">
                                     <label class="btn btn-outline-primary col-12 m-2">
                                         <div class="itemcontent ms-auto text-start ps-2">
@@ -202,7 +212,7 @@
                                         <div class="itemcontent ms-auto text-start ps-2">
                                             <input type="checkbox" name="VISA_MED_SESTRA" autocomplete="off" value=""
                                                 [(ngModel)]="userPermissionDisplayed.visa_med_sestra"
-                                                [formControlName]="'SENIOR_NURSE'">
+                                                [formControlName]="'VISA_MED_SESTRA'">
                                             <span class="m-0 p-2">Visa medicinska sestra</span>
                                         </div>
                                     </label>
@@ -212,11 +222,43 @@
                                         <div class="itemcontent ms-auto text-start ps-2">
                                             <input type="checkbox" name="MED_SESTRA" autocomplete="off" value=""
                                                 [(ngModel)]="userPermissionDisplayed.med_sestra"
-                                                [formControlName]="'NURSE'">
+                                                [formControlName]="'MED_SESTRA'">
                                             <span class="m-0 p-2">Medicinska sestra</span>
                                         </div>
-                                    </label>
-                                </div>    
+                              </label>
+                            </div>
+                              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                                <label class="btn btn-outline-primary col-12 m-2">
+                                  <div class="itemcontent ms-auto text-start ps-2">
+                                    <input type="checkbox" [(ngModel)]="userPermissionDisplayed.visi_lab_tehnicar" name="VISI_LABORATORIJSKI_TEHNICAR" id = "visiLabTeh" autocomplete="off" value=""  [formControlName]="'VISI_LAB_TEHNICAR'">
+                                    <span class="m-0 p-2">Visi laboratorijski tehnicar</span>
+                                  </div>
+                                </label>
+                              </div>
+                              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                                <label class="btn btn-outline-primary col-12 m-2">
+                                  <div class="itemcontent ms-auto text-start ps-2">
+                                    <input type="checkbox" [(ngModel)]="userPermissionDisplayed.lab_tehnicar" name="LABORATORIJSKI_TEHNICAR" id = "labTeh" autocomplete="off" value="" [formControlName]="'LAB_TEHNICAR'" >
+                                    <span class="m-0 p-2">Laboratorijski tehnicar</span>
+                                  </div>
+                                </label>
+                              </div>
+                              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                                <label class="btn btn-outline-primary col-12 m-2">
+                                  <div class="itemcontent ms-auto text-start ps-2">
+                                    <input type="checkbox" [(ngModel)]="userPermissionDisplayed.med_biohemicar" name="MEDICINSKI_BIOHEMICAR" id = "medBiohemicar"autocomplete="off" value="" [formControlName]="'MED_BIOHEMICAR'">
+                                    <span class="m-0 p-2">Medicinski biohemicar</span>
+                                  </div>
+                                </label>
+                              </div>
+                              <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                                <label class="btn btn-outline-primary col-12 m-2">
+                                  <div class="itemcontent ms-auto text-start ps-2">
+                                    <input type="checkbox" [(ngModel)]="userPermissionDisplayed.spec_med_biohemije" name="SPECIJALISTA_MEDICINSKE_BIOHEMIJE" id = "specMedBio"autocomplete="off" value=""[formControlName]="'SPEC_MED_BIOHEMIJE'" >
+                                    <span class="m-0 p-2">Specijalista medicinske biohemije</span>
+                                  </div>
+                                </label>
+                              </div>
                             </div>
                         </div>
                     </div>

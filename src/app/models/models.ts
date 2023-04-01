@@ -118,6 +118,10 @@ export class UlogeZaposlenog {
     dr_spec_pov: boolean = false;
     med_sestra: boolean = false;
     visa_med_sestra: boolean = false;
+    visi_lab_tehnicar: boolean = false;
+    lab_tehnicar: boolean = false;
+    med_biohemicar: boolean = false;
+    spec_med_biohemije: boolean = false;
 }
 
 export enum Title {

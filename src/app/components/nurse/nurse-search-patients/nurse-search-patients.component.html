@@ -38,19 +38,8 @@
         <label class="labels">LBP</label>
           <input  [(ngModel)]="lbp" type="text" name = "lbp"class="form-control" data-cy = "lbp" [ngModelOptions]="{standalone: true}">
       </div>
-    <div class="col-md-4 offset-2">
-      <div> <br>
-        <div class="d-inline-block me-1">Aktivni</div> &nbsp;
-        <div class="form-check form-switch d-inline-block"> &nbsp;
-          <input [(ngModel)]="deleted" [ngModelOptions]="{standalone: true}" name=" gender" type="checkbox" class="form-check-input"
-                 id="site_state" style="cursor: pointer;">
 
-          <label for="site_state" class="form-check-label"> Obrisani</label>
-        </div>
-      </div>
-
-    </div>
-      <div class="col-md-4">
+      <div class="mt-4 text-center">
           <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
       </div>
 
@@ -69,8 +58,9 @@
               </tr>
           </thead>
           <tbody>
-          <tr
-            *ngFor="let user of patientList  | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total};  let i = index">
+          <ng-container
+            *ngFor="let user of patientList  | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total};  let i = index">
+            <tr *ngIf="!user.deleted">
             <td>{{user.name}}</td>
             <td>{{user.surname}}</td>
             <td>{{user.dateOfBirth}}</td>
@@ -83,7 +73,8 @@
                <a *ngIf="rolaVisaMedSestra" (click)="deletePatient(user.lbp)" class="delete" title="Brisanje" data-toggle="tooltip"><i
                   class="bi bi-x-circle-fill"></i></a>
             </td>
-          </tr>
+            </tr>
+          </ng-container>
 
           </tbody>
       </table>
