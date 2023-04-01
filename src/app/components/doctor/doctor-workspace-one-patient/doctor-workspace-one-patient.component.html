@@ -17,7 +17,8 @@
 
 <body>
 <div class="container">
-  <form [formGroup]="addReport" (submit)="confirmSacuvaj()" class="mb-5 needs-validation" novalidate>
+<!--  izmena-->
+  <form [formGroup]="addReport"  class="mb-5 needs-validation" novalidate>
   <div class="table-responsive">
     <div class="table-wrapper">
 
@@ -55,7 +56,7 @@
 
       <table>
         <tr>
-          <td><label class="label">Amneza</label></td>
+          <td><label class="label">Anamneza</label></td>
         </tr>
         <tr>
           <td><textarea class="bi-textarea" placeholder="Tegobe" [formControlName]="'mainProblems'">Tegobe</textarea></td>
@@ -99,34 +100,42 @@
           <td><label class="label" for="dijagnoza">Dijagnoza</label></td>
         </tr>
         <tr>
-          <td><textarea class="bi-textarea" placeholder="Objektivni nalaz" [formControlName]="'objectiveFinding'" required id="dijagnoza" name="dijagnoza" required>Objektivni nalaz</textarea>
+          <td><textarea class="bi-textarea" placeholder="Objektivni nalaz" [formControlName]="'objectiveFinding'" required id="dijagnoza" name="dijagnoza" required >Objektivni nalaz</textarea>
         </tr>
       </table>
 
       <div>
-        <button class="btn btn-outline-primary">Dodati dijagnozu</button>
+        <button class="btn btn-outline-primary" (click)="showElements()" >Dodati dijagnozu</button>
       </div>
 <!--- Treba da se namesti da je list-container vidljiv tek nakon kliktaja na dugme
 -->
-      <div class="list-container">
+      <div *ngIf="show" class="list-container">
         <div class="dropdown">
           <select [formControlName]="'selectedCode'">
             <option value="" disabled selected>Sifra</option>
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+            <option value="A15.3">A15.3</option>
+            <option value="D50">D50</option>
+            <option value="I10">I10</option>
+            <option value="I35.0">I35.0</option>
+            <option value="J11">J11</option>
+            <option value="J12.9">J12.9</option>
+            <option value="K35">K35</option>
+            <option value="K70.3">K70.3</option>
+            <option value="K71.0">K71.0</option>
+            <option value="N20.0">N20.0</option>
           </select>
         </div>
-        <div class="dropdown">
-          <select [formControlName]="'uToku'">
-            <option value="option1" >U toku</option>
-            <option value="option1">Oporavljen</option>
-            <option value="option2">Preminuo</option>
-            <option value="option4">Stalne posledice</option>
+        <div *ngIf="show" class="dropdown">
+          <select [formControlName]="'treatmentResult'">
+            <option value="" selected>U toku</option>
+            <option value="Oporavljen">Oporavljen</option>
+            <option value="Preminuo">Preminuo</option>
+            <option value="Stalne posledice">Stalne posledice</option>
           </select>
         </div>
-        <div class="checkbox">
-          <input type="checkbox" id="checkbox" name="checkbox">
+        <textarea *ngIf="show" class="bi-textarea" placeholder="Opis tekuceg stanja" [formControlName]="'currStateDesc'" ></textarea>
+        <div *ngIf="show" class="checkbox">
+          <input type="checkbox" id="checkbox" name="checkbox" [formControlName]="'exists'">
           <label for="checkbox">Checkbox</label>
         </div>
 
@@ -146,12 +155,16 @@
         <tr>
           <td><textarea class="bi-textarea" placeholder="Savet" [formControlName]="'advice'">Savet</textarea></td>
         </tr>
+
 <!--        <div class="col-md-12"><label class="labels"></label><input type="textarea" name="advice"-->
 <!--                                                                    class="form-control" placeholder="Savet" value="" required [formControlName]="'advice'">-->
 <!--          <div class="invalid-feedback">Unesite savet</div>-->
 <!--        </div>-->
       </table>
-
+      <div class="checkbox">
+        <input type="checkbox" id="confidential" name="checkbox" [formControlName]="'confidential'">
+        <label for="checkbox">Poverljivo</label>
+      </div>
       <div>
         <button class="btn btn-primary" (click)="showPopup($event)">Sacuvaj</button>
       </div>
@@ -160,7 +173,9 @@
         <div class="popup">
           <p>Zelite da sacuvate izvestaj?</p>
           <div class="popup-buttons">
-            <button (click)="confirmSacuvaj()">OK</button>
+<!--            <button (click)="confirmSacuvaj();saveDiagnosis();saveTherapy()">OK</button>-->
+<!--            <button (click)="provera() ; provera1()">OK</button>-->
+                        <button (click)="saveTherapy()">OK</button>
             <button (click)="hidePopup()">Cancel</button>
           </div>
         </div>

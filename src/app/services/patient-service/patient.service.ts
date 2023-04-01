@@ -15,9 +15,9 @@ import {Allergy} from "../../models/patient/Allergy";
 import {GeneralMedicalDataCreate} from "../../models/patient/GeneralMedicalDataCreate";
 import {Operation} from "../../models/patient/Operation";
 import {OperationCreate} from "../../models/patient/OperationCreate";
-import {DiagnosisCode} from "../../models/patient/DiagnosisCode";
-import {Anamnesis} from "../../models/patient/Anamnesis";
-import {ExaminationHistoryCreate} from "../../models/patient/ExaminationHistoryCreate";
+import {DiagnosisCode, DiagnosisCodeDto} from "../../models/patient/DiagnosisCode";
+import {Anamnesis, AnamnesisDto} from "../../models/patient/Anamnesis";
+import {ExaminationHistoryCreate, ExaminationHistoryCreateDto} from "../../models/patient/ExaminationHistoryCreate";
 import {TreatmentResult} from "../../models/patient-enums/TreatmentResult";
 import {MedicalHistory} from "../../models/patient/MedicalHistory";
 import {GeneralMedicalData} from "../../models/patient/GeneralMedicalData";
@@ -33,6 +33,7 @@ import {PrescriptionStatus} from "../../models/laboratory-enums/PrescriptionStat
 import {PrescriptionAnalysis} from "../../models/laboratory/PrescriptionAnalysis";
 import {PrescriptionCreate} from "../../models/laboratory/PrescriptionCreate";
 import {Prescription} from "../../models/laboratory/Prescription";
+import {MedicalHistoryCreateDto} from "../../models/patient/MedicalHistoryCreateDto";
 
 @Injectable({
   providedIn: 'root'
@@ -298,24 +299,56 @@ export class PatientService {
     objectiveFinding: string,
     advice: string,
     therapy: string,
-    DiagnosisCodeDto: DiagnosisCode,
-    AnamnesisDto: Anamnesis
+    diagnosisCodeDto: DiagnosisCodeDto,
+    anamnesisDto: AnamnesisDto
   ): Observable<HttpStatusCode> {
 
 
-    const obj: ExaminationHistoryCreate = {
+    const obj: ExaminationHistoryCreateDto = {
       examDate: examDate,
       lbz: lbz,
       confidential: confidential,
       objectiveFinding: objectiveFinding,
       advice: advice,
       therapy: therapy,
-      DiagnosisCodeDto: DiagnosisCodeDto,
-      AnamnesisDto: AnamnesisDto
+      diagnosisCodeDto: diagnosisCodeDto,
+      anamnesisDto: anamnesisDto
     }
 
+    console.log("usao u servis");
     return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/examination/${lbp}`, obj, {headers: this.getHeaders()});
+    console.log("proslo u servisu");
   }
+
+  //predlaganje terapije - examination history
+  // public createTherapy(
+  //   lbp: string,
+  //   examDate: Date,
+  //   lbz: string,
+  //   confidential: boolean,
+  //   objectiveFinding: string,
+  //   advice: string,
+  //   therapy: string,
+  //   DiagnosisCodeDto: DiagnosisCode,
+  //   AnamnesisDto: Anamnesis
+  // ): Observable<HttpStatusCode> {
+  //
+  //
+  //   const obj: ExaminationHistoryCreate = {
+  //     examDate: examDate,
+  //     lbz: lbz,
+  //     confidential: confidential,
+  //     objectiveFinding: objectiveFinding,
+  //     advice: advice,
+  //     therapy: therapy,
+  //     DiagnosisCodeDto: DiagnosisCodeDto,
+  //     AnamnesisDto: AnamnesisDto
+  //   }
+  //
+  //   return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/examination/${lbp}`, obj, {headers: this.getHeaders()});
+  // }
+
+
 
 
   /**
@@ -348,6 +381,29 @@ export class PatientService {
 
     return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`, obj, {headers: this.getHeaders()});
   }
+
+  public createDiagnosis(
+   lbp: string,
+   confidential: boolean,
+   treatmentResult: TreatmentResult,
+   currStateDesc: string,
+   diagnosisCode: DiagnosisCode,
+   exists: boolean
+  ): Observable<HttpStatusCode> {
+
+
+    const obj: MedicalHistoryCreateDto = {
+      confidential : confidential,
+      treatmentResult : treatmentResult,
+      currStateDesc : currStateDesc,
+      diagnosisCode : diagnosisCode,
+      exists : exists
+
+    }
+
+    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/examination/diagnosis_history/${""}`, obj, {headers: this.getHeaders()});
+  }
+
 
   getExaminationHistoryByDate(lbp: string, date: string, page: number, size:number): Observable<Page<ExaminationHistory>> {
 

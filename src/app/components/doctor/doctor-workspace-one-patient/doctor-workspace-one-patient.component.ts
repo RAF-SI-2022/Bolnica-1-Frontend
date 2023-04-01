@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Patient} from "../../../models/patient/Patient";
-import {Anamnesis} from "../../../models/patient/Anamnesis";
+import {Anamnesis, AnamnesisDto} from "../../../models/patient/Anamnesis";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../services/user-service/user.service";
 import {PatientService} from "../../../services/patient-service/patient.service";
 import {Zaposleni} from "../../../models/models";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {DiagnosisCode, DiagnosisCodeDto} from "../../../models/patient/DiagnosisCode";
 
 @Component({
   selector: 'app-doctor-workspace-one-patient',
@@ -14,10 +15,16 @@ import {Router} from "@angular/router";
 })
 export class DoctorWorkspaceOnePatientComponent implements OnInit {
 
+
+  show: boolean = false;
+
   addReport:  FormGroup;
   //treba da se uzme selektovani pacijent
   patient: Patient = new Patient();
-  anamnesis: Anamnesis = new Anamnesis();
+  anamneza: Anamnesis = new AnamnesisDto();
+  diagnosisCode: DiagnosisCodeDto = new DiagnosisCodeDto();
+  lbz: string = '';
+  lbp: string = '';
   //polja za anamnezu
   // mainProblems: string = '';
   // currDisease: string = '';
@@ -34,7 +41,8 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
 
   isPopupVisible = false;
 
-  constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) {
+
+  constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
     this.addReport = this.formBuilder.group({
       mainProblems: ['', [Validators.required]],
       currDisease: ['', [Validators.required]],
@@ -43,11 +51,19 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
       patientOpinion: ['', [Validators.required]],
       objectiveFinding: ['', [Validators.required]],
       selectedCode: ['', [Validators.required]],
-      uToku: ['', [Validators.required]],
-      existingDiagnosis: ['', [Validators.required]],
+      treatmentResult: ['', [Validators.required]],
+      currStateDesc: ['', [Validators.required]],
+      exists: '',
       suggestedTherapies: ['', [Validators.required]],
-      advice: ['', [Validators.required]]
+      advice: ['', [Validators.required]],
+      confidential: ['', [Validators.required]],
     });
+  }
+
+  ngOnInit(): void {
+    this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
+
+
   }
 
   showPopup(event: any) {
@@ -59,33 +75,101 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
   }
 
 
+  //cuvanje izvestaja
   confirmSacuvaj() {
     //treba sacuvati izvestaj
-    const report = this.addReport.value
+    const examinationHistoryCreteDto = this.addReport.value
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     form.classList.add('was-validated');
     if(form.checkValidity() === false){
       return;
     }
     form.classList.add('was-validated');
-    //vidi koja je to metoda u servisu
+    this.anamneza.currDisease = examinationHistoryCreteDto.currDisease;
+    this.anamneza.patientOpinion = examinationHistoryCreteDto.patientOpinion;
+    this.anamneza.familyAnamnesis = examinationHistoryCreteDto.familyAnamnesis;
+    this.anamneza.personalAnamnesis = examinationHistoryCreteDto.personalAnamnesis;
+    this.anamneza.currDisease = examinationHistoryCreteDto.currDisease;
+    this.patientService.createExaminationHistory(this.lbp, new Date(),'lbz', examinationHistoryCreteDto.confidential,examinationHistoryCreteDto.objectiveFinding,
+      examinationHistoryCreteDto.advice, examinationHistoryCreteDto.therapy, new DiagnosisCodeDto(), this.anamneza);
   }
 
-  ngOnInit(): void {
-    // this.lbz = <string>this.route.snapshot.paramMap.get('lbz');
-    // this.getUser(this.lbz);
-  }
+  //postavljanje dijagnoze - MedicalHistoryCreateDto
+  saveDiagnosis(){
+    const diagnosis = this.addReport.value;
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+
+    form.classList.add('was-validated');
+    if(form.checkValidity() === false){
+      return;
+    }
+
+    form.classList.add('was-validated');
+
+
+    this.patientService.createDiagnosis( this.lbp, diagnosis.confidential, diagnosis.treatmentResult, diagnosis.currStateDesc, new DiagnosisCodeDto(), diagnosis.exists);
+
+    }
+
+    //predlaganje terapije - ExaminationHistoryCreateDto
+    saveTherapy(){
+      const therapy = this.addReport.value;
+      var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+
+      form.classList.add('was-validated');
+      if(form.checkValidity() === false){
+        return;
+      }
+
+      form.classList.add('was-validated');
+
+      this.anamneza.currDisease = therapy.currDisease;
+      this.anamneza.patientOpinion = therapy.patientOpinion;
+      this.anamneza.familyAnamnesis = therapy.familyAnamnesis;
+      this.anamneza.personalAnamnesis = therapy.personalAnamnesis;
+      this.anamneza.currDisease = therapy.currDisease;
+
+      this.diagnosisCode.code = 'code';
+      this.diagnosisCode.description = 'description';
+      this.diagnosisCode.latinDescription = 'latin description';
+
+      console.log(this.anamneza.currDisease);
+      console.log(this.anamneza.patientOpinion);
+      console.log(this.anamneza.familyAnamnesis);
+      console.log(this.anamneza.personalAnamnesis);
+      console.log(this.anamneza.currDisease);
+
+      console.log(therapy.objectiveFinding);
+      console.log(therapy.advice);
+      console.log(therapy.therapy);
+
+
+
+      this.patientService.createExaminationHistory(this.lbp, new Date(), 'lbz', false, therapy.objectiveFinding, therapy.advice, therapy.therapy, this.diagnosisCode, this.anamneza);
+      console.log("proslo")
+
+    }
+
 
   goToMedicalRecord() {
-    //this.userService.setZaposleni(zaposleni)
-    //promeni rutu kad je dodaju
-    this.router.navigate(['/admin-add-employee/']);
+    this.router.navigate(['']);
   }
-
 
   //  showDropdown() {
   //   document.getElementById('welcomeDiv').style.display = "block";
   // }
+
+  showElements(){
+    this.show = true;
+  }
+
+  provera(){
+    console.log("!!!!!!!!!!");
+  }
+
+  provera1(){
+    console.log("111111111111111");
+  }
 
 
 }

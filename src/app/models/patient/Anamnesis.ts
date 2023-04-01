@@ -6,7 +6,7 @@ export interface Anamnesis {
   patientOpinion: string;
 }
 
-export class Anamnesis {
+export class AnamnesisDto {
   mainProblems: string = '';
   currDisease: string = '';
   personalAnamnesis: string = '';

@@ -20,6 +20,7 @@
     <div class="table-wrapper">
       <div class="table-title">
         <h2><b>Zakazani termini</b></h2>
+
       </div>
 
       <label for="date">Izaberite datum: </label>
@@ -34,7 +35,7 @@
           <tr>
             <th>Ime</th>
             <th>Prezime</th>
-            <th>Datum rodjenja</th>
+            <th>Datum rodjenja </th>
             <th>Pol</th>
             <th>Status</th>
             <th> </th>
@@ -42,11 +43,18 @@
           </thead>
           <tbody>
           <tr class="table-row"(click)="showPopup($event)">
-          <tr>
-            <td>Ime</td>
-            <td>Prezime</td>
-            <td>Godine</td>
-            <td>Pol</td>
+          <tr *ngFor="let patient of patients | paginate: {itemsPerPage: 0, currentPage: 0, totalItems: total}; let i = index">
+
+            <td>{{patient.name}}</td>
+            <td>{{patient.surname}}</td>
+            <td>{{patient.dateOfBirth}}</td>
+            <td>{{patient.gender}}</td>
+<!--          <tr>-->
+
+<!--            <td>Pera</td>-->
+<!--            <td>Prezime</td>-->
+<!--            <td>Datum</td>-->
+<!--            <td>Pol</td>-->
             <!--- Trenutno je za status samo napravljena lista koja je obojena, treba da se uradi logika za dobavljanje statusa da bi se
             status namestio da se oboji koji postoji a ostali da ostanu sivi-->
             <td class="list-cell">

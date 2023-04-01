@@ -3,3 +3,8 @@ export interface DiagnosisCode {
   description: string;
   latinDescription: string;
 }
+export class DiagnosisCodeDto {
+  code: string = '';
+  description: string = '';
+  latinDescription: string = '';
+}
