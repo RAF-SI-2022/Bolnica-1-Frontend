@@ -45,22 +45,20 @@ export class DoctorSearchPatientsComponent implements OnInit{
                 this.patientPage = response
                 this.patientList = this.patientPage.content
                 this.total = this.patientPage.totalElements
-              console.log("TOTAAAAAL "  + this.total)
 
             })
     }
 
     getPatientList(): void {
       console.log("USOOO")
-        if(this.page == 0){
-          this.page = 1
-        }
+      if(this.page == 0)
+        this.page = 1;
+
         this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page-1, this.PAGE_SIZE)
             .subscribe((response) => {
             this.patientPage = response
             this.patientList = this.patientPage.content
             this.total = this.patientPage.totalElements
-              console.log("TOTAAAAAL "  + this.total)
 
             })
     }

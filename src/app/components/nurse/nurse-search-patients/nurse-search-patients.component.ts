@@ -45,8 +45,6 @@ export class NurseSearchPatientsComponent implements OnInit {
           this.patientPage = response
           this.patientList = this.patientPage.content
           this.total = this.patientPage.totalElements
-          console.log("TOTAAAAAL "  + this.total)
-
         })
         this.userService.checkRole("ROLE_VISA_MED_SESTRA").subscribe(res => {
             this.rolaVisaMedSestra = res;
@@ -66,6 +64,9 @@ export class NurseSearchPatientsComponent implements OnInit {
     }
 
     getPatientList(): void {
+      if(this.page == 0)
+        this.page = 1;
+
         this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page-1, this.PAGE_SIZE).subscribe((response) => {
             this.patientPage = response;
             this.patientList = this.patientPage.content;
