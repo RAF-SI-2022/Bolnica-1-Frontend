@@ -45,12 +45,15 @@ export class ProfileComponent implements OnInit {
             department: ['', [Validators.required]],
             profession: ['', [Validators.required]],
             ADMIN: '',
-            // CHIEF: '',
-            DR_SPEC_DEPARTMENT: '',
+            DR_SPEC_ODELJENJA: '',
             DR_SPEC: '',
             DR_SPEC_POV: '',
             VISA_MED_SESTRA: '',
             MED_SESTRA: '',
+            VISI_LAB_TEHNICAR: '',
+            LAB_TEHNICAR: '',
+            MED_BIOHEMICAR: '',
+            SPEC_MED_BIOHEMIJE: ''
         })
 
         this.userPermissionDisplayed = new UlogeZaposlenog();
@@ -58,7 +61,7 @@ export class ProfileComponent implements OnInit {
         this.userPermissions = [];
         this.departments = [];
     }
-    
+
     ngOnInit(): void {
         this.disableUserFormFields();
         console.log("[Debug]: LBZ " + localStorage.getItem("LBZ")!);
@@ -112,16 +115,24 @@ export class ProfileComponent implements OnInit {
         for (let p of this.userPermissions) {
             if (p.shortName == 'ROLE_ADMIN')
                 this.userPermissionDisplayed.admin = true;
+            else if (p.shortName == 'ROLE_DR_SPEC_ODELJENJA')
+              this.userPermissionDisplayed.dr_spec_odeljenja = true;
             else if (p.shortName == 'ROLE_DR_SPEC')
                 this.userPermissionDisplayed.dr_spec = true;
-            else if (p.shortName == 'ROLE_DR_SPEC_ODELJENJA')
-                this.userPermissionDisplayed.dr_spec_odeljenja = true;
+            else if (p.shortName == 'ROLE_DR_SPEC_POV')
+              this.userPermissionDisplayed.dr_spec_pov = true;
             else if (p.shortName == 'ROLE_MED_SESTRA')
                 this.userPermissionDisplayed.med_sestra = true;
             else if (p.shortName == 'ROLE_VISA_MED_SESTRA')
                 this.userPermissionDisplayed.visa_med_sestra = true;
-            else if (p.shortName == 'ROLE_DR_SPEC_POV')
-                this.userPermissionDisplayed.dr_spec_pov = true;
+            else if (p.shortName == 'ROLE_VISI_LAB_TEHNICAR')
+              this.userPermissionDisplayed.visi_lab_tehnicar = true;
+            else if (p.shortName == 'ROLE_LAB_TEHNICAR')
+              this.userPermissionDisplayed.lab_tehnicar = true;
+            else if (p.shortName == 'ROLE_MED_BIOHEMICAR')
+              this.userPermissionDisplayed.med_biohemicar = true;
+            else if (p.shortName == 'ROLE_SPEC_MED_BIOHEMIJE')
+              this.userPermissionDisplayed.spec_med_biohemije = true;
             console.log(p)
         }
     }
@@ -131,7 +142,7 @@ export class ProfileComponent implements OnInit {
             return;
         if(!this.populateAndValidatePermissions())
             return;
-        
+
         console.log("uloge " + this.permissionsList)
 
         this.userService.editProfile(
@@ -162,7 +173,7 @@ export class ProfileComponent implements OnInit {
         this.permissionsList = [];
         console.log("uloge prazne" + this.permissionsList)
     }
- 
+
     clickEvent(): void {
         this.status = !this.status;
     }
@@ -202,7 +213,7 @@ export class ProfileComponent implements OnInit {
         }
         return true;
     }
-       
+
     disableUserFormFields(): void {
         this.userForm.get('name')?.disable()
         this.userForm.get('lastName')?.disable()

@@ -13,11 +13,13 @@ import {PatientService} from "../../../services/patient-service/patient.service"
 export class DoctorSearchPatientsComponent implements OnInit{
 
     // Pagination properties
+    id: string = 'custom'
     PAGE_SIZE = 5
     page = 0
     total = 0
 
-    searchForm: FormGroup
+
+  searchForm: FormGroup
     public name: string = ''
     public surname: string = ''
     public jmbg: string = ''
@@ -37,24 +39,30 @@ export class DoctorSearchPatientsComponent implements OnInit{
     }
 
     ngOnInit(): void {
+
         this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.PAGE_SIZE)
             .subscribe((response) => {
                 this.patientPage = response
                 this.patientList = this.patientPage.content
                 this.total = this.patientPage.totalElements
+              console.log("TOTAAAAAL "  + this.total)
+
             })
     }
 
     getPatientList(): void {
-        // if(this.page == 0){
-        //   this.page = 1
-        // }
-        this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.PAGE_SIZE)
+      console.log("USOOO")
+        if(this.page == 0){
+          this.page = 1
+        }
+        this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page-1, this.PAGE_SIZE)
             .subscribe((response) => {
             this.patientPage = response
             this.patientList = this.patientPage.content
             this.total = this.patientPage.totalElements
-        })
+              console.log("TOTAAAAAL "  + this.total)
+
+            })
     }
 
     onTableDataChange(event: any): void {

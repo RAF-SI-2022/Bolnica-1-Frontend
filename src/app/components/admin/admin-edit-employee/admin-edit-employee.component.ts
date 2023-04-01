@@ -54,17 +54,15 @@
         profession: ['', [Validators.required]],
         deleted: false,
         ADMIN: '',
-        CHIEF: '',
-        DR_SPEC_DEPARTMENT: '',
+        DR_SPEC_ODELJENJA: '',
         DR_SPEC: '',
         DR_SPEC_POV: '',
-        SENIOR_NURSE: '',
-        NURSE: '',
-        RECEPTIONIST: '',
-        SENIOR_LAB_TECHNICIAN: '',
-        LAB_TECHNICIAN: '',
-        MED_BIOCHEMIST: '',
-        SPECIALIST_MED_BIOCHEMIST: ''
+        VISA_MED_SESTRA: '',
+        MED_SESTRA: '',
+        VISI_LAB_TEHNICAR: '',
+        LAB_TEHNICAR: '',
+        MED_BIOHEMICAR: '',
+        SPEC_MED_BIOHEMIJE: ''
 
         })
         this.userEdit = new AdminPromeniZaposlenog();
@@ -87,23 +85,32 @@
     }
 
     /**
-     * Display user permissions on page 
+     * Display user permissions on page
      */
     fillPagePermissions(): void {
-        for (let p of this.userPermissions) {
-            if (p.shortName == 'ADMIN')
-                this.userPermissionDisplayed.admin = true;
-            else if (p.shortName == 'DR_SPEC')
-                this.userPermissionDisplayed.dr_spec = true;
-            else if (p.shortName == 'DR_SPEC_ODELJENJA')
-                this.userPermissionDisplayed.dr_spec_odeljenja = true;
-            else if (p.shortName == 'MED_SESTRA')
-                this.userPermissionDisplayed.med_sestra = true;
-            else if (p.shortName == 'VISA_MED_SES')
-                this.userPermissionDisplayed.visa_med_sestra = true;
-            else if (p.shortName == 'DR_SPEC_POV')
-                this.userPermissionDisplayed.dr_spec_pov = true;
-        }
+      for (let p of this.userPermissions) {
+        if (p.shortName == 'ROLE_ADMIN')
+          this.userPermissionDisplayed.admin = true;
+        else if (p.shortName == 'ROLE_DR_SPEC_ODELJENJA')
+          this.userPermissionDisplayed.dr_spec_odeljenja = true;
+        else if (p.shortName == 'ROLE_DR_SPEC')
+          this.userPermissionDisplayed.dr_spec = true;
+        else if (p.shortName == 'ROLE_DR_SPEC_POV')
+          this.userPermissionDisplayed.dr_spec_pov = true;
+        else if (p.shortName == 'ROLE_MED_SESTRA')
+          this.userPermissionDisplayed.med_sestra = true;
+        else if (p.shortName == 'ROLE_VISA_MED_SESTRA')
+          this.userPermissionDisplayed.visa_med_sestra = true;
+        else if (p.shortName == 'ROLE_VISI_LAB_TEHNICAR')
+          this.userPermissionDisplayed.visi_lab_tehnicar = true;
+        else if (p.shortName == 'ROLE_LAB_TEHNICAR')
+          this.userPermissionDisplayed.lab_tehnicar = true;
+        else if (p.shortName == 'ROLE_MED_BIOHEMICAR')
+          this.userPermissionDisplayed.med_biohemicar = true;
+        else if (p.shortName == 'ROLE_SPEC_MED_BIOHEMIJE')
+          this.userPermissionDisplayed.spec_med_biohemije = true;
+        console.log(p)
+      }
     }
 
     getUser(LBZ: string): void {

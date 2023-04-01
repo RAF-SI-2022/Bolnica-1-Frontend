@@ -21,10 +21,10 @@ export class NurseSearchPatientsComponent implements OnInit {
     patientPage: Page<Patient> = new Page<Patient>();
     patientList: Patient[] = [];
     page = 0;
-    pageSize = 5;
+    PAGE_SIZE = 5
     total = 0;
     rolaVisaMedSestra = false;
-  
+
     constructor(
         private patientService: PatientService,
         private formBuilder: FormBuilder,
@@ -38,15 +38,21 @@ export class NurseSearchPatientsComponent implements OnInit {
             lbp: ''
         });
     }
-  
+
     ngOnInit(): void {
-        this.getPatientList();
-    
+      this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.PAGE_SIZE)
+        .subscribe((response) => {
+          this.patientPage = response
+          this.patientList = this.patientPage.content
+          this.total = this.patientPage.totalElements
+          console.log("TOTAAAAAL "  + this.total)
+
+        })
         this.userService.checkRole("ROLE_VISA_MED_SESTRA").subscribe(res => {
             this.rolaVisaMedSestra = res;
         });
     }
-  
+
     deletePatient(LBP: string): void {
         if (confirm(`Da li ste sigurni da zelite da obrisite pacijenta ${LBP}?`)) {
             this.patientService.deletePatient(LBP).subscribe(() => {
@@ -54,19 +60,19 @@ export class NurseSearchPatientsComponent implements OnInit {
             });
         }
     }
-  
+
     updatePatient(patient: Patient): void {
         this.router.navigate(['/nurse-edit-patient/', patient.lbp]);
     }
-  
+
     getPatientList(): void {
-        this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.pageSize).subscribe((response) => {
+        this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page-1, this.PAGE_SIZE).subscribe((response) => {
             this.patientPage = response;
             this.patientList = this.patientPage.content;
             this.total = this.patientPage.totalElements;
         });
     }
-  
+
     onTableDataChange(event: any): void {
         this.page = event;
         this.getPatientList();

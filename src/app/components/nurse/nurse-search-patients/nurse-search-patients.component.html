@@ -70,7 +70,7 @@
           </thead>
           <tbody>
           <tr
-            *ngFor="let user of patientList  | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total};  let i = index">
+            *ngFor="let user of patientList  | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total};  let i = index">
             <td>{{user.name}}</td>
             <td>{{user.surname}}</td>
             <td>{{user.dateOfBirth}}</td>

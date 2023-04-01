@@ -35,17 +35,15 @@ export class AdminAddEmployeeComponent implements OnInit {
         profession: ['', [Validators.required]],
         department: [new DeparmentShort(), [Validators.required]],
         ADMIN: '',
-        CHIEF: '',
-        DR_SPEC_DEPARTMENT: '',
+        DR_SPEC_ODELJENJA: '',
         DR_SPEC: '',
         DR_SPEC_POV: '',
-        SENIOR_NURSE: '',
-        NURSE: '',
-        RECEPTIONIST: '',
-        SENIOR_LAB_TECHNICIAN: '',
-        LAB_TECHNICIAN: '',
-        MED_BIOCHEMIST: '',
-        SPECIALIST_MED_BIOCHEMIST: ''
+        VISA_MED_SESTRA: '',
+        MED_SESTRA: '',
+        VISI_LAB_TEHNICAR: '',
+        LAB_TEHNICAR: '',
+        MED_BIOHEMICAR: '',
+        SPEC_MED_BIOHEMIJE: ''
         });
     }
 
@@ -108,7 +106,7 @@ export class AdminAddEmployeeComponent implements OnInit {
 
         return true;
     }
-    
+
    /**
     * Populates addGroup and validates it.
     * @returns true if user has chosen one or more permissions
@@ -117,35 +115,33 @@ export class AdminAddEmployeeComponent implements OnInit {
         if(this.addGroup.get('ADMIN')?.value){
             this.permissions.push('ROLE_ADMIN')
         }
-        if(this.addGroup.get('DR_SPEC_DEPARTMENT')?.value){
+        if(this.addGroup.get('DR_SPEC_ODELJENJA')?.value){
             this.permissions.push('ROLE_DR_SPEC_ODELJENJA')
         }
-        if(this.addGroup.get('RECEPTIONIST')?.value){
-            this.permissions.push('ROLE_RECEPTIONIST')
-        }
+
         if(this.addGroup.get('DR_SPEC')?.value){
             this.permissions.push('ROLE_DR_SPEC')
         }
         if(this.addGroup.get('DR_SPEC_POV')?.value){
             this.permissions.push('ROLE_DR_SPEC_POV')
         }
-        if(this.addGroup.get('NURSE')?.value){
+        if(this.addGroup.get('MED_SESTRA')?.value){
             this.permissions.push('ROLE_MED_SESTRA')
         }
-        if(this.addGroup.get('SENIOR_NURSE')?.value){
+        if(this.addGroup.get('VISA_MED_SESTRA')?.value){
             this.permissions.push('ROLE_VISA_MED_SESTRA')
         }
-        if(this.addGroup.get('SENIOR_LAB_TECHNICIAN')?.value){
-            this.permissions.push('ROLE_SENIOR_LAB_TECHNICIAN')
+        if(this.addGroup.get('VISI_LAB_TEHNICAR')?.value){
+            this.permissions.push('ROLE_VISI_LAB_TEHNICAR')
         }
-        if(this.addGroup.get('LAB_TECHNICIAN')?.value){
-            this.permissions.push('ROLE_LAB_TECHNICIAN')
+        if(this.addGroup.get('LAB_TECHNICAR')?.value){
+            this.permissions.push('ROLE_LAB_TEHNICAR')
         }
-        if(this.addGroup.get('MED_BIOCHEMIST')?.value){
-            this.permissions.push('ROLE_MED_BIOCHEMIST')
+        if(this.addGroup.get('MED_BIOHEMICAR')?.value){
+            this.permissions.push('ROLE_MED_BIOHEMICAR')
         }
-        if(this.addGroup.get('SPECIALIST_MED_BIOCHEMIST')?.value){
-            this.permissions.push('ROLE_SPECIALIST_MED_BIOCHEMIST')
+        if(this.addGroup.get('SPEC_MED_BIOHEMIJE')?.value){
+            this.permissions.push('ROLE_SPEC_MED_BIOHEMIJE')
         }
 
         if(this.permissions.length == 0){
