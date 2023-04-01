@@ -10,6 +10,9 @@ import {PatientUpdateClass} from "../../models/patient/PatientUpdate";
 import {environmentLaboratory, environmentPatient} from "../../../environments/environment";
 import {Page} from "../../models/models";
 import {ExaminationHistory} from "../../models/patient/ExaminationHistory";
+import {Patient} from "../../models/patient/Patient";
+import {ScheduledLabExamination} from "../../models/laboratory/ScheduledLabExamination";
+import {LabWorkOrder} from "../../models/laboratory/LabWorkOrder";
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +44,46 @@ export class LaboratoryService {
     append("note",note);
 
     return this.http.post<HttpStatusCode>(`${environmentLaboratory.apiURL}/examinations/create`,{ params: httpParams, headers: this.getHeaders()});
+  }
+  /**
+   * Ukupan broj pregleda za prosledjeni dan
+   * */
+
+  public listScheduledExaminationsByDay(
+    date: Date,
+  ): Observable<number> {
+
+    let httpParams = new HttpParams().append("date", date.toISOString())
+    return this.http.post<number>(`${environmentLaboratory.apiURL}/examinations/count-scheduled_examinations/by-day`,{ params: httpParams, headers: this.getHeaders()});
+  }
+
+  /**
+   * Dohvata sve zakazane posete
+   * t
+   * */
+  listScheduledEexaminations(lbp: string, date: string,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
+    let httpParams = new HttpParams().append("lbp",lbp).append("date", date).append("page",page).append("size",size);
+    return this.http.get<Page<ScheduledLabExamination>>(`${environmentLaboratory.apiURL}/examinations/list-scheduled-examinations`, {params: httpParams, headers:this.getHeaders()});
+
+  }
+  /**
+   * Pristup istoriji laboratorijskih izveštaja
+   * */
+  public workOrdersHistory(
+    lbp: string,
+    fromDate: Date,
+    toDate: Date,
+    page: number,
+    size: number
+  ): Observable<Page<LabWorkOrder>> {
+
+    let httpParams = new HttpParams().append("lbp",lbp).
+    append("fromDate", fromDate.toISOString()).
+    append("toDate",toDate.toISOString()).
+    append("page", page).
+    append("size",size)
+
+    return this.http.post<Page<LabWorkOrder>>(`${environmentLaboratory.apiURL}/work-orders/work-orders-history`,{ params: httpParams, headers: this.getHeaders()});
   }
 
 

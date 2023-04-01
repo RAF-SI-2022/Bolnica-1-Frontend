@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('LBZ', decodedToken.sub);
       this.setUsername()
       localStorage.setItem('PBO', decodedToken.pbo);
+      localStorage.setItem('ID', decodedToken.id)
       console.log("ADMIN SAMss " + decodedToken.sub);
 
       this.userService.checkRole('ROLE_ADMIN').subscribe(hasRole => {
