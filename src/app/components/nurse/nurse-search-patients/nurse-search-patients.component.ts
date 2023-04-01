@@ -12,80 +12,63 @@ import {UserService} from "../../../services/user-service/user.service";
   styleUrls: ['./nurse-search-patients.component.css']
 })
 export class NurseSearchPatientsComponent implements OnInit {
-  deleted: boolean = false;
-  searchForm: FormGroup
-  public name: string = ''
-  public surname: string = ''
-  public jmbg: string = ''
-  public lbp: string = ''
-  patientPage: Page<Patient> = new Page<Patient>()
-  patientList: Patient[] = []
-  routerUpper: Router
-  page = 0
-  pageSize = 5
-  total = 0
-
-  rolaVisaMedSestra: boolean = false
-
-
-  constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private userService: UserService) {
-    this.routerUpper = router
-    this.userService = userService
-    this.searchForm = this.formBuilder.group({
-      name: '',
-      surname: '',
-      jmbg: '',
-      lbp: ''
-    })
-  }
-
-  ngOnInit(): void {
-    this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.pageSize).subscribe((response) => {
-      this.patientPage = response
-      this.patientList = this.patientPage.content
-      this.total = this.patientPage.totalElements
-
-    })
-
-    this.userService.checkRole("ROLE_VISA_MED_SESTRA").subscribe(res =>{
-      this.rolaVisaMedSestra = res
-    })
-
-  }
-
-  deletePatient(LBP: string) {
-    if (confirm("Da li ste sigurni da zelite da obrisite pacijenta " + LBP + "?")) {
-      this.patientService.deletePatient(
-        LBP
-      ).subscribe(
-        response => {
-          this.getPatientList()
-        }
-      )
+    deleted = false;
+    searchForm: FormGroup;
+    name = '';
+    surname = '';
+    jmbg = '';
+    lbp = '';
+    patientPage: Page<Patient> = new Page<Patient>();
+    patientList: Patient[] = [];
+    page = 0;
+    pageSize = 5;
+    total = 0;
+    rolaVisaMedSestra = false;
+  
+    constructor(
+        private patientService: PatientService,
+        private formBuilder: FormBuilder,
+        private router: Router,
+        private userService: UserService
+    ) {
+        this.searchForm = this.formBuilder.group({
+            name: '',
+            surname: '',
+            jmbg: '',
+            lbp: ''
+        });
     }
-  }
-
-  updatePatient(patient: Patient) {
-    //this.userService.setZaposleni(zaposleni)
-    //console.log(patient.lbp)
-    this.router.navigate(['/nurse-edit-patient/', patient.lbp]);
-  }
-
-  getPatientList(){
-    // if(this.page == 0){
-    //   this.page = 1
-    // }
-    this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.pageSize).subscribe((response) => {
-      this.patientPage = response
-      this.patientList = this.patientPage.content
-      this.total = this.patientPage.totalElements
-
-    })
-  }
-
-
-  onTableDataChange(event: any): void {
-    this.page = event;
-    this.getPatientList();
-  }
+  
+    ngOnInit(): void {
+        this.getPatientList();
+    
+        this.userService.checkRole("ROLE_VISA_MED_SESTRA").subscribe(res => {
+            this.rolaVisaMedSestra = res;
+        });
+    }
+  
+    deletePatient(LBP: string): void {
+        if (confirm(`Da li ste sigurni da zelite da obrisite pacijenta ${LBP}?`)) {
+            this.patientService.deletePatient(LBP).subscribe(() => {
+                this.getPatientList();
+            });
+        }
+    }
+  
+    updatePatient(patient: Patient): void {
+        this.router.navigate(['/nurse-edit-patient/', patient.lbp]);
+    }
+  
+    getPatientList(): void {
+        this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.pageSize).subscribe((response) => {
+            this.patientPage = response;
+            this.patientList = this.patientPage.content;
+            this.total = this.patientPage.totalElements;
+        });
+    }
+  
+    onTableDataChange(event: any): void {
+        this.page = event;
+        this.getPatientList();
+    }
 }

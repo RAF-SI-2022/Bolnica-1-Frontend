@@ -83,7 +83,7 @@
             </thead>
             <tbody>
               <tr
-                *ngFor="let user of userList | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total}; let i = index">
+                *ngFor="let user of userList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index">
                 <td>{{user.id}}</td>
                 <td>{{user.name}}</td>
                 <td>{{user.surname}}</td>
@@ -93,7 +93,7 @@
                 <td>{{user.phone}}</td>
                 <td>{{user.email}}</td>
                 <td>
-                  <a (click)="updateUser(user)" class="settings" title="Podesavanja" data-toggle="tooltip"><i
+                  <a (click)="goToEditPage(user)" class="settings" title="Podesavanja" data-toggle="tooltip"><i
                       class="bi bi-gear-fill"></i></a>
                 </td>
               </tr>

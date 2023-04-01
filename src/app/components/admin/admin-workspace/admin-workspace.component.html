@@ -25,7 +25,7 @@
             <p class="card-text">Pretrazi zaposlene na osnovu njihovog imena, odeljenja i bolnice</p>
           </div>
           <div class="card-footer" style="background: inherit; border-color: inherit;">
-            <a class="btn btn-primary" style="color: white" (click)="pretrazi()">Kreni</a>
+            <a class="btn btn-primary" style="color: white" (click)="goToSearchEmployees()">Kreni</a>
           </div>
         </div>
         <!-- Copy until here -->
@@ -45,7 +45,7 @@
             <p class="card-text">Unesi nove zaposlene i prosiri medicinski tim</p>
           </div>
           <div class="card-footer" style="background: inherit; border-color: inherit;">
-            <a (click)="dodajZaposlenog()" style="color: white" class="btn btn-primary">Kreni</a>
+            <a (click)="goToAddEmployee()" style="color: white" class="btn btn-primary">Kreni</a>
           </div>
         </div>
         <!-- Copy until here -->
@@ -65,7 +65,7 @@
             <p class="card-text">Pogledaj svoje podatke</p>
           </div>
           <div class="card-footer" style="background: inherit; border-color: inherit;">
-            <a (click)="profil()" style="color: white" class="btn btn-primary">Kreni</a>
+            <a (click)="goToProfile()" style="color: white" class="btn btn-primary">Kreni</a>
           </div>
         </div>
         <!-- Copy until here -->

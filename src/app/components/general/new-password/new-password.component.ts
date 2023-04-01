@@ -11,34 +11,49 @@ export class NewPasswordComponent {
 
 constructor(private authService: AuthService, private router: Router){}
 
-  newPassword: string = '';
-  oldPassword: string = '';
-  errorMessage: string = '';
-  successMessage: string = '';
+    newPassword: string = '';
+    oldPassword: string = '';
 
-  resetPasswordMessage: string = '';
+    errorMessage: string = '';
+    successMessage: string = '';
+    resetPasswordMessage: string = '';
 
-  onSubmit() {
-    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
-    
-    if(form.checkValidity() === false){
-      form.classList.add('was-validated');
-        return;
+    onSubmit() {
+        if(!this.validateFields())
+            return;
+
+        this.authService.resetPassword(this.oldPassword, this.newPassword).subscribe(result => {
+            this.resetPasswordMessage = result.message;
+            console.log("message " + this.resetPasswordMessage);
+            this.authService.resetPasswordConfirmed(this.resetPasswordMessage).subscribe(res => {
+                this.showSuccessMessageAndRedirect("Uspesno promenjena lozinka!", "/profile");
+            });
+        }, error => {
+            this.successMessage = '';
+            this.errorMessage = "Lozinka nije ispravna"
+        });
     }
 
-    this.authService.resetPassword(this.oldPassword, this.newPassword).subscribe(result => {
-        this.resetPasswordMessage = result.message;
-        console.log("message " + this.resetPasswordMessage);
-        this.authService.resetPasswordConfirmed(this.resetPasswordMessage).subscribe(res => {
-            this.errorMessage = '';
-            this.successMessage = 'Lozinka uspesno promenjena';
-            setTimeout(() => {
-              this.router.navigate(['/profile']);
-            }, 3000);
-        });
-    }, error => {
-        this.successMessage = '';
-        this.errorMessage = "Lozinka nije ispravna"
-    });
-  }
+
+     /**
+     * Shows success message on screen and redirects
+     * @param message Success message to show
+     * @param redirect Redirects to provided page
+     */
+     showSuccessMessageAndRedirect(message: string, redirect: string): void {
+        this.errorMessage = '';
+        this.successMessage = message;
+        setTimeout(() => {
+            this.router.navigate([redirect]);
+        }, 3000);
+    }
+
+    validateFields(): boolean {
+        var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+        form.classList.add('was-validated');
+        if(form.checkValidity() === false){
+            return false;
+        }
+        return true;
+    }
 }

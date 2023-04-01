@@ -14,65 +14,62 @@ import {Page} from "../../../models/models";
 })
 export class DoctorWorkspaceComponent implements OnInit {
 
-  public patients: Patient[] = [];
-  patientPage: Page<Patient> = new Page<Patient>()
-  total = 0
+    public patients: Patient[] = [];
+    patientPage: Page<Patient> = new Page<Patient>()
+    total = 0
 
-  isPopupVisible = false;
-  /*
-  //popup se pojavljujem kliktajem na red
-  selectedPerson: any;
+    isPopupVisible = false;
+    
+    /*
+    //popup se pojavljujem kliktajem na red
+    selectedPerson: any;
 
-  onTableRowClicked(event: any) {
-    if (event.target.tagName === 'TD') {
-      this.selectedPerson = event.target.parentElement.cells[0].textContent;
-      this.isPopupVisible = true;
+    onTableRowClicked(event: any) {
+        if (event.target.tagName === 'TD') {
+        this.selectedPerson = event.target.parentElement.cells[0].textContent;
+        this.isPopupVisible = true;
+        }
     }
-  }
-*/
+    */
 
-  constructor(private patientService: PatientService, private formBuilder: FormBuilder, examinationService: ExaminationService,  private router: Router) {}
+    constructor(private patientService: PatientService, private formBuilder: FormBuilder, 
+        examinationService: ExaminationService,  private router: Router) {}
 
-  showPopup(event: any) {
-    const row = event.target.closest('.table-row');
-    this.isPopupVisible = true;
-  }
+    showPopup(event: any): void {
+        const row = event.target.closest('.table-row');
+        this.isPopupVisible = true;
+    }
 
-  hidePopup() {
-    this.isPopupVisible = false;
-  }
+    hidePopup(): void {
+        this.isPopupVisible = false;
+    }
 
-  confirmPregled() {
-    //otvori stranicu /doctor-workspace-one-patient
-    //za selektovanog pacijenta
-    this.router.navigate(['doctor-workspace-one']);
-
-  }
-
-
-  ngOnInit(): void {
-    this.patientService.getAllPatients('', '', '', '', 0, 5).subscribe((response) => {
-      this.patientPage = response
-      this.patients = this.patientPage.content
-      this.total = this.patientPage.totalElements
-
-    })
-
-  }
-
-  getPatients(){
-    this.patientService.getAllPatients('', '', '', '', 0, 5).subscribe((response) => {
-      this.patientPage = response
-      this.patients = this.patientPage.content
-      this.total = this.patientPage.totalElements
-
-    })
-  }
-
-  // onRowClick(lbp: string) {
-  //   this.router.navigate(['doctor-workspace-one']);
-  // }
+    confirmPregled(): void {
+        //otvori stranicu /doctor-workspace-one-patient
+        //za selektovanog pacijenta
+        this.router.navigate(['doctor-workspace-one']);
+    }
 
 
+    ngOnInit(): void {
+        // [TODO] Temporary values for getAllPatients parameters
+        this.patientService.getAllPatients('', '', '', '', 0, 5).subscribe((response) => {
+            this.patientPage = response
+            this.patients = this.patientPage.content
+            this.total = this.patientPage.totalElements
+        })
+    }
 
+    getPatients(): void {
+        // [TODO] Temporary values for getAllPatients parameters
+        this.patientService.getAllPatients('', '', '', '', 0, 5).subscribe((response) => {
+            this.patientPage = response
+            this.patients = this.patientPage.content
+            this.total = this.patientPage.totalElements
+        })
+    }
+
+    // onRowClick(lbp: string) {
+    //   this.router.navigate(['doctor-workspace-one']);
+    // }
 }
