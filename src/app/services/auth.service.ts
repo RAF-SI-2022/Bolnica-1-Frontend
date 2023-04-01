@@ -10,31 +10,47 @@ import { EmployeeMessageDTO, PasswordResetDTO } from '../models/models';
 })
 export class AuthService {
 
-  constructor(private http: HttpClient, private router: Router) { }
+    constructor(private http: HttpClient, private router: Router) { }
 
+    /**
+     * Check if user is currently logged in
+     * @returns true if user is logged in
+     */
+    isLoggedIn(): boolean {
+        let token = localStorage.getItem("token");
+        return !(token == null || token == '');
+    }
 
-  isLoggedIn(): boolean {
-    let token = localStorage.getItem("token");
-    return !(token == null || token == '');
-  }
+    /**
+     * Get LBZ from local storage
+     * @returns LBZ - licni broj zaposlenog
+     */
+    getLBZ(): string {
+        return localStorage.getItem("LBZ")!;
+    }
 
-  getLBZ(): string {
-    return localStorage.getItem("LBZ")!;
-  }
+    /**
+     * 
+     * @param oldPassword 
+     * @param newPassword 
+     * @returns EmployeeMessageDTO that holds string message about operation
+     */
+    resetPassword(oldPassword: string, newPassword: string): Observable<EmployeeMessageDTO> {
+        let passwordResetDto: PasswordResetDTO = new PasswordResetDTO();
+        passwordResetDto.oldPassword = oldPassword;
+        passwordResetDto.newPassword = newPassword;
+        return this.http.put<EmployeeMessageDTO>(
+            `${environment.apiURL}/employee/password_reset/${localStorage.getItem("LBZ")}`,
+            passwordResetDto,
+            { headers: this.getHeaders() }
+        );
+    }
 
-  resetPassword(oldPassword: string, newPassword: string): Observable<EmployeeMessageDTO> {
-    let passwordResetDto: PasswordResetDTO = new PasswordResetDTO();
-    passwordResetDto.oldPassword = oldPassword;
-    passwordResetDto.newPassword = newPassword;
-    return this.http.put<EmployeeMessageDTO>(`${environment.apiURL}/employee/password_reset/${localStorage.getItem("LBZ")}`,
-      passwordResetDto,
-      { headers: this.getHeaders() });
-  }
-
-  resetPasswordConfirmed(url: string) {
-    return this.http.get(url, { headers: this.getHeaders() });
-  }
-  getHeaders(): HttpHeaders {
-    return new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('token')}` });
-  }
+    resetPasswordConfirmed(url: string) {
+        return this.http.get(url, { headers: this.getHeaders() });
+    }
+    
+    getHeaders(): HttpHeaders {
+        return new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('token')}` });
+    }
 }

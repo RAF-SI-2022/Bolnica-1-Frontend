@@ -12,56 +12,58 @@ import {PatientService} from "../../../services/patient-service/patient.service"
 })
 export class DoctorSearchPatientsComponent implements OnInit{
 
-  searchForm: FormGroup
-  public name: string = ''
-  public surname: string = ''
-  public jmbg: string = ''
-  public lbp: string = ''
-  patientPage: Page<Patient> = new Page<Patient>()
-  patientList: Patient[] = []
-  routerUpper: Router
-  page = 0
-  pageSize = 5
-  total = 0
+    // Pagination properties
+    PAGE_SIZE = 5
+    page = 0
+    total = 0
 
+    searchForm: FormGroup
+    public name: string = ''
+    public surname: string = ''
+    public jmbg: string = ''
+    public lbp: string = ''
+    patientPage: Page<Patient> = new Page<Patient>()
+    patientList: Patient[] = []
+    routerUpper: Router
 
-  constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) {
-    this.routerUpper = router
-    this.searchForm = this.formBuilder.group({
-      name: '',
-      surname: '',
-      jmbg: '',
-      lbp: ''
-    })
-  }
+    constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) {
+        this.routerUpper = router
+        this.searchForm = this.formBuilder.group({
+            name: '',
+            surname: '',
+            jmbg: '',
+            lbp: ''
+        })
+    }
 
-  ngOnInit(): void {
-    this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.pageSize).subscribe((response) => {
-      this.patientPage = response
-      this.patientList = this.patientPage.content
-      this.total = this.patientPage.totalElements
+    ngOnInit(): void {
+        this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.PAGE_SIZE)
+            .subscribe((response) => {
+                this.patientPage = response
+                this.patientList = this.patientPage.content
+                this.total = this.patientPage.totalElements
+            })
+    }
 
-    })
-  }
+    getPatientList(): void {
+        // if(this.page == 0){
+        //   this.page = 1
+        // }
+        this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.PAGE_SIZE)
+            .subscribe((response) => {
+            this.patientPage = response
+            this.patientList = this.patientPage.content
+            this.total = this.patientPage.totalElements
+        })
+    }
 
-  getPatientList(){
-    // if(this.page == 0){
-    //   this.page = 1
-    // }
-    this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.pageSize).subscribe((response) => {
-      this.patientPage = response
-      this.patientList = this.patientPage.content
-      this.total = this.patientPage.totalElements
+    onTableDataChange(event: any): void {
+        this.page = event;
+        this.getPatientList();
+    }
 
-    })
-  }
-
-  onTableDataChange(event: any): void {
-    this.page = event;
-    this.getPatientList();
-  }
-  onRowClick(lbp: string) {
-    this.router.navigate(['doctor-workspace']);
-  }
+    onRowClick(lbp: string): void {
+        this.router.navigate(['doctor-workspace']);
+    }
 
 }

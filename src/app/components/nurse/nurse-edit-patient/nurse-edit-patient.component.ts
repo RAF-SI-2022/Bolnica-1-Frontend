@@ -16,105 +16,121 @@ import {ExpertiseDegree} from "../../../models/patient-enums/ExpertiseDegree";
   styleUrls: ['./nurse-edit-patient.component.css']
 })
 export class NurseEditPatientComponent implements OnInit {
-  countryCodes = Object.values(CountryCode).filter(value => typeof value === 'string');
-  familyStatus = Object.values(FamilyStatus).filter(value => typeof value === 'string');
-  maritalStatus = Object.values(MaritalStatus).filter(value => typeof value === 'string');
-  expertiseDegree =  Object.values(ExpertiseDegree).filter(value => typeof value === 'string');
-  successMessage: string = '';
-  errorMessage: string = '';
+    
+    countryCodes = this.filterEnum(CountryCode);
+    familyStatus = this.filterEnum(FamilyStatus);
+    maritalStatus = this.filterEnum(MaritalStatus);
+    expertiseDegree = this.filterEnum(ExpertiseDegree);
+    successMessage = '';
+    errorMessage = '';
 
-  patientUpdate: PatientUpdateClass;
-  editGroup: FormGroup;
-  deleted: Boolean = false
+    patientUpdate: PatientUpdateClass;
+    editGroup: FormGroup;
+    deleted = false;
 
-  lbp: string = ''
+    lbp = '';
 
-  ngOnInit(): void {
-    this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
-    //stavi za pacijent
-    this.getPatient(this.lbp);
-    console.log(this.lbp)
-    //da li ovo treba
-    // this.getUserPermissions(this.lbz);
-  }
-
-  constructor(private formBuilder: FormBuilder, private patientService: PatientService, private route: ActivatedRoute) {
-    this.editGroup = this.formBuilder.group({
-      jmbg: ['', [Validators.required]],
-      name: ['', [Validators.required]],
-      parentName: ['', [Validators.required]],
-      surname: ['', [Validators.required, Validators.email]],
-      gender: ['', [Validators.required]],
-      dateOfBirth: ['', [Validators.required]],
-      dateAndTimeOfDeath: ['', [Validators.required]],
-      birthPlace: ['', [Validators.required]],
-      placeOfLiving: ['', [Validators.required]],
-      citizenship: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      guardianJmbg: ['', [Validators.required]],
-      guardianNameAndSurname: ['', [Validators.required]],
-      maritalStatus: ['', [Validators.required]],
-      numOfChildren: ['', [Validators.required]],
-      expertiseDegree: ['', [Validators.required]],
-      profession: ['', [Validators.required]],
-      familyStatus: ['', [Validators.required]],
-    })
-    this.patientUpdate = new PatientUpdateClass();
-  }
-
-  getPatient(LBP: string): void {
-    console.log("usao u getPatient u ts")
-    this.patientService.getPatientByLbp(LBP).subscribe(result => {
-      this.patientUpdate = result;
-      console.log("RESUUUUUUULT" +  result.familyStatus)
-    }, err => {
-      console.log()
-      console.log(this.patientUpdate.name)
-      if (err.status == 302) { // found!
-        this.patientUpdate = err.error; // citanje poruka je sa err.errors TO JE BODY-PORUKA
-        this.editGroup.get('gender')?.setValue(this.patientUpdate.gender.toLowerCase() === 'female');
-        console.log("sss " +  this.editGroup.get('gender')?.value);
-      }
-    })
-  }
-
-  editPatient() {
-    console.log("usao u edit patient u ts")
-    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
-    if (form.checkValidity() === false) {
+    constructor(private formBuilder: FormBuilder, private patientService: PatientService, private route: ActivatedRoute) {
+        this.editGroup = this.createFormGroup();
+        this.patientUpdate = new PatientUpdateClass();
     }
 
-    // console.log(this.editGroup.get('deleted')?.value )
-    this.patientService.updatePatient(this.lbp, this.editGroup.get('jmbg')?.value, this.editGroup.get('name')?.value,
-      this.editGroup.get('parentName')?.value, this.editGroup.get('surname')?.value, this.editGroup.get('gender')?.value,
-      this.editGroup.get('dateOfBirth')?.value,
-      this.editGroup.get('dateAndTimeOfDeath')?.value, this.editGroup.get('birthPlace')?.value, this.editGroup.get('placeOfLiving')?.value,
-      this.editGroup.get('citizenship')?.value, this.editGroup.get('phone')?.value, this.editGroup.get('email')?.value , this.editGroup.get('guardianJmbg')?.value,
-      this.editGroup.get('guardianNameAndSurname')?.value, this.editGroup.get('maritalStatus')?.value, this.editGroup.get('numOfChildren')?.value,
-      this.editGroup.get('expertiseDegree')?.value, this.editGroup.get('profession')?.value,
-      this.editGroup.get('familyStatus')?.value, this.editGroup.get('deleted')?.value).subscribe((response) => {
-      this.showSuccessMessage()
-      console.log(response)
-    }, error => {
-      this.errorMessage = '';
-    })
-  }
+    ngOnInit(): void {
+        this.lbp = this.route.snapshot.paramMap.get('lbp') || '';
+        this.getPatient(this.lbp);
+    }
 
-  showSuccessMessage() {
-    this.errorMessage = '';
-    this.successMessage = 'Uspesno sacuvan pacijent!'
-    setTimeout(() => {
-      this.successMessage = ''
-    }, 3000);
-  }
+    filterEnum(enumObject: any): string[] {
+        return Object.values(enumObject).filter((value) => typeof value === 'string') as string[];
+    }
+    
+    createFormGroup(): FormGroup {
+        return this.formBuilder.group({
+            jmbg: ['', [Validators.required]],
+            name: ['', [Validators.required]],
+            parentName: ['', [Validators.required]],
+            surname: ['', [Validators.required, Validators.email]],
+            gender: ['', [Validators.required]],
+            dateOfBirth: ['', [Validators.required]],
+            dateAndTimeOfDeath: ['', [Validators.required]],
+            birthPlace: ['', [Validators.required]],
+            placeOfLiving: ['', [Validators.required]],
+            citizenship: ['', [Validators.required]],
+            phone: ['', [Validators.required]],
+            email: ['', [Validators.required]],
+            guardianJmbg: ['', [Validators.required]],
+            guardianNameAndSurname: ['', [Validators.required]],
+            maritalStatus: ['', [Validators.required]],
+            numOfChildren: ['', [Validators.required]],
+            expertiseDegree: ['', [Validators.required]],
+            profession: ['', [Validators.required]],
+            familyStatus: ['', [Validators.required]],
+        });
+    }
 
-  showErrorMessage() {
-    this.errorMessage = 'Greska';
-    setTimeout(() => {
-      this.errorMessage = ''
-    }, 3000);
-  }
+    getPatient(LBP: string): void {
+        this.patientService.getPatientByLbp(LBP).subscribe(
+            (result) => {
+                this.patientUpdate = result;
+            },
+            (err) => {
+                if (err.status === 302) {
+                    this.patientUpdate = err.error;
+                    this.editGroup.get('gender')?.setValue(this.patientUpdate.gender.toLowerCase() === 'female');
+                }
+            }
+        );
+    }
 
+    editPatient(): void {
+        if (this.editGroup.invalid) return;
+
+        const updatedPatient = { ...this.editGroup.value, deleted: this.deleted };
+        this.patientService.updatePatient(
+            this.lbp,
+            updatedPatient.jmbg,
+            updatedPatient.name,
+            updatedPatient.parentName,
+            updatedPatient.surname,
+            updatedPatient.gender,
+            updatedPatient.dateOfBirth,
+            updatedPatient.dateAndTimeOfDeath,
+            updatedPatient.birthPlace,
+            updatedPatient.placeOfLiving,
+            updatedPatient.citizenship,
+            updatedPatient.phone,
+            updatedPatient.email,
+            updatedPatient.guardianJmbg,
+            updatedPatient.guardianNameAndSurname,
+            updatedPatient.maritalStatus,
+            updatedPatient.numOfChildren,
+            updatedPatient.expertiseDegree,
+            updatedPatient.profession,
+            updatedPatient.familyStatus,
+            updatedPatient.deleted
+        ).subscribe(
+            response => {
+                this.showSuccessMessage('Uspesno sacuvan pacijent!');
+            },
+            error => {
+                this.errorMessage = '';
+            }
+        );
+    }
+
+    showSuccessMessage(message: string): void {
+        this.errorMessage = '';
+        this.successMessage = message;
+        setTimeout(() => {
+            this.successMessage = '';
+        }, 3000);
+    }
+
+    showErrorMessage(message: string): void {
+        this.errorMessage = message;
+        setTimeout(() => {
+            this.errorMessage = '';
+        }, 3000);
+    }
 
 }

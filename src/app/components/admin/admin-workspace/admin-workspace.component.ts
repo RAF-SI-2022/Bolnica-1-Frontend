@@ -8,21 +8,19 @@ import { Router } from '@angular/router';
 })
 export class AdminWorkspaceComponent implements OnInit {
 
-  constructor(private router: Router){
+  constructor(private router: Router){}
 
-  }
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  pretrazi(){
+  goToSearchEmployees(){
       this.router.navigate(['/admin-search-employee']);
   }
 
-  profil(){
+  goToProfile(){
        this.router.navigate(['/profile']);
   }
 
-  dodajZaposlenog(){
+  goToAddEmployee(){
       this.router.navigate(['/admin-add-employee']);
   }
 }

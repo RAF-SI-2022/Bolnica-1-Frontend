@@ -57,7 +57,7 @@
           </thead>
           <tbody>
           <tr
-            *ngFor="let user of patientList | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total}; let i = index"  (click)="onRowClick(user.lbp)">
+            *ngFor="let user of patientList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"  (click)="onRowClick(user.lbp)">
             <td>{{user.name}}</td>
             <td>{{user.surname}}</td>
             <td>{{user.dateOfBirth}}</td>

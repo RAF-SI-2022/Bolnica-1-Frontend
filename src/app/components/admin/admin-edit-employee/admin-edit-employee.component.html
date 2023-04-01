@@ -41,12 +41,12 @@
                         <h4 class="text-right">Profil</h4>
                     </div>
                     <div class="row mt-2">
-                        <div class="col-md-6"><label class="labels">Ime</label><input type="text" name="ime"
+                        <div class="col-md-6"><label class="labels">Ime</label><input type="text" name="ime"required
                                 class="form-control" placeholder="" value="" [(ngModel)]="userEdit.name"
                                 [formControlName]="'name'">
                             <div class="invalid-feedback">Unesite vase ime</div>
                         </div>
-                        <div class="col-md-6"><label class="labels">Prezime</label><input type="text" name="prezime"
+                        <div class="col-md-6"><label class="labels">Prezime</label><input type="text" name="prezime" required
                                 class="form-control" value="" placeholder="" [(ngModel)]="userEdit.surname"
                                 [formControlName]="'lastName'">
                             <div class="invalid-feedback">Unesite vase prezime</div>
@@ -69,43 +69,43 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12"><label class="labels">Email</label><input type="email" name="imejl"
-                                class="form-control" placeholder="" value="" [(ngModel)]="userEdit.email"
+                        <div class="col-md-12"><label class="labels">Email</label><input type="email" name="imejl" 
+                                class="form-control" placeholder="" value="" [(ngModel)]="userEdit.email" required
                                 [formControlName]="'email'">
                             <div class="invalid-feedback">Unesite imejl</div>
                         </div>
                         <div class="col-md-12"><label class="labels">Username</label><input type="text" name="korisnickoIme"
-                            class="form-control" placeholder="" value="" [(ngModel)]="userEdit.username"
+                            class="form-control" placeholder="" value="" [(ngModel)]="userEdit.username" required
                             [formControlName]="'username'">
                         <div class="invalid-feedback">Unesite korisnicko ime</div>
                     </div>
                     <div class="col-md-12"><label class="labels">Password</label><input type="password" name="lozinka"
                         class="form-control" placeholder="" value="" [(ngModel)]="userEdit.password"
                         [formControlName]="'password'">
-                    <div class="invalid-feedback">Unesite vas imejl</div>
+                    <div class="invalid-feedback">Unesite vasu lozinku</div>
                 </div>
                         <div class="col-md-12"><label class="labels">Broj telefona</label><input type="text"
-                                name="brojTelefona" class="form-control" placeholder="" value=""
+                                name="brojTelefona" class="form-control" placeholder="" value="" required
                                 [(ngModel)]="userEdit.phone" [formControlName]="'phoneNumber'">
                             <div class="invalid-feedback">Unesite vas broj telefona</div>
                         </div>
                         <div class="col-md-12"><label class="labels">JMBG</label><input type="text" class="form-control"
-                                name="JMBG" placeholder="" value="" [(ngModel)]="userEdit.jmbg"
+                                name="JMBG" placeholder="" value="" [(ngModel)]="userEdit.jmbg" required
                                 [formControlName]="'JMBG'">
                             <div class="invalid-feedback">Unesite vas JMBG</div>
                         </div>
                         <div class="col-md-12"><label class="labels">Adresa</label><input type="text"
-                                class="form-control" name="adresaStanovanja" placeholder="" value=""
+                                class="form-control" name="adresaStanovanja" placeholder="" value="" required
                                 [(ngModel)]="userEdit.address" [formControlName]="'adress'">
                             <div class="invalid-feedback">Unesite vasu adresu stanovanja</div>
                         </div>
                         <div class="col-md-12"><label class="labels">Mesto</label><input type="text"
-                                class="form-control" name="mestoStanovanja" placeholder="" value=""
+                                class="form-control" name="mestoStanovanja" placeholder="" value="" required
                                 [(ngModel)]="userEdit.placeOfLiving" [formControlName]="'city'">
                             <div class="invalid-feedback">Unesite vase mesto stanovanja</div>
                         </div>
                         <div class="col-md-12"><label class="labels">
-                                Datum</label><input name="datumRodjenja" [(ngModel)]="userEdit.dateOfBirth" type="date"
+                                Datum</label><input name="datumRodjenja" [(ngModel)]="userEdit.dateOfBirth" type="date" required
                                 id="date" class="form-control" [formControlName]="'date'">
                             <div class="invalid-feedback">Unesite vas datum rodjenja</div>
                         </div>
@@ -177,24 +177,6 @@
                                         </div>
                                     </label>
                                 </div>
-                                <!--                            <div data-toggle="buttons" class="btn-group bizmoduleselect">-->
-                                <!--                                <label class="btn btn-outline-primary col-12 m-2">-->
-                                <!--                                    <div class="itemcontent ms-auto text-start ps-2">-->
-                                <!--                                        <input type="checkbox" name="DR_SPEC_ODELJENJA" autocomplete="off" value="" [(ngModel)]="DR_SPEC_ODELJENJA" [formControlName]="'DR_SPEC'">-->
-                                <!--                                        <span class="m-0 p-2">Nacelink odeljenja</span>-->
-                                <!--                                    </div>-->
-                                <!--                                </label>-->
-                                <!--                            </div>-->
-
-
-                                <!--                          <div data-toggle="buttons" class="btn-group bizmoduleselect">-->
-                                <!--                                <label class="btn btn-outline-primary col-12 m-2">-->
-                                <!--                                    <div class="itemcontent ms-auto text-start ps-2">-->
-                                <!--                                        <input type="checkbox" name="RECEPCIONER" autocomplete="off" value="" [(ngModel)]="RECEPCIONER" [formControlName]="'RECEPCIONIST'">-->
-                                <!--                                        <span class="m-0 p-2">Recepcioner</span>-->
-                                <!--                                    </div>-->
-                                <!--                                </label>-->
-                                <!--                            </div>-->
                                 <div data-toggle="buttons" class="btn-group bizmoduleselect">
                                     <label class="btn btn-outline-primary col-12 m-2">
                                         <div class="itemcontent ms-auto text-start ps-2">
@@ -234,39 +216,7 @@
                                             <span class="m-0 p-2">Medicinska sestra</span>
                                         </div>
                                     </label>
-                                </div>
-                                <!--                            <div data-toggle="buttons" class="btn-group bizmoduleselect">-->
-                                <!--                                <label class="btn btn-outline-primary col-12 m-2">-->
-                                <!--                                    <div class="itemcontent ms-auto text-start ps-2">-->
-                                <!--                                        <input type="checkbox" name="VISI_LABORATORISJKI_TEHINICAR" autocomplete="off" value="" [(ngModel)]="VISI_LABORATORIJSKI_TEHNICAR" [formControlName]="'SENIOR_LAB_TECHNICIAN'">-->
-                                <!--                                        <span class="m-0 p-2">Visi laboratorijski tehnicar</span>-->
-                                <!--                                    </div>-->
-                                <!--                                </label>-->
-                                <!--                            </div>-->
-                                <!--                            <div data-toggle="buttons" class="btn-group bizmoduleselect">-->
-                                <!--                                <label class="btn btn-outline-primary col-12 m-2">-->
-                                <!--                                    <div class="itemcontent ms-auto text-start ps-2">-->
-                                <!--                                        <input type="checkbox" name="LABORATORIJSKI_TEHNICAR" autocomplete="off" value="" [(ngModel)]="LABORATORIJSKI_TEHNICAR" [formControlName]="'LAB_TECHNICIAN'">-->
-                                <!--                                        <span class="m-0 p-2">Laboratorijski tehnicar</span>-->
-                                <!--                                    </div>-->
-                                <!--                                </label>-->
-                                <!--                            </div>-->
-                                <!--                            <div data-toggle="buttons" class="btn-group bizmoduleselect">-->
-                                <!--                                <label class="btn btn-outline-primary col-12 m-2">-->
-                                <!--                                    <div class="itemcontent ms-auto text-start ps-2">-->
-                                <!--                                        <input type="checkbox" name="MEDICINSKI_BIOHEMICAR" autocomplete="off" value="" [(ngModel)]="MEDICINSKI_BIOHEMICAR" [formControlName]="'MED_BIOCHEMIST'">-->
-                                <!--                                        <span class="m-0 p-2">Medicinski biohemicar</span>-->
-                                <!--                                    </div>-->
-                                <!--                                </label>-->
-                                <!--                            </div>-->
-                                <!--                            <div data-toggle="buttons" class="btn-group bizmoduleselect">-->
-                                <!--                                <label class="btn btn-outline-primary col-12 m-2">-->
-                                <!--                                    <div class="itemcontent ms-auto text-start ps-2">-->
-                                <!--                                        <input type="checkbox" name="SPECIJALISTA_MEDICINSKE_BIOHEMIJA" autocomplete="off" value="" [(ngModel)]="SPECIJALISTA_MEDICINSKE_BIOHEMIJE"[formControlName]="'SPEC_MED_BIOCHEMIST'" >-->
-                                <!--                                        <span class="m-0 p-2">Specijalista medicinske biohemije</span>-->
-                                <!--                                    </div>-->
-                                <!--                                </label>-->
-                                <!--                            </div>-->
+                                </div>    
                             </div>
                         </div>
                     </div>
