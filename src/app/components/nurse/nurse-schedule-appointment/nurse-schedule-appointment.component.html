@@ -1,5 +1,32 @@
 <div style="padding-top: 70px;">
-  <ejs-schedule></ejs-schedule>
+  <ejs-schedule>
+    <ng-template #editorTemplate let-data>
+      <table class="custom-event-editor" width="100%" cellpadding="5">
+        <tbody>
+        <tr>
+          <td class="e-textlabel">Razlog pregleda</td>
+          <td colspan="4">
+            <ejs-dropdownlist id="Status" class="e-field" data-name="Status" placeholder='Izaberite'> </ejs-dropdownlist>
+          </td>
+        </tr>
+        <tr>
+          <td class="e-textlabel">Pacijent</td>
+          <td colspan="4">
+            <ejs-dropdownlist id="Pacijent" class="e-field" data-name="Pacijent" placeholder='Izaberite'> </ejs-dropdownlist>
+          </td>
+        </tr>
+        <tr>
+          <td class="e-textlabel">Datum:</td>
+          <td colspan="4">
+            <ejs-datetimepicker ></ejs-datetimepicker>
+          </td>
+        </tr>
+
+        </tbody>
+
+      </table>
+    </ng-template>
+  </ejs-schedule>
 </div>
 <!---
 <ejs-schedule height="700" width="1200" [currentView]="setView"></ejs-schedule>

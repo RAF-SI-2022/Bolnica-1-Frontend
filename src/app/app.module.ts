@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app/app.component';
 
+import {DropDownListModule} from "@syncfusion/ej2-angular-dropdowns";
+import {DateTimePickerModule} from "@syncfusion/ej2-angular-calendars";
 import {ScheduleModule,RecurrenceEditorModule, DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService} from '@syncfusion/ej2-angular-schedule';
 
 import { LoginComponent } from './components/general/login/login.component';
@@ -101,7 +103,7 @@ import { TechnicianIssuingResultsDetailsComponent } from './components/technicia
     NgxPaginationModule,
     BrowserAnimationsModule,
 
-    ScheduleModule,RecurrenceEditorModule
+    ScheduleModule,RecurrenceEditorModule,DropDownListModule,DateTimePickerModule
   ],
   providers: [DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService],
   //providers[],
