@@ -7,13 +7,16 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./doctor-create-referral.component.css']
 })
 export class DoctorCreateReferralComponent implements OnInit{
-    /*
-    selectedOption: string;
 
-    onOptionSelected(value: string) {
-        this.selectedOption = value;
-    }
-    */
+    selectedOption: string = '';
+
+    analysisSaBeka = ['analiza1', 'analiza2', 'analiza3'];
+
+
+    // onOptionSelected(value: string) {
+    //     this.selectedOption = value;
+    // }
+
     isPopupVisible = false;
 
     ngOnInit(): void {}

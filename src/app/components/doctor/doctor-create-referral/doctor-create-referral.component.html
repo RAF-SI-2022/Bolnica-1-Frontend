@@ -21,134 +21,167 @@
 <div class="container">
   <div class="table-responsive">
     <div class="table-wrapper">
-      <div class="table-title">
-        <h2><b>Uput</b></h2>
-      </div>
 
       <div style="padding-top: 20px">
 
         <form>
           <!---<select id="dropdown" name="dropdown" (change)="onOptionSelected($event.target.value)">-->
-          <select id="dropdown" required>
-            <option selected disabled>Izaberi tip upita: </option>
-            <option value="option1">Labaratorija</option>
-            <option value="option2">Dijagnostika</option>
-            <option value="option3">Stacionar</option>
-          </select>
-          <!---
-              <div [ngSwitch]="selectedOption">
-                <div *ngSwitchCase="'option1'">
-                <!- Labaratorija ->
-                  <br><br>
-          <select id="dropdown2" required>
-            <option selected disabled>Sifra: </option>
-            <option value="option1">opcija1</option>
-            <option value="option2">opcija2</option>
-          </select>
 
-          <br><br>
+          <div class="row justify-content-center">
+            <div class="col-md-8 border-right">
+              <div class="p-3 py-5">
 
-          <div class="checkbox-group">
-            <label>Elementi:</label>
-            <input type="checkbox" id="checkbox1" name="checkbox-group" value="option1" required>
-            <label for="checkbox1">Option 1</label>
-            <input type="checkbox" id="checkbox2" name="checkbox-group" value="option2" required>
-            <label for="checkbox2">Option 2</label>
-            <input type="checkbox" id="checkbox3" name="checkbox-group" value="option3" required>
-            <label for="checkbox3">Option 3</label>
-          </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h4 class="text-right">Kreiranje uputa</h4>
+                </div>
+
+                <div class="row justify-content-center mt-1">
 
 
-          <br>
+                  <div class="col-md-4 py-3">
 
-          <textarea  id="textarea" name="textarea" class="bi-textarea"></textarea>
-          <br><br>
-          <button (click)="showPopup($event)" class="btn btn-primary" >Uputi</button>
+                    <label for="tip-uputa" class="text-center">Izaberite tip uputa:</label>
+                    <select id="tip-uputa" name="tip-uputa" class="form-select"
+                            aria-label="Default select example" [(ngModel)]="selectedOption" data-cy = "tip-uputa">
+                      <option value="Izaberite tip uputa" selected>Izaberite tip uputa</option>
+                      <option value="Laboratorija">Laboratorija</option>
+                      <option value="Dijagnostika">Dijagnostika</option>
+                      <option value="Stacionar">Stacionar</option>
+                    </select>
+                  </div>
+
 
                 </div>
 
-                <div *ngSwitchCase="'option2'">
-                  <!- Dijagnostika ->
-                  <br><br>
-          <select id="dropdown2" required>
-            <option selected disabled>Sifra: </option>
-            <option value="option1">opcija1</option>
-            <option value="option2">opcija2</option>
-          </select>
-
-          <br><br>
-
-          <div class="checkbox-group">
-            <label>Elementi:</label>
-            <input type="checkbox" id="checkbox1" name="checkbox-group" value="option1" required>
-            <label for="checkbox1">Option 1</label>
-            <input type="checkbox" id="checkbox2" name="checkbox-group" value="option2" required>
-            <label for="checkbox2">Option 2</label>
-            <input type="checkbox" id="checkbox3" name="checkbox-group" value="option3" required>
-            <label for="checkbox3">Option 3</label>
-          </div>
 
 
-          <br>
+                <div *ngIf="selectedOption == 'Laboratorija'">
 
-          <textarea  id="textarea" name="textarea" class="bi-textarea" required></textarea>
+                  <div class="card basic">
+                    <div class="card-body">
+                      <div class="container">
 
-          <br><br>
-          <button (click)="showPopup($event)" class="btn btn-primary" >Uputi</button>
+                  <div class="row justify-content-center mt-1 mt-1">
+
+
+                    <div class="col-md-4 ">
+                      <label for="tip-uputa" >Zdravstvena ustanova:</label>
+                      <select id="ustanova" name="ustanova" class="form-select"
+                              aria-label="Default select example"  data-cy = "ustanova">
+                        <option value="1">ustanova1</option>
+                        <option value="2">ustanova2</option>
+                        <option value="3">ustanova3</option>
+                      </select>
+                    </div>
+
+                    <div class="col-md-4 ">
+                      <label>Odaberite laboratorijske analize:</label>
+                      <div *ngFor="let analysis of analysisSaBeka">
+                        <input type="checkbox" id="{{ analysis }}" name="{{ analysis }}" value="{{ analysis }}" >
+                        <label for="{{ analysis }}">{{ analysis }}</label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-8 ">
+                      <label class="labels">Komentar</label>
+                      <input name="comment"  type="text" class="form-control" id="comment" placeholder="Unesite opcioni komentar" value="">
+                    </div>
+
+                  </div>
+
+                        </div>
+                    </div>
+                  </div>
+
                 </div>
 
-                <div *ngSwitchCase="'option3'">
-                  <!- Stacionar ->
-                  <br><br>
-          <select id="dropdown2" required>
-            <option selected disabled>Sifra: </option>
-            <option value="option1">opcija1</option>
-            <option value="option2">opcija2</option>
-          </select>
+                <div *ngIf="selectedOption == 'Dijagnostika'">
 
-          <br><br>
+                  <div class="card basic">
+                    <div class="card-body">
+                      <div class="container">
 
-          <div class="checkbox-group">
-            <label>Elementi:</label>
-            <input type="checkbox" id="checkbox1" name="checkbox-group" value="option1" required>
-            <label for="checkbox1">Option 1</label>
-            <input type="checkbox" id="checkbox2" name="checkbox-group" value="option2" required>
-            <label for="checkbox2">Option 2</label>
-            <input type="checkbox" id="checkbox3" name="checkbox-group" value="option3" required>
-            <label for="checkbox3">Option 3</label>
-          </div>
+                        <div class="row justify-content-center mt-1 mt-1">
 
-          <button (click)="showPopup($event)" class="btn btn-primary" >Uputi</button>
+
+                          <div class="col-md-4 ">
+                            <label for="ustanova2" >Zdravstvena ustanova:</label>
+                            <select id="ustanova2" name="ustanova2" class="form-select"
+                                    aria-label="Default select example"  data-cy = "ustanova2">
+                              <option value="1">ustanova1</option>
+                              <option value="2">ustanova2</option>
+                              <option value="3">ustanova3</option>
+                            </select>
+                          </div>
+
+                          <div class="col-md-4 ">
+                            <label for="dijagnoza1" >Uputna dijagnoza:</label>
+                            <select id="dijagnoza1" name="dijagnoza1" class="form-select"
+                                    aria-label="Default select example"  data-cy = "dijagnoza1">
+                              <option value="1">uputna dijagnoza</option>
+                              <option value="2">uputna dijagnoza</option>
+                              <option value="3">uputna dijagnoza</option>
+                            </select>
+                          </div>
+
+
+                          <div class="col-md-8 ">
+                            <label class="labels">Razlog upucivanja</label>
+                            <input name="referralReason"  type="text" class="form-control" id="referralReason" placeholder="Unesite razlog uputa" value="">
+                          </div>
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-          -->
-          <!-- Samo da se vidi izgled jer komanda za dropdown ne radi-->
-          <br><br>
-          <select id="dropdown2" required>
-            <option selected disabled>Sifra: </option>
-            <option value="option1">opcija1</option>
-            <option value="option2">opcija2</option>
-          </select>
 
-          <br><br>
+                <div *ngIf="selectedOption == 'Stacionar'">
 
-          <div class="checkbox-group">
-            <label>Elementi:</label>
-            <input type="checkbox" id="checkbox1" name="checkbox-group" value="option1" required>
-            <label for="checkbox1">Option 1</label>
-            <input type="checkbox" id="checkbox2" name="checkbox-group" value="option2" required>
-            <label for="checkbox2">Option 2</label>
-            <input type="checkbox" id="checkbox3" name="checkbox-group" value="option3" required>
-            <label for="checkbox3">Option 3</label>
-          </div>
+                  <div class="card basic">
+                    <div class="card-body">
+                      <div class="container">
+
+                        <div class="row justify-content-center mt-1 mt-1">
 
 
-          <br>
+                          <div class="col-md-4 ">
+                            <label for="ustanova3" >Zdravstvena ustanova:</label>
+                            <select id="ustanova3" name="ustanova3" class="form-select"
+                                    aria-label="Default select example"  data-cy = "ustanova3">
+                              <option value="1">ustanova1</option>
+                              <option value="2">ustanova2</option>
+                              <option value="3">ustanova3</option>
+                            </select>
+                          </div>
 
-          <textarea  id="textarea" name="textarea" class="bi-textarea"></textarea>
-          <br><br>
+                          <div class="col-md-4 ">
+                            <label for="dijagnoza2" >Uputna dijagnoza:</label>
+                            <select id="dijagnoza2" name="dijagnoza2" class="form-select"
+                                    aria-label="Default select example"  data-cy = "dijagnoza2">
+                              <option value="1">uputna dijagnoza</option>
+                              <option value="2">uputna dijagnoza</option>
+                              <option value="3">uputna dijagnoza</option>
+                            </select>
+                          </div>
 
-          <button (click)="showPopup($event)" class="btn btn-primary" >Uputi</button>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="selectedOption =='Stacionar'|| selectedOption =='Laboratorija'|| selectedOption =='Dijagnostika' " class="d-flex justify-content-center align-items-center">
+                  <div class="row mt-1 mt-1">
+                    <div class="col-md-4">
+                      <button  (click)="showPopup($event)" class="btn btn-primary" >Dodaj</button>
+                    </div>
+                  </div>
+                </div>
+
+
 
           <!-- Za popup prozor -->
 
@@ -162,6 +195,10 @@
             </div>
           </div>
 
+              </div>
+            </div>
+
+          </div>
         </form>
       </div>
 
