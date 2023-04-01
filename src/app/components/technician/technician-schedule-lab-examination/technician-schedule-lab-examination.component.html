@@ -31,23 +31,19 @@
                     <h5 class="card-title"></h5>
 
                     <div class="row mt-3 align-items-center">
-
-<!--                       dropdown selektor za pacijente-->
                       <div class="col-md-4 offset-4">
+                        <form [formGroup]="searchForm" (submit)="findExaminations()" class="mb-5 needs-validation" novalidate>
 
                         <label  class="labels">Izbor pacijenta</label>
-                        <select  name = "patients1" class="form-select" id="patients1" required
-                                aria-label="Default select example"  data-cy = "patients1">
-                          <option value="">pacijent1</option>
-                          <option value="">pacijent2</option>
-                          <option value="">pacijent3</option>
-                          <option value="">pacijent4</option>
-
+                        <select  name = "patients1" [formControlName]="'name'" class="form-select" id="patients1" required
+                                aria-label="Default select example"  data-cy = "patients1" >
+                          <option selected>Odaberite pacijenta</option>
+                          <option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.name }}</option>
 
                         </select>
+                        </form>
                       </div>
 
-<!--dugme za dohvatanje liste nerealizovanih uputa pacijenta-->
                       <div class="mt-4 text-center">
                         <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi2">Nerealizovani uputi</button>
                       </div>
@@ -73,22 +69,21 @@
                           </thead>
 
                           <tbody>
-                          <tr>
-                            <td>polje</td>
-                            <td>polje</td>
-                            <td>polje</td>
-                            <td>polje</td>
-                            <td>polje</td>
-                            <td>polje</td>
-                            <td>polje</td>
-                            <td>polje</td>
-                            <td>polje</td>
-                            <td>polje</td>
-                            <td>polje</td>
-                            <td>polje</td>
-
+                          <tr
+                            *ngFor="let prescription of rawLabararatoryPrescriptions | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total}; let i = index" >
+                            <td>{{prescription.id}}</td>
+                            <td>{{prescription.type}}</td>
+                            <td>{{prescription.doctorId}}</td>
+                            <td>{{prescription.departmentToId}}</td>
+                            <td>{{prescription.departmentFromId}}</td>
+                            <td>{{prescription.lbp}}</td>
+                            <td>{{prescription.creationDateTime}}</td>
+                            <td>{{prescription.status}}</td>
+                            <td>{{prescription.prescriptionAnalysisDataDtoList}}</td>
+                            <td>{{prescription.comment}}</td>
+                            <td>{{prescription.referralDiagnosis}}</td>
+                            <td>{{prescription.referralReason}}</td>
                           </tr>
-
                           </tbody>
                         </table>
                         <div class="d-flex align-items-center justify-content-center h-100">
@@ -96,7 +91,6 @@
                           </pagination-controls>
                         </div>
                       </div>
-
 
                     </div>
 
@@ -112,20 +106,26 @@
                 <div class="card basic">
                   <div class="card-body">
                     <div class="container">
+                      <form [formGroup]="countForm" (submit)="countPatientByDay()" class="mb-5 needs-validation" novalidate>
+
                       <div class="row justify-content-center">
+
                         <div class="col-md-6 d-flex justify-content-between align-items-center">
+
                           <div class="col-md-4">
                             <label for="datum1" class="labels">Datum </label>
-                            <input type="date" class="form-control" id="datum1">
+                            <input name = "date1" [formControlName]="'date'" type="date" class="form-control" id="datum1">
                           </div>
                           <button type="submit" class="btn btn-primary" data-cy="btnCount">Izracunaj</button>
                           <div class="col-md-4">
                             <label class="labels">Broj zakazanih pacijenata</label>
-                            <input name="numberOfScheduled" type="text" class="form-control" id="numberOfScheduled" placeholder="" value="">
+                           <input name="numberOfScheduled" [(ngModel)]="numberOfScheduled" type="text" class="form-control" id="numberOfScheduled" placeholder=""
+                                   value=""  [formControlName]="'numberOfScheduled'">
+
                           </div>
                         </div>
                       </div>
-
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -138,12 +138,12 @@
                 <div class="card basic">
                   <div class="card-body">
                     <div class="container">
+                      <form [formGroup]="noteForm" (submit)="(examinationCreate())" class="mb-5 needs-validation" novalidate>
+
                       <div class="row justify-content-center">
-
-
                         <div class="col-md-6 ">
                           <label class="labels">Napomena</label>
-                          <input name="note"  type="text" class="form-control" id="note" placeholder="" value="">
+                          <input [formControlName]="'note'" name="note"  type="text" class="form-control" id="note" placeholder="" value="">
                         </div>
                         <div class="col-md-12 mt-2 text-center">
                           <button type="submit" class="btn btn-primary" data-cy = "btnZakazi" onclick="return confirm('Da li ste sigurni da želite da zakažete posetu laboratoriji?')">Zakaži</button>
@@ -151,6 +151,7 @@
 
 
                       </div>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -161,26 +162,23 @@
       </div>
 
 
+      <form [formGroup]="searchVisitForm" (submit)="listScheduledEexaminations()" class="mb-5 needs-validation" novalidate>
 
       <div class="tab-pane fade" id="bordered-justified-contact" role="tabpanel" aria-labelledby="contact-tab">
         <div class="container rounded bg-white mt-0 mb-4 p-3 py-5">
           <div class="row">
-            <form  class="mb-5 needs-validation" novalidate>
-
               <div class="col-md-4  offset-4">
                 <label  class="labels">Pacijenti</label>
-                <select  name = "patients" class="form-select" id="patients" required
+                <select [formControlName]="'name'"  name = "patients" class="form-select" id="patients"
                          aria-label="Default select example"  data-cy = "patients">
-                  <option value="">pacijent1</option>
-                  <option value="">pacijent1</option>
-                  <option value="">pacijent1</option>
-                  <option value="">pacijent1</option>
+                  <option selected>Odaberite pacijenta</option>
+                  <option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.name }}</option>
                 </select>
               </div>
 
               <div class="col-md-4 offset-4">
                 <label class="labels">Tačan datum</label>
-                <input  jmbg = "correctDate" type="date" class="form-control" data-cy = "correctDate" >
+                <input [formControlName]="'date'"   name = "correctDate" type="date" class="form-control" data-cy = "correctDate" >
               </div>
 
               <div class="mt-4 text-center">
@@ -205,7 +203,7 @@
 
                   <tbody>
                   <tr
-                    *ngFor="let exam of scheduledLabExams | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total}; let i = index">
+                    *ngFor="let exam of scheduledLabExaminations | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total}; let i = index">
                     <td>{{exam.id}}</td>
                     <td>{{exam.departmentId}}</td>
                     <td>{{exam.lbp}}</td>
@@ -215,7 +213,7 @@
                     <td>{{exam.lbz}}</td>
                     <td>{{exam.examinationStatus}}</td>
                     <td>
-                      <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>
+                      <button *ngIf=checkStatus(exam) (click)="cancelExamination(exam.id)">Otkaži pregled</button>
                     </td>
 
                   </tr>
@@ -223,22 +221,16 @@
                   </tbody>
                 </table>
 
-
-
                 <div class="d-flex align-items-center justify-content-center h-100">
-                  <pagination-controls previousLabel="Pret" nextLabel="Sled" >
+                  <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)" >
                   </pagination-controls>
                 </div>
 
-
-
               </div>
-            </form>
           </div>
         </div>
       </div>
-
-
+      </form>
     </div>
   </div>
 </div>
