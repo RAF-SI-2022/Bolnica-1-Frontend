@@ -1,1 +1,180 @@
-<p>doctor-create-referral works!</p>
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <script src="/path/to/jquery.min.js"></script>
+  <script src="/path/to/bootstrap.bundle.min.js"></script>
+
+
+<link href="assets/img/favicon.png" rel="icon">
+<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <h2><b>Uput</b></h2>
+      </div>
+
+      <div style="padding-top: 20px">
+
+        <form>
+          <!---<select id="dropdown" name="dropdown" (change)="onOptionSelected($event.target.value)">-->
+          <select id="dropdown" required>
+            <option selected disabled>Izaberi tip upita: </option>
+            <option value="option1">Labaratorija</option>
+            <option value="option2">Dijagnostika</option>
+            <option value="option3">Stacionar</option>
+          </select>
+          <!---
+              <div [ngSwitch]="selectedOption">
+                <div *ngSwitchCase="'option1'">
+                <!- Labaratorija ->
+                  <br><br>
+          <select id="dropdown2" required>
+            <option selected disabled>Sifra: </option>
+            <option value="option1">opcija1</option>
+            <option value="option2">opcija2</option>
+          </select>
+
+          <br><br>
+
+          <div class="checkbox-group">
+            <label>Elementi:</label>
+            <input type="checkbox" id="checkbox1" name="checkbox-group" value="option1" required>
+            <label for="checkbox1">Option 1</label>
+            <input type="checkbox" id="checkbox2" name="checkbox-group" value="option2" required>
+            <label for="checkbox2">Option 2</label>
+            <input type="checkbox" id="checkbox3" name="checkbox-group" value="option3" required>
+            <label for="checkbox3">Option 3</label>
+          </div>
+
+
+          <br>
+
+          <textarea  id="textarea" name="textarea" class="bi-textarea"></textarea>
+          <br><br>
+          <button (click)="showPopup($event)" class="btn btn-primary" >Uputi</button>
+
+                </div>
+
+                <div *ngSwitchCase="'option2'">
+                  <!- Dijagnostika ->
+                  <br><br>
+          <select id="dropdown2" required>
+            <option selected disabled>Sifra: </option>
+            <option value="option1">opcija1</option>
+            <option value="option2">opcija2</option>
+          </select>
+
+          <br><br>
+
+          <div class="checkbox-group">
+            <label>Elementi:</label>
+            <input type="checkbox" id="checkbox1" name="checkbox-group" value="option1" required>
+            <label for="checkbox1">Option 1</label>
+            <input type="checkbox" id="checkbox2" name="checkbox-group" value="option2" required>
+            <label for="checkbox2">Option 2</label>
+            <input type="checkbox" id="checkbox3" name="checkbox-group" value="option3" required>
+            <label for="checkbox3">Option 3</label>
+          </div>
+
+
+          <br>
+
+          <textarea  id="textarea" name="textarea" class="bi-textarea" required></textarea>
+
+          <br><br>
+          <button (click)="showPopup($event)" class="btn btn-primary" >Uputi</button>
+                </div>
+
+                <div *ngSwitchCase="'option3'">
+                  <!- Stacionar ->
+                  <br><br>
+          <select id="dropdown2" required>
+            <option selected disabled>Sifra: </option>
+            <option value="option1">opcija1</option>
+            <option value="option2">opcija2</option>
+          </select>
+
+          <br><br>
+
+          <div class="checkbox-group">
+            <label>Elementi:</label>
+            <input type="checkbox" id="checkbox1" name="checkbox-group" value="option1" required>
+            <label for="checkbox1">Option 1</label>
+            <input type="checkbox" id="checkbox2" name="checkbox-group" value="option2" required>
+            <label for="checkbox2">Option 2</label>
+            <input type="checkbox" id="checkbox3" name="checkbox-group" value="option3" required>
+            <label for="checkbox3">Option 3</label>
+          </div>
+
+          <button (click)="showPopup($event)" class="btn btn-primary" >Uputi</button>
+                </div>
+              </div>
+          -->
+          <!-- Samo da se vidi izgled jer komanda za dropdown ne radi-->
+          <br><br>
+          <select id="dropdown2" required>
+            <option selected disabled>Sifra: </option>
+            <option value="option1">opcija1</option>
+            <option value="option2">opcija2</option>
+          </select>
+
+          <br><br>
+
+          <div class="checkbox-group">
+            <label>Elementi:</label>
+            <input type="checkbox" id="checkbox1" name="checkbox-group" value="option1" required>
+            <label for="checkbox1">Option 1</label>
+            <input type="checkbox" id="checkbox2" name="checkbox-group" value="option2" required>
+            <label for="checkbox2">Option 2</label>
+            <input type="checkbox" id="checkbox3" name="checkbox-group" value="option3" required>
+            <label for="checkbox3">Option 3</label>
+          </div>
+
+
+          <br>
+
+          <textarea  id="textarea" name="textarea" class="bi-textarea"></textarea>
+          <br><br>
+
+          <button (click)="showPopup($event)" class="btn btn-primary" >Uputi</button>
+
+          <!-- Za popup prozor -->
+
+          <div class="popup-overlay" *ngIf="isPopupVisible">
+            <div class="popup">
+              <p>Zelite da potvrdite uput?</p>
+              <div class="popup-buttons">
+                <button (click)="confirmUput()">OK</button>
+                <button (click)="hidePopup()">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+
+
+</body>
+
+
+
+
+

@@ -52,7 +52,6 @@ export class AppComponent {
     this.toggleSb = !this.toggleSb;
   }
 
-  //todo proveri ovo
   checkAdmin(): boolean {
     console.log("LOL");
     this.userService.checkRole('ROLE_ADMIN').subscribe(hasRole => {

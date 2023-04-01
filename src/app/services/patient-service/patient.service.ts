@@ -109,28 +109,6 @@ export class PatientService {
       registerDate: registerDate
     }
 
-    // console.log("patient name: " + obj.name)
-    // console.log("patient surname:" + obj.surname)
-    // console.log("patient jmbg: " + obj.jmbg)
-    // console.log("patient lbp" + obj.lbp)
-    // console.log("patient parentName" + obj.parentName)
-    // console.log("patient gender" + obj.gender)
-    // console.log("patient birth place" + obj.birthPlace)
-    // console.log("patient place of living" + obj.placeOfLiving)
-    // console.log("patient citizenship" + obj.citizenship)
-    // console.log("patient phone "+obj.phone)
-    // console.log("patient email "+ obj.email)
-    // console.log("patient guardianJmbg " + obj.guardianJmbg)
-    // console.log("patient guardian name and surname " + obj.guardianNameAndSurname)
-    // console.log("patient marital status "+ obj.maritalStatus)
-    // console.log("patient num of children " + obj.numOfChildren)
-    // console.log("patient expertise degree " + obj.expertiseDegree)
-    // console.log("patient profession " + obj.profession)
-    // console.log("patient family status " + obj.familyStatus)
-    //
-    // console.log("patient date of birth" + obj.dateOfBirth)
-    // console.log("patient date and time of death" + obj.dateAndTimeOfDeath)
-
 
     return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/patient/register`, obj, {headers: this.getHeaders()});
   }
@@ -267,7 +245,7 @@ export class PatientService {
   public createMedicalData(
     lbp: string,
     bloodType: string,
-    rh: string,
+    rH: string,
     vaccinationDtos: Vaccination[],
     allergyDtos: Allergy[]
   ): Observable<HttpStatusCode> {
@@ -275,7 +253,7 @@ export class PatientService {
 
     const obj: GeneralMedicalDataCreate ={
       bloodType: bloodType,
-      rh: rh,
+      rH: rH,
       vaccinationDtos: vaccinationDtos,
       allergyDtos: allergyDtos
     }
@@ -574,7 +552,7 @@ export class PatientService {
    * Svi prescriptions vezani za pacijenta
    * */
   public getPrescriptions(
-    lbp: string, doctorId: number,
+    lbp: string, doctorId: string,
     page: number, size:number): Observable<Page<Prescription>> {
 
     let httpParams = new HttpParams()

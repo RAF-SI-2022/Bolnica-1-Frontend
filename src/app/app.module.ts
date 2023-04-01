@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app/app.component';
 
+import {DropDownListModule} from "@syncfusion/ej2-angular-dropdowns";
+import {DateTimePickerModule} from "@syncfusion/ej2-angular-calendars";
 import {ScheduleModule,RecurrenceEditorModule, DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService} from '@syncfusion/ej2-angular-schedule';
 
 import { LoginComponent } from './components/general/login/login.component';
@@ -52,6 +54,7 @@ import { DoctorCreateReferralComponent } from './components/doctor/doctor-create
 import {NurseWorkspaceComponent} from "./components/nurse/nurse-workspace/nurse-workspace.component";
 import { BiochemistSearchComponent } from './components/biochemist/biochemist-search/biochemist-search.component';
 import { TechnicianScheduleLabExaminationComponent } from './components/technician/technician-schedule-lab-examination/technician-schedule-lab-examination.component';
+import { TechnicianIssuingResultsDetailsComponent } from './components/technician/technician-issuing-results-details/technician-issuing-results-details.component';
 
 
 @NgModule({
@@ -88,7 +91,8 @@ import { TechnicianScheduleLabExaminationComponent } from './components/technici
     NurseEditPatientComponent,
     DoctorCreateReferralComponent,
     BiochemistSearchComponent,
-    TechnicianScheduleLabExaminationComponent
+    TechnicianScheduleLabExaminationComponent,
+    TechnicianIssuingResultsDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -99,7 +103,7 @@ import { TechnicianScheduleLabExaminationComponent } from './components/technici
     NgxPaginationModule,
     BrowserAnimationsModule,
 
-    ScheduleModule,RecurrenceEditorModule
+    ScheduleModule,RecurrenceEditorModule,DropDownListModule,DateTimePickerModule
   ],
   providers: [DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService],
   //providers[],
