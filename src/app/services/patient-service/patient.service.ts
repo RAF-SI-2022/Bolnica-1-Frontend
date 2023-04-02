@@ -224,14 +224,14 @@ export class PatientService {
     public createMedicalData(
         lbp: string,
         bloodType: string,
-        rH: string,
+        rh: string,
         vaccinationDtos: Vaccination[],
         allergyDtos: Allergy[]
         ): Observable<HttpStatusCode> {
 
         const obj: GeneralMedicalDataCreate ={
             bloodType: bloodType,
-            rH: rH,
+            rh: rh,
             vaccinationDtos: vaccinationDtos,
             allergyDtos: allergyDtos
         }
@@ -351,7 +351,13 @@ export class PatientService {
         }
 
         return this.http.post<HttpStatusCode>(
+// conflict
             `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,obj, {headers: this.getHeaders()}
+
+         //   `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,
+          //  obj,
+           // {headers: this.getHeaders()}
+
         );
     }
 
@@ -374,7 +380,13 @@ export class PatientService {
 
       console.log("usao u servis");
         return this.http.post<HttpStatusCode>(
+// conflict
             `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,obj, {headers: this.getHeaders()}
+
+           // `${environmentPatient.apiURL}/examination/diagnosis_history/${""}`,
+            //obj,
+            //{headers: this.getHeaders()}
+
         );
         console.log("prosao servis");
     }
@@ -569,11 +581,10 @@ export class PatientService {
      * Svi prescriptions vezani za pacijenta
      * */
     public getPrescriptions(
-        lbp: string, doctorId: string,
+        lbp: string,
         page: number, size:number): Observable<Page<Prescription>> {
 
         let httpParams = new HttpParams()
-            .append("doctorId", doctorId)
             .append("page",page)
             .append("size",size);
 

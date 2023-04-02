@@ -189,6 +189,16 @@
                 </div>
                 <div data-toggle="buttons" class="btn-group bizmoduleselect">
                   <label class="btn btn-outline-primary col-12 m-2">
+
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" name="DR_SPEC_ODELJENJA" [(ngModel)]="userPermissionDisplayed.dr_spec_odeljenja" id="drSpecOdeljenja"
+                             autocomplete="off" value="" [formControlName]="'DR_SPEC_ODELJENJA'" [disabled]="disabledValue">
+                      <span class="m-0 p-2">Doktor specijalista odeljenja</span>
+                    </div>
+                  </label>
+                </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
                     <div class="itemcontent ms-auto text-start ps-2">
                       <input type="checkbox" [(ngModel)]="userPermissionDisplayed.dr_spec" name="DR_SPEC" id="drSpec"
                         autocomplete="off" value="" [formControlName]="'DR_SPEC'" [disabled]="disabledValue">
@@ -226,38 +236,38 @@
                     </div>
                   </label>
                 </div>
-                <!-- <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" [(ngModel)]="userEdit.VISI_LABORATORIJSKI_TEHNICAR" name="VISI_LABORATORIJSKI_TEHNICAR" id = "visiLabTeh" autocomplete="off" value=""  [formControlName]="'SENIOR_LAB_TECHNICIAN'" [disabled]="disabledValue">
+                    <input type="checkbox" [(ngModel)]="userPermissionDisplayed.visi_lab_tehnicar" name="VISI_LABORATORIJSKI_TEHNICAR" id = "visiLabTeh" autocomplete="off" value=""  [formControlName]="'VISI_LAB_TEHNICAR'" [disabled]="disabledValue">
                     <span class="m-0 p-2">Visi laboratorijski tehnicar</span>
                   </div>
                 </label>
-              </div> -->
-                <!-- <div data-toggle="buttons" class="btn-group bizmoduleselect">
+              </div>
+               <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" [(ngModel)]="userEdit.LABORATORIJSKI_TEHNICAR" name="LABORATORIJSKI_TEHNICAR" id = "labTeh" autocomplete="off" value="" [formControlName]="'LAB_TECHNICIAN'" [disabled]="disabledValue">
+                    <input type="checkbox" [(ngModel)]="userPermissionDisplayed.lab_tehnicar" name="LABORATORIJSKI_TEHNICAR" id = "labTeh" autocomplete="off" value="" [formControlName]="'LAB_TEHNICAR'" [disabled]="disabledValue">
                     <span class="m-0 p-2">Laboratorijski tehnicar</span>
                   </div>
                 </label>
-              </div> -->
-                <!-- <div data-toggle="buttons" class="btn-group bizmoduleselect">
+              </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" [(ngModel)]="userEdit.MEDICINSKI_BIOHEMICAR" name="MEDICINSKI_BIOHEMICAR" id = "medBiohemicar"autocomplete="off" value="" [formControlName]="'MED_BIOCHEMIST'"[disabled]="disabledValue">
+                    <input type="checkbox" [(ngModel)]="userPermissionDisplayed.med_biohemicar" name="MEDICINSKI_BIOHEMICAR" id = "medBiohemicar"autocomplete="off" value="" [formControlName]="'MED_BIOHEMICAR'"[disabled]="disabledValue">
                     <span class="m-0 p-2">Medicinski biohemicar</span>
                   </div>
                 </label>
-              </div> -->
-                <!-- <div data-toggle="buttons" class="btn-group bizmoduleselect">
+              </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
                 <label class="btn btn-outline-primary col-12 m-2">
                   <div class="itemcontent ms-auto text-start ps-2">
-                    <input type="checkbox" [(ngModel)]="userEdit.SPECIJALISTA_MEDICINSKE_BIOHEMIJE" name="SPECIJALISTA_MEDICINSKE_BIOHEMIJE" id = "specMedBio"autocomplete="off" value=""[formControlName]="'SPECIALIST_MED_BIOCHEMIST'"  [disabled]="disabledValue">
+                    <input type="checkbox" [(ngModel)]="userPermissionDisplayed.spec_med_biohemije" name="SPECIJALISTA_MEDICINSKE_BIOHEMIJE" id = "specMedBio"autocomplete="off" value=""[formControlName]="'SPEC_MED_BIOHEMIJE'"  [disabled]="disabledValue">
                     <span class="m-0 p-2">Specijalista medicinske biohemije</span>
                   </div>
                 </label>
-              </div> -->
+              </div>
 
               </div>
 

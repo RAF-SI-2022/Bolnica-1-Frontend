@@ -14,6 +14,7 @@ import {LaboratoryService} from "../../../services/laboratory-service/laboratory
 import {LabWorkOrder} from "../../../models/laboratory/LabWorkOrder";
 import {LabWorkOrderWithAnalysis} from "../../../models/laboratory/LabWorkOrderWithAnalysis";
 import {PrescriptionStatus} from "../../../models/laboratory-enums/PrescriptionStatus";
+import {VaccinationType} from "../../../models/patient-enums/VaccinationType";
 
 @Component({
   selector: 'app-doctor-medical-chart',
@@ -79,16 +80,22 @@ export class DoctorMedicalChartComponent implements OnInit {
     generalMedical: GeneralMedicalData
 
     constructor(private formBuilder: FormBuilder, private patientService: PatientService,  private route: ActivatedRoute, private labaratoryService: LaboratoryService) {
-        this.generalMedical = new GeneralMedicalData()
+      this.generalMedical = {
+        id: 0,
+        bloodType: '',
+        rh: '',
+        vaccinationDtos: [],
+        allergyDtos: []
+      };
         this.allergy = new Allergy("")
         this.allergy2 = new Allergy("")
 
-        this.vaccionation = new Vaccination("", "" , "" , "", new Date())
-        this.vaccination_PRIORIX = new Vaccination("PRIORIX", "Virusne vakcine", "Vakcina protiv morbila (malih boginja)", "GlaxoSmithKline Biologicals S.A., Belgija", new Date())
-        this.vaccination_HIBERIX = new Vaccination("HIBERIX", "Bakterijske vakcine", "Kapsulirani antigen hemofilus influence tip B", "GlaxoSmithKline Biologicals S.A., Belgija", new Date())
-        this.vaccination_INFLUVAC = new Vaccination("INFLUVAC", "Virusne vakcine", "Virusne vakcine protiv influence (grip)", "Abbott Biologicals B.V., Holandija", new Date())
-        this.vaccination_SYNFLORIX = new Vaccination("SYNFLORIX", "Bakterijske vakcine", "Vakcine protiv pneumokoka", "GlaxoSmithKline Biologicals S.A., Belgija", new Date())
-        this.vaccination_BCGVAKCINA = new Vaccination("BCGVAKCINA", "Bakterijske vakcine", "Vakcine protiv tuberkuloze", "Institut za virusologiju, vakcine i serume \"Torlak\", Republika Srbija", new Date())
+        this.vaccionation = new Vaccination("", VaccinationType.BACTERIA , "" , "", new Date())
+        this.vaccination_PRIORIX = new Vaccination("PRIORIX", VaccinationType.VIRUS, "Vakcina protiv morbila (malih boginja)", "GlaxoSmithKline Biologicals S.A., Belgija", new Date())
+        this.vaccination_HIBERIX = new Vaccination("HIBERIX", VaccinationType.BACTERIA, "Kapsulirani antigen hemofilus influence tip B", "GlaxoSmithKline Biologicals S.A., Belgija", new Date())
+        this.vaccination_INFLUVAC = new Vaccination("INFLUVAC", VaccinationType.VIRUS, "Virusne vakcine protiv influence (grip)", "Abbott Biologicals B.V., Holandija", new Date())
+        this.vaccination_SYNFLORIX = new Vaccination("SYNFLORIX", VaccinationType.BACTERIA,  "Vakcine protiv pneumokoka", "GlaxoSmithKline Biologicals S.A., Belgija", new Date())
+        this.vaccination_BCGVAKCINA = new Vaccination("BCGVAKCINA", VaccinationType.BACTERIA, "Vakcine protiv tuberkuloze", "Institut za virusologiju, vakcine i serume \"Torlak\", Republika Srbija", new Date())
 
         this.generalForm = this.formBuilder.group({
             bloodGroup: ['', [Validators.required]],
@@ -132,8 +139,8 @@ export class DoctorMedicalChartComponent implements OnInit {
         this.getGeneralMedical(this.lbp)
         this.getMedicalHistoryByDiagnosisCode()
         this.getExaminationHistory()
-        this.getPrescriptions()
-        this.getLabaratory()
+        //this.getPrescriptions()
+        //this.getLabaratory()
     }
 
     updateGeneral(): void {
@@ -142,10 +149,21 @@ export class DoctorMedicalChartComponent implements OnInit {
     }
 
     getGeneralMedical(lbp: string): void {
-        this.patientService.getGeneralMedicalDataByLbp(lbp).subscribe(result => {
-            this.generalMedical = result
-            this.vaccinationsList = result.vaccinationDtos
-            this.allergiesList  = result.allergyDtos
+      this.patientService.getGeneralMedicalDataByLbp(lbp).subscribe(result => {
+        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% " + result)
+
+        if(!result){
+          console.log("**************************************")
+          this.generalMedical.vaccinationDtos = []
+          this.generalMedical.bloodType = ''
+          this.generalMedical.rh = ''
+          this.generalMedical.allergyDtos = []
+
+        }else {
+          this.generalMedical = result
+          this.vaccinationsList = result.vaccinationDtos
+          this.allergiesList = result.allergyDtos
+        }
         })
     }
 
@@ -183,7 +201,6 @@ export class DoctorMedicalChartComponent implements OnInit {
             this.vaccination_BCGVAKCINA.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
             this.vaccionation = this.vaccination_BCGVAKCINA
         }
-
         this.generalMedical.vaccinationDtos.push(this.vaccionation)
         this.patientService.createMedicalData(this.lbp, this.generalMedical.bloodType,this.generalMedical.rh,
         this.generalMedical.vaccinationDtos, this.generalMedical.allergyDtos).subscribe(result => {});
@@ -242,7 +259,7 @@ export class DoctorMedicalChartComponent implements OnInit {
     }
     //todo gde je od - do na beku????
     getPrescriptions(): void {
-        this.patientService.getPrescriptions(this.lbp, this.lbz, this.page, this.pageSize).subscribe(
+        this.patientService.getPrescriptions(this.lbp, this.page, this.pageSize).subscribe(
         response => {
             this.prescriptionPage = response
             this.prescriptionHistories = this.prescriptionPage.content

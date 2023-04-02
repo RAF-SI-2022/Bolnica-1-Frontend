@@ -56,16 +56,18 @@
           </tr>
           </thead>
           <tbody>
-          <tr
+          <ng-container
             *ngFor="let user of patientList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"  (click)="onRowClick(user.lbp)">
+            <tr *ngIf="!user.deleted">
             <td>{{user.name}}</td>
             <td>{{user.surname}}</td>
             <td>{{user.dateOfBirth}}</td>
             <td>{{user.jmbg}}</td>
             <td>{{user.lbp}}</td>
             <td>{{user.phone}}</td>
+            </tr>
 
-          </tr>
+          </ng-container>
 
           </tbody>
         </table>
