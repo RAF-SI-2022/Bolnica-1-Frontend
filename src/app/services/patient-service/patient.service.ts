@@ -289,7 +289,10 @@ export class PatientService {
             anamnesisDto: anamnesisDto
         }
 
+        console.log("dosao do servisa");
+
         return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/examination/${lbp}`, obj, {headers: this.getHeaders()});
+        console.log("prosao servis");
     }
 
     //predlaganje terapije - examination history
@@ -348,9 +351,7 @@ export class PatientService {
         }
 
         return this.http.post<HttpStatusCode>(
-            `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`, 
-            obj, 
-            {headers: this.getHeaders()}
+            `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,obj, {headers: this.getHeaders()}
         );
     }
 
@@ -359,7 +360,7 @@ export class PatientService {
         confidential: boolean,
         treatmentResult: TreatmentResult,
         currStateDesc: string,
-        diagnosisCode: DiagnosisCode,
+        diagnosisCodeDto: DiagnosisCodeDto,
         exists: boolean
     ): Observable<HttpStatusCode> {
 
@@ -367,16 +368,15 @@ export class PatientService {
             confidential : confidential,
             treatmentResult : treatmentResult,
             currStateDesc : currStateDesc,
-            diagnosisCode : diagnosisCode,
+            diagnosisCodeDto : diagnosisCodeDto,
             exists : exists
-
         }
 
+      console.log("usao u servis");
         return this.http.post<HttpStatusCode>(
-            `${environmentPatient.apiURL}/examination/diagnosis_history/${""}`, 
-            obj, 
-            {headers: this.getHeaders()}
+            `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,obj, {headers: this.getHeaders()}
         );
+        console.log("prosao servis");
     }
 
 
@@ -388,7 +388,7 @@ export class PatientService {
             .append("size",size);
 
         return this.http.get<Page<ExaminationHistory>>(
-            `${environmentPatient.apiURL}/info/myFindExaminationHistoriesByLbpAndDatePaged/${lbp}`, 
+            `${environmentPatient.apiURL}/info/myFindExaminationHistoriesByLbpAndDatePaged/${lbp}`,
             {params: httpParams, headers:this.getHeaders()}
         );
     }
@@ -403,7 +403,7 @@ export class PatientService {
             .append("size",size);
 
         return this.http.get<Page<ExaminationHistory>>(
-            `${environmentPatient.apiURL}/info/myFindExaminationHistoriesByLbpAndDateRangePaged/${lbp}`, 
+            `${environmentPatient.apiURL}/info/myFindExaminationHistoriesByLbpAndDateRangePaged/${lbp}`,
             {params: httpParams, headers:this.getHeaders()}
         );
     }
@@ -417,7 +417,7 @@ export class PatientService {
             .append("size",size);
 
         return this.http.get<Page<MedicalHistory>>(
-            `${environmentPatient.apiURL}/info/myFindMedicalHistoriesByDiagnosisCodePaged/${lbp}`, 
+            `${environmentPatient.apiURL}/info/myFindMedicalHistoriesByDiagnosisCodePaged/${lbp}`,
             {params: httpParams, headers:this.getHeaders()}
         );
     }
@@ -430,7 +430,7 @@ export class PatientService {
             .append("size",size);
 
         return this.http.get<Page<MedicalHistory>>(
-            `${environmentPatient.apiURL}/info/myFindMedicalHistoriesPaged/${lbp}`, 
+            `${environmentPatient.apiURL}/info/myFindMedicalHistoriesPaged/${lbp}`,
             {params: httpParams, headers:this.getHeaders()}
         );
     }
@@ -449,7 +449,7 @@ export class PatientService {
             .append("size",size);
 
         return this.http.get<Page<Patient>>(
-            `${environmentPatient.apiURL}/patient/filter_patients`, 
+            `${environmentPatient.apiURL}/patient/filter_patients`,
             {params: httpParams, headers:this.getHeaders()}
         );
     }

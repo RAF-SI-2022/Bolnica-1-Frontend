@@ -19,24 +19,25 @@
   </head>
 
   <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+    <form [formGroup]="form"  class="mb-5 needs-validation" novalidate>
     <div class="row">
         <div class="col-md-4">
           <label class="labels">LBP</label>
-            <input type="text" class="form-control" data-cy = "lbp">
+            <input type="text" [formControlName]="'lbp'"  class="form-control" data-cy = "lbp" required>
         </div>
 
         <div class="col-md-4"><label class="labels">Od</label>
-            <input type="date" name="dateFrom" class="form-control" data-cy="dateFrom">
+            <input type="date" [formControlName]="'from'" name="dateFrom" class="form-control" data-cy="dateFrom">
             <div class="invalid-feedback">Unesite datum!</div>
         </div>
 
         <div class="col-md-4"><label class="labels">Do</label>
-            <input type="date" name="dateTo" class="form-control" data-cy="dateTo">
+            <input type="date" [formControlName]="'to'"  name="dateTo" class="form-control" data-cy="dateTo">
             <div class="invalid-feedback">Unesite datum!</div>
         </div>
 
         <div class="mt-4 text-center">
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
+            <button class="btn btn-primary" type="button" (click)="findWorkOrders()" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
         </div>
 
     <div class="row py-5">
@@ -51,33 +52,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>18751952652</td>
-                    <td>569418</td>
-                    <td>12/08/2017</td>
-                    <td>Obradjen</td>
-                    <td>
-                        <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>18751952652</td>
-                    <td>569418</td>
-                    <td>12/08/2017</td>
-                    <td>Neobradjen</td>
-                    <td>
-                        <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>18751952652</td>
-                    <td>569418</td>
-                    <td>12/08/2017</td>
-                    <td>Obradjen</td>
-                    <td>
-                        <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>
-                    </td>
-                </tr>
+               <tr
+                 *ngFor="let labWorkOrder of labWorkOrderList | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total};  let i = index">
+                 <td>{{labWorkOrder.prescription}}</td>
+                 <td>{{labWorkOrder.creationDateTime}}</td>
+                 <td>{{labWorkOrder.status}}</td>
+               </tr>
             </tbody>
         </table>
 
@@ -85,5 +65,7 @@
             <pagination-controls previousLabel="Pret" nextLabel="Sled" data-cy="pagination">
             </pagination-controls>
         </div>
-    </div>
+      </div>
+      </div>
+    </form>
   </div>

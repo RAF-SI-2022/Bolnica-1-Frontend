@@ -19,7 +19,7 @@ export class DoctorWorkspaceComponent implements OnInit {
     total = 0
 
     isPopupVisible = false;
-    
+
     /*
     //popup se pojavljujem kliktajem na red
     selectedPerson: any;
@@ -32,7 +32,7 @@ export class DoctorWorkspaceComponent implements OnInit {
     }
     */
 
-    constructor(private patientService: PatientService, private formBuilder: FormBuilder, 
+    constructor(private patientService: PatientService, private formBuilder: FormBuilder,
         examinationService: ExaminationService,  private router: Router) {}
 
     showPopup(event: any): void {
