@@ -8,6 +8,7 @@ export interface ScheduleExam{
   patientArrival: PatientArrival;
   examinationStatus: ExaminationStatus;
   doctorId: number;
-  lbz: number;
+  lbz: string;
   lbp: string;
+
 }

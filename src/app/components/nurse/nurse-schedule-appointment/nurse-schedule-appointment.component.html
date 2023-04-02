@@ -16,7 +16,7 @@
 
   </div>
 
-  <ejs-schedule #scheduleObj [eventSettings]="eventSettings" (popupOpen)="onPopupOpen($event)">
+  <ejs-schedule #scheduleObj  dateFormat="M/d/yyyy h:mm a"  [eventSettings]="eventSettings" (popupOpen)="onPopupOpen($event)">
     <ng-template #editorTemplate>
       <div class="custom-event-editor">
 
@@ -91,7 +91,6 @@
 
 
     </ng-template>
-
 
 
   </ejs-schedule>

@@ -12,6 +12,7 @@ import {PatientService} from "../../../services/patient-service/patient.service"
 import {FormBuilder} from "@angular/forms";
 import {Router} from "@angular/router";
 import {UserService} from "../../../services/user-service/user.service";
+import {ExaminationService} from "../../../services/examination-service/examination.service";
 
 
 L10n.load({
@@ -37,6 +38,46 @@ export class NurseScheduleAppointmentComponent implements OnInit{
 
   public setView: View= 'Month';
 
+  // public eventData: EventSettingsModel = {
+  //
+  //   dataSource: [{
+  //
+  //     Id: 1,
+  //
+  //     Subject: 'Board Meeting',
+  //
+  //     StartTime: new Date(2023, 4, 2, 15, 0),
+  //
+  //     EndTime: new Date(2023, 4, 2, 15, 30)
+  //
+  //   },
+  //
+  //     {
+  //
+  //       Id: 2,
+  //
+  //       Subject: 'Training session on JSP',
+  //
+  //       StartTime: new Date(2023, 4, 3, 9, 0),
+  //
+  //       EndTime: new Date(2023, 4, 3, 9, 30)
+  //
+  //     },
+  //
+  //     {
+  //
+  //       Id: 3,
+  //
+  //       Subject: 'Sprint Planning with Team members',
+  //
+  //       StartTime: new Date(2023, 4, 4, 10, 0),
+  //
+  //       EndTime: new Date(2023, 4, 4, 11, 0)
+  //
+  //     }]
+  //
+  // }
+
   public eventSettings: EventSettingsModel = {
     dataSource: [],
     fields: {
@@ -61,12 +102,15 @@ export class NurseScheduleAppointmentComponent implements OnInit{
   patient: string = '';
   doctor: string = '';
   selectedDateTime: Date = new Date();
+  lbz: string = '';
 
-  constructor(private patientService: PatientService, private userService: UserService) {
+  constructor(private patientService: PatientService, private userService: UserService, private examinationService: ExaminationService) {
 
   }
 
   ngOnInit(): void {
+    // @ts-ignore
+    this.lbz = localStorage.getItem('LBZ').toString()
     this.addEventsData();
   }
 
@@ -75,38 +119,41 @@ export class NurseScheduleAppointmentComponent implements OnInit{
 
     let events: Record<string, any>[] = [
       { Id: 1,
-        Subject: 'la',
-        StartTime: new Date(2023, 4, 2, 9, 0),
-        EndTime: new Date(2023, 4, 2, 9, 30) },
+        Subject: 'a',
+        StartTime: new Date(2023, 4, 4, 9, 0),
+        EndTime: new Date(2023, 4, 4, 9, 30) },
       { Id: 2,
-        Subject: 'ab',
-        StartTime: new Date(2023, 4, 2, 15, 0),
-        EndTime: new Date(2023, 4, 2, 15, 30) },
+        Subject: 'b',
+        StartTime: new Date(2023, 4, 5, 15, 0),
+        EndTime: new Date(2023, 4, 5, 15, 30) },
       { Id: 3,
-        Subject: 're',
-        StartTime: new Date(2023, 4, 29, 9, 30),
-        EndTime: new Date(2023, 4, 29, 10, 0) },
+        Subject: 'c',
+        StartTime: new Date(2023, 4, 6, 9, 30),
+        EndTime: new Date(2023, 4, 6, 10, 0) },
       { Id: 4,
-        Subject: 'test',
-        StartTime: new Date(2023, 4, 3, 11, 0),
-        EndTime: new Date(2023, 4, 3, 13, 0) }
+        Subject: 'd',
+        StartTime: new Date(2023, 4, 7, 11, 0),
+        EndTime: new Date(2023, 4, 7, 13, 0) }
     ];
 
     this.eventSettings.dataSource = events;
 
     this.eventSettings.dataSource.forEach(event => {
-      this.scheduleObj?.appendTo('#schedule');
+      // this.scheduleObj?.appendTo('#schedule');
       this.scheduleObj?.addEvent(event);
       this.scheduleObj?.refresh();
       console.log(event)
     });
 
-
-    // this.patientService.getScheduledExaminations().subscribe( res =>{
-    //   this.eventSettings.dataSource = res;
-    // });
+    this.examinationService.getScheduledExaminations(
+      this.lbz, new Date()
+    ).subscribe( res =>{
+      this.eventSettings.dataSource = res;
+    });
 
   }
+
+
 
 
   public onSave(): void {
@@ -120,9 +167,9 @@ export class NurseScheduleAppointmentComponent implements OnInit{
       Patient: this.patient
     };
 
-    console.log(eventData.StartTime)
-    console.log(eventData.EndTime)
-    console.log(eventData.Id)
+    // console.log(eventData.StartTime)
+    // console.log(eventData.EndTime)
+    // console.log(eventData.Id)
 
     this.scheduleObj?.addEvent(eventData);
     this.scheduleObj?.refresh();
@@ -135,7 +182,7 @@ export class NurseScheduleAppointmentComponent implements OnInit{
   }
 
   public onPopupOpen(args: PopupOpenEventArgs): void {
-    console.log("ulazi u funkciju")
+
     if (args.type === 'Editor') {
       console.log("jeste editor")
 
