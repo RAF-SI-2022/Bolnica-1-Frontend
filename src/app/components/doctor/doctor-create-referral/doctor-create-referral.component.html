@@ -195,7 +195,7 @@
                 <div *ngIf="selectedOption =='Stacionar'|| selectedOption =='Laboratorija'|| selectedOption =='Dijagnostika' " class="d-flex justify-content-center align-items-center">
                   <div class="row mt-1 mt-1">
                     <div class="col-md-4">
-                      <button  (click)="showPopup($event)" class="btn btn-primary" >Dodaj</button>
+                      <button type="submit" (click)="confirmUput()" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da napravite uput?')">Dodaj</button>
                     </div>
                   </div>
                 </div>
@@ -204,15 +204,15 @@
 
           <!-- Za popup prozor -->
 
-          <div class="popup-overlay" *ngIf="isPopupVisible">
-            <div class="popup">
-              <p>Zelite da potvrdite uput?</p>
-              <div class="popup-buttons">
-                <button (click)="confirmUput()">OK</button>
-                <button (click)="hidePopup()">Cancel</button>
-              </div>
-            </div>
-          </div>
+<!--          <div class="popup-overlay" *ngIf="isPopupVisible">-->
+<!--            <div class="popup">-->
+<!--              <p>Zelite da potvrdite uput?</p>-->
+<!--              <div class="popup-buttons">-->
+<!--                <button (click)="confirmUput()">OK</button>-->
+<!--                <button (click)="hidePopup()">Cancel</button>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
 
               </div>
             </div>
