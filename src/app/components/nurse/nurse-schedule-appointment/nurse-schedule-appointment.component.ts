@@ -145,11 +145,11 @@ export class NurseScheduleAppointmentComponent implements OnInit{
       console.log(event)
     });
 
-    this.examinationService.getScheduledExaminations(
-      this.lbz, new Date()
-    ).subscribe( res =>{
-      this.eventSettings.dataSource = res;
-    });
+    // this.examinationService.getScheduledExaminations(
+    //   this.lbz, new Date()
+    // ).subscribe( res =>{
+    //   this.eventSettings.dataSource = res;
+    // });
 
   }
 
