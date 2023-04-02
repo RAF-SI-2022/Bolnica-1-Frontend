@@ -16,7 +16,7 @@ import {ExpertiseDegree} from "../../../models/patient-enums/ExpertiseDegree";
   styleUrls: ['./nurse-edit-patient.component.css']
 })
 export class NurseEditPatientComponent implements OnInit {
-    
+
     countryCodes = this.filterEnum(CountryCode);
     familyStatus = this.filterEnum(FamilyStatus);
     maritalStatus = this.filterEnum(MaritalStatus);
@@ -43,16 +43,16 @@ export class NurseEditPatientComponent implements OnInit {
     filterEnum(enumObject: any): string[] {
         return Object.values(enumObject).filter((value) => typeof value === 'string') as string[];
     }
-    
+
     createFormGroup(): FormGroup {
         return this.formBuilder.group({
             jmbg: ['', [Validators.required]],
             name: ['', [Validators.required]],
             parentName: ['', [Validators.required]],
-            surname: ['', [Validators.required, Validators.email]],
+            surname: ['', [Validators.required]],
             gender: ['', [Validators.required]],
             dateOfBirth: ['', [Validators.required]],
-            dateAndTimeOfDeath: ['', [Validators.required]],
+            dateAndTimeOfDeath: '',
             birthPlace: ['', [Validators.required]],
             placeOfLiving: ['', [Validators.required]],
             citizenship: ['', [Validators.required]],
@@ -83,9 +83,10 @@ export class NurseEditPatientComponent implements OnInit {
     }
 
     editPatient(): void {
-        if (this.editGroup.invalid) return;
+      if (this.editGroup.invalid) return;
 
-        const updatedPatient = { ...this.editGroup.value, deleted: this.deleted };
+
+      const updatedPatient = { ...this.editGroup.value, deleted: this.deleted };
         this.patientService.updatePatient(
             this.lbp,
             updatedPatient.jmbg,
