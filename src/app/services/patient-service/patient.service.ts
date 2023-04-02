@@ -289,7 +289,10 @@ export class PatientService {
             anamnesisDto: anamnesisDto
         }
 
+        console.log("dosao do servisa");
+
         return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/examination/${lbp}`, obj, {headers: this.getHeaders()});
+        console.log("prosao servis");
     }
 
     //predlaganje terapije - examination history
@@ -348,9 +351,13 @@ export class PatientService {
         }
 
         return this.http.post<HttpStatusCode>(
-            `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,
-            obj,
-            {headers: this.getHeaders()}
+// conflict
+            `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,obj, {headers: this.getHeaders()}
+
+         //   `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,
+          //  obj,
+           // {headers: this.getHeaders()}
+
         );
     }
 
@@ -359,7 +366,7 @@ export class PatientService {
         confidential: boolean,
         treatmentResult: TreatmentResult,
         currStateDesc: string,
-        diagnosisCode: DiagnosisCode,
+        diagnosisCodeDto: DiagnosisCodeDto,
         exists: boolean
     ): Observable<HttpStatusCode> {
 
@@ -367,16 +374,21 @@ export class PatientService {
             confidential : confidential,
             treatmentResult : treatmentResult,
             currStateDesc : currStateDesc,
-            diagnosisCode : diagnosisCode,
+            diagnosisCodeDto : diagnosisCodeDto,
             exists : exists
-
         }
 
+      console.log("usao u servis");
         return this.http.post<HttpStatusCode>(
-            `${environmentPatient.apiURL}/examination/diagnosis_history/${""}`,
-            obj,
-            {headers: this.getHeaders()}
+// conflict
+            `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,obj, {headers: this.getHeaders()}
+
+           // `${environmentPatient.apiURL}/examination/diagnosis_history/${""}`,
+            //obj,
+            //{headers: this.getHeaders()}
+
         );
+        console.log("prosao servis");
     }
 
 

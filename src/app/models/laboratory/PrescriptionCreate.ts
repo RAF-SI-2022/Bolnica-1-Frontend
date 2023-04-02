@@ -14,5 +14,21 @@ export interface PrescriptionCreate{
   referralDiagnosis: string;
   referralReason: string;
   prescriptionAnalysisDtos: PrescriptionAnalysis[];
-  
+
 }
+
+export interface PrescriptionCreateDto{
+  type: PrescriptionType;
+  doctorId: number;
+  departmentFromId: number;
+  departmentToId: number;
+  lbp: string;
+  creationDateTime: Date; //ovde je timestamp
+  status: PrescriptionStatus;
+  comment: string;
+  referralDiagnosis: string;
+  referralReason: string;
+  prescriptionAnalysisDtos: PrescriptionAnalysis[];
+
+}
+

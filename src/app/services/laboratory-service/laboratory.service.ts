@@ -49,7 +49,7 @@ export class LaboratoryService {
             { params: httpParams, headers: this.getHeaders()}
         );
     }
-    
+
     /**
      * Ukupan broj pregleda za prosledjeni dan
      * */
@@ -64,7 +64,7 @@ export class LaboratoryService {
 
     /**
      * Dohvata sve zakazane posete
-     * 
+     *
      * */
     listScheduledEexaminations(lbp: string, date: string,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
         let httpParams = new HttpParams()
@@ -74,7 +74,7 @@ export class LaboratoryService {
             .append("size",size);
 
         return this.http.get<Page<ScheduledLabExamination>>(
-            `${environmentLaboratory.apiURL}/examinations/list-scheduled-examinations`, 
+            `${environmentLaboratory.apiURL}/examinations/list-scheduled-examinations`,
             {params: httpParams, headers:this.getHeaders()}
         );
     }
@@ -101,6 +101,27 @@ export class LaboratoryService {
             { params: httpParams, headers: this.getHeaders()}
         );
     }
+
+  public findWorkOrders(
+    lbp: string,
+    fromDate: Date,
+    toDate: Date,
+    page: number,
+    size: number
+  ): Observable<Page<LabWorkOrder>> {
+
+    let httpParams = new HttpParams().append("lbp",lbp)
+      .append("fromDate", fromDate.toISOString())
+      .append("toDate",toDate.toISOString())
+      .append("page", page)
+      .append("size",size)
+
+    return this.http.post<Page<LabWorkOrder>>(
+      `${environmentLaboratory.apiURL}/work-orders/find-work-orders`,
+      { params: httpParams, headers: this.getHeaders()}
+    );
+  }
+
 
 
 }
