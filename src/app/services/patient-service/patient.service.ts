@@ -224,14 +224,14 @@ export class PatientService {
     public createMedicalData(
         lbp: string,
         bloodType: string,
-        rH: string,
+        rh: string,
         vaccinationDtos: Vaccination[],
         allergyDtos: Allergy[]
         ): Observable<HttpStatusCode> {
 
         const obj: GeneralMedicalDataCreate ={
             bloodType: bloodType,
-            rH: rH,
+            rh: rh,
             vaccinationDtos: vaccinationDtos,
             allergyDtos: allergyDtos
         }
@@ -348,8 +348,8 @@ export class PatientService {
         }
 
         return this.http.post<HttpStatusCode>(
-            `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`, 
-            obj, 
+            `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,
+            obj,
             {headers: this.getHeaders()}
         );
     }
@@ -373,8 +373,8 @@ export class PatientService {
         }
 
         return this.http.post<HttpStatusCode>(
-            `${environmentPatient.apiURL}/examination/diagnosis_history/${""}`, 
-            obj, 
+            `${environmentPatient.apiURL}/examination/diagnosis_history/${""}`,
+            obj,
             {headers: this.getHeaders()}
         );
     }
@@ -388,7 +388,7 @@ export class PatientService {
             .append("size",size);
 
         return this.http.get<Page<ExaminationHistory>>(
-            `${environmentPatient.apiURL}/info/myFindExaminationHistoriesByLbpAndDatePaged/${lbp}`, 
+            `${environmentPatient.apiURL}/info/myFindExaminationHistoriesByLbpAndDatePaged/${lbp}`,
             {params: httpParams, headers:this.getHeaders()}
         );
     }
@@ -403,7 +403,7 @@ export class PatientService {
             .append("size",size);
 
         return this.http.get<Page<ExaminationHistory>>(
-            `${environmentPatient.apiURL}/info/myFindExaminationHistoriesByLbpAndDateRangePaged/${lbp}`, 
+            `${environmentPatient.apiURL}/info/myFindExaminationHistoriesByLbpAndDateRangePaged/${lbp}`,
             {params: httpParams, headers:this.getHeaders()}
         );
     }
@@ -417,7 +417,7 @@ export class PatientService {
             .append("size",size);
 
         return this.http.get<Page<MedicalHistory>>(
-            `${environmentPatient.apiURL}/info/myFindMedicalHistoriesByDiagnosisCodePaged/${lbp}`, 
+            `${environmentPatient.apiURL}/info/myFindMedicalHistoriesByDiagnosisCodePaged/${lbp}`,
             {params: httpParams, headers:this.getHeaders()}
         );
     }
@@ -430,7 +430,7 @@ export class PatientService {
             .append("size",size);
 
         return this.http.get<Page<MedicalHistory>>(
-            `${environmentPatient.apiURL}/info/myFindMedicalHistoriesPaged/${lbp}`, 
+            `${environmentPatient.apiURL}/info/myFindMedicalHistoriesPaged/${lbp}`,
             {params: httpParams, headers:this.getHeaders()}
         );
     }
@@ -449,7 +449,7 @@ export class PatientService {
             .append("size",size);
 
         return this.http.get<Page<Patient>>(
-            `${environmentPatient.apiURL}/patient/filter_patients`, 
+            `${environmentPatient.apiURL}/patient/filter_patients`,
             {params: httpParams, headers:this.getHeaders()}
         );
     }
@@ -569,11 +569,10 @@ export class PatientService {
      * Svi prescriptions vezani za pacijenta
      * */
     public getPrescriptions(
-        lbp: string, doctorId: string,
+        lbp: string,
         page: number, size:number): Observable<Page<Prescription>> {
 
         let httpParams = new HttpParams()
-            .append("doctorId", doctorId)
             .append("page",page)
             .append("size",size);
 
