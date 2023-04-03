@@ -26,6 +26,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     lbz: string = '';
     lbp: string = '';
     doctorSpecPov = false;
+    currentPatient: Patient | undefined;
 
     isPopupVisible = false;
     errorMessage: string = "";
@@ -52,6 +53,10 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     ngOnInit(): void {
         this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
         this.lbz = this.authService.getLBZ();
+      this.currentPatient = history.state.patient;
+      // @ts-ignore
+      console.log("JEEEEEEJ " + this.currentPatient.name)
+
     }
 
     showPopup(event: any): void {
@@ -135,6 +140,11 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
           }
         });
 
+    }
+    addReportt(){
+      this.saveDiagnosis()
+      this.saveTherapy()
+      this.confirmSacuvaj()
     }
 
     //predlaganje terapije - ExaminationHistoryCreateDto
@@ -231,6 +241,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     });
     return this.doctorSpecPov;
   }
+
 
 
 

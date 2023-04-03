@@ -157,7 +157,7 @@ const routes: Routes = [
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
-    path: "doctor-workspace-one/:lbp",
+    path: "doctor-workspace-one/:patient",
     component: DoctorWorkspaceOnePatientComponent,
     canActivate: [AuthGuard, DoctorGuard]
   },
@@ -237,7 +237,7 @@ const routes: Routes = [
     canActivate: [AuthGuard, TechnicianGuard]
   },
   {
-    path: "technician-issuing-results-details",
+    path: "technician-issuing-results-details/:id",
     component: TechnicianIssuingResultsDetailsComponent,
     canActivate: [AuthGuard, TechnicianGuard]
   },

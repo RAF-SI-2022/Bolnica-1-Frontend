@@ -97,7 +97,7 @@ export class NurseAddPatientComponent implements OnInit{
     console.log("patient date and time of death" + patient.dateAndTimeOfDeath)
 
     this.patientService.registerPatient(patient.jmbg, patient.name,patient.parentName, patient.surname, genderValue, patient.dateOfBirth, patient.dateAndTimeOfDeath,
-      patient.birthPlace, patient.placeOfLiving, patient.selectedCountry, patient.phone, patient.email, patient.guardianJmbg, patient.guardianNameAndSurname, patient.maritalStatus, patient.numOfChildren, patient.expertiseDegree, patient.profession, patient.familyStatus,new Date() ).subscribe((response) => {
+      patient.birthPlace, patient.placeOfLiving, patient.selectedCountry, patient.phone, patient.email, patient.guardianJmbg, patient.guardianNameAndSurname, patient.maritalStatus, patient.numOfChildren, patient.expertiseDegree, patient.profession, patient.familyStatus,new Date()).subscribe((response) => {
 
         this.errorMessage = '';
       this.successMessage = 'Uspesno dodat pacijent!'

@@ -55,6 +55,12 @@ export class TechnicianIssuingResultsComponent  implements OnInit {
     return true;
   }
 
+  onRowClick(labWorkOrder: LabWorkOrder): void {
+    const url = `/doctor-workspace-one/${labWorkOrder.prescription.id}`;
+    this.router.navigateByUrl(url, { state: { labWorkOrder } });
+
+  }
+
 
 
 }

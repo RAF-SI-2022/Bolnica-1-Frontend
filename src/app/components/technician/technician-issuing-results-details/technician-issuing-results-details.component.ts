@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {LabWorkOrder} from "../../../models/laboratory/LabWorkOrder";
 
 @Component({
   selector: 'app-technician-issuing-results-details',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class TechnicianIssuingResultsDetailsComponent {
 
+  currentLabWorkOred: LabWorkOrder | undefined
+
+
+  ngOnInit(): void {
+    this.currentLabWorkOred = history.state.labWorkOrder;
+
+  }
 }
