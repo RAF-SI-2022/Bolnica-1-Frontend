@@ -8,7 +8,9 @@ import {LabWorkOrder} from "../../../models/laboratory/LabWorkOrder";
 })
 export class TechnicianIssuingResultsDetailsComponent {
 
-  currentLabWorkOred: LabWorkOrder | undefined
+  currentLabWorkOred: LabWorkOrder  = new LabWorkOrder()
+
+
 
 
   ngOnInit(): void {

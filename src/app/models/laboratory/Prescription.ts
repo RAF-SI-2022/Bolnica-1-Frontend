@@ -3,19 +3,19 @@ import {PrescriptionStatus} from "../laboratory-enums/PrescriptionStatus";
 import {PrescriptionAnalysisData} from "./PrescriptionAnalysisData";
 
 // ovaj je sa rute raf.bolnica1.laboratory.dto.prescription.PrescriptionDto;
-export interface Prescription{
-  id: number;
-  type:PrescriptionType;
-  departmentFromId: number;
-  departmentToId: number;
-  lbp: string;
-  doctorId: number;
-  comment: string;
-  referralDiagnosis: string;
-  referralReason: string;
-  creationDateTime: Date; // ovde je timestamp
-  status: PrescriptionStatus;
-  prescriptionAnalysisDataDtoList: PrescriptionAnalysisData[];
+export class Prescription{
+  id: number = 0;
+  type:PrescriptionType = PrescriptionType.STACIONAR;
+  departmentFromId: number = 0;
+  departmentToId: number = 0;
+  lbp: string = '';
+  doctorId: number = 0;
+  comment: string = '';
+  referralDiagnosis: string = '';
+  referralReason: string = '';
+  creationDateTime: Date = new Date; // ovde je timestamp
+  status: PrescriptionStatus = PrescriptionStatus.NEREALIZOVAN;
+  prescriptionAnalysisDataDtoList: PrescriptionAnalysisData[] = [];
 
 }
 
