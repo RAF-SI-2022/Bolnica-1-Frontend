@@ -108,7 +108,7 @@ export class ExaminationService {
   ): Observable<Zaposleni[]> {
 
     return this.http.get<Zaposleni[]>(
-      `${environmentPatient.apiURL}/examination//find_doctor_by_department/${pbo}`,
+      `${environmentPatient.apiURL}/examination/find_doctor_by_department/${pbo}`,
       { headers: this.getHeaders()}
     );
   }
