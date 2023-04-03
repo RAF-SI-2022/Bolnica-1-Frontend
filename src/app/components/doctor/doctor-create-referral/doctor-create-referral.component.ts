@@ -74,6 +74,7 @@ export class DoctorCreateReferralComponent implements OnInit{
 
     confirmUput(): void {
         const referral = this.referralForm.value;
+        console.log("uput potvrdjen")
         // this.patientService.writePerscription(referral.selectedOption,this.doctorId,this.departmentFromId,this.departmentToId,this.lbp,new Date(),1,'','','', this.prescriptionAnalyses);
     }
 

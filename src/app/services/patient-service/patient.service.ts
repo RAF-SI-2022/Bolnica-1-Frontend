@@ -351,7 +351,16 @@ export class PatientService {
         }
 
         return this.http.post<HttpStatusCode>(
+
             `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,obj, {headers: this.getHeaders()}
+
+// conflict
+//             `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,obj, {headers: this.getHeaders()}
+
+         //   `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,
+          //  obj,
+           // {headers: this.getHeaders()}
+
         );
     }
 
@@ -374,8 +383,8 @@ export class PatientService {
 
       console.log("usao u servis");
         return this.http.post<HttpStatusCode>(
-            `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,obj, {headers: this.getHeaders()}
-        );
+
+            `${environmentPatient.apiURL}/examination/diagnosis_history/${lbp}`,obj, {headers: this.getHeaders()});
         console.log("prosao servis");
     }
 
