@@ -14,7 +14,6 @@ import {LaboratoryService} from "../../../services/laboratory-service/laboratory
 import {LabWorkOrder} from "../../../models/laboratory/LabWorkOrder";
 import {LabWorkOrderWithAnalysis} from "../../../models/laboratory/LabWorkOrderWithAnalysis";
 import {PrescriptionStatus} from "../../../models/laboratory-enums/PrescriptionStatus";
-import {VaccinationType} from "../../../models/patient-enums/VaccinationType";
 
 @Component({
   selector: 'app-doctor-medical-chart',
@@ -61,16 +60,8 @@ export class DoctorMedicalChartComponent implements OnInit {
     detailsLabWorkOrderPage: Page<LabWorkOrderWithAnalysis> = new Page<LabWorkOrderWithAnalysis>()
 
     examinationPage: Page<ExaminationHistory> = new Page<ExaminationHistory>()
-    allergy: Allergy
-    allergy2: Allergy
-    vaccionation: Vaccination
     vaccinationsList: Vaccination [] = []
     allergiesList: Allergy [] = []
-    vaccination_PRIORIX: Vaccination
-    vaccination_HIBERIX: Vaccination
-    vaccination_INFLUVAC: Vaccination
-    vaccination_SYNFLORIX: Vaccination
-    vaccination_BCGVAKCINA: Vaccination
     patientName: string = ''
     page = 0
     pageSize = 5
@@ -87,15 +78,7 @@ export class DoctorMedicalChartComponent implements OnInit {
         vaccinationDtos: [],
         allergyDtos: []
       };
-        this.allergy = new Allergy("")
-        this.allergy2 = new Allergy("")
 
-        this.vaccionation = new Vaccination("", VaccinationType.BACTERIA , "" , "", new Date())
-        this.vaccination_PRIORIX = new Vaccination("PRIORIX", VaccinationType.VIRUS, "Vakcina protiv morbila (malih boginja)", "GlaxoSmithKline Biologicals S.A., Belgija", new Date())
-        this.vaccination_HIBERIX = new Vaccination("HIBERIX", VaccinationType.BACTERIA, "Kapsulirani antigen hemofilus influence tip B", "GlaxoSmithKline Biologicals S.A., Belgija", new Date())
-        this.vaccination_INFLUVAC = new Vaccination("INFLUVAC", VaccinationType.VIRUS, "Virusne vakcine protiv influence (grip)", "Abbott Biologicals B.V., Holandija", new Date())
-        this.vaccination_SYNFLORIX = new Vaccination("SYNFLORIX", VaccinationType.BACTERIA,  "Vakcine protiv pneumokoka", "GlaxoSmithKline Biologicals S.A., Belgija", new Date())
-        this.vaccination_BCGVAKCINA = new Vaccination("BCGVAKCINA", VaccinationType.BACTERIA, "Vakcine protiv tuberkuloze", "Institut za virusologiju, vakcine i serume \"Torlak\", Republika Srbija", new Date())
 
         this.generalForm = this.formBuilder.group({
             bloodGroup: ['', [Validators.required]],
@@ -168,40 +151,17 @@ export class DoctorMedicalChartComponent implements OnInit {
     saveGeneralMedical(): void {
         this.patientService.createMedicalData(
             this.lbp,this.generalForm.get('bloodGroup')?.value,this.generalForm.get('rhFactor')?.value,
-            this.generalMedical.vaccinationDtos, this.generalMedical.allergyDtos).subscribe(result => {});
+            this.generalMedical.vaccinationDtos, this.generalMedical.allergyDtos).subscribe();
     }
 
     saveAllergy(): void {
-        // this.allergy = new Allergy(this.allergyForm.get('allergen')?.value)
-        // this.generalMedical.allergyDtos.push(this.allergy)
+
         this.patientService.addAllergy(this.lbp, this.allergyForm.get('allergen')?.value).subscribe(result => {
           this.getGeneralMedical(this.lbp)
         })
     }
 
     saveVaccine(): void {
-        // if(this.vaccineForm.get('vaccine')?.value == "PRIORIX"){
-        //     this.vaccination_PRIORIX.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
-        //     this.vaccionation = this.vaccination_PRIORIX
-        // }
-        // if(this.vaccineForm.get('vaccine')?.value == "HIBERIX"){
-        //     this.vaccination_HIBERIX.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
-        //     this.vaccionation = this.vaccination_HIBERIX
-        // }
-        // if(this.vaccineForm.get('vaccine')?.value == "INFLUVAC"){
-        //     this.vaccination_INFLUVAC.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
-        //     this.vaccionation = this.vaccination_INFLUVAC
-        // }
-        // if(this.vaccineForm.get('vaccine')?.value == "SYNFLORIX"){
-        //     this.vaccination_SYNFLORIX.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
-        //     this.vaccionation = this.vaccination_SYNFLORIX
-        // }
-        // if(this.vaccineForm.get('vaccine')?.value == "BCGVAKCINA"){
-        //     this.vaccination_BCGVAKCINA.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
-        //     this.vaccionation = this.vaccination_BCGVAKCINA
-        // }
-        //this.generalMedical.vaccinationDtos.push(this.vaccionation)
-
         this.patientService.addVacine(this.lbp, this.vaccineForm.get('vaccine')?.value, this.vaccineForm.get('dateOfReceiving')?.value).subscribe(result => {
           this.getGeneralMedical(this.lbp)
 
