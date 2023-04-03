@@ -224,14 +224,14 @@ export class PatientService {
     public createMedicalData(
         lbp: string,
         bloodType: string,
-        rH: string,
+        rh: string,
         vaccinationDtos: Vaccination[],
         allergyDtos: Allergy[]
         ): Observable<HttpStatusCode> {
 
         const obj: GeneralMedicalDataCreate ={
             bloodType: bloodType,
-            rH: rH,
+            rh: rh,
             vaccinationDtos: vaccinationDtos,
             allergyDtos: allergyDtos
         }
@@ -569,11 +569,10 @@ export class PatientService {
      * Svi prescriptions vezani za pacijenta
      * */
     public getPrescriptions(
-        lbp: string, doctorId: string,
+        lbp: string,
         page: number, size:number): Observable<Page<Prescription>> {
 
         let httpParams = new HttpParams()
-            .append("doctorId", doctorId)
             .append("page",page)
             .append("size",size);
 

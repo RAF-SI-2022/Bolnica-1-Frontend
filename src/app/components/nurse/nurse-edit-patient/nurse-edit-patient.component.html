@@ -106,7 +106,7 @@
                     <div class="row mt-1">
                         <div class="col-md-6"><label class="labels">Ime i prezime staratelja</label>
                             <input type="text" name="guardianName" class="form-control" data-cy="guardianNameAndSurname" [(ngModel)]="patientUpdate.guardianNameAndSurname"
-                                   [formControlName]="'surname'">
+                                   [formControlName]="'guardianNameAndSurname'">
                         </div>
                         <div class="col-md-6"><label class="labels">JMBG staratelja</label>
                             <input type="text" name ="guardianJMBG" class="form-control" data-cy="guardianJMBG" [(ngModel)]="patientUpdate.guardianJmbg"
@@ -149,6 +149,16 @@
                     <div class="mt-4 text-center">
                         <button type="submit" class="btn btn-primary" data-cy="button"><i class="bi bi-save me-1"></i> Napravi</button>
                     </div>
+
+                    <br>
+                    <div *ngIf="errorMessage.length != 0" class="mt-4 text-center">
+                      <label style="color: red"> Neuspeh: {{ errorMessage }} </label>
+                    </div>
+
+                    <div *ngIf="successMessage.length != 0" class="mt-4 text-center">
+                      <label style="color: green" > {{ successMessage }} </label>
+                    </div>
+
                 </div>
             </div>
         </div>
