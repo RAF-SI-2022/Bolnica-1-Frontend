@@ -102,9 +102,18 @@ export class DoctorWorkspaceComponent implements OnInit {
         });
     }
 
+
     startExam(patient: Patient) {
       if (confirm(`Da li ste sigurni da zelite da započnete pregled pacijenta ${patient.name + ' ' +  patient.surname}?`)){
         this.router.navigate(['doctor-workspace-one', patient.lbp]);
       }
     }
+  onRowClick(patient: Patient): void {
+    //this.router.navigate(['doctor-workspace-one', lbp])
+    // const encodedUser = encodeURIComponent(JSON.stringify(patient));
+     const url = `/doctor-workspace-one/${patient.lbp}`;
+    // this.router.navigateByUrl(url);
+    this.router.navigateByUrl(url, { state: { patient } });
+
+  }
 }
