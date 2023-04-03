@@ -16,84 +16,163 @@
 </head>
 
 <body>
-<div class="container">
-  <div class="table-responsive">
-    <div class="table-wrapper">
-      <div class="table-title">
-        <div class="dropdown">
-          <button class="dropbtn">Lekar</button>
-          <ul class="dropdown-content">
-            <li><a href="#">Ime Prezime</a></li>
-            <li><a href="#">Ime Prezime</a></li>
-            <li><a href="#">Ime Prezime</a></li>
-          </ul>
+
+<div class="pt-5">
+  <div class="p-2">
+
+
+<!--    <div class="dropdown">-->
+<!--      <button class="dropbtn">Lekar</button>-->
+<!--      <ul class="dropdown-content">-->
+<!--        <li><a href="#">Ime Prezime</a></li>-->
+<!--        <li><a href="#">Ime Prezime</a></li>-->
+<!--        <li><a href="#">Ime Prezime</a></li>-->
+<!--      </ul>-->
+<!--    </div>-->
+
+    <div class="container">
+
+      <div class="row mt-1 mt-1">
+
+        <form (submit)="searchExams()">
+        <div class="col-md-4 ">
+          <label for="doctors" >Izaberite doktora:</label>
+          <select [(ngModel)]="selectedDoctor" [formControlName]="'doctors'" id="doctors" name="doctors" class="form-select"
+                  aria-label="Default select example"  data-cy = "doctors" required>
+              <option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</option>
+          </select>
+        </div>
+        <div class = "row mt-1">
+          <div class="col-md-4">
+            <button type="submit" class="btn btn-primary" >Pretrazi</button>
+          </div>
         </div>
 
+        </form>
+
       </div>
-
-
-      <label class="label">Danasnji pacijenti </label>
-
-
-      <div class="me-auto float-end text-end mt-3 mb-3">
-        <button class="btn">Danas</button>
-        <button class="btn">Sutra</button>
-      </div>
-
-      <table class="table table-hover">
-        <thead>
-        <tr>
-          <th style="border-right: 2px solid lightgray;">Satnica</th>
-          <th>Pacijent</th>
-        </tr>
-        </thead>
-
-        <tbody>
-          <td  style="border-right: 2px solid lightgray;">
-            <ul class="vertical-list">
-              <li >8:00</li>
-              <li >8:30</li>
-              <li >9:00</li>
-              <li >9:30</li>
-              <li>10:00</li>
-              <li>10:30</li>
-              <li>11:00</li>
-              <li>11:30</li>
-              <li>12:00</li>
-              <li>12:30</li>
-              <li>13:00</li>
-              <li>13:30</li>
-              <li>14:00</li>
-              <li>14:30</li>
-              <li>15:00</li>
-              <li>15:30</li>
-              <li>16:00</li>
-              <li>16:30</li>
-              <li>17:00</li>
-              <li>17:30</li>
-              <li>18:00</li>
-              <li>18:30</li>
-              <li>19:00</li>
-              <li>19:30</li>
-              <li>20:00</li>
-            </ul>
-          </td>
-          <!--- Lista treba da se popuni pacijentima -->
-          <td style="padding: 0px">
-            <ul class="list" >
-              <li >Pacijent1 </li>
-              <li >Pacijent2</li>
-            </ul>
-          </td>
-
-        </tbody>
-      </table>
-
     </div>
+
+    <div class="container">
+      <div class="table-responsive">
+        <div class="table-wrapper">
+          <div class="table-title">
+
+            <label class="label" style="color: white;">Danasnji pacijenti </label>
+
+          </div>
+
+
+    <!--      <div class="me-auto float-end text-end mt-3 mb-3">-->
+    <!--        <button class="btn">Danas</button>-->
+    <!--        <button class="btn">Sutra</button>-->
+    <!--      </div>-->
+
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th style="border-right: 2px solid lightgray;">Satnica</th>
+              <th>Ime</th>
+              <th>Prezime</th>
+              <th>Datum rodjenja</th>
+              <th>Pol</th>
+              <th>Status</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr class="table-row">
+            <tr *ngFor="let patient of patients">
+              <td>{{patient.examDate | date:'shortTime'}}
+              <td>{{patient.name}}</td>
+              <td>{{patient.surname}}</td>
+              <td>{{patient.dateOfBirth}}</td>
+              <td>{{patient.gender}}</td>
+
+              <td class="list-cell">
+                <ul class="horizontal-list">
+                  <style>
+                    .grey-background {
+                      background-color: grey;
+                    }
+                    .blue-background {
+                      background-color: cornflowerblue;
+                    }
+                    .orange-background {
+                      background-color: darkorange;
+                    }
+                    .yellow-background {
+                      background-color: yellow;
+                    }
+                    .green-background {
+                      background-color: forestgreen;
+                    }
+                    .red-background {
+                      background-color: red;
+                    }
+                  </style>
+
+
+                  <li [ngClass]="{'grey-background': patient.examinationStatus !== trenutno, 'blue-background': patient.examinationStatus === trenutno}">Trenutno</li>
+                  <li [ngClass]="{'grey-background': patient.examinationStatus !== zakazano, 'orange-background': patient.examinationStatus === zakazano}">Zakazano</li>
+                  <li [ngClass]="{'grey-background': patient.examinationStatus !== ceka, 'yellow-background': patient.examinationStatus === ceka}">Ceka</li>
+                  <li [ngClass]="{'grey-background': patient.examinationStatus !== zavrseno, 'green-background': patient.examinationStatus === zavrseno}">Zavrseno</li>
+                  <li [ngClass]="{'grey-background': patient.examinationStatus !== otkazano, 'red-background': patient.examinationStatus === otkazano}">Otkazano</li>
+
+                </ul>
+              </td>
+
+            </tr>
+            </tbody>
+
+<!--            <tbody>-->
+<!--              <td  style="border-right: 2px solid lightgray;">-->
+<!--                <ul class="vertical-list">-->
+<!--                  <li >8:00</li>-->
+<!--                  <li >8:30</li>-->
+<!--                  <li >9:00</li>-->
+<!--                  <li >9:30</li>-->
+<!--                  <li>10:00</li>-->
+<!--                  <li>10:30</li>-->
+<!--                  <li>11:00</li>-->
+<!--                  <li>11:30</li>-->
+<!--                  <li>12:00</li>-->
+<!--                  <li>12:30</li>-->
+<!--                  <li>13:00</li>-->
+<!--                  <li>13:30</li>-->
+<!--                  <li>14:00</li>-->
+<!--                  <li>14:30</li>-->
+<!--                  <li>15:00</li>-->
+<!--                  <li>15:30</li>-->
+<!--                  <li>16:00</li>-->
+<!--                  <li>16:30</li>-->
+<!--                  <li>17:00</li>-->
+<!--                  <li>17:30</li>-->
+<!--                  <li>18:00</li>-->
+<!--                  <li>18:30</li>-->
+<!--                  <li>19:00</li>-->
+<!--                  <li>19:30</li>-->
+<!--                  <li>20:00</li>-->
+<!--                </ul>-->
+<!--              </td>-->
+<!--              &lt;!&ndash;- Lista treba da se popuni pacijentima &ndash;&gt;-->
+<!--              <td style="padding: 0px">-->
+<!--                <ul class="list" >-->
+<!--                  <li >Pacijent1 </li>-->
+<!--                  <li >Pacijent2</li>-->
+<!--                </ul>-->
+<!--              </td>-->
+
+<!--            </tbody>-->
+          </table>
+
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
-
-
-</body>
+  </body>
 </html>
 

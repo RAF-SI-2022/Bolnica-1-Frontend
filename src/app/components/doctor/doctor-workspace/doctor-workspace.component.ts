@@ -6,6 +6,8 @@ import {ExaminationService} from "../../../services/examination-service/examinat
 import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Page} from "../../../models/models";
+import {ScheduleExam} from "../../../models/patient/ScheduleExam";
+import {ExamForPatient} from "../../../models/patient/ExamForPatient";
 
 @Component({
   selector: 'app-doctor-workspace',
@@ -17,8 +19,10 @@ export class DoctorWorkspaceComponent implements OnInit {
     public patients: Patient[] = [];
     patientPage: Page<Patient> = new Page<Patient>()
     total = 0
-
     isPopupVisible = false;
+    lbz: string = '';
+    scheduledExams : ScheduleExam[] = [];
+    patients2: ExamForPatient[] = [];
 
     /*
     //popup se pojavljujem kliktajem na red
@@ -33,22 +37,22 @@ export class DoctorWorkspaceComponent implements OnInit {
     */
 
     constructor(private patientService: PatientService, private formBuilder: FormBuilder,
-        examinationService: ExaminationService,  private router: Router) {}
+        private examinationService: ExaminationService,  private router: Router) {}
 
-    showPopup(event: any): void {
-        const row = event.target.closest('.table-row');
-        this.isPopupVisible = true;
-    }
-
-    hidePopup(): void {
-        this.isPopupVisible = false;
-    }
-
-    confirmPregled(): void {
-        //otvori stranicu /doctor-workspace-one-patient
-        //za selektovanog pacijenta
-        this.router.navigate(['doctor-workspace-one']);
-    }
+    // showPopup(event: any): void {
+    //     const row = event.target.closest('.table-row');
+    //     this.isPopupVisible = true;
+    // }
+    //
+    // hidePopup(): void {
+    //     this.isPopupVisible = false;
+    // }
+    //
+    // confirmPregled(): void {
+    //     //otvori stranicu /doctor-workspace-one-patient
+    //     //za selektovanog pacijenta
+    //     this.router.navigate(['doctor-workspace-one']);
+    // }
 
 
     ngOnInit(): void {
@@ -58,6 +62,10 @@ export class DoctorWorkspaceComponent implements OnInit {
             this.patients = this.patientPage.content
             this.total = this.patientPage.totalElements
         })
+
+        // @ts-ignore
+        this.lbz = localStorage.getItem('lbz');
+        this.getSheduledExams();
     }
 
     getPatients(): void {
@@ -69,10 +77,34 @@ export class DoctorWorkspaceComponent implements OnInit {
         })
     }
 
-    onRowClick(patient: Patient) {
+    getSheduledExams(): void {
+      this.examinationService.getScheduledExaminations(this.lbz, new Date())
+        .subscribe(res =>{
+        this.scheduledExams = res;
+
+        this.scheduledExams.forEach(exam => {
+          this.patientService.getPatientByLbp(exam.lbp).subscribe(patient => {
+
+            const examForPatient: ExamForPatient = {
+              lbp: exam.lbp,
+              name: patient.name,
+              surname: patient.surname,
+              dateOfBirth: patient.dateOfBirth,
+              gender: patient.gender,
+              examinationStatus: exam.examinationStatus,
+              examDate: exam.dateAndTime
+            };
+
+            this.patients2.push(examForPatient);
+
+            });
+          });
+        });
+    }
+
+    startExam(patient: Patient) {
       if (confirm(`Da li ste sigurni da zelite da započnete pregled pacijenta ${patient.name + ' ' +  patient.surname}?`)){
         this.router.navigate(['doctor-workspace-one', patient.lbp]);
-
       }
     }
 }

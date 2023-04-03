@@ -15,4 +15,3 @@ export const environmentLaboratory = {
   title: 'Local Laboratory Environment',
   apiURL: 'http://localhost:8083/api/laboratory'
 };
-
