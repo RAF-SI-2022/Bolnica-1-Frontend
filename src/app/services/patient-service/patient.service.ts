@@ -34,6 +34,7 @@ import {PrescriptionAnalysis} from "../../models/laboratory/PrescriptionAnalysis
 import {PrescriptionCreate} from "../../models/laboratory/PrescriptionCreate";
 import {Prescription} from "../../models/laboratory/Prescription";
 import {MedicalHistoryCreateDto} from "../../models/patient/MedicalHistoryCreateDto";
+import {VaccinationDataDto} from "../../models/patient/VaccinationDataDto";
 
 @Injectable({
   providedIn: 'root'
@@ -237,6 +238,35 @@ export class PatientService {
         }
 
         return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/record/general_medical_data/${lbp}`, obj, {headers: this.getHeaders()});
+    }
+  public addVacine(
+    lbp: string,
+    vaccinationName: string,
+    vaccinationDate: Date,
+  ): Observable<HttpStatusCode> {
+
+    const obj: VaccinationDataDto ={
+      vaccinationName: vaccinationName,
+      vaccinationDate: vaccinationDate,
+    }
+    let httpParams = new HttpParams()
+      .append("lbp",lbp)
+
+    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/record/vaccine/${lbp}`, obj, {params: httpParams, headers:this.getHeaders()});
+  }
+
+  public addAllergy(
+    lbp: string,
+    allergy: string,
+  ): Observable<HttpStatusCode> {
+    let httpParams = new HttpParams()
+      .append("lbp",lbp)
+      .append("allergy", allergy)
+
+    return this.http.post<HttpStatusCode>(
+      `${environmentPatient.apiURL}/record/allergy/${lbp}`, {},
+      {params: httpParams, headers:this.getHeaders()}
+    );
     }
 
     /**

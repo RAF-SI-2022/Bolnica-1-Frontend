@@ -172,38 +172,37 @@ export class DoctorMedicalChartComponent implements OnInit {
     }
 
     saveAllergy(): void {
-        this.allergy = new Allergy(this.allergyForm.get('allergen')?.value)
-        this.generalMedical.allergyDtos.push(this.allergy)
-        this.patientService.createMedicalData(this.lbp, this.generalMedical.bloodType,this.generalMedical.rh,
-        this.generalMedical.vaccinationDtos, this.generalMedical.allergyDtos).subscribe(result => {
+        // this.allergy = new Allergy(this.allergyForm.get('allergen')?.value)
+        // this.generalMedical.allergyDtos.push(this.allergy)
+        this.patientService.addAllergy(this.lbp, this.allergyForm.get('allergen')?.value).subscribe(result => {
           this.getGeneralMedical(this.lbp)
         })
     }
 
     saveVaccine(): void {
-        if(this.vaccineForm.get('vaccine')?.value == "PRIORIX"){
-            this.vaccination_PRIORIX.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
-            this.vaccionation = this.vaccination_PRIORIX
-        }
-        if(this.vaccineForm.get('vaccine')?.value == "HIBERIX"){
-            this.vaccination_HIBERIX.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
-            this.vaccionation = this.vaccination_HIBERIX
-        }
-        if(this.vaccineForm.get('vaccine')?.value == "INFLUVAC"){
-            this.vaccination_INFLUVAC.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
-            this.vaccionation = this.vaccination_INFLUVAC
-        }
-        if(this.vaccineForm.get('vaccine')?.value == "SYNFLORIX"){
-            this.vaccination_SYNFLORIX.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
-            this.vaccionation = this.vaccination_SYNFLORIX
-        }
-        if(this.vaccineForm.get('vaccine')?.value == "BCGVAKCINA"){
-            this.vaccination_BCGVAKCINA.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
-            this.vaccionation = this.vaccination_BCGVAKCINA
-        }
-        this.generalMedical.vaccinationDtos.push(this.vaccionation)
-        this.patientService.createMedicalData(this.lbp, this.generalMedical.bloodType,this.generalMedical.rh,
-        this.generalMedical.vaccinationDtos, this.generalMedical.allergyDtos).subscribe(result => {
+        // if(this.vaccineForm.get('vaccine')?.value == "PRIORIX"){
+        //     this.vaccination_PRIORIX.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
+        //     this.vaccionation = this.vaccination_PRIORIX
+        // }
+        // if(this.vaccineForm.get('vaccine')?.value == "HIBERIX"){
+        //     this.vaccination_HIBERIX.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
+        //     this.vaccionation = this.vaccination_HIBERIX
+        // }
+        // if(this.vaccineForm.get('vaccine')?.value == "INFLUVAC"){
+        //     this.vaccination_INFLUVAC.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
+        //     this.vaccionation = this.vaccination_INFLUVAC
+        // }
+        // if(this.vaccineForm.get('vaccine')?.value == "SYNFLORIX"){
+        //     this.vaccination_SYNFLORIX.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
+        //     this.vaccionation = this.vaccination_SYNFLORIX
+        // }
+        // if(this.vaccineForm.get('vaccine')?.value == "BCGVAKCINA"){
+        //     this.vaccination_BCGVAKCINA.vaccinationDate = this.vaccineForm.get('dateOfReceiving')?.value
+        //     this.vaccionation = this.vaccination_BCGVAKCINA
+        // }
+        //this.generalMedical.vaccinationDtos.push(this.vaccionation)
+
+        this.patientService.addVacine(this.lbp, this.vaccineForm.get('vaccine')?.value, this.vaccineForm.get('dateOfReceiving')?.value).subscribe(result => {
           this.getGeneralMedical(this.lbp)
 
         });
