@@ -29,6 +29,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     currentPatient: Patient | undefined;
 
     isPopupVisible = false;
+    errorMessage: string = "";
 
     constructor(private authService: AuthService, private userService:UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
       this.checkDoctorSpecPov();
@@ -130,7 +131,14 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
         }
 
         this.patientService.createDiagnosis(this.lbp, diagnosis.confidential,
-           diagnosis.treatmentResult, diagnosis.currStateDesc, this.diagnosisCode, diagnosis.exists);
+           diagnosis.treatmentResult, diagnosis.currStateDesc, this.diagnosisCode, diagnosis.exists).subscribe((response) => {
+
+        }, error => {
+          console.log("Error " + error.status);
+          if(error.status == 409){
+            this.errorMessage = 'greska';
+          }
+        });
 
     }
     addReportt(){
@@ -193,7 +201,15 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
         this.anamneza.currDisease = therapy.currDisease;
 
 
-        this.patientService.createExaminationHistory(this.lbp, new Date(), this.lbz, therapy.confidential, therapy.objectiveFinding, therapy.advice, therapy.suggestedTherapies, this.diagnosisCode, this.anamneza);
+        this.patientService.createExaminationHistory(this.lbp, new Date(), this.lbz, therapy.confidential, therapy.objectiveFinding, therapy.advice, therapy.suggestedTherapies, this.diagnosisCode, this.anamneza).subscribe((response) => {
+
+        }, error => {
+          console.log("Error " + error.status);
+          if(error.status == 409){
+            this.errorMessage = 'greska';
+          }
+        })
+        ;
         console.log("proslo")
     }
 
