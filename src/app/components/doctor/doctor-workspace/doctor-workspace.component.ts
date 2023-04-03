@@ -19,7 +19,7 @@ export class DoctorWorkspaceComponent implements OnInit {
     total = 0
 
     isPopupVisible = false;
-    
+
     /*
     //popup se pojavljujem kliktajem na red
     selectedPerson: any;
@@ -32,7 +32,7 @@ export class DoctorWorkspaceComponent implements OnInit {
     }
     */
 
-    constructor(private patientService: PatientService, private formBuilder: FormBuilder, 
+    constructor(private patientService: PatientService, private formBuilder: FormBuilder,
         examinationService: ExaminationService,  private router: Router) {}
 
     showPopup(event: any): void {
@@ -69,7 +69,10 @@ export class DoctorWorkspaceComponent implements OnInit {
         })
     }
 
-    // onRowClick(lbp: string) {
-    //   this.router.navigate(['doctor-workspace-one']);
-    // }
+    onRowClick(patient: Patient) {
+      if (confirm(`Da li ste sigurni da zelite da započnete pregled pacijenta ${patient.name + ' ' +  patient.surname}?`)){
+        this.router.navigate(['doctor-workspace-one', patient.lbp]);
+
+      }
+    }
 }

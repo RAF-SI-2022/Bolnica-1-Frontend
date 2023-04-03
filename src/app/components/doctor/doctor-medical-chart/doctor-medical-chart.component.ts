@@ -150,10 +150,8 @@ export class DoctorMedicalChartComponent implements OnInit {
 
     getGeneralMedical(lbp: string): void {
       this.patientService.getGeneralMedicalDataByLbp(lbp).subscribe(result => {
-        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% " + result)
 
         if(!result){
-          console.log("**************************************")
           this.generalMedical.vaccinationDtos = []
           this.generalMedical.bloodType = ''
           this.generalMedical.rh = ''
@@ -177,7 +175,9 @@ export class DoctorMedicalChartComponent implements OnInit {
         this.allergy = new Allergy(this.allergyForm.get('allergen')?.value)
         this.generalMedical.allergyDtos.push(this.allergy)
         this.patientService.createMedicalData(this.lbp, this.generalMedical.bloodType,this.generalMedical.rh,
-        this.generalMedical.vaccinationDtos, this.generalMedical.allergyDtos).subscribe(result => {})
+        this.generalMedical.vaccinationDtos, this.generalMedical.allergyDtos).subscribe(result => {
+          this.getGeneralMedical(this.lbp)
+        })
     }
 
     saveVaccine(): void {
@@ -203,7 +203,10 @@ export class DoctorMedicalChartComponent implements OnInit {
         }
         this.generalMedical.vaccinationDtos.push(this.vaccionation)
         this.patientService.createMedicalData(this.lbp, this.generalMedical.bloodType,this.generalMedical.rh,
-        this.generalMedical.vaccinationDtos, this.generalMedical.allergyDtos).subscribe(result => {});
+        this.generalMedical.vaccinationDtos, this.generalMedical.allergyDtos).subscribe(result => {
+          this.getGeneralMedical(this.lbp)
+
+        });
     }
 
     getExaminationHistory(): void {

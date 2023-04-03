@@ -154,7 +154,7 @@ const routes: Routes = [
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
-    path: "doctor-workspace-one",
+    path: "doctor-workspace-one/:lbp",
     component: DoctorWorkspaceOnePatientComponent,
     canActivate: [AuthGuard, DoctorGuard]
   },
