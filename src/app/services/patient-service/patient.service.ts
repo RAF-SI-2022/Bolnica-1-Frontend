@@ -23,7 +23,7 @@ import {MedicalHistory} from "../../models/patient/MedicalHistory";
 import {GeneralMedicalData} from "../../models/patient/GeneralMedicalData";
 import {ExaminationHistory} from "../../models/patient/ExaminationHistory";
 import {MedicalRecord} from "../../models/patient/MedicalRecord";
-import {Page, Zaposleni} from "../../models/models";
+import {DeparmentShort, Page, Zaposleni} from "../../models/models";
 import {Patient} from "../../models/patient/Patient";
 import * as uuid from 'uuid';
 import {PatientGeneral} from "../../models/patient/PatientGeneral";
@@ -253,6 +253,14 @@ export class PatientService {
       .append("lbp",lbp)
 
     return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/record/vaccine/${lbp}`, obj, {params: httpParams, headers:this.getHeaders()});
+  }
+
+  getAllergy(): Observable<Allergy[]>{
+    return this.http.get<Allergy[]>(`${environmentPatient.apiURL}/record/gather_allergies`, { headers: this.getHeaders() });
+  }
+
+  getVaccine(): Observable<Vaccination[]>{
+    return this.http.get<Vaccination[]>(`${environmentPatient.apiURL}/record/gather_vaccines`, { headers: this.getHeaders() });
   }
 
   public addAllergy(
@@ -608,15 +616,20 @@ export class PatientService {
      * Svi prescriptions vezani za pacijenta
      * */
     public getPrescriptions(
+        dateFrom: Date,
+        dateTo: Date,
         lbp: string,
-        page: number, size:number): Observable<Page<Prescription>> {
+        page: number,
+        size:number): Observable<Page<Prescription>> {
 
         let httpParams = new HttpParams()
+            .append("dateFrom", dateFrom.toISOString())
+            .append("dateTo", dateTo.toISOString())
             .append("page",page)
             .append("size",size);
 
         return this.http.get<Page<Prescription>>(
-            `${environmentPatient.apiURL}/patient/prescriptions/${lbp}`,
+            `${environmentPatient.apiURL}/patient/done_prescriptions/${lbp}`,
             {params: httpParams, headers:this.getHeaders()}
         );
     }

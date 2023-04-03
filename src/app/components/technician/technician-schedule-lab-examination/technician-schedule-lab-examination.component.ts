@@ -33,7 +33,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     public numberOfScheduled: number = 0
     lbp: string = ''
     date: Date = new Date()
-    dateSearch: string = ''
+    dateSearch = new Date()
     note: string = ''
     errorMessage: string = ''
     successMessage: string = ''
@@ -42,22 +42,22 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
         this.searchForm = this.formBuilder.group({
             name: ['', [Validators.required]]
         });
-    
+
         this.countForm = this.formBuilder.group({
             date: ['', [Validators.required]],
         numberOfScheduled: ['', [Validators.required]],
         });
-    
+
         this.noteForm = this.formBuilder.group({
             note: ''
         });
-    
+
         this.searchVisitForm = this.formBuilder.group({
             name: '',
             date: ' '
         });
       }
-    
+
 
     ngOnInit(): void {
         this.getPatientList()
@@ -94,7 +94,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
         })
     }
 
-    //todo nije jos uradjeno na beku
+    //todo nije jos uradjeno na beku, sad ce da dodaju
     findExaminations() {
 
     }
@@ -107,6 +107,9 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
         this.lbp = this.searchVisitForm.get('name')?.value
         this.dateSearch = this.searchVisitForm.get('date')?.value
 
+        if(this.searchVisitForm.get('date')?.value == ''){
+          this.dateSearch = new Date()
+        }
         this.labaratoryService.listScheduledEexaminations(this.lbp, this.dateSearch, this.page, this.pageSize).subscribe((response) => {
             this.scheduledLabExaminationPage = response
             this.scheduledLabExaminations = this.scheduledLabExaminationPage.content
