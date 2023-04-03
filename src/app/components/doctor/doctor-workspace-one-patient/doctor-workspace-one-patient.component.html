@@ -127,16 +127,16 @@
         </div>
         <div *ngIf="show" class="dropdown">
           <select [formControlName]="'treatmentResult'">
-            <option value="" selected>U toku</option>
-            <option value="Oporavljen">Oporavljen</option>
-            <option value="Preminuo">Preminuo</option>
-            <option value="Stalne posledice">Stalne posledice</option>
+            <option value="U_TOKU" selected>U_TOKU</option>
+            <option value="OPORAVLJEN">OPORAVLJEN</option>
+            <option value="PREMINUO">PREMINUO</option>
+            <option value="STALNE_POSLEDICE">STALNE_POSLEDICE</option>
           </select>
         </div>
         <textarea *ngIf="show" class="bi-textarea" placeholder="Opis tekuceg stanja" [formControlName]="'currStateDesc'" ></textarea>
         <div *ngIf="show" class="checkbox">
           <input type="checkbox" id="checkbox" name="checkbox" [formControlName]="'exists'">
-          <label for="checkbox">Checkbox</label>
+          <label for="checkbox">Postojeca dijagnoza</label>
         </div>
 
       </div>
@@ -161,7 +161,7 @@
 <!--          <div class="invalid-feedback">Unesite savet</div>-->
 <!--        </div>-->
       </table>
-      <div class="checkbox">
+      <div class="checkbox" *ngIf="doctorSpecPov">
         <input type="checkbox" id="confidential" name="checkbox" [formControlName]="'confidential'">
         <label for="checkbox">Poverljivo</label>
       </div>

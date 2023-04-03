@@ -24,7 +24,7 @@
 
       <div style="padding-top: 20px">
 
-        <form>
+        <form [formGroup]="referralForm"  class="mb-5 needs-validation" novalidate>
           <!---<select id="dropdown" name="dropdown" (change)="onOptionSelected($event.target.value)">-->
 
           <div class="row justify-content-center">
@@ -42,7 +42,7 @@
 
                     <label for="tip-uputa" class="text-center">Izaberite tip uputa:</label>
                     <select id="tip-uputa" name="tip-uputa" class="form-select"
-                            aria-label="Default select example" [(ngModel)]="selectedOption" data-cy = "tip-uputa">
+                            aria-label="Default select example" [(ngModel)]="selectedOption" [formControlName]="'ustanova'" data-cy = "tip-uputa">
                       <option value="Izaberite tip uputa" selected>Izaberite tip uputa</option>
                       <option value="Laboratorija">Laboratorija</option>
                       <option value="Dijagnostika">Dijagnostika</option>
@@ -65,14 +65,17 @@
 
 
                     <div class="col-md-4 ">
-                      <label for="tip-uputa" >Zdravstvena ustanova:</label>
-                      <select id="ustanova" name="ustanova" class="form-select"
-                              aria-label="Default select example"  data-cy = "ustanova">
-                        <option value="1">ustanova1</option>
-                        <option value="2">ustanova2</option>
-                        <option value="3">ustanova3</option>
+                      <label for="ustanova1" >Zdravstvena ustanova:</label>
+                      <select [(ngModel)]="selectedHospital" [formControlName]="'ustanova1'" id="ustanova1" name="ustanova1" class="form-select"
+                              aria-label="Default select example"  data-cy = "ustanova1" required>
+                        <!--                              <option value="1">ustanova1</option>-->
+                        <!--                              <option value="2">ustanova2</option>-->
+                        <!--                              <option value="3">ustanova3</option>-->
+                        <option *ngFor="let item of hospitals" [value]="item.name">{{item.name}}</option>
                       </select>
                     </div>
+
+
 
                     <div class="col-md-4 ">
                       <label>Odaberite laboratorijske analize:</label>
@@ -84,7 +87,7 @@
 
                     <div class="col-md-8 ">
                       <label class="labels">Komentar</label>
-                      <input name="comment"  type="text" class="form-control" id="comment" placeholder="Unesite opcioni komentar" value="">
+                      <input name="comment" [formControlName]="'comment'" type="text" class="form-control" id="comment" placeholder="Unesite opcioni komentar" value="">
                     </div>
 
                   </div>
@@ -106,28 +109,36 @@
 
                           <div class="col-md-4 ">
                             <label for="ustanova2" >Zdravstvena ustanova:</label>
-                            <select id="ustanova2" name="ustanova2" class="form-select"
-                                    aria-label="Default select example"  data-cy = "ustanova2">
-                              <option value="1">ustanova1</option>
-                              <option value="2">ustanova2</option>
-                              <option value="3">ustanova3</option>
+                            <select [(ngModel)]="selectedHospital" [formControlName]="'ustanova2'" id="ustanova2" name="ustanova2" class="form-select"
+                                    aria-label="Default select example"  data-cy = "ustanova2" required>
+<!--                              <option value="1">ustanova1</option>-->
+<!--                              <option value="2">ustanova2</option>-->
+<!--                              <option value="3">ustanova3</option>-->
+                              <option *ngFor="let item of hospitals" [value]="item.name">{{item.name}}</option>
                             </select>
                           </div>
 
                           <div class="col-md-4 ">
                             <label for="dijagnoza1" >Uputna dijagnoza:</label>
                             <select id="dijagnoza1" name="dijagnoza1" class="form-select"
-                                    aria-label="Default select example"  data-cy = "dijagnoza1">
-                              <option value="1">uputna dijagnoza</option>
-                              <option value="2">uputna dijagnoza</option>
-                              <option value="3">uputna dijagnoza</option>
+                                    aria-label="Default select example"  data-cy = "dijagnoza1" [formControlName]="'referralDiagnosis'" required>
+                              <option value="A15.3">A15.3</option>
+                              <option value="D50">D50</option>
+                              <option value="I10">I10</option>
+                              <option value="I35.0">I35.0</option>
+                              <option value="J11">J11</option>
+                              <option value="J12.9">J12.9</option>
+                              <option value="K35">K35</option>
+                              <option value="K70.3">K70.3</option>
+                              <option value="K71.0">K71.0</option>
+                              <option value="N20.0">N20.0</option>
                             </select>
                           </div>
 
 
                           <div class="col-md-8 ">
                             <label class="labels">Razlog upucivanja</label>
-                            <input name="referralReason"  type="text" class="form-control" id="referralReason" placeholder="Unesite razlog uputa" value="">
+                            <input name="referralReason" [formControlName]="'referralReason'"  type="text" class="form-control" id="referralReason" placeholder="Unesite razlog uputa" value="" required>
                           </div>
 
                         </div>
@@ -148,21 +159,29 @@
 
                           <div class="col-md-4 ">
                             <label for="ustanova3" >Zdravstvena ustanova:</label>
-                            <select id="ustanova3" name="ustanova3" class="form-select"
-                                    aria-label="Default select example"  data-cy = "ustanova3">
-                              <option value="1">ustanova1</option>
-                              <option value="2">ustanova2</option>
-                              <option value="3">ustanova3</option>
+                            <select [(ngModel)]="selectedHospital" [formControlName]="'ustanova3'" id="ustanova3" name="ustanova3" class="form-select"
+                                    aria-label="Default select example"  data-cy = "ustanova3" required>
+<!--                              <option value="1">ustanova1</option>-->
+<!--                              <option value="2">ustanova2</option>-->
+<!--                              <option value="3">ustanova3</option>-->
+                              <option *ngFor="let item of hospitals" [value]="item.name">{{item.name}}</option>
                             </select>
                           </div>
 
                           <div class="col-md-4 ">
                             <label for="dijagnoza2" >Uputna dijagnoza:</label>
                             <select id="dijagnoza2" name="dijagnoza2" class="form-select"
-                                    aria-label="Default select example"  data-cy = "dijagnoza2">
-                              <option value="1">uputna dijagnoza</option>
-                              <option value="2">uputna dijagnoza</option>
-                              <option value="3">uputna dijagnoza</option>
+                                    aria-label="Default select example"  data-cy = "dijagnoza2" [formControlName]="'referralDiagnosis'" required>
+                              <option value="A15.3">A15.3</option>
+                              <option value="D50">D50</option>
+                              <option value="I10">I10</option>
+                              <option value="I35.0">I35.0</option>
+                              <option value="J11">J11</option>
+                              <option value="J12.9">J12.9</option>
+                              <option value="K35">K35</option>
+                              <option value="K70.3">K70.3</option>
+                              <option value="K71.0">K71.0</option>
+                              <option value="N20.0">N20.0</option>
                             </select>
                           </div>
 
@@ -176,7 +195,7 @@
                 <div *ngIf="selectedOption =='Stacionar'|| selectedOption =='Laboratorija'|| selectedOption =='Dijagnostika' " class="d-flex justify-content-center align-items-center">
                   <div class="row mt-1 mt-1">
                     <div class="col-md-4">
-                      <button  (click)="showPopup($event)" class="btn btn-primary" >Dodaj</button>
+                      <button type="submit" (click)="confirmUput()" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da napravite uput?')">Dodaj</button>
                     </div>
                   </div>
                 </div>
@@ -185,15 +204,15 @@
 
           <!-- Za popup prozor -->
 
-          <div class="popup-overlay" *ngIf="isPopupVisible">
-            <div class="popup">
-              <p>Zelite da potvrdite uput?</p>
-              <div class="popup-buttons">
-                <button (click)="confirmUput()">OK</button>
-                <button (click)="hidePopup()">Cancel</button>
-              </div>
-            </div>
-          </div>
+<!--          <div class="popup-overlay" *ngIf="isPopupVisible">-->
+<!--            <div class="popup">-->
+<!--              <p>Zelite da potvrdite uput?</p>-->
+<!--              <div class="popup-buttons">-->
+<!--                <button (click)="confirmUput()">OK</button>-->
+<!--                <button (click)="hidePopup()">Cancel</button>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
 
               </div>
             </div>
