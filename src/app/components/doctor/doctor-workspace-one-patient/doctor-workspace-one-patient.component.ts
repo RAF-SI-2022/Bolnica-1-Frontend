@@ -26,7 +26,11 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     lbz: string = '';
     lbp: string = '';
     doctorSpecPov = false;
-    currentPatient: Patient | undefined;
+    currentPatient: Patient = new Patient();
+    patientName: string = ''
+    patientSurname: string = ''
+    patientdateOfBirth: Date = new Date()
+
 
     isPopupVisible = false;
     errorMessage: string = "";
@@ -51,12 +55,12 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
-        this.lbz = this.authService.getLBZ();
+      this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
+      this.lbz = this.authService.getLBZ();
       this.currentPatient = history.state.patient;
-      // @ts-ignore
-      console.log("JEEEEEEJ " + this.currentPatient.name)
-
+      this.patientName = this.currentPatient.name
+      this.patientSurname = this.currentPatient.surname
+      this.patientdateOfBirth = this.currentPatient.dateOfBirth
     }
 
     showPopup(event: any): void {
