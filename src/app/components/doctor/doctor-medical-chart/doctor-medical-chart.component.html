@@ -100,18 +100,8 @@
                             <select class="form-select" name="profession"  id="alergen" required
                                     aria-label="Default select example" [formControlName]="'allergen'" data-cy = "allergen" >
                               <!-- mozda ovde enum? -->
-                              <option value="Mleko">Mleko</option>
-                              <option value="Jaja">Jaja</option>
-                              <option value="Orašasti plodovi">Orašasti plodovi</option>
-                              <option value="Plodovi mora">Plodovi mora</option>
-                              <option value="Pšenica">Pšenica</option>
-                              <option value="Soja">Soja</option>
-                              <option value="Riba">Riba</option>
-                              <option value="Penicilin">Penicilin</option>
-                              <option value="Cefalosporin">Cefalosporin</option>
-                              <option value="Tetraciklin">Tetraciklin</option>
-                              <option value="Karbamazepin">Krbamazepin</option>
-                              <option value="Ibuprofen">Ibuprofen</option>
+                              <option *ngFor="let item of allergies" [attr.data-id]="item.name" [value]="item.name">{{item.name}}
+                              </option>
                             </select>
                           </div>
                           <button type="submit" class="btn btn-primary" data-cy = "addAllergen" >Dodaj alergiju</button>
@@ -143,11 +133,8 @@
                             <label for="vakcina" class="form-label">Izaberi vakcinu:</label>
                             <select class="form-select" name="profession"  id="vakcina" required
                                     aria-label="Default select example" [formControlName]="'vaccine'" data-cy = "vaccine">
-                              <option value="PRIORIX">PRIORIX</option>
-                              <option value="HIBERIX">HIBERIX</option>
-                              <option value="INFLUVAC">INFLUVAC</option>
-                              <option value="SYNFLORIX">SYNFLORIX</option> <option value="PRIORIX">Vakcina 2</option>
-                              <option value="BCGVAKCINA">BCG VAKCINA</option>
+                              <option *ngFor="let item of vaccines" [attr.data-id]="item.name" [value]="item.name">{{item.name}}
+                              </option>
                             </select>
                           </div>
                           <div class="mb-3">
@@ -302,7 +289,6 @@
                     <td>{{prescription.departmentFromId}}</td>
                     <td>{{prescription.departmentToId}}</td>
                     <td>{{prescription.status}}</td>
-
                   </tr>
                   </tbody>
                 </table>
@@ -312,6 +298,7 @@
                   </pagination-controls>
                 </div>
               </div>
+
             </div>
             <div *ngIf="idPrescription">
               <h2>Detalji uputa {{idPrescription}}</h2>
@@ -343,11 +330,15 @@
             <div class="row">
               <div class="col-md-4 offset-2">
                 <label class="labels">Od datuma</label>
-                <input [(ngModel)]="dateFromLabaratory" name = "dateFrom" type="date" class="form-control" [ngModelOptions]="{standalone: true}" data-cy = "dateFrom" >
+                <input [(ngModel)]="dateFromLabaratory" name = "dateFromLabaratory" type="date" class="form-control" [ngModelOptions]="{standalone: true}" data-cy = "dateFrom" >
               </div>
               <div class="col-md-4">
                 <label class="labels">Do datuma</label>
-                <input [(ngModel)]="dateToLabaratory" name = "dateTo" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">
+                <input [(ngModel)]="dateToLabaratory" name = "dateToLabaratory" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">
+              </div>
+              <div class="col-md-4 offset-2">
+                <label class="labels">Tačan datum</label>
+                <input [(ngModel)]="correctDateLabaratory" name = "correctDateLabaratory" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "correctDate" >
               </div>
 
               <div class="mt-4 offset-2">
@@ -362,6 +353,7 @@
                 <table class="table table-hover" data-cy="table1">
                   <thead>
                   <tr>
+                    <th>ID radnog naloga</th>
                     <th>ID uputa</th>
                     <th>Datum i vreme kreiranja</th>
                     <th>Status</th>
@@ -370,6 +362,8 @@
                   <tbody>
                   <tr
                     *ngFor="let lab of labWorkOrders | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total}; let i = index">
+                    <!--sta je ID RADNOG NALOGA???  -->
+                    <td>{{lab.prescription.id}}</td>
                     <td>{{lab.prescription.id}}</td>
                     <td>{{lab.creationDateTime}}</td>
                     <td>{{lab.status}}</td>
@@ -396,12 +390,16 @@
                     <label class="labels">Do datuma</label>
                     <input [(ngModel)]="dateToLabaratory" name = "dateTo" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">
                   </div>
+                  <div class="col-md-4 offset-2">
+                    <label class="labels">Tačan datum</label>
+                    <input [(ngModel)]="correctDateLabaratory" name = "correctDateLabaratory" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "correctDate" >
+                  </div>
 
                   <div class="mt-4 offset-2">
                     <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
                   </div>
                   <div class="mt-4 text-center">
-                    <button (click)="getNeobradjeni()" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretraziObradjene">Prikazi samo obradjene</button>
+                    <button (click)="getNeobradjeni()" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretraziObradjene">Prikazi samo neobradjene</button>
                   </div>
 
                   <div class="row py-5">
