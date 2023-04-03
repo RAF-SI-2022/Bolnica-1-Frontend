@@ -163,7 +163,14 @@
       <li *ngIf="nurse || nurseVisa" class="nav-item">
         <a class="nav-link collapsed" routerLink="../nurse-schedule-appointment">
           <i class="bi bi-calendar-plus"></i>
-          <span>Zakazivanje pregleda</span>
+          <span>Zakazivanje pregleda STARO</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-schedule-appointment-new">
+          <i class="bi bi-calendar-plus"></i>
+          <span>Zakazivanje pregleda NOVO</span>
         </a>
       </li>
 

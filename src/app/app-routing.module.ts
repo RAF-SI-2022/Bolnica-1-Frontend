@@ -75,6 +75,9 @@ import {
 import {
   TechnicianIssuingResultsDetailsComponent
 } from "./components/technician/technician-issuing-results-details/technician-issuing-results-details.component";
+import {
+  NurseScheduleAppointmentNewComponent
+} from "./components/nurse/nurse-schedule-appointment-new/nurse-schedule-appointment-new.component";
 
 
 const routes: Routes = [
@@ -186,6 +189,11 @@ const routes: Routes = [
   {
     path: "nurse-schedule-appointment",
     component: NurseScheduleAppointmentComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-schedule-appointment-new",
+    component: NurseScheduleAppointmentNewComponent,
     canActivate: [AuthGuard, NurseGuard]
   },
   {
