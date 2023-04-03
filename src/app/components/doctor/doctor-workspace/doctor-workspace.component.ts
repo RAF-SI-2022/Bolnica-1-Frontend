@@ -69,7 +69,10 @@ export class DoctorWorkspaceComponent implements OnInit {
         })
     }
 
-    // onRowClick(lbp: string) {
-    //   this.router.navigate(['doctor-workspace-one']);
-    // }
+    onRowClick(patient: Patient) {
+      if (confirm(`Da li ste sigurni da zelite da započnete pregled pacijenta ${patient.name + ' ' +  patient.surname}?`)){
+        this.router.navigate(['doctor-workspace-one', patient.lbp]);
+
+      }
+    }
 }

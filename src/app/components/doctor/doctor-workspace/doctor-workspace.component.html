@@ -43,7 +43,7 @@
           </thead>
           <tbody>
           <tr class="table-row"(click)="showPopup($event)">
-          <tr *ngFor="let patient of patients | paginate: {itemsPerPage: 0, currentPage: 0, totalItems: total}; let i = index">
+          <tr *ngFor="let patient of patients | paginate: {itemsPerPage: 0, currentPage: 0, totalItems: total}; let i = index" (click)="onRowClick(patient)">
 
             <td>{{patient.name}}</td>
             <td>{{patient.surname}}</td>
