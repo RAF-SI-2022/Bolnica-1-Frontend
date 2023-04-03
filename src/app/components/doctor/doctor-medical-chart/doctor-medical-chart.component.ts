@@ -230,7 +230,7 @@ export class DoctorMedicalChartComponent implements OnInit {
     getExaminationHistoryWithDate(): void {
             console.log("Istorija pregleda jedan datum")
 
-            this.patientService.getExaminationHistoryByDate(this.lbp, this.correctDate, this.page, this.pageSize).subscribe(
+            this.patientService.getExaminationHistoryByDate(this.lbp, this.correctDate,this.page-1, this.pageSize).subscribe(
                 response => {
                     this.examinationPage = response
                     this.examinationHistories = this.examinationPage.content
@@ -242,7 +242,7 @@ export class DoctorMedicalChartComponent implements OnInit {
     getExaminationHistoryWithRange(): void {
         console.log("Istorija pregleda dva datuma")
 
-        this.patientService.getExaminationHistoryByRange(this.lbp, this.dateFrom, this.dateTo, this.page, this.pageSize).subscribe(
+        this.patientService.getExaminationHistoryByRange(this.lbp, this.dateFrom, this.dateTo, this.page-1, this.pageSize).subscribe(
         response => {
             this.examinationPage = response
             this.examinationHistories = this.examinationPage.content
@@ -253,7 +253,7 @@ export class DoctorMedicalChartComponent implements OnInit {
     }
 
     getMedicalHistoryByDiagnosisCode(): void {
-        this.patientService.getMedicalHistoriesByDiagnosisCodePaged(this.lbp, this.diagnosis, this.page, this.pageSize).subscribe(
+        this.patientService.getMedicalHistoriesByDiagnosisCodePaged(this.lbp, this.diagnosis, this.page-1, this.pageSize).subscribe(
         response => {
             this.medicalPage = response
             this.medicalHistories = this.medicalPage.content
@@ -271,7 +271,7 @@ export class DoctorMedicalChartComponent implements OnInit {
     }
 
     getLabaratory(): void {
-        this.labaratoryService.workOrdersHistory(this.lbp, this.dateFromLabaratory, this.dateToLabaratory, this.page, this.pageSize).subscribe(
+        this.labaratoryService.workOrdersHistory(this.lbp, this.dateFromLabaratory, this.dateToLabaratory, this.page-1, this.pageSize).subscribe(
         response => {
             this.labWorkOrderPage = response
             this.labWorkOrders = this.labWorkOrderPage.content
