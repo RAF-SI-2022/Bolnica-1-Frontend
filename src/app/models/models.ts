@@ -39,6 +39,8 @@ export class EmployeeMessageDTO{
     message: string = '';
 }
 
+
+
 /** --- ADMIN --- **/
 export class AdminPromeniZaposlenog{
     name: string = '';

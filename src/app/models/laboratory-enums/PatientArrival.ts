@@ -1,7 +1,7 @@
 export enum PatientArrival{
-  DID_NOT_CAME,
-  CANCELED,
-  WAITING,
-  SCHEDULE_IN_PROGRESS,
-  FINISHED
+  ZAKAZANO,
+  OTKAZANO,
+  CEKA,
+  TRENUTNO,
+  ZAVRSENO
 }
