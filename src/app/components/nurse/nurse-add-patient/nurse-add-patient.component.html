@@ -37,7 +37,7 @@
 
                     <div class="row mt-1">
                         <div class="col-md-8"><label class="labels">JMBG</label>
-                            <input type="text" name="JMBG" class="form-control" required [formControlName]="'jmbg'">
+                            <input type="text" name="JMBG" class="form-control" data-cy="JMBG" required [formControlName]="'jmbg'">
                             <div class="invalid-feedback">Unesite vas JMBG!</div>
                         </div>
 
@@ -47,7 +47,7 @@
                                 <div class="col">
                                     <div class="d-inline-block mt-1">Musko</div> &nbsp;
                                     <div class="form-check form-switch d-inline-block"> &nbsp;
-                                        <input [formControlName]="'gender'" name=" gender" type="checkbox" class="form-check-input" id="site_state" style="cursor: pointer;">
+                                        <input [formControlName]="'gender'" name=" gender" type="checkbox" class="form-check-input" data-cy="genderSlider" id="site_state" style="cursor: pointer;">
                                         <label for="site_state" class="form-check-label"> Zensko</label>
                                     </div>
                                 </div>

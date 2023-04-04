@@ -38,7 +38,7 @@ describe("Login Dashboard", ()=>{
 
 describe("Reset Password Dashboard", ()=>{
   beforeEach(()=>{
-    cy.login("johndoe","password1")
+    cy.login("john.doe","password","/admin-workspace")
   })
 
   it("Should get to reset login page",()=>{
