@@ -64,7 +64,7 @@ export class DoctorWorkspaceComponent implements OnInit {
         })
 
         // @ts-ignore
-        this.lbz = localStorage.getItem('lbz');
+        this.lbz = localStorage.getItem('LBZ');
         this.getSheduledExams();
     }
 

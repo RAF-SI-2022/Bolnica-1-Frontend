@@ -37,8 +37,12 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     note: string = ''
     errorMessage: string = ''
     successMessage: string = ''
+    prescriptionPage: Page<Prescription> = new Page<Prescription>()
+    prescriptionList: Prescription[] = []
 
-    constructor(private patientService: PatientService, private formBuilder: FormBuilder, private labaratoryService: LaboratoryService) {
+
+
+  constructor(private patientService: PatientService, private formBuilder: FormBuilder, private labaratoryService: LaboratoryService) {
         this.searchForm = this.formBuilder.group({
             name: ['', [Validators.required]]
         });
@@ -68,7 +72,9 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
         this.patientService.getAllPatients("", "", "", "" , this.page, this.pageSize).subscribe((response) => {
             this.patientPage = response
             this.patientList = this.patientPage.content
-            this.total = this.patientPage.totalElements
+          console.log("LALALALALALAL" + this.patientList.length)
+
+          this.total = this.patientPage.totalElements
         })
     }
 
@@ -94,9 +100,18 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
         })
     }
 
-    //todo nije jos uradjeno na beku, sad ce da dodaju
+    //nerealizovani uputi
     findExaminations() {
+      if(this.page == 0)
+        this.page = 1;
 
+      this.labaratoryService.getPrescriptionsForPatientByLbzRest(this.searchForm.get('name')?.value, this.page-1, this.pageSize)
+        .subscribe((response) => {
+          this.prescriptionPage = response
+          this.prescriptionList = this.prescriptionPage.content
+          this.total = this.prescriptionPage.totalElements
+
+        })
     }
 
     //todo da dodaju na beku @RequestParam za datum i pacijenta
@@ -130,6 +145,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
     onTableDataChange(event: any): void {
         this.page = event;
+        //ili ????? ger Examination
         this.getPatientList();
     }
 }
