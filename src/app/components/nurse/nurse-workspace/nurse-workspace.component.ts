@@ -146,6 +146,7 @@ export class NurseWorkspaceComponent implements OnInit {
       forkJoin(patientObservables).subscribe(patients => {
         patients.forEach((patient, i) => {
           const examForPatient: ExamForPatient = {
+
             id: patient.id,
             lbp: this.scheduledExams[i].lbp,
             name: patient.name,
@@ -161,6 +162,7 @@ export class NurseWorkspaceComponent implements OnInit {
         });
       });
     });
+
   }
 
   changeStatus(patient : ExamForPatient){
