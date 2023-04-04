@@ -556,7 +556,7 @@ export class PatientService {
             prescriptionAnalysisDtos: prescriptionAnalysisDtos
         }
 
-        return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/patient/prescription`, obj, {headers: this.getHeaders()});
+        return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/prescription/lab_prescription`, obj, {headers: this.getHeaders()});
     }
 
     /**

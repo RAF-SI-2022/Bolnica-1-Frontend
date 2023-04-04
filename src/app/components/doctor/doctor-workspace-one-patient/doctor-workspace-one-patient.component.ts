@@ -149,7 +149,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
           this.diagnosisCode.latinDescription = 'Morbus hepatis toxicus cholestaticus';
         }
 
-        this.patientService.createDiagnosis('8bd6dd38-4347-42a0-9fd6-733fc5e4f246', diagnosis.confidential,
+        this.patientService.createDiagnosis(this.lbp, diagnosis.confidential,
            diagnosis.treatmentResult, diagnosis.currStateDesc, this.diagnosisCode, diagnosis.exists).subscribe((response) => {
 
         }, error => {
@@ -274,6 +274,12 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
         this.allergiesList = result.allergyDtos
       }
     })
+  }
+
+  goToUput(): void {
+      console.log("usao");
+      console.log(this.lbp);
+    this.router.navigate(['doctor-create-referral',this.lbp]);
   }
 
 

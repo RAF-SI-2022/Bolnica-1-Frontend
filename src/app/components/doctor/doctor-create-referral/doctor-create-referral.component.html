@@ -1,4 +1,4 @@
-<head>
+<head xmlns="http://www.w3.org/1999/html">
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -67,7 +67,7 @@
                     <div class="col-md-4 ">
                       <label for="ustanova1" >Zdravstvena ustanova:</label>
                       <select [(ngModel)]="selectedHospital" [formControlName]="'ustanova1'" id="ustanova1" name="ustanova1" class="form-select"
-                              aria-label="Default select example"  data-cy = "ustanova1" required>
+                              aria-label="Default select example"  data-cy = "ustanova1" >
                         <!--                              <option value="1">ustanova1</option>-->
                         <!--                              <option value="2">ustanova2</option>-->
                         <!--                              <option value="3">ustanova3</option>-->
@@ -75,15 +75,47 @@
                       </select>
                     </div>
 
-
+<!--                    <div class="col-md-4 ">-->
+<!--                      <label>Odaberite laboratorijske analize:</label>-->
+<!--                      <div *ngFor="let analysis of analysisSaBeka">-->
+<!--                        <input type="checkbox" [(ngModel)]="selectedAnalysis" id="{{ analysis }}" name="{{ analysis }}" value="{{ analysis.id }}">-->
+<!--                        <label for="{{ analysis.id }}">{{ analysis.analysisName }}</label>-->
+<!--                      </div>-->
+<!--                    </div>-->
 
                     <div class="col-md-4 ">
                       <label>Odaberite laboratorijske analize:</label>
-                      <div *ngFor="let analysis of analysisSaBeka">
-                        <input type="checkbox" id="{{ analysis }}" name="{{ analysis }}" value="{{ analysis }}" >
-                        <label for="{{ analysis }}">{{ analysis }}</label>
+                      <select [(ngModel)]="selectedAnalysis" [formControlName]="'analysis'" id="analysis" name="analysis" class="form-select"
+                              aria-label="Default select example"  data-cy = "analysis">
+                        <option *ngFor="let item of analysisSaBeka" [value]="item.id">{{item.analysisName}}</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <button class="btn btn-outline-primary" (click)="getParams()">Dodaj parametre</button>
+                    </div>
+
+
+
+                    <div class="col-md-4 ">
+                      <label>Odaberite parametre:</label>
+                      <div *ngFor="let params of paramsList">
+<!--                        <input type="checkbox" id="{{ params }}" name="{{ params }}" value="{{ params.id}}" [(ngModel)]="params." (change)="onCheckboxChange($event.target.checked, params.id)">-->
+                        <input type="checkbox" id="{{ params.id }}" name="{{ params.parameterName }}" (change)="onCheckboxChange($event, params.id)">
+                        <label for="{{ params }}">{{ params.parameterName }}</label>
                       </div>
                     </div>
+
+
+<!--                    <div class="col-md-4 ">-->
+<!--                      <label>Odaberite parametre:</label>-->
+<!--                      <select   id="params" name="params" class="form-select"-->
+<!--                              aria-label="Default select example"  data-cy = "params" required>-->
+<!--                        <option *ngFor="let item of analysisParams" [value]="item.labAnalysis.analysisName">{{item.labAnalysis.analysisName}}</option>-->
+<!--                      </select>-->
+<!--                    </div>-->
+
+
 
                     <div class="col-md-8 ">
                       <label class="labels">Komentar</label>
