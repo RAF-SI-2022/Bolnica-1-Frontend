@@ -15,6 +15,5 @@ export class TechnicianIssuingResultsDetailsComponent {
 
   ngOnInit(): void {
     this.currentLabWorkOred = history.state.labWorkOrder;
-
   }
 }

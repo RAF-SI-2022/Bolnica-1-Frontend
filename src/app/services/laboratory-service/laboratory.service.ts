@@ -53,10 +53,14 @@ export class LaboratoryService {
     /**
      * Ukupan broj pregleda za prosledjeni dan
      * */
-    public listScheduledExaminationsByDay(date: Date): Observable<number> {
-        let httpParams = new HttpParams().append("date", date.toISOString())
+    public listScheduledExaminationsByDay(datee: Date): Observable<number> {
+      const datum = new Date(datee);
+      const date = datum.toISOString();
 
-        return this.http.post<number>(
+
+      let httpParams = new HttpParams().append("date", date)
+
+        return this.http.get<number>(
             `${environmentLaboratory.apiURL}/examinations/count-scheduled_examinations/by-day`,
             { params: httpParams, headers: this.getHeaders()}
         );
@@ -66,10 +70,14 @@ export class LaboratoryService {
      * Dohvata sve zakazane posete
      *
      * */
-    listScheduledEexaminations(lbp: string, date: string,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
-        let httpParams = new HttpParams()
+    listScheduledEexaminations(lbp: string, datee: Date,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
+      const datum = new Date(datee);
+
+      const date = datum.toISOString();
+
+      let httpParams = new HttpParams()
             .append("lbp",lbp)
-            .append("date", date)
+            .append("date",date)
             .append("page",page)
             .append("size",size);
 

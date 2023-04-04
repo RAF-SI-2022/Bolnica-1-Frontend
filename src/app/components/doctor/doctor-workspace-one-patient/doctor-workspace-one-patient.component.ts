@@ -8,6 +8,9 @@ import {DiagnosisCodeDto} from "../../../models/patient/DiagnosisCode";
 import {TreatmentResult} from "../../../models/patient-enums/TreatmentResult";
 import {UserService} from "../../../services/user-service/user.service";
 import {AuthService} from "../../../services/auth.service";
+import {GeneralMedicalData} from "../../../models/patient/GeneralMedicalData";
+import {Vaccination} from "../../../models/patient/Vaccination";
+import {Allergy} from "../../../models/patient/Allergy";
 
 @Component({
   selector: 'app-doctor-workspace-one-patient',
@@ -27,15 +30,26 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     lbp: string = '';
     doctorSpecPov = false;
     currentPatient: Patient = new Patient();
-    patientName: string = ''
-    patientSurname: string = ''
-    patientdateOfBirth: Date = new Date()
+    patientName: string = 'Ime'
+    patientSurname: string = 'Prezime'
+    patientdateOfBirth: Date = new Date();
+    generalMedical: GeneralMedicalData;
+    vaccinationsList: Vaccination [] = [];
+    allergiesList: Allergy [] = [];
+
 
 
     isPopupVisible = false;
     errorMessage: string = "";
 
     constructor(private authService: AuthService, private userService:UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
+      this.generalMedical = {
+        id: 0,
+        bloodType: '',
+        rh: '',
+        vaccinationDtos: [],
+        allergyDtos: []
+      };
       this.checkDoctorSpecPov();
       this.addReport = this.formBuilder.group({
             mainProblems: ['', [Validators.required]],
@@ -61,6 +75,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
       this.patientName = this.currentPatient.name
       this.patientSurname = this.currentPatient.surname
       this.patientdateOfBirth = this.currentPatient.dateOfBirth
+      this.getGeneralMedicalData(this.lbp);
     }
 
     showPopup(event: any): void {
@@ -76,7 +91,6 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
         if(!this.validateFields){
             return;
         }
-
         const examinationHistoryCreteDto = this.addReport.value
         this.anamneza.currDisease = examinationHistoryCreteDto.currDisease;
         this.anamneza.patientOpinion = examinationHistoryCreteDto.patientOpinion;
@@ -134,7 +148,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
           this.diagnosisCode.latinDescription = 'Morbus hepatis toxicus cholestaticus';
         }
 
-        this.patientService.createDiagnosis(this.lbp, diagnosis.confidential,
+        this.patientService.createDiagnosis('8bd6dd38-4347-42a0-9fd6-733fc5e4f246', diagnosis.confidential,
            diagnosis.treatmentResult, diagnosis.currStateDesc, this.diagnosisCode, diagnosis.exists).subscribe((response) => {
 
         }, error => {
@@ -219,7 +233,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
 
 
     goToMedicalRecord(): void {
-        this.router.navigate(['']);
+        this.router.navigate(['doctor-medical-chart',this.lbp]);
     }
 
 
@@ -245,6 +259,23 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     });
     return this.doctorSpecPov;
   }
+
+  getGeneralMedicalData(lbp: string): void {
+    this.patientService.getGeneralMedicalDataByLbp(this.lbp).subscribe(result => {
+
+      if(!result){
+        this.generalMedical.vaccinationDtos = []
+        this.generalMedical.allergyDtos = []
+
+      }else {
+        this.generalMedical = result
+        this.vaccinationsList = result.vaccinationDtos
+        this.allergiesList = result.allergyDtos
+      }
+    })
+  }
+
+
 
 
 
