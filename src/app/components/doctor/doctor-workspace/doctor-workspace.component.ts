@@ -96,6 +96,7 @@ export class DoctorWorkspaceComponent implements OnInit {
           this.patientService.getPatientByLbp(exam.lbp).subscribe(patient => {
 
             const examForPatient: ExamForPatient = {
+              id: exam.id,
               lbp: exam.lbp,
               name: patient.name,
               surname: patient.surname,
