@@ -23,13 +23,13 @@
 
       </div>
 
-      <label for="date">Izaberite datum: </label>
-      <input type="date" id="date" name="date">
+<!--      <label for="date">Izaberite datum: </label>-->
+<!--      <input type="date" id="date" name="date">-->
 
 
-      <div class="me-auto float-end text-end mt-3 mb-3">
-        <button type="submit" class="btn btn-primary">Pretrazi</button>
-      </div>
+<!--      <div class="me-auto float-end text-end mt-3 mb-3">-->
+<!--        <button type="submit" class="btn btn-primary">Pretrazi</button>-->
+<!--      </div>-->
 
         <table class="table table-hover">
           <thead>
@@ -40,11 +40,12 @@
             <th>Pol</th>
             <th>Status</th>
             <th> </th>
+            <th> </th>
           </tr>
           </thead>
           <tbody>
           <tr class="table-row">
-          <tr *ngFor="let patient of patients | paginate: {itemsPerPage: 0, currentPage: 0, totalItems: total}; let i = index" (click)="onRowClick(patient)">
+          <tr *ngFor="let patient of patients2" >
 
             <td>{{patient.name}}</td>
             <td>{{patient.surname}}</td>
@@ -84,7 +85,10 @@
                 <li>Otkazano</li>
               </ul>
             </td>
-            <td><button (click)="startExam(patient)" class="btn btn-primary" >Pregled</button></td>
+            <td><button (click)="startExam(patient)" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da započnete pregled?')">Pregled</button></td>
+
+            <td><button (click)="goToChart(patient)" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da udjete u karton?')">Karton</button></td>
+
           </tr>
           </tbody>
         </table>

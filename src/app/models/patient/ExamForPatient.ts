@@ -9,7 +9,7 @@ export interface ExamForPatient{
   surname: string;
   dateOfBirth: Date;
   gender: string;
-  examinationStatus: PatientExaminationStatus;
+  patientArrival: PatientArrival;
   examDate: Date;
 
 }

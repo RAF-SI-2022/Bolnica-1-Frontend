@@ -37,7 +37,7 @@
         <form (submit)="searchExams()">
         <div class="col-md-4 ">
           <label for="doctors" >Izaberite doktora:</label>
-          <select [(ngModel)]="selectedDoctor" [formControlName]="'doctors'" id="doctors" name="doctors" class="form-select"
+          <select [(ngModel)]="selectedDoctor"  id="doctors" name="doctors" class="form-select"
                   aria-label="Default select example"  data-cy = "doctors" required>
               <option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</option>
           </select>
@@ -113,12 +113,11 @@
                     }
                   </style>
 
-
-                  <li [ngClass]="{'grey-background': patient.examinationStatus !== trenutno, 'blue-background': patient.examinationStatus === trenutno}">Trenutno</li>
-                  <li [ngClass]="{'grey-background': patient.examinationStatus !== zakazano, 'orange-background': patient.examinationStatus === zakazano}">Zakazano</li>
-                  <li [ngClass]="{'grey-background': patient.examinationStatus !== ceka, 'yellow-background': patient.examinationStatus === ceka}">Ceka</li>
-                  <li [ngClass]="{'grey-background': patient.examinationStatus !== zavrseno, 'green-background': patient.examinationStatus === zavrseno}">Zavrseno</li>
-                  <li [ngClass]="{'grey-background': patient.examinationStatus !== otkazano, 'red-background': patient.examinationStatus === otkazano}">Otkazano</li>
+                  <li [ngClass]="{'grey-background': patient.patientArrival != trenutno, 'blue-background': patient.patientArrival == trenutno}">Trenutno</li>
+                  <li [ngClass]="{'grey-background': patient.patientArrival != zakazano, 'orange-background': patient.patientArrival == zakazano}">Zakazano</li>
+                  <li [ngClass]="{'grey-background': patient.patientArrival != ceka, 'yellow-background': patient.patientArrival == ceka}">Ceka</li>
+                  <li [ngClass]="{'grey-background': patient.patientArrival != zavrseno, 'green-background': patient.patientArrival == zavrseno}">Zavrseno</li>
+                  <li [ngClass]="{'grey-background': patient.patientArrival != otkazano, 'red-background': patient.patientArrival == otkazano}">Otkazano</li>
 
                 </ul>
               </td>

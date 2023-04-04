@@ -13,6 +13,15 @@ import {FormBuilder} from "@angular/forms";
 import {Router} from "@angular/router";
 import {UserService} from "../../../services/user-service/user.service";
 import {ExaminationService} from "../../../services/examination-service/examination.service";
+import {ExamForPatient} from "../../../models/patient/ExamForPatient";
+import {ScheduleExamCreate} from "../../../models/patient/ScheduleExamCreate";
+import {Patient} from "../../../models/patient/Patient";
+import {Zaposleni} from "../../../models/models";
+import {Page} from "../../../models/models";
+import {DoctorDepartmentDto} from "../../../models/DoctorDepartmentDto";
+import {ScheduleExam} from "../../../models/patient/ScheduleExam";
+import * as moment from 'moment';
+
 
 
 L10n.load({
@@ -38,46 +47,6 @@ export class NurseScheduleAppointmentComponent implements OnInit{
 
   public setView: View= 'Month';
 
-  // public eventData: EventSettingsModel = {
-  //
-  //   dataSource: [{
-  //
-  //     Id: 1,
-  //
-  //     Subject: 'Board Meeting',
-  //
-  //     StartTime: new Date(2023, 4, 2, 15, 0),
-  //
-  //     EndTime: new Date(2023, 4, 2, 15, 30)
-  //
-  //   },
-  //
-  //     {
-  //
-  //       Id: 2,
-  //
-  //       Subject: 'Training session on JSP',
-  //
-  //       StartTime: new Date(2023, 4, 3, 9, 0),
-  //
-  //       EndTime: new Date(2023, 4, 3, 9, 30)
-  //
-  //     },
-  //
-  //     {
-  //
-  //       Id: 3,
-  //
-  //       Subject: 'Sprint Planning with Team members',
-  //
-  //       StartTime: new Date(2023, 4, 4, 10, 0),
-  //
-  //       EndTime: new Date(2023, 4, 4, 11, 0)
-  //
-  //     }]
-  //
-  // }
-
   public eventSettings: EventSettingsModel = {
     dataSource: [],
     fields: {
@@ -98,11 +67,22 @@ export class NurseScheduleAppointmentComponent implements OnInit{
   };
 
   subject: string = '';
-  reason: string = '';
+  note: string = '';
   patient: string = '';
-  doctor: string = '';
+  selectedDoctor: string = '';
   selectedDateTime: Date = new Date();
   lbz: string = '';
+  lbp: string = '';
+  doctors: DoctorDepartmentDto[] = [];
+  patientList: Patient[] = []
+  nurseDepartmentPbo : string = '';
+  responseExams: ScheduleExam[] = [];
+
+  page = 0
+  pageSize = 5
+  total = 0
+  patientPage: Page<Patient> = new Page<Patient>()
+
 
   constructor(private patientService: PatientService, private userService: UserService, private examinationService: ExaminationService) {
 
@@ -112,6 +92,36 @@ export class NurseScheduleAppointmentComponent implements OnInit{
     // @ts-ignore
     this.lbz = localStorage.getItem('LBZ').toString()
     this.addEventsData();
+    this.getPatientList();
+    this.getNurseDepartment();
+  }
+
+  getNurseDepartment(): void{
+
+    this.userService.getEmployee(this.lbz).subscribe(res => {},
+      err => {
+        if (err.status == 302) { // found!
+          this.nurseDepartmentPbo = err.error.department.pbo;
+          console.log("department " + this.nurseDepartmentPbo)
+
+          this.getDoctors()
+        }
+      })
+  }
+
+  getDoctors(): void{
+    this.examinationService.getDoctorsByDepartment(this.nurseDepartmentPbo).subscribe(res=>{
+      this.doctors = res
+      console.log(this.doctors)
+    })
+  }
+
+  getPatientList(){
+    this.patientService.getAllPatients("", "", "", "" , this.page, this.pageSize).subscribe((response) => {
+      this.patientPage = response
+      this.patientList = this.patientPage.content
+      this.total = this.patientPage.totalElements
+    })
   }
 
 
@@ -120,36 +130,56 @@ export class NurseScheduleAppointmentComponent implements OnInit{
     let events: Record<string, any>[] = [
       { Id: 1,
         Subject: 'a',
-        StartTime: new Date(2023, 4, 4, 9, 0),
-        EndTime: new Date(2023, 4, 4, 9, 30) },
+        StartTime: new Date(2023, 3, 4, 9, 0),
+        EndTime: new Date(2023, 3, 4, 9, 30) },
       { Id: 2,
         Subject: 'b',
-        StartTime: new Date(2023, 4, 5, 15, 0),
-        EndTime: new Date(2023, 4, 5, 15, 30) },
+        StartTime: new Date(2023, 3, 5, 15, 0),
+        EndTime: new Date(2023, 3, 5, 15, 30) },
       { Id: 3,
         Subject: 'c',
-        StartTime: new Date(2023, 4, 6, 9, 30),
-        EndTime: new Date(2023, 4, 6, 10, 0) },
+        StartTime: new Date(2023, 3, 6, 9, 30),
+        EndTime: new Date(2023, 3, 6, 10, 0) },
       { Id: 4,
         Subject: 'd',
-        StartTime: new Date(2023, 4, 7, 11, 0),
-        EndTime: new Date(2023, 4, 7, 13, 0) }
+        StartTime: new Date(2023, 3, 7, 11, 0),
+        EndTime: new Date(2023, 3, 7, 13, 0) }
     ];
 
-    this.eventSettings.dataSource = events;
+    // this.eventSettings.dataSource = events;
 
-    this.eventSettings.dataSource.forEach(event => {
-      // this.scheduleObj?.appendTo('#schedule');
-      this.scheduleObj?.addEvent(event);
-      this.scheduleObj?.refresh();
-      console.log(event)
-    });
-
-    // this.examinationService.getScheduledExaminations(
-    //   this.lbz, new Date()
-    // ).subscribe( res =>{
-    //   this.eventSettings.dataSource = res;
+    // this.eventSettings.dataSource.forEach(event => {
+    //   // this.scheduleObj?.appendTo('#schedule');
+    //   this.scheduleObj?.addEvent(event);
+    //   this.scheduleObj?.refresh();
+    //   console.log(event)
     // });
+
+    console.log(this.selectedDoctor)
+
+    this.examinationService.getScheduledExaminationByDoctor(
+      this.selectedDoctor
+    ).subscribe( res =>{
+      this.responseExams = res;
+
+      this.responseExams.forEach(event => {
+        // this.scheduleObj?.appendTo('#schedule');
+
+        const eventData = {
+          Id: (<Record<string, any>>this.eventSettings.dataSource)['length'] + 1,
+          Subject: this.subject,
+          StartTime: event.dateAndTime,
+          EndTime: moment(event.dateAndTime).add(30, 'minutes').toDate(),
+          Note: this.note,
+          Patient: event.lbp
+        };
+
+
+        this.scheduleObj?.addEvent(eventData);
+        this.scheduleObj?.refresh();
+        console.log(event)
+      });
+    });
 
   }
 
@@ -163,9 +193,14 @@ export class NurseScheduleAppointmentComponent implements OnInit{
       Subject: this.subject,
       StartTime: this.selectedDateTime,
       EndTime: new Date(this.selectedDateTime.getTime() + (30 * 60 * 1000)),
-      Reason: this.reason,
+      Note: this.note,
       Patient: this.patient
     };
+
+
+    this.examinationService.createExamination(this.selectedDateTime, this.selectedDoctor, this.patient, this.note).subscribe(res=>{
+      console.log(res)
+    })
 
     // console.log(eventData.StartTime)
     // console.log(eventData.EndTime)
