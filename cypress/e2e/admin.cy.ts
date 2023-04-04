@@ -2,7 +2,7 @@
 
 describe("Admin Add/Delete Employee", ()=>{
     beforeEach(()=>{
-        cy.login("johndoe","password1")
+        cy.login("john.doe","password", "/admin-workspace")
         cy.visit("/admin-add-employee")
     })
   
@@ -42,7 +42,7 @@ describe("Admin Add/Delete Employee", ()=>{
         cy.contains("Unesite vase mesto stanovanja").should("not.be.visible")
         cy.get("input[name='date']").type("1999-12-31")
         cy.get("select[name='title']").select("Prof. dr. med").invoke("val").should("eq","PROF_DR_MED") 
-        cy.get("select[name='odeljenje']").select("Department1").invoke("val").should("eq","12345")     
+        cy.get("select[name='odeljenje']").select("Cardiology").invoke("val").should("eq","D001")     
         cy.get("select[name='profession']").select("Spec. neurolog").invoke("val").should("eq","SPEC_NEUROLOG")
         cy.contains("Doktor specijalista").click({force:true}) 
         cy.get("[type='submit']").contains("Napravi").click()
