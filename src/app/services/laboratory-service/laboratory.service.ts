@@ -7,13 +7,20 @@ import {ExpertiseDegree} from "../../models/patient-enums/ExpertiseDegree";
 import {FamilyStatus} from "../../models/patient-enums/FamilyStatus";
 import {Observable} from "rxjs";
 import {PatientUpdateClass} from "../../models/patient/PatientUpdate";
-import {environmentLaboratory, environmentPatient} from "../../../environments/environment";
-import {Page} from "../../models/models";
+import {environment, environmentLaboratory, environmentPatient} from "../../../environments/environment";
+import {DeparmentShort, Page} from "../../models/models";
 import {ExaminationHistory} from "../../models/patient/ExaminationHistory";
 import {Patient} from "../../models/patient/Patient";
 import {ScheduledLabExamination} from "../../models/laboratory/ScheduledLabExamination";
 import {LabWorkOrder} from "../../models/laboratory/LabWorkOrder";
-import {Prescription} from "../../models/laboratory/Prescription";
+
+import {PatientGeneralDto} from "../../models/patient/PatientGeneralDto";
+import {LabAnalysisDto} from "../../models/laboratory/LabAnalysisDto";
+import {AnalysisParameter} from "../../models/laboratory/AnalysisParameter";
+import {ParameterDto} from "../../models/laboratory/ParameterDto";
+
+//import {Prescription} from "../../models/laboratory/Prescription";
+
 
 @Injectable({
   providedIn: 'root'
@@ -151,6 +158,23 @@ export class LaboratoryService {
     );
   }
 
+  // public getAnalysis(): Observable<LabAnalysisDto[]>{
+  //     console.log("dosao do servisa")
+  //   return this.http.get<LabAnalysisDto[]>(`${environmentLaboratory.apiURL}/analysis/getAllLabAnalysis`, {headers: this.getHeaders()});
+  // }
 
+  getAnalysis(): Observable<LabAnalysisDto[]>{
+      console.log("dosao do servisa");
+      return this.http.get<LabAnalysisDto[]>(`${environmentLaboratory.apiURL}/analysis/getAllLabAnalysis`, { headers: this.getHeaders() });
+    }
+
+  getAnalysisParams(id: number, page: number, size: number): Observable<Page<ParameterDto>>{
+    console.log("dosao do servisa");
+    let httpParams = new HttpParams().append("id", id)
+      .append("page", page)
+      .append("size",size)
+    return this.http.get<Page<ParameterDto>>(`${environmentLaboratory.apiURL}/analysisParameter/getParametersByAnalysisId`,{params: httpParams, headers: this.getHeaders() });
+
+  }
 
 }

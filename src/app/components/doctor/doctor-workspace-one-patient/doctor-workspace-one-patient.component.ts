@@ -274,6 +274,12 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     })
   }
 
+  goToUput(): void {
+      console.log("usao");
+      console.log(this.lbp);
+    this.router.navigate(['doctor-create-referral',this.lbp]);
+  }
+
 
 
 

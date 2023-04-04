@@ -162,7 +162,7 @@ const routes: Routes = [
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
-    path: "doctor-create-referral",
+    path: "doctor-create-referral/:lbp",
     component: DoctorCreateReferralComponent,
     canActivate: [AuthGuard, DoctorGuard]
   },

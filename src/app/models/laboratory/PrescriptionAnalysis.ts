@@ -3,3 +3,9 @@ export interface PrescriptionAnalysis{
   parametersIds: number[];
 
 }
+
+export class PrescriptionAnalysis{
+  analysisId: number = 0;
+  parametersIds: number[] = [];
+
+}
