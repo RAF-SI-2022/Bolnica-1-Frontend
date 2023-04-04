@@ -149,8 +149,7 @@ export class ExaminationService {
 
     return this.http.get<DoctorDepartmentDto[]>(
       `${environment.apiURL}/department/getAllDoctors/${pbo}`,
-      { headers: this.getHeaders()}
-    );
+      { headers: this.getHeaders()});
   }
 
   /**
@@ -164,8 +163,9 @@ export class ExaminationService {
     let httpParams = new HttpParams()
       .append("pa",pa)
 
-    return this.http.put<HttpStatusCode>(`${environmentPatient.apiURL}/examination/patient/${id}`,
+    return this.http.put<HttpStatusCode>(`${environmentPatient.apiURL}/examination/patient/${id}`, '',
       {params: httpParams,headers: this.getHeaders()});
+
   }
 
 
