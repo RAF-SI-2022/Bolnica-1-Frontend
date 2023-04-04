@@ -18,11 +18,16 @@ export class DoctorWorkspaceComponent implements OnInit {
 
     public patients: Patient[] = [];
     patientPage: Page<Patient> = new Page<Patient>()
-    total = 0
+
     isPopupVisible = false;
     lbz: string = '';
     scheduledExams : ScheduleExam[] = [];
     patients2: ExamForPatient[] = [];
+
+    page = 0
+    pageSize = 5
+    total = 0
+    schedulePage: Page<ScheduleExam> = new Page<ScheduleExam>()
 
     /*
     //popup se pojavljujem kliktajem na red
@@ -56,30 +61,35 @@ export class DoctorWorkspaceComponent implements OnInit {
 
 
     ngOnInit(): void {
-        // [TODO] Temporary values for getAllPatients parameters
-        this.patientService.getAllPatients('', '', '', '', 0, 5).subscribe((response) => {
-            this.patientPage = response
-            this.patients = this.patientPage.content
-            this.total = this.patientPage.totalElements
-        })
+        // // [TODO] Temporary values for getAllPatients parameters
+        // this.patientService.getAllPatients('', '', '', '', 0, 5).subscribe((response) => {
+        //     this.patientPage = response
+        //     this.patients = this.patientPage.content
+        //     this.total = this.patientPage.totalElements
+        // })
 
         // @ts-ignore
-        this.lbz = localStorage.getItem('lbz');
+        this.lbz = localStorage.getItem('LBZ');
+        console.log(this.lbz)
         this.getSheduledExams();
     }
 
-    getPatients(): void {
-        // [TODO] Temporary values for getAllPatients parameters
-        this.patientService.getAllPatients('', '', '', '', 0, 5).subscribe((response) => {
-            this.patientPage = response
-            this.patients = this.patientPage.content
-            this.total = this.patientPage.totalElements
-        })
-    }
+    // getPatients(): void {
+    //     // [TODO] Temporary values for getAllPatients parameters
+    //     this.patientService.getAllPatients('', '', '', '', 0, 5).subscribe((response) => {
+    //         this.patientPage = response
+    //         this.patients = this.patientPage.content
+    //         this.total = this.patientPage.totalElements
+    //     })
+    // }
 
     getSheduledExams(): void {
-      this.examinationService.getScheduledExaminations(this.lbz, new Date())
-        .subscribe(res =>{
+
+    this.examinationService.getScheduledExaminationByDoctor(
+        this.lbz
+        ).subscribe( res =>{
+          console.log("usao sam u metodu")
+          console.log(res)
         this.scheduledExams = res;
 
         this.scheduledExams.forEach(exam => {
@@ -91,9 +101,11 @@ export class DoctorWorkspaceComponent implements OnInit {
               surname: patient.surname,
               dateOfBirth: patient.dateOfBirth,
               gender: patient.gender,
-              examinationStatus: exam.examinationStatus,
+              patientArrival: exam.patientArrival,
               examDate: exam.dateAndTime
             };
+
+            console.log("exam")
 
             this.patients2.push(examForPatient);
 
@@ -103,17 +115,24 @@ export class DoctorWorkspaceComponent implements OnInit {
     }
 
 
-    startExam(patient: Patient) {
-      if (confirm(`Da li ste sigurni da zelite da započnete pregled pacijenta ${patient.name + ' ' +  patient.surname}?`)){
-        this.router.navigate(['doctor-workspace-one', patient.lbp]);
-      }
-    }
-  onRowClick(patient: Patient): void {
-    //this.router.navigate(['doctor-workspace-one', lbp])
-    // const encodedUser = encodeURIComponent(JSON.stringify(patient));
-     const url = `/doctor-workspace-one/${patient.lbp}`;
-    // this.router.navigateByUrl(url);
-    this.router.navigateByUrl(url, { state: { patient } });
+    // startExam(patient: Patient) {
+    //   if (confirm(`Da li ste sigurni da zelite da započnete pregled pacijenta ${patient.name + ' ' +  patient.surname}?`)){
+    //     this.router.navigate(['doctor-workspace-one', patient.lbp]);
+    //   }
+    // }
 
+  startExam(patient: ExamForPatient): void {
+    this.patientService.getPatientByLbp(patient.lbp).subscribe(res => {
+      //this.router.navigate(['doctor-workspace-one', lbp])
+      // const encodedUser = encodeURIComponent(JSON.stringify(patient));
+      const url = `/doctor-workspace-one/${res.lbp}`;
+      // this.router.navigateByUrl(url);
+      this.router.navigateByUrl(url, { state: { res } });
+
+    })
+  }
+
+  goToChart(patient: ExamForPatient): void{
+      this.router.navigate(['doctor-medical-chart', patient.lbp])
   }
 }
