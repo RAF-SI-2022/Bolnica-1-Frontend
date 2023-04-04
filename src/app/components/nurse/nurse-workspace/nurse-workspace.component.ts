@@ -4,12 +4,10 @@ import {PatientService} from "../../../services/patient-service/patient.service"
 import {ExamForPatient} from "../../../models/patient/ExamForPatient";
 import {ScheduleExam} from "../../../models/patient/ScheduleExam";
 import {UserService} from "../../../services/user-service/user.service";
-import {Page, Zaposleni} from "../../../models/models";
-import {PatientExaminationStatus} from "../../../models/patient-enums/PatientExaminationStatus";
+import {Page} from "../../../models/models";
 import {PatientArrival} from "../../../models/laboratory-enums/PatientArrival";
-import {forkJoin, switchMap} from "rxjs";
+import {forkJoin} from "rxjs";
 import {DoctorDepartmentDto} from "../../../models/DoctorDepartmentDto";
-import {Patient} from "../../../models/patient/Patient";
 
 @Component({
   selector: 'app-nurse-workspace',
@@ -17,8 +15,9 @@ import {Patient} from "../../../models/patient/Patient";
   styleUrls: ['./nurse-workspace.component.css']
 })
 export class NurseWorkspaceComponent implements OnInit {
+  patientArrivals = Object.values(PatientArrival).filter(value => typeof value === 'string');
 
-  selectedStatus: string = ''
+  selectedStatus: PatientArrival
   activeStatus: string = ''
   lbz: string = '';
   scheduledExams : ScheduleExam[] = [];
@@ -42,6 +41,9 @@ export class NurseWorkspaceComponent implements OnInit {
   constructor(private examinationService: ExaminationService,
               private patientService: PatientService,
               private userService: UserService) {
+      this.selectedStatus = PatientArrival.ZAKAZANO;
+
+
   }
 
   ngOnInit(): void {
@@ -56,6 +58,7 @@ export class NurseWorkspaceComponent implements OnInit {
     // })
 
     // this.getDoctors();
+
 
   }
 
@@ -166,9 +169,25 @@ export class NurseWorkspaceComponent implements OnInit {
   }
 
   changeStatus(patient : ExamForPatient){
-      // let pa = new PatientArrival();
-      //
-      // this.examinationService.updatePatientStatus(patient.id,  )
+    if(this.selectedStatus ==0 ){
+      this.examinationService.updatePatientStatus(patient.id, PatientArrival.ZAKAZANO).subscribe({
+      })
+    }
+    if(this.selectedStatus == 1){
+      this.examinationService.updatePatientStatus(patient.id, PatientArrival.OTKAZANO).subscribe({
+      })
+    } if(this.selectedStatus == 2){
+      this.examinationService.updatePatientStatus(patient.id, PatientArrival.CEKA).subscribe({
+      })
+    }
+    if(this.selectedStatus == 3){
+      this.examinationService.updatePatientStatus(patient.id, PatientArrival.TRENUTNO).subscribe({
+      })
+    }
+    if(this.selectedStatus == 4){
+      this.examinationService.updatePatientStatus(patient.id, PatientArrival.ZAVRSENO).subscribe({
+      })
+    }
 
     console.log("status "+this.selectedStatus)
     console.log("id "+patient.id)

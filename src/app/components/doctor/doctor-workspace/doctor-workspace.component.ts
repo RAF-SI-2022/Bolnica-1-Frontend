@@ -126,11 +126,12 @@ export class DoctorWorkspaceComponent implements OnInit {
 
   startExam(patient: ExamForPatient): void {
     this.patientService.getPatientByLbp(patient.lbp).subscribe(res => {
+      console.log("NANANANANANANANANNANANANANA" + patient.name)
       //this.router.navigate(['doctor-workspace-one', lbp])
       // const encodedUser = encodeURIComponent(JSON.stringify(patient));
-      const url = `/doctor-workspace-one/${res.lbp}`;
+      const url = `/doctor-workspace-one/${patient.lbp}`;
       // this.router.navigateByUrl(url);
-      this.router.navigateByUrl(url, { state: { res } });
+      this.router.navigateByUrl(url, { state: { patient  } });
 
     })
   }

@@ -127,14 +127,16 @@
 <!--                </ul>-->
 
                 <div >
-
-                  <select [ngModel]="selectedStatus" >
-                    <option value="ZAKAZANO" selected>ZAKAZANO</option>
-                    <option value="TRENUTNO">TRENUTNO</option>
-                    <option value="CEKA">CEKA</option>
-                    <option value="ZAVRSENO">ZAVRSENO</option>
-                    <option value="OTKAZANO">OTKAZANO</option>
+                  <select class="form-select" name="pattientArrival" data-cy="pattientArrival"  [ngModel]="selectedStatus" >
+                    <option *ngFor="let arrival  of patientArrivals" [value]="arrival ">{{ arrival  }}</option>
                   </select>
+<!--                  <select [ngModel]="selectedStatus" >-->
+<!--                    <option value="ZAKAZANO" selected>ZAKAZANO</option>-->
+<!--                    <option value="TRENUTNO">TRENUTNO</option>-->
+<!--                    <option value="CEKA">CEKA</option>-->
+<!--                    <option value="ZAVRSENO">ZAVRSENO</option>-->
+<!--                    <option value="OTKAZANO">OTKAZANO</option>-->
+<!--                  </select>-->
 
                 </div>
 
