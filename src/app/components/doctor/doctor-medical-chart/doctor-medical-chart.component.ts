@@ -38,12 +38,15 @@ export class DoctorMedicalChartComponent implements OnInit {
     defaultId: number = 0
     idStr: string = ''
     public idPrescription: number = 0
+    public idExaminationHistory: number = 0
     public dateFrom: string = ''
     public dateTo: string = ''
     public correctDate: string = ''
+    public correctDateLabaratory: string = ''
+
     public diagnosis: string = ''
-    public dateToPrescription: string = ''
-    public dateFromPrescription: string = ''
+    public dateToPrescription: Date = new Date()
+    public dateFromPrescription:Date = new Date()
     public dateToLabaratory: Date = new Date()
     public dateFromLabaratory: Date = new Date()
     medicalHistories: MedicalHistory [] = []
@@ -51,8 +54,10 @@ export class DoctorMedicalChartComponent implements OnInit {
     prescriptionHistories: Prescription [] = []
     labaratoryHistories: LabAnalysis [] = []
     labWorkOrders: LabWorkOrder [] = []
+    allergies: Allergy [] = []
+    vaccines: Vaccination [] = []
 
-    //todo kojom rutom ovo popunjavam ??
+  //todo kojom rutom ovo popunjavam ??
     detailsLabWorkOrders: LabWorkOrderWithAnalysis [] = []
     medicalPage: Page<MedicalHistory> = new Page<MedicalHistory>()
     prescriptionPage: Page<Prescription> = new Page<Prescription>()
@@ -102,7 +107,7 @@ export class DoctorMedicalChartComponent implements OnInit {
         this.prescriptionForm = this.formBuilder.group({
             dateFromPrescription: '',
             dateToPrescription: '',
-            deleteButton: ''
+            deleteButton: '',
         })
         this.labaratoryForm = this.formBuilder.group({
             dateFrom: '',
@@ -111,7 +116,8 @@ export class DoctorMedicalChartComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
+      this.prescriptionForm.get('deleteButton')?.disable()
+      this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
         // @ts-ignore
         this.lbz  = localStorage.getItem('LBZ')
         // @ts-ignore
@@ -120,10 +126,40 @@ export class DoctorMedicalChartComponent implements OnInit {
         this.generalForm.get('bloodGroup')?.disable()
         this.generalForm.get('rhFactor')?.disable()
         this.getGeneralMedical(this.lbp)
-        this.getMedicalHistoryByDiagnosisCode()
-        this.getExaminationHistory()
-        //this.getPrescriptions()
-        //this.getLabaratory()
+      //OVO JE ZA ISTORIJU PREGLEDA cim se ucita
+
+      this.patientService.getExaminationHistoryByRange(this.lbp, new Date(0), new Date(), this.page, this.pageSize).subscribe(
+        response => {
+          this.examinationPage = response
+          this.examinationHistories = this.examinationPage.content
+          this.total = this.examinationPage.totalElements
+        })
+        //za istoriju bolesti cim se ucita
+      console.log("LALALALALALALA" + this.diagnosis)
+      this.patientService.getMedicalHistoryByLbpPaged(this.lbp, this.page, this.pageSize).subscribe(
+        response => {
+          this.medicalPage = response
+          this.medicalHistories = this.medicalPage.content
+          this.total = this.medicalPage.totalElements
+
+        })
+      //za istoriju uputa
+      this.patientService.getPrescriptions(this.dateFromPrescription, this.dateToPrescription, this.lbp, this.page, this.pageSize).subscribe(
+        response => {
+          this.prescriptionPage = response
+          this.prescriptionHistories = this.prescriptionPage.content
+          this.total = this.prescriptionPage.totalElements
+        })
+     // ovo je za labaratorijske izvestaje
+      this.labaratoryService.workOrdersHistory(this.lbp, this.dateFromLabaratory, this.dateToLabaratory, this.page, this.pageSize).subscribe(
+        response => {
+          this.labWorkOrderPage = response
+          this.labWorkOrders = this.labWorkOrderPage.content
+          this.total = this.labWorkOrderPage.totalElements
+        })
+        this.getAllergy()
+        this.getVaccine()
+
     }
 
     updateGeneral(): void {
@@ -161,6 +197,12 @@ export class DoctorMedicalChartComponent implements OnInit {
         })
     }
 
+  getAllergy(): void {
+    this.patientService.getAllergy().subscribe(result => {
+      this.allergies = result;
+    }, err => {});
+  }
+
     saveVaccine(): void {
         this.patientService.addVacine(this.lbp, this.vaccineForm.get('vaccine')?.value, this.vaccineForm.get('dateOfReceiving')?.value).subscribe(result => {
           this.getGeneralMedical(this.lbp)
@@ -168,15 +210,12 @@ export class DoctorMedicalChartComponent implements OnInit {
         });
     }
 
-    getExaminationHistory(): void {
-        this.patientService.getExaminationHistoryByLbp(this.lbp).subscribe(
-        response => {
-            console.log("Istorija pregleda")
-            this.examinationPage = response
-            this.examinationHistories = this.examinationPage.content
-            this.total = this.examinationPage.totalElements
-        })
+    getVaccine(): void {
+      this.patientService.getVaccine().subscribe(result => {
+        this.vaccines = result;
+      }, err => {});
     }
+
 
     getExaminationHistoryChoose(): void {
         if(this.correctDate != ''){
@@ -185,11 +224,13 @@ export class DoctorMedicalChartComponent implements OnInit {
             this.getExaminationHistoryWithRange()
         }
     }
+  //ISTORIJA PREGLEDA ZA JEDAN DATUM
 
     getExaminationHistoryWithDate(): void {
             console.log("Istorija pregleda jedan datum")
-
-            this.patientService.getExaminationHistoryByDate(this.lbp, this.correctDate,this.page-1, this.pageSize).subscribe(
+      if(this.page == 0)
+        this.page = 1;
+            this.patientService.getExaminationHistoryByDate(this.lbp,this.examinationForm.get('correctDate')?.value,this.page-1, this.pageSize).subscribe(
                 response => {
                     this.examinationPage = response
                     this.examinationHistories = this.examinationPage.content
@@ -197,11 +238,13 @@ export class DoctorMedicalChartComponent implements OnInit {
                 })
             this.correctDate = ''
     }
-
+    //ISTORIJA PREGLEDA SA OD DO
     getExaminationHistoryWithRange(): void {
         console.log("Istorija pregleda dva datuma")
+      if(this.page == 0)
+        this.page = 1;
 
-        this.patientService.getExaminationHistoryByRange(this.lbp, this.dateFrom, this.dateTo, this.page-1, this.pageSize).subscribe(
+        this.patientService.getExaminationHistoryByRange(this.lbp, this.examinationForm.get('dateFrom')?.value, this.examinationForm.get('dateTo')?.value, this.page-1, this.pageSize).subscribe(
         response => {
             this.examinationPage = response
             this.examinationHistories = this.examinationPage.content
@@ -210,8 +253,11 @@ export class DoctorMedicalChartComponent implements OnInit {
         this.dateFrom = ''
         this.dateTo = ''
     }
-
+  //TAB ISTORIJA BOLESTI
     getMedicalHistoryByDiagnosisCode(): void {
+      if(this.page == 0)
+        this.page = 1;
+
         this.patientService.getMedicalHistoriesByDiagnosisCodePaged(this.lbp, this.diagnosis, this.page-1, this.pageSize).subscribe(
         response => {
             this.medicalPage = response
@@ -219,9 +265,12 @@ export class DoctorMedicalChartComponent implements OnInit {
             this.total = this.medicalPage.totalElements
         })
     }
-    //todo gde je od - do na beku????
+    //TAB ISTORIJA UPUTA, PRESCRIPTION JE UPUT!
     getPrescriptions(): void {
-        this.patientService.getPrescriptions(this.lbp, this.page, this.pageSize).subscribe(
+      if(this.page == 0)
+        this.page = 1;
+
+        this.patientService.getPrescriptions(this.dateFromPrescription, this.dateToPrescription, this.lbp, this.page-1, this.pageSize).subscribe(
         response => {
             this.prescriptionPage = response
             this.prescriptionHistories = this.prescriptionPage.content
@@ -230,6 +279,9 @@ export class DoctorMedicalChartComponent implements OnInit {
     }
 
     getLabaratory(): void {
+      if(this.page == 0)
+        this.page = 1;
+
         this.labaratoryService.workOrdersHistory(this.lbp, this.dateFromLabaratory, this.dateToLabaratory, this.page-1, this.pageSize).subscribe(
         response => {
             this.labWorkOrderPage = response
@@ -238,11 +290,15 @@ export class DoctorMedicalChartComponent implements OnInit {
         })
     }
   //todo sta ovdde, koja ruta sa bekenda??
-    getLabaratoryObradjeni(): void {}
+    getLabaratoryObradjeni(): void {
+
+    }
 
     deletePrescription(id: number): void {
-        //todo dodaj da dugme nije klikalibno ako nije isti doktor koji je kreirao uput
-        this.patientService.deletePerscription(id).subscribe(response => {})
+
+        this.patientService.deletePerscription(id).subscribe(response => {
+          console.log("USPESNO OBRISAN")
+        })
     }
 
     getObradjeni(): void {
@@ -255,30 +311,34 @@ export class DoctorMedicalChartComponent implements OnInit {
     }
 
     onTableDataChange(event: any): void {
-        this.page = event;
-        if(this.diagnosis != '') {
-            this.getMedicalHistoryByDiagnosisCode();
-        }
-        if(this.correctDate != ''){
-            this.getExaminationHistoryWithDate()
-        }else if(this.dateFrom != '' && this.dateTo != ''){
-            this.getExaminationHistoryWithRange()
-        }else{
-            this.getExaminationHistory()
-        }
+      this.page = event;
+      if (this.diagnosis != '') {
+        this.getMedicalHistoryByDiagnosisCode();
+      }
+      if (this.correctDate != '') {
+        this.getExaminationHistoryWithDate()
+      } else if (this.dateFrom != '' && this.dateTo != '') {
+        this.getExaminationHistoryWithRange()
+      }
+
     }
 
     onRowClick(prescription: Prescription): void {
         this.idPrescription = prescription.id
-        //todo ako nije realizovan?
+
         if(prescription.status == PrescriptionStatus.NEREALIZOVAN){
             this.delete = true
         }
         if(this.id == prescription.doctorId){
             this.doctor = true
+          // @ts-ignore
+          this.prescriptionForm.get('deleteButton').enable()
         }
     }
 
-  //todo SREDI PAGINACIJU
+  onRowClickExamination(examinationHistory: ExaminationHistory): void {
+      this.idExaminationHistory = examinationHistory.id
+  }
+
 
 }

@@ -39,9 +39,9 @@ export class UserService {
     }
 
     /**
-     * 
+     *
      * @param formData Form data holds username and password
-     * @returns 
+     * @returns
      */
     login(formData: { username: string; password: string; }): Observable<LoginResponse> {
         return this.http.post<LoginResponse>(environment.apiURL + '/auth/login', {
@@ -61,9 +61,9 @@ export class UserService {
     }
 
     /**
-     * 
+     *
      * @param formData Contains email
-     * @returns 
+     * @returns
      */
     resetPassword(formData: { email: string; }): Observable<ResetPasswordResponse> {
         return this.http.put<ResetPasswordResponse>(environment.apiURL + `/emp/pr`, {
@@ -80,61 +80,61 @@ export class UserService {
     }
 
     editZaposleniObjekat(
-        ime: string, 
-        prezime: string, 
-        datumRodjenja: string, 
-        JMBG: string, 
+        ime: string,
+        prezime: string,
+        datumRodjenja: string,
+        JMBG: string,
         mestoStanovanja: string,
-        adresaStanovanja: string, 
+        adresaStanovanja: string,
         brojTelefona: string,
-        imejl: string, 
-        musko: boolean, 
-        zensko: boolean, 
-        titula: string, 
-        zanimanje: string, 
+        imejl: string,
+        musko: boolean,
+        zensko: boolean,
+        titula: string,
+        zanimanje: string,
         odeljenje: string,
-        ADMIN: boolean, 
-        DR_SPEC_ODELJENJA: boolean, 
-        DR_SPEC: boolean, 
-        DR_SPEC_POV: boolean, 
-        VISA_MED_SESTRA: boolean, 
+        ADMIN: boolean,
+        DR_SPEC_ODELJENJA: boolean,
+        DR_SPEC: boolean,
+        DR_SPEC_POV: boolean,
+        VISA_MED_SESTRA: boolean,
         MED_SESTRA: boolean,
         RECEPCIONER: boolean,
-        VISI_LABORATORIJSKI_TEHNICAR: boolean, 
-        LABORATORIJSKI_TEHNICAR: boolean, 
-        MEDICINSKI_BIOHEMICAR: boolean, 
+        VISI_LABORATORIJSKI_TEHNICAR: boolean,
+        LABORATORIJSKI_TEHNICAR: boolean,
+        MEDICINSKI_BIOHEMICAR: boolean,
         SPECIJALISTA_MEDICINSKE_BIOHEMIJE: boolean
         ): AdminPromeniZaposlenog {
 
         let obj = new AdminPromeniZaposlenog();
-        obj.name = ime; 
-        obj.surname = prezime; 
-        obj.dateOfBirth = new Date(datumRodjenja); 
-        obj.jmbg = JMBG; 
-        obj.placeOfLiving = mestoStanovanja; 
-        obj.address = adresaStanovanja; 
+        obj.name = ime;
+        obj.surname = prezime;
+        obj.dateOfBirth = new Date(datumRodjenja);
+        obj.jmbg = JMBG;
+        obj.placeOfLiving = mestoStanovanja;
+        obj.address = adresaStanovanja;
         obj.phone = brojTelefona;
-        obj.email = imejl; 
-        obj.gender = musko ? 'male' : 'female'; 
-        obj.title = <Title>titula; 
+        obj.email = imejl;
+        obj.gender = musko ? 'male' : 'female';
+        obj.title = <Title>titula;
         obj.profession = <Profession>zanimanje;
 
         return obj;
     }
 
     public addEmployee(
-        name: string, 
-        surname: string, 
-        dateOfBirth: Date, 
-        gender: string, 
-        jmbg: string, 
+        name: string,
+        surname: string,
+        dateOfBirth: Date,
+        gender: string,
+        jmbg: string,
         adress:string,
-        placeOfLiving: string, 
-        phone: string, 
-        email: string, 
-        title: Title, 
-        profession: Profession, 
-        departmentPbo: string, 
+        placeOfLiving: string,
+        phone: string,
+        email: string,
+        title: Title,
+        profession: Profession,
+        departmentPbo: string,
         permissions: string[]
         ): Observable<HttpStatusCode> {
 
@@ -154,26 +154,26 @@ export class UserService {
             departmentPbo: departmentPbo,
             permissions: permissions
         }
-    
+
         return this.http.post<HttpStatusCode>(`${environment.apiURL}/employee`,  newUserObject, { headers: this.getHeaders() } );
     }
 
     public editEmployee(
-        lbz: string, 
-        name: string, 
-        surname: string, 
-        dateOfBirth: Date, 
-        gender: string,  
-        jmbg: string, 
-        address: string, 
-        placeOfLiving: string, 
+        lbz: string,
+        name: string,
+        surname: string,
+        dateOfBirth: Date,
+        gender: string,
+        jmbg: string,
+        address: string,
+        placeOfLiving: string,
         phone: string,
-        email: string, 
-        username: string, 
-        password: string, 
+        email: string,
+        username: string,
+        password: string,
         deleted: boolean,
-        title: Title, 
-        profession: Profession, 
+        title: Title,
+        profession: Profession,
         department: string,
         permissions: string[]
         ): Observable<Zaposleni> {
@@ -200,20 +200,20 @@ export class UserService {
     }
 
     public editProfile(
-        lbz: string, 
-        name: string, 
-        surname: string, 
-        dateOfBirth: Date, 
-        gender: string,  
-        jmbg: string, 
-        address: string, 
-        placeOfLiving: string, 
+        lbz: string,
+        name: string,
+        surname: string,
+        dateOfBirth: Date,
+        gender: string,
+        jmbg: string,
+        address: string,
+        placeOfLiving: string,
         phone: string,
-        email: string, 
-        username: string, 
+        email: string,
+        username: string,
         deleted: boolean,
-        title: Title, 
-        profession: Profession, 
+        title: Title,
+        profession: Profession,
         department: string,
         permissions: string[]
         ): Observable<Zaposleni> {
@@ -251,9 +251,9 @@ export class UserService {
     }
 
     public searchUsers(
-        ime: string, 
-        prezime: string, 
-        selektovanaBolnica: string, 
+        ime: string,
+        prezime: string,
+        selektovanaBolnica: string,
         selektovanaOrdinacija: string
         ): Observable<Zaposleni[]> {
 
@@ -264,7 +264,7 @@ export class UserService {
             .append('prezime', prezime)
             .append('selektovanaBolnica', selektovanaBolnica)
             .append('selektovanaOrdinacija', selektovanaOrdinacija);
-        
+
         let options = { headers: this.getHeaders(), params: queryParams }
 
         return this.http.get<Zaposleni[]>(``, options);
@@ -300,12 +300,12 @@ export class UserService {
     };
 
     getAllUsers(
-        ime: string, 
-        prezime:string, 
-        bolnica: string, 
-        odeljenje: string, 
-        deleted:boolean, 
-        page: number, 
+        ime: string,
+        prezime:string,
+        bolnica: string,
+        odeljenje: string,
+        deleted:boolean,
+        page: number,
         size:number
         ): Observable<Page<Zaposleni>> {
 
@@ -317,11 +317,16 @@ export class UserService {
             .append("deleted",deleted)
             .append("page",page)
             .append("size",size);
-            
+
         return this.http.get<Page<Zaposleni>>(`${environment.apiURL}/employee/list`, {params: httpParams, headers:this.getHeaders()});
     }
 
     public getEmployee(lbz: string): Observable<Zaposleni> {
         return this.http.get<Zaposleni>(`${environment.apiURL}/employee/find/${lbz}`, { headers: this.getHeaders() });
     }
+
+  public findDepartmentByLbz(lbz: string): Observable<Number> {
+    return this.http.get<Number>(`${environment.apiURL}/department/employee/${lbz}`, { headers: this.getHeaders() });
+  }
+
 }

@@ -4,11 +4,17 @@ import {PatientExaminationStatus} from "../patient-enums/PatientExaminationStatu
 
 export interface ScheduleExam{
 
+  // id: number;
+  // dateAndTime: Date; //ovde je timestamp
+  // patientArrival: PatientArrival;
+  // examinationStatus: PatientExaminationStatus;
+  // doctorId: number;
+  // lbz: string;
+  // lbp: string;
+
   id: number;
-  dateAndTime: Date; //ovde je timestamp
+  dateAndTime: Date;
   patientArrival: PatientArrival;
-  examinationStatus: PatientExaminationStatus;
-  doctorId: number;
   lbz: string;
   lbp: string;
 

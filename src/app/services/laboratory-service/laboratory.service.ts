@@ -13,10 +13,14 @@ import {ExaminationHistory} from "../../models/patient/ExaminationHistory";
 import {Patient} from "../../models/patient/Patient";
 import {ScheduledLabExamination} from "../../models/laboratory/ScheduledLabExamination";
 import {LabWorkOrder} from "../../models/laboratory/LabWorkOrder";
+
 import {PatientGeneralDto} from "../../models/patient/PatientGeneralDto";
 import {LabAnalysisDto} from "../../models/laboratory/LabAnalysisDto";
 import {AnalysisParameter} from "../../models/laboratory/AnalysisParameter";
 import {ParameterDto} from "../../models/laboratory/ParameterDto";
+
+//import {Prescription} from "../../models/laboratory/Prescription";
+
 
 @Injectable({
   providedIn: 'root'
@@ -57,10 +61,14 @@ export class LaboratoryService {
     /**
      * Ukupan broj pregleda za prosledjeni dan
      * */
-    public listScheduledExaminationsByDay(date: Date): Observable<number> {
-        let httpParams = new HttpParams().append("date", date.toISOString())
+    public listScheduledExaminationsByDay(datee: Date): Observable<number> {
+      const datum = new Date(datee);
+      const date = datum.toISOString();
 
-        return this.http.post<number>(
+
+      let httpParams = new HttpParams().append("date", date)
+
+        return this.http.get<number>(
             `${environmentLaboratory.apiURL}/examinations/count-scheduled_examinations/by-day`,
             { params: httpParams, headers: this.getHeaders()}
         );
@@ -70,10 +78,14 @@ export class LaboratoryService {
      * Dohvata sve zakazane posete
      *
      * */
-    listScheduledEexaminations(lbp: string, date: string,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
-        let httpParams = new HttpParams()
+    listScheduledEexaminations(lbp: string, datee: Date,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
+      const datum = new Date(datee);
+
+      const date = datum.toISOString();
+
+      let httpParams = new HttpParams()
             .append("lbp",lbp)
-            .append("date", date)
+            .append("date",date)
             .append("page",page)
             .append("size",size);
 
@@ -88,23 +100,43 @@ export class LaboratoryService {
      * */
     public workOrdersHistory(
         lbp: string,
-        fromDate: Date,
-        toDate: Date,
+        fromDatee: Date,
+        toDatee: Date,
         page: number,
         size: number
     ): Observable<Page<LabWorkOrder>> {
+      const fromDate = new Date(fromDatee)
+      const toDate = new Date(toDatee)
 
-        let httpParams = new HttpParams().append("lbp",lbp)
-            .append("fromDate", fromDate.toISOString())
-            .append("toDate",toDate.toISOString())
+        let httpParams = new HttpParams()
+            .append("lbp",lbp)
+            .append("fromDate", fromDate.getTime())
+            .append("toDate",toDate.getTime())
             .append("page", page)
             .append("size",size)
 
-        return this.http.post<Page<LabWorkOrder>>(
-            `${environmentLaboratory.apiURL}/work-orders/work-orders-history`,
+        return this.http.get<Page<LabWorkOrder>>(
+            `${environmentLaboratory.apiURL}/work-orders/work_orders_history`,
             { params: httpParams, headers: this.getHeaders()}
         );
     }
+
+  public getPrescriptionsForPatientByLbzRest(
+    lbp: string,
+    page: number,
+    size: number
+  ): Observable<Page<Prescription>> {
+
+
+    let httpParams = new HttpParams()
+      .append("page", page)
+      .append("size",size)
+
+    return this.http.get<Page<Prescription>>(
+      `${environmentLaboratory.apiURL}/prescription/get_rest/${lbp}`,
+      { params: httpParams, headers: this.getHeaders()}
+    );
+  }
 
   public findWorkOrders(
     lbp: string,

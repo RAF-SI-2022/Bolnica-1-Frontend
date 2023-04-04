@@ -38,7 +38,6 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     allergiesList: Allergy [] = [];
 
 
-
     isPopupVisible = false;
     errorMessage: string = "";
 
@@ -91,7 +90,6 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
         if(!this.validateFields){
             return;
         }
-
         const examinationHistoryCreteDto = this.addReport.value
         this.anamneza.currDisease = examinationHistoryCreteDto.currDisease;
         this.anamneza.patientOpinion = examinationHistoryCreteDto.patientOpinion;
