@@ -18,6 +18,7 @@ import {Patient} from "../../../models/patient/Patient";
 })
 export class NurseWorkspaceComponent implements OnInit {
 
+  selectedStatus: string = ''
   activeStatus: string = ''
   lbz: string = '';
   scheduledExams : ScheduleExam[] = [];
@@ -145,6 +146,7 @@ export class NurseWorkspaceComponent implements OnInit {
       forkJoin(patientObservables).subscribe(patients => {
         patients.forEach((patient, i) => {
           const examForPatient: ExamForPatient = {
+            id: patient.id,
             lbp: this.scheduledExams[i].lbp,
             name: patient.name,
             surname: patient.surname,
@@ -159,6 +161,15 @@ export class NurseWorkspaceComponent implements OnInit {
         });
       });
     });
+  }
+
+  changeStatus(patient : ExamForPatient){
+      // let pa = new PatientArrival();
+      //
+      // this.examinationService.updatePatientStatus(patient.id,  )
+
+    console.log("status "+this.selectedStatus)
+    console.log("id "+patient.id)
   }
 
 
