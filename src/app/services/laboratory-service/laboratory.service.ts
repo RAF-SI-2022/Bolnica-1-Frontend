@@ -13,6 +13,7 @@ import {ExaminationHistory} from "../../models/patient/ExaminationHistory";
 import {Patient} from "../../models/patient/Patient";
 import {ScheduledLabExamination} from "../../models/laboratory/ScheduledLabExamination";
 import {LabWorkOrder} from "../../models/laboratory/LabWorkOrder";
+import {Prescription} from "../../models/laboratory/Prescription";
 
 @Injectable({
   providedIn: 'root'
@@ -92,23 +93,43 @@ export class LaboratoryService {
      * */
     public workOrdersHistory(
         lbp: string,
-        fromDate: Date,
-        toDate: Date,
+        fromDatee: Date,
+        toDatee: Date,
         page: number,
         size: number
     ): Observable<Page<LabWorkOrder>> {
+      const fromDate = new Date(fromDatee)
+      const toDate = new Date(toDatee)
 
-        let httpParams = new HttpParams().append("lbp",lbp)
-            .append("fromDate", fromDate.toISOString())
-            .append("toDate",toDate.toISOString())
+        let httpParams = new HttpParams()
+            .append("lbp",lbp)
+            .append("fromDate", fromDate.getTime())
+            .append("toDate",toDate.getTime())
             .append("page", page)
             .append("size",size)
 
-        return this.http.post<Page<LabWorkOrder>>(
-            `${environmentLaboratory.apiURL}/work-orders/work-orders-history`,
+        return this.http.get<Page<LabWorkOrder>>(
+            `${environmentLaboratory.apiURL}/work-orders/work_orders_history`,
             { params: httpParams, headers: this.getHeaders()}
         );
     }
+
+  public getPrescriptionsForPatientByLbzRest(
+    lbp: string,
+    page: number,
+    size: number
+  ): Observable<Page<Prescription>> {
+
+
+    let httpParams = new HttpParams()
+      .append("page", page)
+      .append("size",size)
+
+    return this.http.get<Page<Prescription>>(
+      `${environmentLaboratory.apiURL}/prescription/get_rest/${lbp}`,
+      { params: httpParams, headers: this.getHeaders()}
+    );
+  }
 
   public findWorkOrders(
     lbp: string,

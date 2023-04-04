@@ -31,8 +31,8 @@
                     <h5 class="card-title"></h5>
 
                     <div class="row mt-3 align-items-center">
+                      <form [formGroup]="searchForm" (submit)="findExaminations()" class="mb-5 needs-validation" novalidate>
                       <div class="col-md-4 offset-4">
-                        <form [formGroup]="searchForm" (submit)="findExaminations()" class="mb-5 needs-validation" novalidate>
 
                         <label  class="labels">Izbor pacijenta</label>
                         <select  name = "patients1" [formControlName]="'name'" class="form-select" id="patients1" required
@@ -41,7 +41,6 @@
                           <option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.name }}</option>
 
                         </select>
-                        </form>
                       </div>
 
                       <div class="mt-4 text-center">
@@ -91,7 +90,7 @@
                           </pagination-controls>
                         </div>
                       </div>
-
+                      </form>
                     </div>
 
                   </div>

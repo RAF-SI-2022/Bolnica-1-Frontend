@@ -427,10 +427,14 @@ export class PatientService {
     }
 
 
-    getExaminationHistoryByDate(lbp: string, date: string, page: number, size:number): Observable<Page<ExaminationHistory>> {
+    getExaminationHistoryByDate(lbp: string, datee: Date, page: number, size:number): Observable<Page<ExaminationHistory>> {
+
+        // @ts-ignore
+      const date = new Date(datee)
+
         let httpParams = new HttpParams()
             .append("lbp",lbp)
-            .append("date", date)
+            .append("date", date.getTime())
             .append("page",page)
             .append("size",size);
 
@@ -438,14 +442,19 @@ export class PatientService {
             `${environmentPatient.apiURL}/info/myFindExaminationHistoriesByLbpAndDatePaged/${lbp}`,
             {params: httpParams, headers:this.getHeaders()}
         );
+
+
     }
 
-    getExaminationHistoryByRange(lbp: string, start_date: string, end_date: string,  page: number, size:number): Observable<Page<ExaminationHistory>> {
+    getExaminationHistoryByRange(lbp: string, start_datee: Date, end_datee: Date,  page: number, size:number): Observable<Page<ExaminationHistory>> {
+      const start_date = new Date(start_datee)
+      const end_date = new Date(end_datee)
 
-        let httpParams = new HttpParams()
+
+      let httpParams = new HttpParams()
             .append("lbp",lbp)
-            .append("start_date", start_date)
-            .append("end_date", end_date)
+            .append("start_date", start_date.getTime())
+            .append("end_date", end_date.getTime())
             .append("page",page)
             .append("size",size);
 
@@ -609,27 +618,31 @@ export class PatientService {
      * Moze i da vraca Message
      * */
     public deletePerscription(id: number) {
-        return this.http.delete<HttpStatusCode>(`${environmentPatient.apiURL}/patient/prescription/${id}`, {headers: this.getHeaders()})
+        return this.http.delete<HttpStatusCode>(`${environmentPatient.apiURL}/prescription/lab_prescription/${id}`, {headers: this.getHeaders()})
     }
 
     /**
      * Svi prescriptions vezani za pacijenta
      * */
     public getPrescriptions(
-        dateFrom: Date,
-        dateTo: Date,
+        dateFromm: Date,
+        dateToo: Date,
         lbp: string,
         page: number,
         size:number): Observable<Page<Prescription>> {
 
-        let httpParams = new HttpParams()
-            .append("dateFrom", dateFrom.toISOString())
-            .append("dateTo", dateTo.toISOString())
+      const dateFrom = new Date(dateFromm)
+      const dateTo = new Date(dateToo)
+
+
+      let httpParams = new HttpParams()
+            .append("dateFrom", dateFrom.getTime())
+            .append("dateTo", dateTo.getTime())
             .append("page",page)
             .append("size",size);
 
         return this.http.get<Page<Prescription>>(
-            `${environmentPatient.apiURL}/patient/done_prescriptions/${lbp}`,
+            `${environmentPatient.apiURL}/prescription/done_prescriptions/${lbp}`,
             {params: httpParams, headers:this.getHeaders()}
         );
     }
