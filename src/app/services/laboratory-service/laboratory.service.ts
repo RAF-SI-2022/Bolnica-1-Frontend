@@ -18,6 +18,7 @@ import {PatientGeneralDto} from "../../models/patient/PatientGeneralDto";
 import {LabAnalysisDto} from "../../models/laboratory/LabAnalysisDto";
 import {AnalysisParameter} from "../../models/laboratory/AnalysisParameter";
 import {ParameterDto} from "../../models/laboratory/ParameterDto";
+import {Prescription} from "../../models/laboratory/Prescription";
 
 //import {Prescription} from "../../models/laboratory/Prescription";
 
