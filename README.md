@@ -14,7 +14,7 @@ TO DO:
 - [ ] recepcioner
 
 Za preglede:
-- [ ] #22
-- [ ] #20
-- [ ] #52
+- [ ] https://github.com/RAF-SI-2022/Bolnica-1-Frontend/issues/22
+- [ ] https://github.com/RAF-SI-2022/Bolnica-1-Frontend/issues/20
+- [ ] https://github.com/RAF-SI-2022/Bolnica-1-Frontend/issues/52
 - [ ] zakazivanje pregleda kod recepcionera
