@@ -7,7 +7,7 @@
 - [ ] covid
 
 TO DO:
-- [ ] #111
+- [ ] https://github.com/RAF-SI-2022/Bolnica-1-Frontend/issues/111
 - [ ] #56
 - [ ] popraviti ostale taskove
 - [ ] obrisani pacijenti u pretrazi?
