@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:width="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="pt-5">
+  <div class="p-2">
+
+
+<!--    <div class="dropdown">-->
+<!--      <button class="dropbtn">Lekar</button>-->
+<!--      <ul class="dropdown-content">-->
+<!--        <li><a href="#">Ime Prezime</a></li>-->
+<!--        <li><a href="#">Ime Prezime</a></li>-->
+<!--        <li><a href="#">Ime Prezime</a></li>-->
+<!--      </ul>-->
+<!--    </div>-->
+
+    <div class="container">
+
+      <div class="row mt-1 mt-1">
+
+        <form (submit)="searchExams()">
+        <div class="col-md-4 ">
+          <label for="doctors" >Izaberite doktora:</label>
+          <select [(ngModel)]="selectedDoctor"  id="doctors" name="doctors" class="form-select"
+                  aria-label="Default select example"  data-cy = "doctors" required>
+              <option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</option>
+          </select>
+        </div>
+        <div class = "row mt-1">
+          <div class="col-md-4">
+            <button type="submit" class="btn btn-primary" >Pretrazi</button>
+          </div>
+        </div>
+
+        </form>
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="table-responsive">
+        <div class="table-wrapper">
+          <div class="table-title">
+
+            <label class="label" style="color: white;">Danasnji pacijenti </label>
+
+          </div>
+
+
+    <!--      <div class="me-auto float-end text-end mt-3 mb-3">-->
+    <!--        <button class="btn">Danas</button>-->
+    <!--        <button class="btn">Sutra</button>-->
+    <!--      </div>-->
+
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th style="border-right: 2px solid lightgray;">Satnica</th>
+              <th>Ime</th>
+              <th>Prezime</th>
+              <th>Datum rodjenja</th>
+              <th>Pol</th>
+              <th>Status</th>
+              <th> </th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr class="table-row">
+            <tr *ngFor="let patient of patients">
+              <td>{{patient.examDate | date:'shortTime'}}
+              <td>{{patient.name}}</td>
+              <td>{{patient.surname}}</td>
+              <td>{{patient.dateOfBirth}}</td>
+              <td>{{patient.gender}}</td>
+
+
+              <td >
+<!--                <ul class="horizontal-list">-->
+<!--                  <style>-->
+<!--                    .grey-background {-->
+<!--                      background-color: grey;-->
+<!--                    }-->
+<!--                    .blue-background {-->
+<!--                      background-color: cornflowerblue;-->
+<!--                    }-->
+<!--                    .orange-background {-->
+<!--                      background-color: darkorange;-->
+<!--                    }-->
+<!--                    .yellow-background {-->
+<!--                      background-color: yellow;-->
+<!--                    }-->
+<!--                    .green-background {-->
+<!--                      background-color: forestgreen;-->
+<!--                    }-->
+<!--                    .red-background {-->
+<!--                      background-color: red;-->
+<!--                    }-->
+<!--                  </style>-->
+
+<!--                  <li [ngClass]="{'grey-background': patient.patientArrival != trenutno, 'blue-background': patient.patientArrival == trenutno}">Trenutno</li>-->
+<!--                  <li [ngClass]="{'grey-background': patient.patientArrival != zakazano, 'orange-background': patient.patientArrival == zakazano}">Zakazano</li>-->
+<!--                  <li [ngClass]="{'grey-background': patient.patientArrival != ceka, 'yellow-background': patient.patientArrival == ceka}">Ceka</li>-->
+<!--                  <li [ngClass]="{'grey-background': patient.patientArrival != zavrseno, 'green-background': patient.patientArrival == zavrseno}">Zavrseno</li>-->
+<!--                  <li [ngClass]="{'grey-background': patient.patientArrival != otkazano, 'red-background': patient.patientArrival == otkazano}">Otkazano</li>-->
+
+<!--                  -->
+<!--                  -->
+<!--                  -->
+<!--                </ul>-->
+
+                <div >
+                  <select class="form-select" name="pattientArrival" data-cy="pattientArrival"  [ngModel]="selectedStatus" >
+                    <option *ngFor="let arrival  of patientArrivals" [value]="arrival ">{{ arrival  }}</option>
+                  </select>
+<!--                  <select [ngModel]="selectedStatus" >-->
+<!--                    <option value="ZAKAZANO" selected>ZAKAZANO</option>-->
+<!--                    <option value="TRENUTNO">TRENUTNO</option>-->
+<!--                    <option value="CEKA">CEKA</option>-->
+<!--                    <option value="ZAVRSENO">ZAVRSENO</option>-->
+<!--                    <option value="OTKAZANO">OTKAZANO</option>-->
+<!--                  </select>-->
+
+                </div>
+
+              </td>
+
+              <td>
+
+                <button (click)="changeStatus(patient)" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da izmenite status?')">Azuriraj</button>
+
+
+              </td>
+
+            </tr>
+            </tbody>
+
+<!--            <tbody>-->
+<!--              <td  style="border-right: 2px solid lightgray;">-->
+<!--                <ul class="vertical-list">-->
+<!--                  <li >8:00</li>-->
+<!--                  <li >8:30</li>-->
+<!--                  <li >9:00</li>-->
+<!--                  <li >9:30</li>-->
+<!--                  <li>10:00</li>-->
+<!--                  <li>10:30</li>-->
+<!--                  <li>11:00</li>-->
+<!--                  <li>11:30</li>-->
+<!--                  <li>12:00</li>-->
+<!--                  <li>12:30</li>-->
+<!--                  <li>13:00</li>-->
+<!--                  <li>13:30</li>-->
+<!--                  <li>14:00</li>-->
+<!--                  <li>14:30</li>-->
+<!--                  <li>15:00</li>-->
+<!--                  <li>15:30</li>-->
+<!--                  <li>16:00</li>-->
+<!--                  <li>16:30</li>-->
+<!--                  <li>17:00</li>-->
+<!--                  <li>17:30</li>-->
+<!--                  <li>18:00</li>-->
+<!--                  <li>18:30</li>-->
+<!--                  <li>19:00</li>-->
+<!--                  <li>19:30</li>-->
+<!--                  <li>20:00</li>-->
+<!--                </ul>-->
+<!--              </td>-->
+<!--              &lt;!&ndash;- Lista treba da se popuni pacijentima &ndash;&gt;-->
+<!--              <td style="padding: 0px">-->
+<!--                <ul class="list" >-->
+<!--                  <li >Pacijent1 </li>-->
+<!--                  <li >Pacijent2</li>-->
+<!--                </ul>-->
+<!--              </td>-->
+
+<!--            </tbody>-->
+          </table>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+  </body>
+</html>
+
