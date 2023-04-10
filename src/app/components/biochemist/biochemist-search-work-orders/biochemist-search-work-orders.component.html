@@ -1,0 +1,112 @@
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <script src="/path/to/jquery.min.js"></script>
+  <script src="/path/to/bootstrap.bundle.min.js"></script>
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+<form  class="mb-5 needs-validation" novalidate>
+
+  <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+
+    <h2 class="text-center"><b>Pretraga radnih naloga</b></h2>
+    <div class="row">
+
+      <div class="col-md-4 offset-2">
+        <label class="labels">Od datuma</label>
+        <input  name = "dateFrom" type="date" class="form-control"
+               data-cy = "dateFrom" >
+      </div>
+      <div class="col-md-4">
+        <label class="labels">Do datuma</label>
+        <input  type="date" class="form-control"
+               data-cy = "dateTo">
+      </div>
+      <div class="col-md-4 offset-2">
+        <label class="labels">Tačan datum</label>
+        <input  type="date" class="form-control"
+               data-cy = "correctDate" >
+      </div>
+
+      <div class="col-md-4">
+<!--        <select class="form-select" name="pattientArrival" data-cy="pattientArrival"  [ngModel]="selectedStatus" >-->
+<!--          <option *ngFor="let arrival  of patientArrivals" [value]="arrival ">{{ arrival  }}</option>-->
+<!--        </select>-->
+        <label class="labels">Status obrade:</label>
+        <select class="form-control">
+          <option>NEOBRADJEN</option>
+          <option>U_OBRADI</option>
+          <option>OBRADJEN</option>
+        </select>
+
+      </div>
+
+      <div class="col-md-4 offset-2">
+        <label class="labels">LBP</label>
+        <input  name = "lbp" type="lbp" class="form-control"
+                data-cy = "lbp" >
+      </div>
+
+
+      <div class="mt-4 text-center">
+        <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
+      </div>
+
+      <div class="row py-5">
+        <table class="table table-hover" data-cy="table">
+          <thead>
+          <tr>
+            <th>ID radnog naloga</th>
+            <th>Datum i vreme kreiranja</th>
+            <th>LBP pacijenta</th>
+            <th>Ime i prezime pacijenta</th>
+            <th>Status obrade</th>
+            <th>LBZ tehničara</th>
+          </tr>
+          </thead>
+          <tbody>
+
+          <tr (click)="onRowClick()">
+            <td>primer ID radnog naloga</td>
+            <td>primer Datum i vreme kreiranja</td>
+            <td>primer LBP pacijenta</td>
+            <td>primer Ime i prezime pacijenta</td>
+            <td>primer Status obrade</td>
+            <td>primer LBZ tehničara</td>
+
+          </tr>
+<!--          <ng-container-->
+<!--            *ngFor="let workOrder of workOrderList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"  (click)="onRowClick(workOrder.id)">-->
+<!--            <tr>-->
+<!--              <td>{{workOrder.id}}</td>-->
+<!--              <td>{{workOrder.date}}</td>-->
+<!--              <td>{{workOrder.lbp}}</td>-->
+<!--              <td>{{workOrder.name}} {{workOrder.surname}}</td>-->
+<!--              <td>{{workOrder.status}}</td>-->
+<!--              <td>{{workOrder.lbz}}</td>-->
+<!--            </tr>-->
+
+<!--          </ng-container>-->
+
+          </tbody>
+        </table>
+        <div class="d-flex align-items-center justify-content-center h-100">
+          <pagination-controls previousLabel="Pret" nextLabel="Sled" >
+          </pagination-controls>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

@@ -68,7 +68,7 @@ import {BiochemistGuard} from "./guards/role/general/biochemist.guard";
 import {DoctorGuard} from "./guards/role/general/doctor.guard";
 import {NurseGuard} from "./guards/role/general/nurse.guard";
 import {TechnicianGuard} from "./guards/role/general/technician.guard";
-import {BiochemistSearchComponent} from "./components/biochemist/biochemist-search/biochemist-search.component";
+// import {BiochemistSearchComponent} from "./components/biochemist/biochemist-search/biochemist-search.component";
 import {
   TechnicianScheduleLabExaminationComponent
 } from "./components/technician/technician-schedule-lab-examination/technician-schedule-lab-examination.component";
@@ -78,6 +78,15 @@ import {
 import {
   NurseScheduleAppointmentNewComponent
 } from "./components/nurse/nurse-schedule-appointment-new/nurse-schedule-appointment-new.component";
+import {
+  BiochemistSearchWorkOrdersComponent
+} from "./components/biochemist/biochemist-search-work-orders/biochemist-search-work-orders.component";
+import {
+  BiochemistDailyWorkOrdersComponent
+} from "./components/biochemist/biochemist-daily-work-orders/biochemist-daily-work-orders.component";
+import {
+  BiochemistDetailsAnalysisComponent
+} from "./components/biochemist/biochemist-details-analysis/biochemist-details-analysis.component";
 
 
 const routes: Routes = [
@@ -138,7 +147,17 @@ const routes: Routes = [
   },
   {
     path: "biochemist-search",
-    component: BiochemistSearchComponent,
+    component: BiochemistSearchWorkOrdersComponent,
+    canActivate: [AuthGuard, BiochemistGuard]
+  },
+  {
+    path: "biochemist-daily",
+    component: BiochemistDailyWorkOrdersComponent,
+    canActivate: [AuthGuard, BiochemistGuard]
+  },
+  {
+    path: "biochemist-details",
+    component: BiochemistDetailsAnalysisComponent,
     canActivate: [AuthGuard, BiochemistGuard]
   },
   {
