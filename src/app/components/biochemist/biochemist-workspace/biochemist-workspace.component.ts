@@ -7,15 +7,15 @@ import {Component, OnInit} from '@angular/core';
 })
 export class BiochemistWorkspaceComponent implements OnInit {
 
-  page = 0;
+  // page = 0;
 
   ngOnInit(): void {
   }
 
-  onTableDataChange(event: any): void {
-    this.page = event;
-
-  }
+  // onTableDataChange(event: any): void {
+  //   this.page = event;
+  //
+  // }
 
 }
 
