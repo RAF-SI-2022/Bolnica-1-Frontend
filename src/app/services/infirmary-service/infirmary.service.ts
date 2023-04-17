@@ -2,20 +2,31 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams, HttpStatusCode} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
-import {environment, environmentInfirmary, environmentLaboratory} from "../../../environments/environment";
-import {EmployeeCreateDto, Page, Profession, Title} from "../../models/models";
-import * as uuid from "uuid";
+import {
+  environmentInfirmary
+} from "../../../environments/environment";
+import {Page} from "../../models/models";
 import {HospitalizationDto} from "../../models/infirmary/HospitalizationDto";
 import {HospitalizationCreateDto} from "../../models/infirmary/HospitalizationCreateDto";
 import {ScheduledAppointmentCreateDto} from "../../models/infirmary/ScheduledAppointmentCreateDto";
-import {ScheduledLabExamination} from "../../models/laboratory/ScheduledLabExamination";
 import {ScheduledAppointmentDto} from "../../models/infirmary/ScheduledAppointmentDto";
-import {LabWorkOrder} from "../../models/laboratory/LabWorkOrder";
 import {AdmissionStatus} from "../../models/infirmary-enums/AdmissionStatus";
-import {ParameterDto} from "../../models/laboratory/ParameterDto";
 import {PrescriptionDto} from "../../models/infirmary/PrescriptionDto";
 import {PrescriptionStatus} from "../../models/laboratory-enums/PrescriptionStatus";
 import {DischargeListDto} from "../../models/infirmary/DischargeListDto";
+import {HospitalRoomCreateDto} from "../../models/infirmary/HospitalRoomCreateDto";
+import {HospitalRoomDto} from "../../models/infirmary/HospitalRoomDto";
+import {PrescriptionCreateDto} from "../../models/laboratory/PrescriptionCreate";
+import {PrescriptionType} from "../../models/laboratory-enums/PrescriptionType";
+import {PrescriptionAnalysis} from "../../models/laboratory/PrescriptionAnalysis";
+import {VisitCreateDto} from "../../models/infirmary/VisitCreateDto";
+import {VisitDto} from "../../models/infirmary/VisitDto";
+import {PatientStateCreateDto} from "../../models/infirmary/PatientStateCreateDto";
+import {PatientStateDto} from "../../models/infirmary/PatientStateDto";
+import {MedicalRecord} from "../../models/patient/MedicalRecord";
+import {ExaminationHistoryCreateDto} from "../../models/patient/ExaminationHistoryCreate";
+import {DiagnosisCodeDto} from "../../models/patient/DiagnosisCode";
+import {AnamnesisDto} from "../../models/patient/Anamnesis";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +45,6 @@ export class InfirmaryService {
 
 
   // ADMISSION CONTROLLER
-
 
   /**
    * Kreiranje hospitalizacije
@@ -243,10 +253,6 @@ export class InfirmaryService {
     size: number
   ): Observable<Page<HospitalizationDto>> {
 
-    // na beku je date u infirmaty, nije Long
-    // const startDate = new Date(startDatee)
-    // const endDate = new Date(endDatee)
-
     let httpParams = new HttpParams()
       .append("departmentId", departmentId)
       .append("page", page)
@@ -266,10 +272,6 @@ export class InfirmaryService {
     page: number,
     size: number
   ): Observable<Page<HospitalizationDto>> {
-
-    // na beku je date u infirmaty, nije Long
-    // const startDate = new Date(startDatee)
-    // const endDate = new Date(endDatee)
 
     let httpParams = new HttpParams()
       .append("hospitalRoomId", hospitalRoomId)
@@ -323,10 +325,300 @@ export class InfirmaryService {
     );
   }
 
+
   // HOSPITAL ROOM CONTROLLER
 
+  /**
+   * Kreiranje bolnicke sobe
+   * */
+  public createHospitalRoom(
+    idDepartment: number,
+    roomNumber: number,
+    name: string,
+    capacity: number,
+    description:string
+  ): Observable<HttpStatusCode> {
+
+    const hospitalRoomCreateDto : HospitalRoomCreateDto = {
+      idDepartment: idDepartment,
+      roomNumber: roomNumber,
+      name: name,
+      capacity: capacity,
+      description: description
+    }
+
+    return this.http.post<HttpStatusCode>(`${environmentInfirmary.apiURL}/hospitalRoom/createHospitalRoom`,
+      hospitalRoomCreateDto, { headers: this.getHeaders() } );
+  }
+
+  /**
+   * Brisanje bolnicke sobe po id-u
+   * */
+  public deleteHospitalRoom(
+    hospitalRoomId: number
+  ): Observable<HttpStatusCode>{
+
+    let httpParams = new HttpParams()
+      .append("hospitalRoomId", hospitalRoomId)
+
+    return this.http.put<HttpStatusCode>(
+      `${environmentInfirmary.apiURL}/hospitalRoom/deleteHospitalRoom`,
+      {params: httpParams, headers: this.getHeaders() });
+
+  }
+
+  /**
+   * Pretraga soba po odeljenju
+   * */
+  public getHospitalRoomsByDepartmentId(
+    departmentId: number,
+    page: number,
+    size: number
+  ): Observable<Page<HospitalRoomDto>> {
+
+    let httpParams = new HttpParams()
+      .append("departmentId", departmentId)
+      .append("page", page)
+      .append("size",size)
+
+    return this.http.get<Page<HospitalRoomDto>>(
+      `${environmentInfirmary.apiURL}/hospitalRoom/getHospitalRoomsByDepartmentId`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
+
+  /**
+   * Pretraga sobe po id-u
+   * */
+  public getHospitalRoomsById(
+    id: number
+  ): Observable<HospitalRoomDto>{
+
+    let httpParams = new HttpParams()
+      .append("id", id)
+
+    return this.http.get<HospitalRoomDto>(
+      `${environmentInfirmary.apiURL}/hospitalRoom/getHospitalRoomsById`,
+      {params: httpParams, headers: this.getHeaders() });
+
+  }
 
 
+  // MEDICAL RECORD CONTROLLER
+
+  /**
+   * Pretraga kartona po lbp-u pacijenta
+   * */
+  public getMedicalRecordByLbp(
+    lbp: string
+  ): Observable<MedicalRecord>{
+
+    let httpParams = new HttpParams()
+      .append("lbp", lbp)
+
+    return this.http.get<MedicalRecord>(
+      `${environmentInfirmary.apiURL}/medicalRecord/getMedicalRecordByLbp`,
+      {params: httpParams, headers: this.getHeaders() });
+
+  }
+
+
+  /**
+   * Kreiranje izvestaja pregleda
+   * */
+  public createExaminationHistory(
+    examDate: Date,
+    lbz: string,
+    confidential: boolean,
+    objectiveFinding: string,
+    advice: string,
+    therapy: string,
+    diagnosisCodeDto: DiagnosisCodeDto,
+    anamnesisDto: AnamnesisDto
+  ): Observable<HttpStatusCode> {
+
+    const examinationHistoryCreateDto : ExaminationHistoryCreateDto = {
+      examDate: examDate,
+      lbz: lbz,
+      confidential: confidential,
+      objectiveFinding: objectiveFinding,
+      advice: advice,
+      therapy: therapy,
+      diagnosisCodeDto: diagnosisCodeDto,
+      anamnesisDto: anamnesisDto
+    }
+
+    return this.http.post<HttpStatusCode>(`${environmentInfirmary.apiURL}/medicalRecord/createExaminationHistory`,
+      examinationHistoryCreateDto, { headers: this.getHeaders() } );
+  }
+
+
+
+
+  // PATIENT STATE CONTROLLER
+
+  /**
+   * Kreiranje stanja pacijenta
+   * */
+  public createPatientState(
+    dateExamState: Date, //ovo je Date
+    timeExamState: Date, //ovo je Time
+    temperature: number,
+    systolicPressure: number,
+    diastolicPressure: number,
+    pulse: number,
+    therapy: string,
+    description: string,
+    hospitalizationId: number
+
+  ): Observable<HttpStatusCode> {
+
+    const patientStateCreateDto : PatientStateCreateDto = {
+      dateExamState: dateExamState, //ovo je Date
+      timeExamState: timeExamState, //ovo je Time
+      temperature: temperature,
+      systolicPressure: systolicPressure,
+      diastolicPressure: diastolicPressure,
+      pulse: pulse,
+      therapy: therapy,
+      description: description,
+      hospitalizationId: hospitalizationId
+    }
+
+    return this.http.post<HttpStatusCode>(`${environmentInfirmary.apiURL}/patientState/createPatientState`,
+      patientStateCreateDto, { headers: this.getHeaders() } );
+  }
+
+  /**
+   * Pretraga stanja pacijenta po datumu
+   * */
+  public getPatientStateByDate(
+    hospitalizationId: number,
+    startDatee: Date,
+    endDatee: Date,
+    page: number,
+    size: number
+  ): Observable<Page<PatientStateDto>> {
+
+    // na beku je date u infirmaty, nije Long
+    // const startDate = new Date(startDatee)
+    // const endDate = new Date(endDatee)
+
+    let httpParams = new HttpParams()
+      .append("hospitalizationId", hospitalizationId)
+      .append("startDate", startDatee.getDate())
+      .append("endDate", endDatee.getDate())
+      .append("page", page)
+      .append("size",size)
+
+    return this.http.get<Page<PatientStateDto>>(
+      `${environmentInfirmary.apiURL}/patientState/getPatientStateByDate`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
+
+
+  // PRESCRIPTION SEND CONTROLLER
+
+  /**
+   * Slanje uputa na lab
+   * */
+  public sendPrescriptionToLab(
+    type: PrescriptionType,
+    doctorId: number,
+    departmentFromId: number,
+    departmentToId: number,
+    lbp: string,
+    creationDateTime: Date, //ovde je timestamp
+    status: PrescriptionStatus,
+    comment: string,
+    referralDiagnosis: string,
+    referralReason: string,
+    prescriptionAnalysisDtos: PrescriptionAnalysis[]
+
+): Observable<HttpStatusCode> {
+
+    const prescriptionCreateDto : PrescriptionCreateDto = {
+      type: type,
+      doctorId: doctorId,
+      departmentFromId: departmentFromId,
+      departmentToId: departmentToId,
+      lbp: lbp,
+      creationDateTime: creationDateTime,
+      status: status,
+      comment: comment,
+      referralDiagnosis: referralDiagnosis,
+      referralReason: referralReason,
+      prescriptionAnalysisDtos: prescriptionAnalysisDtos
+    }
+
+    return this.http.put<HttpStatusCode>(`${environmentInfirmary.apiURL}/prescriptionSend/sendPrescriptionToLab`,
+      prescriptionCreateDto, { headers: this.getHeaders() } );
+  }
+
+
+  // VISIT CONTROLLER
+
+  /**
+   * Kreiranje posete
+   * */
+  public createVisit(
+    visitorName: string,
+    visitorSurname: string,
+    visitorJmbg: string,
+    visitTime: Date, //ovo je timestamp
+    note: string,
+    hospitalizationId: number
+
+  ): Observable<HttpStatusCode> {
+
+    const visitCreateDto : VisitCreateDto = {
+      visitorName: visitorName,
+      visitorSurname: visitorSurname,
+      visitorJmbg: visitorJmbg,
+      visitTime: visitTime, //ovo je timestamp
+      note: note,
+      hospitalizationId: hospitalizationId
+    }
+
+    return this.http.post<HttpStatusCode>(`${environmentInfirmary.apiURL}/visit/createVisit`,
+      visitCreateDto, { headers: this.getHeaders() } );
+  }
+
+  /**
+   * Pretraga poseta po filteru
+   * */
+  public getVisitsWithFilter(
+    departmentId: number,
+    hospitalRoomId: number,
+    hospitalizationId: number,
+    startDate: Date,
+    endDate: Date,
+    page: number,
+    size: number
+  ): Observable<Page<VisitDto>> {
+
+    // na beku je date u infirmaty, nije Long
+    // const startDate = new Date(startDatee)
+    // const endDate = new Date(endDatee)
+
+    // DA LI CE OVO SA DATUMOM RADITI?
+
+    let httpParams = new HttpParams()
+      .append("departmentId", departmentId)
+      .append("hospitalRoomId", hospitalRoomId)
+      .append("hospitalizationId", hospitalizationId)
+      .append("startDate", startDate.getDate())
+      .append("endDate", endDate.getDate())
+      .append("page", page)
+      .append("size",size)
+
+
+    return this.http.get<Page<VisitDto>>(
+      `${environmentInfirmary.apiURL}/visit/getVisitsWithFilter`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
 
 
 }
