@@ -1,9 +1,9 @@
 import {ParameterValueType} from "../laboratory-enums/ParameterValueType";
 
-export interface Parameter {
-  parameterName: string;
-  type: ParameterValueType;
-  unitOfMeasure: string;
-  lowerLimit: number; //double
-  upperLimit: number; //double
+export class Parameter {
+  parameterName: string = '';
+  type: ParameterValueType = ParameterValueType.NUMERICKI;
+  unitOfMeasure: string= '';
+  lowerLimit: number = 0; //double
+  upperLimit: number = 0; //double
 }

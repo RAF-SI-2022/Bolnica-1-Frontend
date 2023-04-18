@@ -19,6 +19,16 @@ import {LabAnalysisDto} from "../../models/laboratory/LabAnalysisDto";
 import {AnalysisParameter} from "../../models/laboratory/AnalysisParameter";
 import {ParameterDto} from "../../models/laboratory/ParameterDto";
 import {Prescription} from "../../models/laboratory/Prescription";
+import {PrescriptionType} from "../../models/laboratory-enums/PrescriptionType";
+import {PrescriptionStatus} from "../../models/laboratory-enums/PrescriptionStatus";
+import {PrescriptionAnalysis} from "../../models/laboratory/PrescriptionAnalysis";
+import {PrescriptionCreate} from "../../models/laboratory/PrescriptionCreate";
+import {ExaminationStatus} from "../../models/laboratory-enums/ExaminationStatus";
+
+import {LabWorkOrderWithAnalysis} from "../../models/laboratory/LabWorkOrderWithAnalysis";
+
+import {LabWorkOrderNew} from "../../models/laboratory/LabWorkOrderNew";
+
 
 //import {Prescription} from "../../models/laboratory/Prescription";
 
@@ -96,31 +106,7 @@ export class LaboratoryService {
         );
     }
 
-    /**
-     * Pristup istoriji laboratorijskih izveštaja
-     * */
-    public workOrdersHistory(
-        lbp: string,
-        fromDatee: Date,
-        toDatee: Date,
-        page: number,
-        size: number
-    ): Observable<Page<LabWorkOrder>> {
-      const fromDate = new Date(fromDatee)
-      const toDate = new Date(toDatee)
 
-        let httpParams = new HttpParams()
-            .append("lbp",lbp)
-            .append("fromDate", fromDate.getTime())
-            .append("toDate",toDate.getTime())
-            .append("page", page)
-            .append("size",size)
-
-        return this.http.get<Page<LabWorkOrder>>(
-            `${environmentLaboratory.apiURL}/work-orders/work_orders_history`,
-            { params: httpParams, headers: this.getHeaders()}
-        );
-    }
 
   public getPrescriptionsForPatientByLbzRest(
     lbp: string,
@@ -139,25 +125,7 @@ export class LaboratoryService {
     );
   }
 
-  public findWorkOrders(
-    lbp: string,
-    fromDate: Date,
-    toDate: Date,
-    page: number,
-    size: number
-  ): Observable<Page<LabWorkOrder>> {
 
-    let httpParams = new HttpParams().append("lbp",lbp)
-      .append("fromDate", fromDate.toISOString())
-      .append("toDate",toDate.toISOString())
-      .append("page", page)
-      .append("size",size)
-
-    return this.http.post<Page<LabWorkOrder>>(
-      `${environmentLaboratory.apiURL}/work-orders/find-work-orders`,
-      { params: httpParams, headers: this.getHeaders()}
-    );
-  }
 
   // public getAnalysis(): Observable<LabAnalysisDto[]>{
   //     console.log("dosao do servisa")
@@ -169,6 +137,11 @@ export class LaboratoryService {
       return this.http.get<LabAnalysisDto[]>(`${environmentLaboratory.apiURL}/analysis/getAllLabAnalysis`, { headers: this.getHeaders() });
     }
 
+  findAnalysisParametersResults(lab: LabWorkOrder): Observable<LabWorkOrderWithAnalysis>{
+    console.log("dosao do servisa");
+    return this.http.get<LabWorkOrderWithAnalysis>(`${environmentLaboratory.apiURL}/${lab}/results`, { headers: this.getHeaders() });
+  }
+
   getAnalysisParams(id: number, page: number, size: number): Observable<Page<ParameterDto>>{
     console.log("dosao do servisa");
     let httpParams = new HttpParams().append("id", id)
@@ -177,5 +150,125 @@ export class LaboratoryService {
     return this.http.get<Page<ParameterDto>>(`${environmentLaboratory.apiURL}/analysisParameter/getParametersByAnalysisId`,{params: httpParams, headers: this.getHeaders() });
 
   }
+
+
+  public changeExaminationStatus(
+    id: number,
+    examinationStatus: ExaminationStatus,
+
+  ): Observable<HttpStatusCode> {
+
+    let httpParams = new HttpParams()
+      .append("id", id)
+      .append("newStatus", examinationStatus)
+
+
+    return this.http.put<HttpStatusCode>(`${environmentLaboratory.apiURL}/examinations/update-status`,  {params: httpParams, headers: this.getHeaders()});
+  }
+
+
+
+  /**
+   * Pristup istoriji laboratorijskih izveštaja
+   * */
+  public workOrdersHistory(
+    lbp: string,
+    fromDatee: Date,
+    toDatee: Date,
+    page: number,
+    size: number
+  ): Observable<Page<LabWorkOrderNew>> {
+    const fromDate = new Date(fromDatee)
+    const toDate = new Date(toDatee)
+
+    let httpParams = new HttpParams()
+      .append("lbp",lbp)
+      .append("fromDate", fromDate.getTime())
+      .append("toDate",toDate.getTime())
+      .append("page", page)
+      .append("size",size)
+
+    return this.http.get<Page<LabWorkOrderNew>>(
+      `${environmentLaboratory.apiURL}/work-orders/work_orders_history`,
+      { params: httpParams, headers: this.getHeaders()}
+    );
+  }
+
+
+
+
+  public findWorkOrders(
+    lbp: string,
+    fromDate: Date,
+    toDate: Date,
+    page: number,
+    size: number
+  ): Observable<Page<LabWorkOrderNew>> {
+
+    let httpParams = new HttpParams().append("lbp",lbp)
+      .append("fromDate", fromDate.toISOString())
+      .append("toDate",toDate.toISOString())
+      .append("page", page)
+      .append("size",size)
+
+    return this.http.post<Page<LabWorkOrderNew>>(
+      `${environmentLaboratory.apiURL}/work-orders/find-work-orders`,
+      { params: httpParams, headers: this.getHeaders()}
+    );
+  }
+
+
+  public registerPatient(
+    lbp: string
+  ): Observable<HttpStatusCode> {
+
+    let httpParams = new HttpParams()
+      .append("lbp", lbp)
+
+    return this.http.put<HttpStatusCode>(
+      `${environmentLaboratory.apiURL}/work-orders/register_patient_arrival`,
+      { params: httpParams, headers: this.getHeaders()}
+    );
+  }
+
+
+  public updateAnalysisParameters(
+    workOrderId: number,
+    parameterAnalysisId: number,
+    result: string
+  ): Observable<HttpStatusCode> {
+
+
+    let httpParams = new HttpParams()
+      .append("result", result)
+
+    return this.http.put<HttpStatusCode>(
+      `${environmentLaboratory.apiURL}/work-orders/${workOrderId}/${parameterAnalysisId}/update`,
+      { params: httpParams, headers: this.getHeaders()}
+    );
+  }
+
+  public verifyWorkOrder(
+    id: number
+  ): Observable<HttpStatusCode> {
+
+    return this.http.get<HttpStatusCode>(
+      `${environmentLaboratory.apiURL}/work-orders/verify/${id}`,
+      { headers: this.getHeaders()}
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -1,4 +1,4 @@
-export interface LabAnalysis {
-  analysisName: string;
-  abbreviation: string;
+export class LabAnalysis {
+  analysisName: string= '';
+  abbreviation: string = '';
 }
