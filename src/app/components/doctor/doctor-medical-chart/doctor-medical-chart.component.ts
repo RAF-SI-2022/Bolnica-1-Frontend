@@ -14,7 +14,11 @@ import {LaboratoryService} from "../../../services/laboratory-service/laboratory
 import {LabWorkOrder} from "../../../models/laboratory/LabWorkOrder";
 import {LabWorkOrderWithAnalysis} from "../../../models/laboratory/LabWorkOrderWithAnalysis";
 import {PrescriptionStatus} from "../../../models/laboratory-enums/PrescriptionStatus";
+
 import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
+
+import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
+
 
 @Component({
   selector: 'app-doctor-medical-chart',
@@ -54,7 +58,7 @@ export class DoctorMedicalChartComponent implements OnInit {
     examinationHistories: ExaminationHistory [] = []
     prescriptionHistories: Prescription [] = []
     labaratoryHistories: LabAnalysis [] = []
-    labWorkOrders: LabWorkOrder [] = []
+    labWorkOrders: LabWorkOrderNew [] = []
     allergies: Allergy [] = []
     vaccines: Vaccination [] = []
     public checkStatus: OrderStatus = OrderStatus.OBRADJEN;
@@ -63,7 +67,7 @@ export class DoctorMedicalChartComponent implements OnInit {
     detailsLabWorkOrders: LabWorkOrderWithAnalysis = new LabWorkOrderWithAnalysis();
     medicalPage: Page<MedicalHistory> = new Page<MedicalHistory>()
     prescriptionPage: Page<Prescription> = new Page<Prescription>()
-    labWorkOrderPage: Page<LabWorkOrder> = new Page<LabWorkOrder>()
+    labWorkOrderPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>()
     detailsLabWorkOrderPage: Page<LabWorkOrderWithAnalysis> = new Page<LabWorkOrderWithAnalysis>()
 
     examinationPage: Page<ExaminationHistory> = new Page<ExaminationHistory>()
@@ -359,7 +363,7 @@ export class DoctorMedicalChartComponent implements OnInit {
         }
     }
 
-    showDetails(lab: LabWorkOrder){
+    showDetails(lab: LabWorkOrderNew){
     this.showDetailsBoolean = true;
 
       this.labaratoryService.findAnalysisParametersResults(lab).subscribe(

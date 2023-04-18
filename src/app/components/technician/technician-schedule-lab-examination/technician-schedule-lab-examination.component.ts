@@ -69,13 +69,12 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     }
 
     getPatientList(){
-      this.labaratoryService.getPatients(this.page, this.pageSize)
-        .subscribe((response) => {
-          console.log("KOJA JE VELIVINA" +  response.content.length)
-          this.patientPage = response
-          this.patientList = this.patientPage.content
-          this.total = this.patientPage.totalElements
+      this.labaratoryService.getPatients(this.page, this.pageSize).subscribe(res => {},
+        err => {
+          if (err.status == 302) { // found!
+            this.patientList = err.error.lbp;
 
+          }
         })
     }
 
