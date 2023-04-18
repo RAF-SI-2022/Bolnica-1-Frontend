@@ -54,9 +54,13 @@ export class LaboratoryService {
         note: string
     ): Observable<HttpStatusCode> {
 
-        let httpParams = new HttpParams()
+      const datum = new Date(scheduledDate);
+
+      const date = datum.getTime();
+
+      let httpParams = new HttpParams()
             .append("lbp",lbp)
-            .append("date", scheduledDate.toISOString())
+            .append("date", date)
             .append("note",note);
 
         return this.http.post<HttpStatusCode>(
@@ -70,7 +74,7 @@ export class LaboratoryService {
      * */
     public listScheduledExaminationsByDay(datee: Date): Observable<number> {
       const datum = new Date(datee);
-      const date = datum.toISOString();
+      const date = datum.getTime();
 
 
       let httpParams = new HttpParams().append("date", date)
@@ -88,7 +92,7 @@ export class LaboratoryService {
     listScheduledEexaminations(lbp: string, datee: Date,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
       const datum = new Date(datee);
 
-      const date = datum.toISOString();
+      const date = datum.getTime();
 
       let httpParams = new HttpParams()
             .append("lbp",lbp)
@@ -129,6 +133,7 @@ export class LaboratoryService {
     }
 
   public getPrescriptionsForPatientByLbzRest(
+    id: string,
     lbp: string,
     page: number,
     size: number
@@ -140,7 +145,7 @@ export class LaboratoryService {
       .append("size",size)
 
     return this.http.get<Page<Prescription>>(
-      `${environmentLaboratory.apiURL}/prescription/get_rest/${lbp}`,
+      `${environmentLaboratory.apiURL}/prescription/${id}/get/${lbp}`,
       { params: httpParams, headers: this.getHeaders()}
     );
   }
@@ -154,8 +159,8 @@ export class LaboratoryService {
   ): Observable<Page<LabWorkOrder>> {
 
     let httpParams = new HttpParams().append("lbp",lbp)
-      .append("fromDate", fromDate.toISOString())
-      .append("toDate",toDate.toISOString())
+      .append("fromDate", fromDate.getTime())
+      .append("toDate",toDate.getTime())
       .append("page", page)
       .append("size",size)
 
@@ -186,6 +191,15 @@ export class LaboratoryService {
       .append("page", page)
       .append("size",size)
     return this.http.get<Page<ParameterDto>>(`${environmentLaboratory.apiURL}/analysisParameter/getParametersByAnalysisId`,{params: httpParams, headers: this.getHeaders() });
+
+  }
+
+  getPatients(page: number, size: number): Observable<Page<Patient>>{
+
+    let httpParams = new HttpParams()
+      .append("page", page)
+      .append("size",size)
+    return this.http.get<Page<Patient>>(`${environmentLaboratory.apiURL}/prescription/patients_lab`,{params: httpParams, headers: this.getHeaders() });
 
   }
 

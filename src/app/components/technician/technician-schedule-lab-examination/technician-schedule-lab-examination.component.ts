@@ -42,7 +42,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
 
 
-  constructor(private patientService: PatientService, private formBuilder: FormBuilder, private labaratoryService: LaboratoryService) {
+  constructor( private formBuilder: FormBuilder, private labaratoryService: LaboratoryService) {
         this.searchForm = this.formBuilder.group({
             name: ['', [Validators.required]]
         });
@@ -69,12 +69,13 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     }
 
     getPatientList(){
-        this.patientService.getAllPatients("", "", "", "" , this.page, this.pageSize).subscribe((response) => {
-            this.patientPage = response
-            this.patientList = this.patientPage.content
-          console.log("LALALALALALAL" + this.patientList.length)
-
+      this.labaratoryService.getPatients(this.page, this.pageSize)
+        .subscribe((response) => {
+          console.log("KOJA JE VELIVINA" +  response.content.length)
+          this.patientPage = response
+          this.patientList = this.patientPage.content
           this.total = this.patientPage.totalElements
+
         })
     }
 
@@ -87,7 +88,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     examinationCreate(){
         this.lbp = this.searchForm.get('name')?.value
         this.date = this.countForm.get('date')?.value
-        this.noteForm = this.noteForm.get('note')?.value
+        this.note = this.noteForm.get('note')?.value
 
         this.labaratoryService.createScheduledExamination(this.lbp, this.date, this.note) .subscribe((response) => {
             this.errorMessage = '';
@@ -105,7 +106,8 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
       if(this.page == 0)
         this.page = 1;
 
-      this.labaratoryService.getPrescriptionsForPatientByLbzRest(this.searchForm.get('name')?.value, this.page-1, this.pageSize)
+      // @ts-ignore
+      this.labaratoryService.getPrescriptionsForPatientByLbzRest(localStorage.getItem("ID"),this.searchForm.get('name')?.value, this.page-1, this.pageSize)
         .subscribe((response) => {
           this.prescriptionPage = response
           this.prescriptionList = this.prescriptionPage.content
