@@ -381,7 +381,7 @@
                   <tr
                     *ngFor="let lab of labWorkOrders | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total}; let i = index">
                     <!--sta je ID RADNOG NALOGA???  -->
-                    <td>{{lab.prescription.id}}</td>
+                    <td>{{lab.id}}</td>
                     <td>{{lab.prescription.id}}</td>
                     <td>{{lab.creationDateTime}}</td>
                     <td>{{lab.status}}</td>
