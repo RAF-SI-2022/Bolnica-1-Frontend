@@ -208,4 +208,58 @@ export class LaboratoryService {
     );
   }
 
+
+  public registerPatient(
+    lbp: string
+  ): Observable<HttpStatusCode> {
+
+    let httpParams = new HttpParams()
+      .append("lbp", lbp)
+
+    return this.http.put<HttpStatusCode>(
+      `${environmentLaboratory.apiURL}/work-orders/register_patient_arrival`,
+      { params: httpParams, headers: this.getHeaders()}
+    );
+  }
+
+
+  public updateAnalysisParameters(
+    workOrderId: number,
+    parameterAnalysisId: number,
+    result: string
+  ): Observable<HttpStatusCode> {
+
+
+    let httpParams = new HttpParams()
+      .append("result", result)
+
+    return this.http.put<HttpStatusCode>(
+      `${environmentLaboratory.apiURL}/work-orders/${workOrderId}/${parameterAnalysisId}/update`,
+      { params: httpParams, headers: this.getHeaders()}
+    );
+  }
+
+  public verifyWorkOrder(
+    id: number
+  ): Observable<HttpStatusCode> {
+
+    return this.http.get<HttpStatusCode>(
+      `${environmentLaboratory.apiURL}/work-orders/verify/${id}`,
+      { headers: this.getHeaders()}
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
