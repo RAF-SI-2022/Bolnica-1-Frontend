@@ -104,7 +104,7 @@ export class DoctorCreateReferralComponent implements OnInit{
 
         this.patientService.writePerscription(PrescriptionType.LABORATORIJA, this.doctorId,this.departmentFromId,this.departmentToId,this.lbp,
           new Date(),1,referral.comment, '','',this.prescriptionArray ).subscribe(res=>{
-          console.log("RADI")
+          console.log(res)
         });
 
     }
