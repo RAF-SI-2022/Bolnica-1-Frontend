@@ -8,6 +8,7 @@ import {LaboratoryService} from "../../../services/laboratory-service/laboratory
 import {Page} from "../../../models/models";
 import {Patient} from "../../../models/patient/Patient";
 import {LabWorkOrder} from "../../../models/laboratory/LabWorkOrder";
+import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
 
 @Component({
   selector: 'app-technician-issuing-results',
@@ -19,8 +20,8 @@ export class TechnicianIssuingResultsComponent  implements OnInit {
   form: FormGroup;
   page = 0;
   pageSize = 5;
-  labWorkOrderPage: Page<LabWorkOrder> = new Page<LabWorkOrder>();
-  labWorkOrderList: LabWorkOrder[] = [];
+  labWorkOrderPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>();
+  labWorkOrderList: LabWorkOrderNew[] = [];
   total = 0;
 
   constructor(private laboratoryServis:LaboratoryService, private authService: AuthService, private userService:UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
@@ -55,7 +56,7 @@ export class TechnicianIssuingResultsComponent  implements OnInit {
     return true;
   }
 
-  onRowClick(labWorkOrder: LabWorkOrder): void {
+  onRowClick(labWorkOrder: LabWorkOrderNew): void {
     const url = `/doctor-workspace-one/${labWorkOrder.prescription.id}`;
     this.router.navigateByUrl(url, { state: { labWorkOrder } });
 

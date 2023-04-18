@@ -573,6 +573,13 @@ export class PatientService {
             prescriptionAnalysisDtos: prescriptionAnalysisDtos
         }
 
+        console.log(obj.type)
+        console.log(obj.lbp)
+        console.log(obj.comment)
+        console.log(obj.status)
+        console.log(obj.creationDateTime)
+
+
         return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/prescription/lab_prescription`, obj, {headers: this.getHeaders()});
     }
 
