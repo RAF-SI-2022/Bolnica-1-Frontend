@@ -24,6 +24,7 @@ import {PrescriptionStatus} from "../../models/laboratory-enums/PrescriptionStat
 import {PrescriptionAnalysis} from "../../models/laboratory/PrescriptionAnalysis";
 import {PrescriptionCreate} from "../../models/laboratory/PrescriptionCreate";
 import {ExaminationStatus} from "../../models/laboratory-enums/ExaminationStatus";
+import {LabWorkOrderWithAnalysis} from "../../models/laboratory/LabWorkOrderWithAnalysis";
 
 //import {Prescription} from "../../models/laboratory/Prescription";
 
@@ -173,6 +174,11 @@ export class LaboratoryService {
       console.log("dosao do servisa");
       return this.http.get<LabAnalysisDto[]>(`${environmentLaboratory.apiURL}/analysis/getAllLabAnalysis`, { headers: this.getHeaders() });
     }
+
+  findAnalysisParametersResults(lab: LabWorkOrder): Observable<LabWorkOrderWithAnalysis>{
+    console.log("dosao do servisa");
+    return this.http.get<LabWorkOrderWithAnalysis>(`${environmentLaboratory.apiURL}/${lab}/results`, { headers: this.getHeaders() });
+  }
 
   getAnalysisParams(id: number, page: number, size: number): Observable<Page<ParameterDto>>{
     console.log("dosao do servisa");
