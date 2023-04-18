@@ -14,7 +14,11 @@ import {LaboratoryService} from "../../../services/laboratory-service/laboratory
 import {LabWorkOrder} from "../../../models/laboratory/LabWorkOrder";
 import {LabWorkOrderWithAnalysis} from "../../../models/laboratory/LabWorkOrderWithAnalysis";
 import {PrescriptionStatus} from "../../../models/laboratory-enums/PrescriptionStatus";
+
+import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
+
 import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
+
 
 @Component({
   selector: 'app-doctor-medical-chart',
@@ -57,9 +61,10 @@ export class DoctorMedicalChartComponent implements OnInit {
     labWorkOrders: LabWorkOrderNew [] = []
     allergies: Allergy [] = []
     vaccines: Vaccination [] = []
+    public checkStatus: OrderStatus = OrderStatus.OBRADJEN;
+    public showDetailsBoolean: boolean = false;
 
-  //todo kojom rutom ovo popunjavam ??
-    detailsLabWorkOrders: LabWorkOrderWithAnalysis [] = []
+    detailsLabWorkOrders: LabWorkOrderWithAnalysis = new LabWorkOrderWithAnalysis();
     medicalPage: Page<MedicalHistory> = new Page<MedicalHistory>()
     prescriptionPage: Page<Prescription> = new Page<Prescription>()
     labWorkOrderPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>()
@@ -135,6 +140,7 @@ export class DoctorMedicalChartComponent implements OnInit {
           this.examinationHistories = this.examinationPage.content
           this.total = this.examinationPage.totalElements
         })
+
         //za istoriju bolesti cim se ucita
       console.log("LALALALALALALA" + this.diagnosis)
       this.patientService.getMedicalHistoryByLbpPaged(this.lbp, this.page, this.pageSize).subscribe(
@@ -221,27 +227,39 @@ export class DoctorMedicalChartComponent implements OnInit {
     getExaminationHistoryChoose(): void {
         if(this.correctDate != ''){
             this.getExaminationHistoryWithDate()
-        }else{
+        }else if(this.dateFrom != '' && this.dateTo != ''){
             this.getExaminationHistoryWithRange()
+        } else{
+          this.patientService.getExaminationHistoryByRange(this.lbp, new Date(0), new Date(), this.page-1, this.pageSize).subscribe(
+            response => {
+              this.examinationPage = response
+              this.examinationHistories = this.examinationPage.content
+              this.total = this.examinationPage.totalElements
+            })
         }
     }
   //ISTORIJA PREGLEDA ZA JEDAN DATUM
 
     getExaminationHistoryWithDate(): void {
+      this.dateFrom = ''
+      this.dateTo = ''
+
             console.log("Istorija pregleda jedan datum")
       if(this.page == 0)
         this.page = 1;
+
             this.patientService.getExaminationHistoryByDate(this.lbp,this.examinationForm.get('correctDate')?.value,this.page-1, this.pageSize).subscribe(
                 response => {
                     this.examinationPage = response
                     this.examinationHistories = this.examinationPage.content
                     this.total = this.examinationPage.totalElements
                 })
-            this.correctDate = ''
     }
     //ISTORIJA PREGLEDA SA OD DO
     getExaminationHistoryWithRange(): void {
-        console.log("Istorija pregleda dva datuma")
+      this.correctDate = ''
+
+      console.log("Istorija pregleda dva datuma")
       if(this.page == 0)
         this.page = 1;
 
@@ -251,20 +269,28 @@ export class DoctorMedicalChartComponent implements OnInit {
             this.examinationHistories = this.examinationPage.content
             this.total = this.examinationPage.totalElements
         })
-        this.dateFrom = ''
-        this.dateTo = ''
+
     }
   //TAB ISTORIJA BOLESTI
     getMedicalHistoryByDiagnosisCode(): void {
-      if(this.page == 0)
+      if (this.page == 0)
         this.page = 1;
-
+      if (this.diagnosis != '') {
         this.patientService.getMedicalHistoriesByDiagnosisCodePaged(this.lbp, this.diagnosis, this.page-1, this.pageSize).subscribe(
-        response => {
+          response => {
             this.medicalPage = response
             this.medicalHistories = this.medicalPage.content
             this.total = this.medicalPage.totalElements
-        })
+          })
+      }else{
+        this.patientService.getMedicalHistoryByLbpPaged(this.lbp, this.page-1, this.pageSize).subscribe(
+          response => {
+            this.medicalPage = response
+            this.medicalHistories = this.medicalPage.content
+            this.total = this.medicalPage.totalElements
+
+          })
+      }
     }
     //TAB ISTORIJA UPUTA, PRESCRIPTION JE UPUT!
     getPrescriptions(): void {
@@ -335,6 +361,15 @@ export class DoctorMedicalChartComponent implements OnInit {
           // @ts-ignore
           this.prescriptionForm.get('deleteButton').enable()
         }
+    }
+
+    showDetails(lab: LabWorkOrder){
+    this.showDetailsBoolean = true;
+
+      this.labaratoryService.findAnalysisParametersResults(lab).subscribe(
+        response => {
+          this.detailsLabWorkOrders = response;
+        })
     }
 
   onRowClickExamination(examinationHistory: ExaminationHistory): void {

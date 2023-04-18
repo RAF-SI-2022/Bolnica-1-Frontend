@@ -375,6 +375,7 @@
                     <th>ID uputa</th>
                     <th>Datum i vreme kreiranja</th>
                     <th>Status</th>
+                    <th>Detaljan prikaz</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -385,77 +386,120 @@
                     <td>{{lab.prescription.id}}</td>
                     <td>{{lab.creationDateTime}}</td>
                     <td>{{lab.status}}</td>
+                    <td>
+                      <a *ngIf="lab.status === checkStatus && lab.status" (click)="showDetails(lab)" class="fa fa-eye" title="Prikazi detalje" data-toggle="tooltip"> <i class="bi bi-x-circle-fill"></i>
+                      </a>
+                    </td>
+
                   </tr>
                   </tbody>
                 </table>
                 <div class="d-flex align-items-center justify-content-center h-100">
-
                   <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
                   </pagination-controls>
                 </div>
               </div>
+
+              <div *ngIf="showDetailsBoolean">
+                <div class="row py-5">
+                  <table class="table table-hover" data-cy="table1">
+                    <thead>
+                    <tr>
+                      <th>ID lab. analize</th>
+                      <th>Skracenica lab. analize</th>
+                      <th>ID parametra</th>
+                      <th>Naziv parametra</th>
+                      <th>Rezultat</th>
+                      <th>Jedinica mere</th>
+                      <th>Donja granica</th>
+                      <th>Gornja granica</th>
+                      <th>Datum i vreme upisa rezultata</th>
+                      <th>Ime i prezime zaposlenog</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let parameterAnalysisResult of detailsLabWorkOrders.parameterAnalysisResults">
+                      <td>{{detailsLabWorkOrders.id}}</td>
+                      <td>{{parameterAnalysisResult.labAnalysis.abbreviation}}</td>
+                      <td>{{parameterAnalysisResult.parameter}}</td>
+                      <td>{{parameterAnalysisResult.parameter.parameterName}}</td>
+                      <td>{{parameterAnalysisResult.result}}</td>
+                      <td>{{parameterAnalysisResult.parameter.unitOfMeasure}}</td>
+                      <td>{{parameterAnalysisResult.parameter.lowerLimit}}</td>
+                      <td>{{parameterAnalysisResult.parameter.upperLimit}}</td>
+                      <td>{{parameterAnalysisResult.dateTime}}</td>
+                      <td>{{parameterAnalysisResult.lbzBiochemist}}</td>
+
+
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
+
+
           </form>
           </div>
-            <div *ngIf="obradjeni">
-              <form [formGroup]="labaratoryForm" (submit)="getLabaratoryObradjeni()" class="mb-5 needs-validation" novalidate>
-                <div class="row">
-                  <div class="col-md-4 offset-2">
-                    <label class="labels">Od datuma</label>
-                    <input [(ngModel)]="dateFromLabaratory" name = "dateFrom" type="date" class="form-control" [ngModelOptions]="{standalone: true}" data-cy = "dateFrom" >
-                  </div>
-                  <div class="col-md-4">
-                    <label class="labels">Do datuma</label>
-                    <input [(ngModel)]="dateToLabaratory" name = "dateTo" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">
-                  </div>
-                  <div class="col-md-4 offset-2">
-                    <label class="labels">Tačan datum</label>
-                    <input [(ngModel)]="correctDateLabaratory" name = "correctDateLabaratory" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "correctDate" >
-                  </div>
+<!--            <div *ngIf="obradjeni">-->
+<!--              <form [formGroup]="labaratoryForm" (submit)="getLabaratoryObradjeni()" class="mb-5 needs-validation" novalidate>-->
+<!--                <div class="row">-->
+<!--                  <div class="col-md-4 offset-2">-->
+<!--                    <label class="labels">Od datuma</label>-->
+<!--                    <input [(ngModel)]="dateFromLabaratory" name = "dateFrom" type="date" class="form-control" [ngModelOptions]="{standalone: true}" data-cy = "dateFrom" >-->
+<!--                  </div>-->
+<!--                  <div class="col-md-4">-->
+<!--                    <label class="labels">Do datuma</label>-->
+<!--                    <input [(ngModel)]="dateToLabaratory" name = "dateTo" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">-->
+<!--                  </div>-->
+<!--                  <div class="col-md-4 offset-2">-->
+<!--                    <label class="labels">Tačan datum</label>-->
+<!--                    <input [(ngModel)]="correctDateLabaratory" name = "correctDateLabaratory" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "correctDate" >-->
+<!--                  </div>-->
 
-                  <div class="mt-4 offset-2">
-                    <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
-                  </div>
-                  <div class="mt-4 text-center">
-                    <button (click)="getNeobradjeni()" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretraziObradjene">Prikazi samo neobradjene</button>
-                  </div>
+<!--                  <div class="mt-4 offset-2">-->
+<!--                    <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>-->
+<!--                  </div>-->
+<!--                  <div class="mt-4 text-center">-->
+<!--                    <button (click)="getNeobradjeni()" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretraziObradjene">Prikazi samo neobradjene</button>-->
+<!--                  </div>-->
 
-                  <div class="row py-5">
-                    <table class="table table-hover" data-cy="table1">
-                      <thead>
-                      <tr>
-                        <th>ID labaratorijske analize</th>
-                        <th>Skracenica labaratorijske analize</th>
-                        <th>ID parametra</th>
-                        <th>Naziv parametra</th>
-                        <th>Rezultat</th>
-                        <th>Jedinica mere</th>
-                        <th>Donja granica</th>
-                        <th>Gornja granica</th>
-                        <th>Datum upisa reazultata</th>
-                        <th>Vreme upisa reazultata</th>
-                        <th>Ime i prezime zaposlenog</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr
-                        *ngFor="let lab of detailsLabWorkOrders | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total}; let i = index">
-                        <td>{{lab.id}}</td>
-                        <td>{{lab}}</td>
-                        <td>{{lab.parameterAnalysisResults}}</td>
-                        <td>{{lab.parameterAnalysisResults}}</td>
+<!--                  <div class="row py-5">-->
+<!--                    <table class="table table-hover" data-cy="table1">-->
+<!--                      <thead>-->
+<!--                      <tr>-->
+<!--                        <th>ID labaratorijske analize</th>-->
+<!--                        <th>Skracenica labaratorijske analize</th>-->
+<!--                        <th>ID parametra</th>-->
+<!--                        <th>Naziv parametra</th>-->
+<!--                        <th>Rezultat</th>-->
+<!--                        <th>Jedinica mere</th>-->
+<!--                        <th>Donja granica</th>-->
+<!--                        <th>Gornja granica</th>-->
+<!--                        <th>Datum upisa reazultata</th>-->
+<!--                        <th>Vreme upisa reazultata</th>-->
+<!--                        <th>Ime i prezime zaposlenog</th>-->
+<!--                      </tr>-->
+<!--                      </thead>-->
+<!--                      <tbody>-->
+<!--                      <tr-->
+<!--                        *ngFor="let lab of detailsLabWorkOrders | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total}; let i = index">-->
+<!--                        <td>{{lab.id}}</td>-->
+<!--                        <td>{{lab}}</td>-->
+<!--                        <td>{{lab.parameterAnalysisResults}}</td>-->
+<!--                        <td>{{lab.parameterAnalysisResults}}</td>-->
 
-                      </tr>
-                      </tbody>
-                    </table>
-                    <div class="d-flex align-items-center justify-content-center h-100">
-                      <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
-                      </pagination-controls>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
+<!--                      </tr>-->
+<!--                      </tbody>-->
+<!--                    </table>-->
+<!--                    <div class="d-flex align-items-center justify-content-center h-100">-->
+<!--                      <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">-->
+<!--                      </pagination-controls>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </form>-->
+<!--            </div>-->
           </div>
           </div>
       </div>
