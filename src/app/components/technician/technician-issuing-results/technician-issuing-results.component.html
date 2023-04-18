@@ -54,7 +54,7 @@
             <tbody>
                <tr
                  *ngFor="let labWorkOrder of labWorkOrderList | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total};  let i = index"  (click)="onRowClick(labWorkOrder)">
-                 <td>{{labWorkOrder.prescription}}</td>
+                 <td>{{labWorkOrder.prescription.id}}</td>
                  <td>{{labWorkOrder.creationDateTime}}</td>
                  <td>{{labWorkOrder.status}}</td>
                </tr>
