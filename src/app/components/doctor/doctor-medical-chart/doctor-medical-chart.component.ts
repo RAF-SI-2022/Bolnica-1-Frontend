@@ -363,7 +363,7 @@ export class DoctorMedicalChartComponent implements OnInit {
         }
     }
 
-    showDetails(lab: LabWorkOrder){
+    showDetails(lab: LabWorkOrderNew){
     this.showDetailsBoolean = true;
 
       this.labaratoryService.findAnalysisParametersResults(lab).subscribe(

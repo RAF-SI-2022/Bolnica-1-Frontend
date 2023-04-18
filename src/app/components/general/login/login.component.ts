@@ -59,9 +59,18 @@ export class LoginComponent implements OnInit {
                 localStorage.setItem('LBZ', decodedToken.sub);
                 this.setUsername();
                 localStorage.setItem('PBO', decodedToken.pbo);
-                localStorage.setItem('ID', decodedToken.id);
+                //localStorage.setItem('ID', decodedToken.id);
 
                 this.navigateBasedOnRole();
+              this.userService.getEmployee(this.lbz).subscribe(res => {},
+                err => {
+                  if (err.status == 302) { // found!
+                    localStorage.setItem('ID', err.error.id);
+
+
+                  }
+                })
+
             },
             (err) => {
                 console.log(err);

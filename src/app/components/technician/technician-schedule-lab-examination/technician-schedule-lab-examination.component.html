@@ -38,7 +38,7 @@
                         <select  name = "patients1" [formControlName]="'name'" class="form-select" id="patients1" required
                                 aria-label="Default select example"  data-cy = "patients1" >
                           <option selected>Odaberite pacijenta</option>
-                          <option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.name }}</option>
+                          <option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.lbp }}</option>
 
                         </select>
                       </div>
@@ -171,7 +171,7 @@
                 <select [formControlName]="'name'"  name = "patients" class="form-select" id="patients"
                          aria-label="Default select example"  data-cy = "patients">
                   <option selected>Odaberite pacijenta</option>
-                  <option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.name }}</option>
+                  <option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.lbp }}</option>
                 </select>
               </div>
 
