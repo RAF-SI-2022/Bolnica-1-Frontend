@@ -19,6 +19,11 @@ import {LabAnalysisDto} from "../../models/laboratory/LabAnalysisDto";
 import {AnalysisParameter} from "../../models/laboratory/AnalysisParameter";
 import {ParameterDto} from "../../models/laboratory/ParameterDto";
 import {Prescription} from "../../models/laboratory/Prescription";
+import {PrescriptionType} from "../../models/laboratory-enums/PrescriptionType";
+import {PrescriptionStatus} from "../../models/laboratory-enums/PrescriptionStatus";
+import {PrescriptionAnalysis} from "../../models/laboratory/PrescriptionAnalysis";
+import {PrescriptionCreate} from "../../models/laboratory/PrescriptionCreate";
+import {ExaminationStatus} from "../../models/laboratory-enums/ExaminationStatus";
 
 //import {Prescription} from "../../models/laboratory/Prescription";
 
@@ -176,6 +181,21 @@ export class LaboratoryService {
       .append("size",size)
     return this.http.get<Page<ParameterDto>>(`${environmentLaboratory.apiURL}/analysisParameter/getParametersByAnalysisId`,{params: httpParams, headers: this.getHeaders() });
 
+  }
+
+
+  public changeExaminationStatus(
+    id: number,
+    examinationStatus: ExaminationStatus,
+
+  ): Observable<HttpStatusCode> {
+
+    let httpParams = new HttpParams()
+      .append("id", id)
+      .append("newStatus", examinationStatus)
+
+
+    return this.http.put<HttpStatusCode>(`${environmentLaboratory.apiURL}/examinations/update-status`,  {params: httpParams, headers: this.getHeaders()});
   }
 
 }
