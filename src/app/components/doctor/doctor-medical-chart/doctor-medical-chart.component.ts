@@ -126,8 +126,8 @@ export class DoctorMedicalChartComponent implements OnInit {
         this.generalForm.get('bloodGroup')?.disable()
         this.generalForm.get('rhFactor')?.disable()
         this.getGeneralMedical(this.lbp)
-      //OVO JE ZA ISTORIJU PREGLEDA cim se ucita
 
+      //OVO JE ZA ISTORIJU PREGLEDA cim se ucita
       this.patientService.getExaminationHistoryByRange(this.lbp, new Date(0), new Date(), this.page, this.pageSize).subscribe(
         response => {
           this.examinationPage = response
