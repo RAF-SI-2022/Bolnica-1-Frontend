@@ -87,6 +87,9 @@ import {
 import {
   BiochemistDetailsAnalysisComponent
 } from "./components/biochemist/biochemist-details-analysis/biochemist-details-analysis.component";
+import {
+  DoctorCreateReferralNewComponent
+} from "./components/doctor/doctor-create-referral-new/doctor-create-referral-new.component";
 
 
 const routes: Routes = [
@@ -180,9 +183,14 @@ const routes: Routes = [
     component: DoctorWorkspaceOnePatientComponent,
     canActivate: [AuthGuard, DoctorGuard]
   },
+  // {
+  //   path: "doctor-create-referral/:lbp",
+  //   component: DoctorCreateReferralComponent,
+  //   canActivate: [AuthGuard, DoctorGuard]
+  // },
   {
     path: "doctor-create-referral/:lbp",
-    component: DoctorCreateReferralComponent,
+    component: DoctorCreateReferralNewComponent,
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
