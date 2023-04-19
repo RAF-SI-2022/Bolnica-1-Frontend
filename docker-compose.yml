@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+
+  angular:
+    restart: always
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    networks:
+      - my_local_network
+
+networks:
+  my_local_network:
+    external: true
