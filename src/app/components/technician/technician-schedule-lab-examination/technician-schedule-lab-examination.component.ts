@@ -69,12 +69,10 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     }
 
     getPatientList(){
-      this.labaratoryService.getPatients(this.page, this.pageSize).subscribe(res => {},
-        err => {
-          if (err.status == 302) { // found!
-            this.patientList = err.error.lbp;
-
-          }
+      this.labaratoryService.getPatients(this.page, this.pageSize)
+        .subscribe((response) => {
+          this.patientPage = response
+          this.patientList = this.patientPage.content
         })
     }
 
@@ -126,7 +124,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
         if(this.searchVisitForm.get('date')?.value == ''){
           this.dateSearch = new Date()
         }
-        this.labaratoryService.listScheduledEexaminations(this.lbp, this.dateSearch, this.page, this.pageSize).subscribe((response) => {
+        this.labaratoryService.listScheduledEexaminationsByLbp(this.lbp, new Date(), this.page, this.pageSize).subscribe((response) => {
             this.scheduledLabExaminationPage = response
             this.scheduledLabExaminations = this.scheduledLabExaminationPage.content
             this.total = this.scheduledLabExaminationPage.totalElements
