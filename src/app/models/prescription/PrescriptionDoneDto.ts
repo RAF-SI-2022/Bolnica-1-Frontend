@@ -7,6 +7,6 @@ export interface PrescriptionDoneDto{
   departmentToId:number;
   lbp:string;
   doctorLbz:string;
-  date: Date;
-  prescriptionStatus: PrescriptionStatus;
+  creationDateTime: Date;
+  status: PrescriptionStatus;
 }

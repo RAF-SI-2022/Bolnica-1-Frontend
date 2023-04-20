@@ -1,5 +1,5 @@
-import {DiagnosisCode} from "./DiagnosisCode";
-import {Anamnesis} from "./Anamnesis";
+import {DiagnosisCode, DiagnosisCodeDto} from "./DiagnosisCode";
+import {Anamnesis, AnamnesisDto} from "./Anamnesis";
 
 export interface ExaminationHistory {
   id: number;
@@ -10,6 +10,6 @@ export interface ExaminationHistory {
   advice: string;
   therapy: string;
 
-  DiagnosisCodeDto: DiagnosisCode;
-  AnamnesisDto: Anamnesis;
+  diagnosisCodeDto: DiagnosisCode;
+  anamnesisDto: AnamnesisDto;
 }
