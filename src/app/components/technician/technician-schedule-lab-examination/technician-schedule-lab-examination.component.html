@@ -215,7 +215,7 @@
                     <td>{{exam.lbz}}</td>
                     <td>{{exam.examinationStatus}}</td>
                     <td>
-                      <button *ngIf=checkStatus(exam) (click)="cancelExamination(exam.id)">Otkaži pregled</button>
+                      <button *ngIf=!checkStatus(exam) (click)="cancelExamination(exam.id)">Otkaži pregled</button>
                     </td>
 
                   </tr>
