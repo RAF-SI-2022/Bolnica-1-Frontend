@@ -12,7 +12,6 @@ import {Prescription} from "../../models/laboratory/Prescription";
 import {PrescriptionLabSendDto} from "../../models/prescription/PrescriptionLabSendDto";
 import {PrescriptionAnalysisDto} from "../../models/prescription/PrescriptionAnalysisDto";
 import {PrescriptionInfirmarySendDto} from "../../models/prescription/PrescriptionInfirmarySendDto";
-import doc = Mocha.reporters.doc;
 import {PrescriptionDoneDto} from "../../models/prescription/PrescriptionDoneDto";
 import {PrescriptionLabUpdateDto} from "../../models/prescription/PrescriptionLabUpdateDto";
 import {PrescriptionNewDto} from "../../models/prescription/PrescriptionNewDto";
@@ -42,7 +41,7 @@ export class PrescriptionServiceService {
     departmentToId: number,
     lbp: string,
     comment: string,
-    prescriptionAnalysisDtos: PrescriptionAnalysisDto[]
+    prescriptionAnalysisDtos: PrescriptionAnalysis[]
   ): Observable<HttpStatusCode> {
 
     const obj: PrescriptionLabSendDto = {
@@ -171,7 +170,9 @@ export class PrescriptionServiceService {
 
     const dateFrom = new Date(dateFromm)
     const dateTo = new Date(dateToo)
-
+    console.log("Date from " + dateFrom.getTime())
+    console.log("Date to " + dateTo.getTime())
+    console.log("LALALALALALA " + new Date(1681946882325))
 
     let httpParams = new HttpParams()
       .append("dateFrom", dateFrom.getTime())

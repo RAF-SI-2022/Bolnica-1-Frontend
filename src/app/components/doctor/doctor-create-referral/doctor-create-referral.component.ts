@@ -3,13 +3,14 @@ import {PatientService} from "../../../services/patient-service/patient.service"
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../../services/user-service/user.service";
-import {DeparmentShort, HospitalShort, Page} from "../../../models/models";
+import {AdminPromeniZaposlenog, DeparmentShort, HospitalShort, Page} from "../../../models/models";
 import {AuthService} from "../../../services/auth.service";
 import {LaboratoryService} from "../../../services/laboratory-service/laboratory.service";
 import {LabAnalysisDto} from "../../../models/laboratory/LabAnalysisDto";
 import {ParameterDto} from "../../../models/laboratory/ParameterDto";
 import {PrescriptionAnalysis} from "../../../models/laboratory/PrescriptionAnalysis";
 import {PrescriptionType} from "../../../models/laboratory-enums/PrescriptionType";
+import {PrescriptionServiceService} from "../../../services/prescription-service/prescription-service.service";
 
 
 @Component({
@@ -47,8 +48,11 @@ export class DoctorCreateReferralComponent implements OnInit{
     departments: DeparmentShort[] = [];
 
     referralForm:  FormGroup;
+     userEdit: AdminPromeniZaposlenog = new AdminPromeniZaposlenog();
 
-  constructor(private laboratoryService: LaboratoryService, private authService: AuthService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
+
+
+  constructor(private prescriptionService : PrescriptionServiceService, private laboratoryService: LaboratoryService, private authService: AuthService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
     this.referralForm = this.formBuilder.group({
         ustanova: ['', [Validators.required]],
         ustanova1: [new DeparmentShort(), [Validators.required]],
@@ -75,7 +79,20 @@ export class DoctorCreateReferralComponent implements OnInit{
        this.lbz = this.authService.getLBZ();
        console.log(this.lbz);
        this.getLabAnalysis();
+       this.getDoctorDepartment()
     }
+
+  getDoctorDepartment():void{
+    this.userService.getEmployee(this.lbz).subscribe(result => {},
+      err => {
+        if (err.status == 302) { // found!
+          this.userEdit = err.error;
+          console.log(this.userEdit)
+          this.departmentFromId = this.userEdit.department.id
+          console.log(this.departmentFromId)
+        }
+      })
+  }
 
     getHospitals(): void {
      this.userService.getHospitals().subscribe(res=>{
@@ -102,10 +119,18 @@ export class DoctorCreateReferralComponent implements OnInit{
 
         this.prescriptionArray.push(this.prescriptionAnalyses1);
 
-        this.patientService.writePerscription(PrescriptionType.LABORATORIJA, this.doctorId,this.departmentFromId,this.departmentToId,this.lbp,
-          new Date(),1,referral.comment, '','',this.prescriptionArray ).subscribe(res=>{
+        // this.patientService.writePerscription(PrescriptionType.LABORATORIJA, this.doctorId,this.departmentFromId,this.departmentToId,this.lbp,
+        //   new Date(),1,referral.comment, '','',this.prescriptionArray ).subscribe(res=>{
+        //   console.log(res)
+        // });
+      this.prescriptionService.writeLabPerscription(
+        this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArray
+      ).subscribe(res=>{
+
+          console.log("usao u emicinu metodu")
           console.log(res)
-        });
+        }
+      );
 
     }
 

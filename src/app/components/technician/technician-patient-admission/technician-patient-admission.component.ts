@@ -34,7 +34,7 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.laboratoryService.listScheduledEexaminations(this.lbp, new Date(), this.page, this.PAGE_SIZE)
+    this.laboratoryService.listScheduledEexaminations()
       .subscribe((response) => {
         this.scheduledLabExaminationPage = response
         this.scheduledLabExaminationList = this.scheduledLabExaminationPage.content
@@ -46,7 +46,7 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
     if(this.page == 0)
       this.page = 1;
 
-    this.laboratoryService.listScheduledEexaminations(this.lbp, new Date(), this.page-1, this.PAGE_SIZE).subscribe((response) => {
+    this.laboratoryService.listScheduledEexaminationsByLbp(this.lbp, new Date(), this.page-1, this.PAGE_SIZE).subscribe((response) => {
       this.scheduledLabExaminationPage = response
       this.scheduledLabExaminationList = this.scheduledLabExaminationPage.content
       this.total = this.scheduledLabExaminationPage.totalElements
