@@ -59,6 +59,7 @@ import { NurseScheduleAppointmentNewComponent } from './components/nurse/nurse-s
 import { BiochemistSearchWorkOrdersComponent } from './components/biochemist/biochemist-search-work-orders/biochemist-search-work-orders.component';
 import { BiochemistDetailsAnalysisComponent } from './components/biochemist/biochemist-details-analysis/biochemist-details-analysis.component';
 import { BiochemistDailyWorkOrdersComponent } from './components/biochemist/biochemist-daily-work-orders/biochemist-daily-work-orders.component';
+// import { DoctorCreateReferralNewComponent } from './components/doctor/doctor-create-referral-new/doctor-create-referral-new.component';
 
 
 @NgModule({
