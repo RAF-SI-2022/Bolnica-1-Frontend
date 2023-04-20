@@ -8,10 +8,8 @@ import {Page} from "../../../models/models";
 import {ExaminationHistory} from "../../../models/patient/ExaminationHistory";
 import {Allergy} from "../../../models/patient/Allergy";
 import {Vaccination} from "../../../models/patient/Vaccination";
-import {Prescription} from "../../../models/laboratory/Prescription";
 import {LabAnalysis} from "../../../models/laboratory/LabAnalysis";
 import {LaboratoryService} from "../../../services/laboratory-service/laboratory.service";
-import {LabWorkOrder} from "../../../models/laboratory/LabWorkOrder";
 import {LabWorkOrderWithAnalysis} from "../../../models/laboratory/LabWorkOrderWithAnalysis";
 import {PrescriptionStatus} from "../../../models/laboratory-enums/PrescriptionStatus";
 
@@ -65,7 +63,9 @@ export class DoctorMedicalChartComponent implements OnInit {
     allergies: Allergy [] = []
     vaccines: Vaccination [] = []
     public checkStatus: OrderStatus = OrderStatus.OBRADJEN;
-    public showDetailsBoolean: boolean = false;
+  public checkStatusPrescription: PrescriptionStatus = PrescriptionStatus.NEREALIZOVAN;
+
+  public showDetailsBoolean: boolean = false;
 
     detailsLabWorkOrders: LabWorkOrderWithAnalysis = new LabWorkOrderWithAnalysis();
     medicalPage: Page<MedicalHistory> = new Page<MedicalHistory>()
@@ -365,6 +365,7 @@ export class DoctorMedicalChartComponent implements OnInit {
 
         this.patientService.deletePerscription(id).subscribe(response => {
           console.log("USPESNO OBRISAN")
+          this.getPrescriptions()
         })
     }
 
@@ -426,6 +427,15 @@ export class DoctorMedicalChartComponent implements OnInit {
   onRowClickExamination(examinationHistory: ExaminationHistory): void {
       this.idExaminationHistory = 0
       this.idExaminationHistory = examinationHistory.id
+  }
+
+  check(status: PrescriptionStatus): boolean{
+      console.log("LALALALALALLALA " + status)
+      if(status == PrescriptionStatus.NEREALIZOVAN){
+        console.log("USOOO")
+        return true
+      }
+      return false
   }
 
 

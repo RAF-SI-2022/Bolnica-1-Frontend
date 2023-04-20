@@ -356,25 +356,66 @@
               </div>
 
             </div>
-            <div *ngIf="idPrescription">
-              <h2>Detalji uputa {{idPrescription}}</h2>
-              <div *ngFor="let prescription of prescriptionHistories">
-                <div *ngIf="prescription.id === idPrescription">
+<!--            <div *ngIf="idPrescription">-->
+<!--              <h2>Detalji uputa {{idPrescription}}</h2>-->
+<!--              <div *ngFor="let prescription of prescriptionHistories">-->
+<!--                <div *ngIf="prescription.id === idPrescription">-->
 
-                  <p>{{prescription.type}}</p>
-                  <p> {{prescription.departmentFromId}}</p>
-                  <p>{{prescription.departmentToId}}</p>
-                  <p>{{prescription}}</p>
-                  <p> {{prescription}}</p>
-                  <p>{{prescription}}</p>
-                  <p>{{prescription}}</p>
-                  <p> {{prescription}}</p>
-                  <p>{{prescription}}</p>
-                  <div class="mt-4 text-center">
-                    <button *ngIf="delete" (click)="deletePrescription(prescription.id)" class="btn btn-primary" [formControlName]="'deleteButton'"
-                            type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="obrisiUput">Obrisi</button>
-                  </div>
-                </div>
+<!--                  <p>{{prescription.type}}</p>-->
+<!--                  <p> {{prescription.departmentFromId}}</p>-->
+<!--                  <p>{{prescription.departmentToId}}</p>-->
+<!--                  <p>{{prescription}}</p>-->
+<!--                  <p> {{prescription}}</p>-->
+<!--                  <p>{{prescription}}</p>-->
+<!--                  <p>{{prescription}}</p>-->
+<!--                  <p> {{prescription}}</p>-->
+<!--                  <p>{{prescription}}</p>-->
+<!--                  <div class="mt-4 text-center">-->
+<!--                    <button *ngIf="delete" (click)="deletePrescription(prescription.id)" class="btn btn-primary" [formControlName]="'deleteButton'"-->
+<!--                            type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="obrisiUput">Obrisi</button>-->
+<!--                  </div>-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--              </div>-->
+<!--            </div>-->
+            <div *ngIf="idPrescription">
+              <div class="row py-5">
+                <h2>Detalji uputa <b>{{idPrescription}}</b></h2>
+                <table class="table table-hover" data-cy="table1">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tip</th>
+                    <th>Iz kog departmana</th>
+                    <th>U koji departman</th>
+                    <th>Doktor LBZ</th>
+                    <th>Komentar</th>
+                    <th>Datum i vreme</th>
+                    <th>Status</th>
+                    <th>Akcija</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <ng-container *ngFor="let prescription of prescriptionHistories">
+                      <ng-container *ngIf="prescription.id === idPrescription">
+                        <td>{{prescription.id}}</td>
+                        <td>{{prescription.type}}</td>
+                        <td>{{prescription.departmentFromId}}</td>
+                        <td>{{prescription.departmentToId}}</td>
+                        <td>{{prescription.doctorLbz}}</td>
+                        <td>{{prescription.comment}}</td>
+                        <td>{{prescription.creationDateTime}}</td>
+                        <td>{{prescription.status}}</td>
+                        <td>
+                          <a *ngIf="!check(prescription.status)" (click)="deletePrescription(prescription.id)" class="delete" title="Obrisi" data-toggle="tooltip"> <i class="bi bi-x-circle-fill"></i>
+                          </a>
+                        </td>
+                      </ng-container>
+                    </ng-container>
+                  </tr>
+
+                  </tbody>
+                </table>
               </div>
             </div>
           </form>
