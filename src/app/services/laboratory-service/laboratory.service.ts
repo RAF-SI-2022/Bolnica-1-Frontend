@@ -57,11 +57,13 @@ export class LaboratoryService {
     scheduledDate: Date,
     note: string
   ): Observable<HttpStatusCode> {
+    const dateFrom = new Date(scheduledDate)
 
     let httpParams = new HttpParams()
       .append("lbp",lbp)
-      .append("date", scheduledDate.toISOString())
+      .append("date", dateFrom.getTime())
       .append("note",note);
+    console.log("LBPPPP " + lbp)
 
     return this.http.post<HttpStatusCode>(
       `${environmentLaboratory.apiURL}/examinations/create`,
@@ -74,10 +76,10 @@ export class LaboratoryService {
    * */
   public listScheduledExaminationsByDay(datee: Date): Observable<number> {
     const datum = new Date(datee);
-    const date = datum.toISOString();
+    const date= new Date(datee)
 
 
-    let httpParams = new HttpParams().append("date", date)
+    let httpParams = new HttpParams().append("date", date.getTime())
 
     return this.http.get<number>(
       `${environmentLaboratory.apiURL}/examinations/count-scheduled_examinations/by-day`,
@@ -89,24 +91,32 @@ export class LaboratoryService {
    * Dohvata sve zakazane posete
    *
    * */
-  listScheduledEexaminations(lbp: string, datee: Date,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
+  listScheduledEexaminationsByLbp(lbp: string, datee: Date,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
     const datum = new Date(datee);
 
-    const date = datum.toISOString();
+    const date = new Date(datee)
 
     let httpParams = new HttpParams()
       .append("lbp",lbp)
-      .append("date",date)
+      .append("startDate",date.getTime())
+      .append("endDate",date.getTime())
       .append("page",page)
       .append("size",size);
 
     return this.http.get<Page<ScheduledLabExamination>>(
-      `${environmentLaboratory.apiURL}/examinations/list-scheduled-examinations`,
+      `${environmentLaboratory.apiURL}/examinations/list-scheduled-examinations/by-lbp-date`,
       {params: httpParams, headers:this.getHeaders()}
     );
   }
 
+  listScheduledEexaminations(): Observable<Page<ScheduledLabExamination>> {
 
+
+    return this.http.get<Page<ScheduledLabExamination>>(
+      `${environmentLaboratory.apiURL}/examinations/list-scheduled-examinations`,
+      {headers:this.getHeaders()}
+    );
+  }
 
   public getPrescriptionsForPatientByLbzRest(
     lbp: string,
@@ -199,15 +209,17 @@ export class LaboratoryService {
 
   public findWorkOrders(
     lbp: string,
-    fromDate: Date,
-    toDate: Date,
+    fromDatee: Date,
+    toDatee: Date,
     page: number,
     size: number
   ): Observable<Page<LabWorkOrderNew>> {
+    const dateFrom = new Date(fromDatee)
+    const dateTo = new Date(toDatee)
 
     let httpParams = new HttpParams().append("lbp",lbp)
-      .append("fromDate", fromDate.toISOString())
-      .append("toDate",toDate.toISOString())
+      .append("fromDate", dateFrom.getTime())
+      .append("toDate", dateTo.getTime())
       .append("page", page)
       .append("size",size)
 
@@ -259,12 +271,12 @@ export class LaboratoryService {
   }
 
 
-  public getPatients(page: number, size: number): Observable<Patient> {
+  public getPatients(page: number, size: number): Observable<Page<Patient>> {
 
     let httpParams = new HttpParams()
       .append("page", page)
       .append("size", size)
-    return this.http.get<Patient>(`${environmentLaboratory.apiURL}/prescription/patients_lab`, { headers: this.getHeaders() });
+    return this.http.get<Page<Patient>>(`${environmentLaboratory.apiURL}/prescription/patients_lab`, { params: httpParams, headers: this.getHeaders() });
   }
 
 
