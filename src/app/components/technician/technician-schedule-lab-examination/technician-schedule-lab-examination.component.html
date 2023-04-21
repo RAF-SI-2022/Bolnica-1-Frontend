@@ -33,14 +33,20 @@
                     <div class="row mt-3 align-items-center">
                       <form [formGroup]="searchForm" (submit)="findExaminations()" class="mb-5 needs-validation" novalidate>
                       <div class="col-md-4 offset-4">
+     
+                        <label class="labels">Izbor pacijenta</label>
+                        <ng-select name="patients1"
+                                  [formControlName]="'name'"
+                                  class="custom"
+                                  id="patients1"
+                                  required
+                                  [searchable]="true"
+                                  bindLabel="lbp"
+                                  bindValue="id"
+                                  data-cy="patients1">
+                          <ng-option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.lbp }}</ng-option>
+                        </ng-select>
 
-                        <label  class="labels">Izbor pacijenta</label>
-                        <select  name = "patients1" [formControlName]="'name'" class="form-select" id="patients1" required
-                                aria-label="Default select example"  data-cy = "patients1" >
-                          <option selected>Odaberite pacijenta</option>
-                          <option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.lbp }}</option>
-
-                        </select>
                       </div>
 
                       <div class="mt-4 text-center">
@@ -171,11 +177,17 @@
           <div class="row">
               <div class="col-md-4  offset-4">
                 <label  class="labels">Pacijenti</label>
-                <select [formControlName]="'name'"  name = "patients" class="form-select" id="patients"
-                         aria-label="Default select example"  data-cy = "patients">
-                  <option selected>Odaberite pacijenta</option>
-                  <option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.lbp }}</option>
-                </select>
+                <ng-select name="patients1"
+                        [formControlName]="'name'"
+                        class="custom"
+                        id="patients1"
+                        required
+                        [searchable]="true"
+                        bindLabel="lbp"
+                        bindValue="id"
+                        data-cy="patients1">
+                <ng-option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.lbp }}</ng-option>
+              </ng-select>
               </div>
 
               <div class="col-md-4 offset-4">

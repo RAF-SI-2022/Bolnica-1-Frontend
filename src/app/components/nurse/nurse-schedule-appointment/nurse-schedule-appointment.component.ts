@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {EventSettingsModel, PopupOpenEventArgs, ScheduleComponent, View} from '@syncfusion/ej2-angular-schedule';
+import {ActionEventArgs, CellClickEventArgs, EventSettingsModel, PopupOpenEventArgs, ScheduleComponent, View} from '@syncfusion/ej2-angular-schedule';
 import {L10n} from "@syncfusion/ej2-base";
 import {PatientService} from "../../../services/patient-service/patient.service";
 import {UserService} from "../../../services/user-service/user.service";
@@ -215,20 +215,40 @@ export class NurseScheduleAppointmentComponent implements OnInit{
   }
 
   public onPopupOpen(args: PopupOpenEventArgs): void {
-    // args.cancel = true;
-    // const data: { [key: string]: Object } = {};
-    //
-    // this.scheduleObj?.openEditor(data, 'Add', true);
+    if (args.type === 'QuickInfo') {
+      args.cancel = true;
+      let data = args.data as { [key: string]: Object };
+      this.scheduleObj?.openEditor(data, 'Add');
+    }
     if (args.type === 'Editor') {
-      console.log("jeste editor")
 
-      // const moreDetailsBtn: HTMLElement = args.element.querySelector('.e-more-details') as HTMLElement;
-      // if (moreDetailsBtn) {
-      //   moreDetailsBtn.click();
-      //   args.cancel = true;
-      // }
+      setTimeout(() => {
+        const saveButton = args.element.querySelector('.e-event-save') as HTMLElement;
+        const cancelButton = args.element.querySelector('.e-event-cancel') as HTMLElement;
+  
+        if (saveButton) {
+          saveButton.style.display = 'none';
+        }
+        if (cancelButton) {
+          cancelButton.style.display = 'none';
+        }
+      });
     }
   }
+  
+  onCellClick(args: CellClickEventArgs): void {
+    
+    this.selectedDateTime = args.startTime;
+    const events = this.scheduleObj!.getEvents(args.startTime, args.endTime);
 
+  if (events.length === 0) {
+    
+  } else {
+    const eventData = events[0];
 
+    // Open the editor in 'Edit' mode with the existing event data
+    console.log("POSTOJI DATA " + eventData[0])
+    this.scheduleObj?.openEditor(eventData, 'Add');
+  }
+  }
 }

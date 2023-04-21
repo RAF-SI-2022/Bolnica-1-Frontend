@@ -100,25 +100,10 @@
 
 
             <!--*ngIf="patient.patientArrival.toString() === ceka.toString()"-->
-            <td ><button (click)="startExam(patient)" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da započnete pregled?')">Pregled</button></td>
-
-
-
-
-<!--            <td><button (click)="goToChart(patient)" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da udjete u karton?')">Karton</button></td>-->
-
+            <td ><button *ngIf="patient.patientArrival.toString() === 'ZAKAZANO'" (click)="startExam(patient)" class="btn btn-primary" >Pregled</button></td>
           </tr>
           </tbody>
         </table>
-<!--      <div class="popup-overlay" *ngIf="isPopupVisible">-->
-<!--        <div class="popup">-->
-<!--          <p>Zelite da zapocnete pregled?</p>-->
-<!--          <div class="popup-buttons">-->
-<!--            <button (click)="confirmPregled()">OK</button>-->
-<!--            <button (click)="hidePopup()">Cancel</button>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
 
     </div>
   </div>

@@ -197,6 +197,9 @@ export class DoctorWorkspaceComponent implements OnInit {
     // }
 
   startExam(patient: ExamForPatient): void {
+    if(!confirm('Da li ste sigurni da želite da započnete pregled?')){
+      return;
+    }
     this.patientService.getPatientByLbp(patient.lbp).subscribe(res => {
       console.log("NANANANANANANANANNANANANANA" + patient.name)
       //this.router.navigate(['doctor-workspace-one', lbp])
@@ -211,4 +214,8 @@ export class DoctorWorkspaceComponent implements OnInit {
   goToChart(patient: ExamForPatient): void{
       this.router.navigate(['doctor-medical-chart', patient.lbp])
   }
+
+  
+
+
 }
