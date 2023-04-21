@@ -20,6 +20,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     pageSize = 5
     total = 0
     patientPage: Page<Patient> = new Page<Patient>()
+    rawLabaratoryPage: Page<Prescription> = new Page<Prescription>()
     scheduledLabExaminationPage: Page<ScheduledLabExamination> = new Page<ScheduledLabExamination>()
 
     patientList: Patient[] = []
@@ -42,7 +43,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
 
 
-  constructor(private patientService: PatientService, private formBuilder: FormBuilder, private labaratoryService: LaboratoryService) {
+  constructor( private formBuilder: FormBuilder, private labaratoryService: LaboratoryService) {
         this.searchForm = this.formBuilder.group({
             name: ['', [Validators.required]]
         });
@@ -65,16 +66,14 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
     ngOnInit(): void {
         this.getPatientList()
-        this.listScheduledEexaminations()
+       // this.listScheduledEexaminations()
     }
 
     getPatientList(){
-        this.patientService.getAllPatients("", "", "", "" , this.page, this.pageSize).subscribe((response) => {
-            this.patientPage = response
-            this.patientList = this.patientPage.content
-          console.log("LALALALALALAL" + this.patientList.length)
-
-          this.total = this.patientPage.totalElements
+      this.labaratoryService.getPatients(this.page, this.pageSize)
+        .subscribe((response) => {
+          this.patientPage = response
+          this.patientList = this.patientPage.content
         })
     }
 
@@ -87,7 +86,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     examinationCreate(){
         this.lbp = this.searchForm.get('name')?.value
         this.date = this.countForm.get('date')?.value
-        this.noteForm = this.noteForm.get('note')?.value
+        this.note = this.noteForm.get('note')?.value
 
         this.labaratoryService.createScheduledExamination(this.lbp, this.date, this.note) .subscribe((response) => {
             this.errorMessage = '';
@@ -102,30 +101,34 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
     //nerealizovani uputi
     findExaminations() {
+      this.lbp = this.searchForm.get('name')?.value
+
       if(this.page == 0)
         this.page = 1;
 
-      this.labaratoryService.getPrescriptionsForPatientByLbzRest(this.searchForm.get('name')?.value, this.page-1, this.pageSize)
+      // @ts-ignore
+      this.labaratoryService.getdPrescriptionsForPatientNotRealized(this.lbp, this.page-1, this.pageSize)
         .subscribe((response) => {
-          this.prescriptionPage = response
-          this.prescriptionList = this.prescriptionPage.content
-          this.total = this.prescriptionPage.totalElements
+          this.rawLabaratoryPage = response
+          this.rawLabararatoryPrescriptions = this.rawLabaratoryPage.content
+          this.total = this.rawLabaratoryPage.totalElements
 
         })
     }
 
     //todo da dodaju na beku @RequestParam za datum i pacijenta
     listScheduledEexaminations(){
-        // if(this.page == 0){
-        //   this.page = 1
-        // }
+        if(this.page == 0){
+          this.page = 1
+        }
+
         this.lbp = this.searchVisitForm.get('name')?.value
         this.dateSearch = this.searchVisitForm.get('date')?.value
 
         if(this.searchVisitForm.get('date')?.value == ''){
           this.dateSearch = new Date()
         }
-        this.labaratoryService.listScheduledEexaminations(this.lbp, this.dateSearch, this.page, this.pageSize).subscribe((response) => {
+        this.labaratoryService.listScheduledEexaminationsByLbp(this.lbp, new Date(), this.page, this.pageSize).subscribe((response) => {
             this.scheduledLabExaminationPage = response
             this.scheduledLabExaminations = this.scheduledLabExaminationPage.content
             this.total = this.scheduledLabExaminationPage.totalElements

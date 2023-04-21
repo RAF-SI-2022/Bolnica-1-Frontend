@@ -55,10 +55,11 @@ import {NurseWorkspaceComponent} from "./components/nurse/nurse-workspace/nurse-
 // import { BiochemistSearchComponent } from './components/biochemist/biochemist-search/biochemist-search.component';
 import { TechnicianScheduleLabExaminationComponent } from './components/technician/technician-schedule-lab-examination/technician-schedule-lab-examination.component';
 import { TechnicianIssuingResultsDetailsComponent } from './components/technician/technician-issuing-results-details/technician-issuing-results-details.component';
-import { NurseScheduleAppointmentNewComponent } from './components/nurse/nurse-schedule-appointment-new/nurse-schedule-appointment-new.component';
+// import { NurseScheduleAppointmentNewComponent } from './components/nurse/nurse-schedule-appointment-new/nurse-schedule-appointment-new.component';
 import { BiochemistSearchWorkOrdersComponent } from './components/biochemist/biochemist-search-work-orders/biochemist-search-work-orders.component';
 import { BiochemistDetailsAnalysisComponent } from './components/biochemist/biochemist-details-analysis/biochemist-details-analysis.component';
 import { BiochemistDailyWorkOrdersComponent } from './components/biochemist/biochemist-daily-work-orders/biochemist-daily-work-orders.component';
+// import { DoctorCreateReferralNewComponent } from './components/doctor/doctor-create-referral-new/doctor-create-referral-new.component';
 
 
 @NgModule({
@@ -96,7 +97,7 @@ import { BiochemistDailyWorkOrdersComponent } from './components/biochemist/bioc
     DoctorCreateReferralComponent,
     TechnicianScheduleLabExaminationComponent,
     TechnicianIssuingResultsDetailsComponent,
-    NurseScheduleAppointmentNewComponent,
+    // NurseScheduleAppointmentNewComponent,
     BiochemistSearchWorkOrdersComponent,
     BiochemistDetailsAnalysisComponent,
     BiochemistDailyWorkOrdersComponent

@@ -38,7 +38,7 @@
                         <select  name = "patients1" [formControlName]="'name'" class="form-select" id="patients1" required
                                 aria-label="Default select example"  data-cy = "patients1" >
                           <option selected>Odaberite pacijenta</option>
-                          <option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.name }}</option>
+                          <option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.lbp }}</option>
 
                         </select>
                       </div>
@@ -78,8 +78,11 @@
                             <td>{{prescription.lbp}}</td>
                             <td>{{prescription.creationDateTime}}</td>
                             <td>{{prescription.status}}</td>
-                            <td>{{prescription.prescriptionAnalysisDataDtoList}}</td>
-                            <td>{{prescription.comment}}</td>
+                            <td>
+                              <div *ngFor="let analysisData of prescription.prescriptionAnalysisDataDtoList">
+                                {{analysisData.analysisName}}
+                              </div>
+                            </td>                            <td>{{prescription.comment}}</td>
                             <td>{{prescription.referralDiagnosis}}</td>
                             <td>{{prescription.referralReason}}</td>
                           </tr>
@@ -171,7 +174,7 @@
                 <select [formControlName]="'name'"  name = "patients" class="form-select" id="patients"
                          aria-label="Default select example"  data-cy = "patients">
                   <option selected>Odaberite pacijenta</option>
-                  <option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.name }}</option>
+                  <option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.lbp }}</option>
                 </select>
               </div>
 
@@ -212,7 +215,7 @@
                     <td>{{exam.lbz}}</td>
                     <td>{{exam.examinationStatus}}</td>
                     <td>
-                      <button *ngIf=checkStatus(exam) (click)="cancelExamination(exam.id)">Otkaži pregled</button>
+                      <button *ngIf=!checkStatus(exam) (click)="cancelExamination(exam.id)">Otkaži pregled</button>
                     </td>
 
                   </tr>

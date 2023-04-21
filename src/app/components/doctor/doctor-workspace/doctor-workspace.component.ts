@@ -8,6 +8,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {Page} from "../../../models/models";
 import {ScheduleExam} from "../../../models/patient/ScheduleExam";
 import {ExamForPatient} from "../../../models/patient/ExamForPatient";
+import {PatientArrival} from "../../../models/laboratory-enums/PatientArrival";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-doctor-workspace',
@@ -19,15 +21,24 @@ export class DoctorWorkspaceComponent implements OnInit {
     public patients: Patient[] = [];
     patientPage: Page<Patient> = new Page<Patient>()
 
+  patientArrivals = Object.values(PatientArrival).filter(value => typeof value === 'string');
+
     isPopupVisible = false;
     lbz: string = '';
     scheduledExams : ScheduleExam[] = [];
     patients2: ExamForPatient[] = [];
 
     page = 0
-    pageSize = 5
+    pageSize = 99999999 //infinity
     total = 0
     schedulePage: Page<ScheduleExam> = new Page<ScheduleExam>()
+
+    trenutno: PatientArrival = PatientArrival.TRENUTNO;
+    zakazano: PatientArrival = PatientArrival.ZAKAZANO;
+    zavrseno: PatientArrival = PatientArrival.ZAVRSENO;
+    otkazano: PatientArrival = PatientArrival.OTKAZANO;
+    ceka: PatientArrival = PatientArrival.CEKA;
+
 
     /*
     //popup se pojavljujem kliktajem na red
@@ -87,6 +98,8 @@ export class DoctorWorkspaceComponent implements OnInit {
 
     getSheduledExams(): void {
 
+      this.patients2 = []
+
     this.examinationService.getScheduledExaminationByDoctor(
         this.lbz
         ).subscribe( res =>{
@@ -94,7 +107,52 @@ export class DoctorWorkspaceComponent implements OnInit {
           console.log(res)
         this.scheduledExams = res;
 
-        this.scheduledExams.forEach(exam => {
+
+      const patientObservables = this.scheduledExams.map(exam => {
+        return this.patientService.getPatientByLbp(exam.lbp);
+      });
+
+      forkJoin(patientObservables).subscribe(patients => {
+        patients.forEach((patient, i) => {
+          const examForPatient: ExamForPatient = {
+
+            id: this.scheduledExams[i].id,
+            lbp: this.scheduledExams[i].lbp,
+            name: patient.name,
+            surname: patient.surname,
+            dateOfBirth: patient.dateOfBirth,
+            gender: patient.gender,
+            patientArrival: this.scheduledExams[i].patientArrival,
+            examDate: this.scheduledExams[i].dateAndTime
+          };
+
+          console.log(examForPatient.patientArrival)
+          console.log()
+          console.log("radim fork join")
+
+          const today = new Date();
+          const examDate = new Date(examForPatient.examDate);
+
+          if (
+            examDate.getDate() === today.getDate() &&
+            examDate.getMonth() === today.getMonth() &&
+            examDate.getFullYear() === today.getFullYear()
+          ) {
+            this.patients2.push(examForPatient);
+            // examDate is today
+          }
+
+
+
+        });
+
+        // sort patients array by examDate
+        this.patients2.sort((a, b) => {
+          return new Date(a.examDate).getTime() - new Date(b.examDate).getTime();
+        });
+
+
+       /* this.scheduledExams.forEach(exam => {
           this.patientService.getPatientByLbp(exam.lbp).subscribe(patient => {
 
             const examForPatient: ExamForPatient = {
@@ -110,12 +168,26 @@ export class DoctorWorkspaceComponent implements OnInit {
 
             console.log("exam")
 
-            this.patients2.push(examForPatient);
+
+            const today = new Date();
+            const examDate = new Date(exam.dateAndTime);
+
+            if (
+              examDate.getDate() === today.getDate() &&
+              examDate.getMonth() === today.getMonth() &&
+              examDate.getFullYear() === today.getFullYear()
+            ) {
+              this.patients2.push(examForPatient);
+              // examDate is today
+            }
 
             });
-          });
+
+          });*/
         });
+    });
     }
+
 
 
     // startExam(patient: Patient) {

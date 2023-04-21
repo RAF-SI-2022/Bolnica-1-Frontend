@@ -1,27 +1,15 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {
-  ActionEventArgs,
-  EventSettingsModel,
-  PopupOpenEventArgs,
-  ScheduleComponent,
-  View
-} from '@syncfusion/ej2-angular-schedule';
-import{L10n} from "@syncfusion/ej2-base";
-import {NgxPaginationModule} from "ngx-pagination";
+import {EventSettingsModel, PopupOpenEventArgs, ScheduleComponent, View} from '@syncfusion/ej2-angular-schedule';
+import {L10n} from "@syncfusion/ej2-base";
 import {PatientService} from "../../../services/patient-service/patient.service";
-import {FormBuilder} from "@angular/forms";
-import {Router} from "@angular/router";
 import {UserService} from "../../../services/user-service/user.service";
 import {ExaminationService} from "../../../services/examination-service/examination.service";
-import {ExamForPatient} from "../../../models/patient/ExamForPatient";
-import {ScheduleExamCreate} from "../../../models/patient/ScheduleExamCreate";
 import {Patient} from "../../../models/patient/Patient";
-import {Zaposleni} from "../../../models/models";
 import {Page} from "../../../models/models";
 import {DoctorDepartmentDto} from "../../../models/DoctorDepartmentDto";
 import {ScheduleExam} from "../../../models/patient/ScheduleExam";
 import * as moment from 'moment';
-
+import {PatientArrival} from "../../../models/laboratory-enums/PatientArrival";
 
 
 L10n.load({
@@ -127,24 +115,24 @@ export class NurseScheduleAppointmentComponent implements OnInit{
 
   public addEventsData(): void {
 
-    let events: Record<string, any>[] = [
-      { Id: 1,
-        Subject: 'a',
-        StartTime: new Date(2023, 3, 4, 9, 0),
-        EndTime: new Date(2023, 3, 4, 9, 30) },
-      { Id: 2,
-        Subject: 'b',
-        StartTime: new Date(2023, 3, 5, 15, 0),
-        EndTime: new Date(2023, 3, 5, 15, 30) },
-      { Id: 3,
-        Subject: 'c',
-        StartTime: new Date(2023, 3, 6, 9, 30),
-        EndTime: new Date(2023, 3, 6, 10, 0) },
-      { Id: 4,
-        Subject: 'd',
-        StartTime: new Date(2023, 3, 7, 11, 0),
-        EndTime: new Date(2023, 3, 7, 13, 0) }
-    ];
+    // let events: Record<string, any>[] = [
+    //   { Id: 1,
+    //     Subject: 'a',
+    //     StartTime: new Date(2023, 3, 4, 9, 0),
+    //     EndTime: new Date(2023, 3, 4, 9, 30) },
+    //   { Id: 2,
+    //     Subject: 'b',
+    //     StartTime: new Date(2023, 3, 5, 15, 0),
+    //     EndTime: new Date(2023, 3, 5, 15, 30) },
+    //   { Id: 3,
+    //     Subject: 'c',
+    //     StartTime: new Date(2023, 3, 6, 9, 30),
+    //     EndTime: new Date(2023, 3, 6, 10, 0) },
+    //   { Id: 4,
+    //     Subject: 'd',
+    //     StartTime: new Date(2023, 3, 7, 11, 0),
+    //     EndTime: new Date(2023, 3, 7, 13, 0) }
+    // ];
 
     // this.eventSettings.dataSource = events;
 
@@ -160,30 +148,40 @@ export class NurseScheduleAppointmentComponent implements OnInit{
     this.examinationService.getScheduledExaminationByDoctor(
       this.selectedDoctor
     ).subscribe( res =>{
+
+      this.scheduleObj?.deleteEvent(this.scheduleObj?.eventsData)
       this.responseExams = res;
 
       this.responseExams.forEach(event => {
         // this.scheduleObj?.appendTo('#schedule');
-
-        const eventData = {
-          Id: (<Record<string, any>>this.eventSettings.dataSource)['length'] + 1,
-          Subject: this.subject,
-          StartTime: event.dateAndTime,
-          EndTime: moment(event.dateAndTime).add(30, 'minutes').toDate(),
-          Note: this.note,
-          Patient: event.lbp
-        };
+        if (event.patientArrival.toString() !== 'OTKAZANO'){
 
 
-        this.scheduleObj?.addEvent(eventData);
-        this.scheduleObj?.refresh();
-        console.log(event)
+          console.log("arrival "+ event.patientArrival.valueOf())
+          console.log("enum "+PatientArrival.OTKAZANO.valueOf())
+
+
+          const eventData = {
+            Id: (<Record<string, any>>this.eventSettings.dataSource)['length'] + 1,
+            Subject: this.subject,
+            StartTime: event.dateAndTime,
+            EndTime: moment(event.dateAndTime).add(30, 'minutes').toDate(),
+            Note: this.note,
+            Patient: event.lbp
+          };
+
+          this.scheduleObj?.addEvent(eventData);
+          this.scheduleObj?.refresh();
+          console.log(event)
+
+        }
+
+
+
       });
     });
 
   }
-
-
 
 
   public onSave(): void {
@@ -217,7 +215,10 @@ export class NurseScheduleAppointmentComponent implements OnInit{
   }
 
   public onPopupOpen(args: PopupOpenEventArgs): void {
-
+    // args.cancel = true;
+    // const data: { [key: string]: Object } = {};
+    //
+    // this.scheduleObj?.openEditor(data, 'Add', true);
     if (args.type === 'Editor') {
       console.log("jeste editor")
 
