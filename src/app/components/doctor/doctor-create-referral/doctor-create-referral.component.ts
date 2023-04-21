@@ -11,6 +11,7 @@ import {ParameterDto} from "../../../models/laboratory/ParameterDto";
 import {PrescriptionAnalysis} from "../../../models/laboratory/PrescriptionAnalysis";
 import {PrescriptionType} from "../../../models/laboratory-enums/PrescriptionType";
 import {PrescriptionServiceService} from "../../../services/prescription-service/prescription-service.service";
+import {Patient} from "../../../models/patient/Patient";
 
 
 @Component({
@@ -43,12 +44,23 @@ export class DoctorCreateReferralComponent implements OnInit{
 
     selectedAnalysis: number  = 0;
 
-    hospitals: HospitalShort[] = [];
-    selectedHospital: HospitalShort = new HospitalShort();
+    // hospitals: HospitalShort[] = [];
+    // selectedHospital: HospitalShort = new HospitalShort();
+
+    hospitals: DeparmentShort[] = []
+    selectedHospital : number =  0;
     departments: DeparmentShort[] = [];
 
+    selectedDepartment: string = '';
+
     referralForm:  FormGroup;
-     userEdit: AdminPromeniZaposlenog = new AdminPromeniZaposlenog();
+    userEdit: AdminPromeniZaposlenog = new AdminPromeniZaposlenog();
+
+    pageHospital = 0
+    pageSizeHospital = 99999
+    totalHospital = 0
+    hospitalPage: Page<DeparmentShort> = new Page<DeparmentShort>()
+
 
 
 
@@ -75,7 +87,7 @@ export class DoctorCreateReferralComponent implements OnInit{
       this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
       console.log(this.lbp);
       this.getDepartments();
-       this.getHospitals();
+       // this.getHospitals();
        this.lbz = this.authService.getLBZ();
        console.log(this.lbz);
        this.getLabAnalysis();
@@ -94,11 +106,11 @@ export class DoctorCreateReferralComponent implements OnInit{
       })
   }
 
-    getHospitals(): void {
-     this.userService.getHospitals().subscribe(res=>{
-        this.hospitals = res;
-     });
-   }
+   //  getHospitals(): void {
+   //   this.userService.getHospitals().subscribe(res=>{
+   //      this.hospitals = res;
+   //   });
+   // }
 
     showPopup(event: any): void {
         this.isPopupVisible = true;
@@ -119,6 +131,8 @@ export class DoctorCreateReferralComponent implements OnInit{
 
         this.prescriptionArray.push(this.prescriptionAnalyses1);
 
+        console.log(this.prescriptionAnalyses1)
+
         // this.patientService.writePerscription(PrescriptionType.LABORATORIJA, this.doctorId,this.departmentFromId,this.departmentToId,this.lbp,
         //   new Date(),1,referral.comment, '','',this.prescriptionArray ).subscribe(res=>{
         //   console.log(res)
@@ -126,8 +140,6 @@ export class DoctorCreateReferralComponent implements OnInit{
       this.prescriptionService.writeLabPerscription(
         this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArray
       ).subscribe(res=>{
-
-          console.log("usao u emicinu metodu")
           console.log(res)
         }
       );
@@ -157,6 +169,21 @@ export class DoctorCreateReferralComponent implements OnInit{
     })
   }
 
+
+  getHospitalsByDepName(){
+      console.log("name "+ this.selectedDepartment)
+
+    this.userService.getDepartmentForRefferal(this.selectedDepartment, this.page, this.pageSize).subscribe((res) => {
+
+      this.hospitalPage = res
+      this.hospitals = this.hospitalPage.content
+      this.totalHospital = this.paramsPage.totalElements
+      console.log(this.hospitals)
+
+    })
+  }
+
+
   selectedParams = [];
 
   onCheckboxChange(event: any, id: number) {
@@ -171,6 +198,25 @@ export class DoctorCreateReferralComponent implements OnInit{
         this.selectedParams.splice(index, 1);
       }
     }
+  }
+
+
+  onCheckboxChangeForHospital(event: any, id: number) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      // @ts-ignore
+      this.departmentToId = id;
+
+      console.log("departmentToId "+this.departmentToId)
+    } else {
+      // @ts-ignore
+      this.departmentToId = null;
+    }
+  }
+
+
+  onDepartmentSelected(event: any) {
+    this.selectedDepartment = event.target.value; // Update the selectedDepartment property with the new value
   }
 
 

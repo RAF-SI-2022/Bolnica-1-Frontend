@@ -176,7 +176,7 @@ export class DeparmentShort {
     id: number = 0;
     pbo: string = '';
     name: string = '';
-    hospital: string = '';
+    hospitalName: string = '';
 }
 
 export class HospitalShort {
