@@ -16,7 +16,7 @@
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 </head>
-<form  class="mb-5 needs-validation" novalidate>
+<form [formGroup]="workOrdersForm" class="mb-5 needs-validation" novalidate>
 
   <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
 
@@ -36,20 +36,21 @@
           </thead>
           <tbody>
 
-          <tr (click)="onRowClick()">
-            <td>primer ID radnog naloga</td>
-            <td>primer LBP pacijenta</td>
-            <td>primer Ime i prezime pacijenta</td>
-          </tr>
-          <!--          <ng-container-->
-          <!--            *ngFor="let workOrder of workOrderList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"  (click)="onRowClick(workOrder.id)">-->
-          <!--            <tr>-->
-          <!--              <td>{{workOrder.id}}</td>-->
-          <!--              <td>{{workOrder.lbp}}</td>-->
-          <!--              <td>{{workOrder.name}} {{workOrder.surname}}</td>-->
-          <!--            </tr>-->
+<!--          <tr (click)="onRowClick()">-->
+<!--            <td>primer ID radnog naloga</td>-->
+<!--            <td>primer LBP pacijenta</td>-->
+<!--            <td>primer Ime i prezime pacijenta</td>-->
+<!--          </tr>-->
+                    <ng-container
+                      *ngFor="let workOrder of workOrderList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"  (click)="onRowClick(workOrder.id)">
+                      <tr (click)="onRowClick(workOrder.id)">
+                        <td>{{workOrder.id}}</td>
+                        <td>{{workOrder.lbp}}</td>
+<!--                        <td>{{workOrder.}} {{workOrder.surname}}</td>-->
+                      </tr>
 
-          <!--          </ng-container>-->
+                    </ng-container>
+
 
           </tbody>
         </table>

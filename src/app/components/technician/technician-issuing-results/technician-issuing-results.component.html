@@ -52,8 +52,16 @@
                 </tr>
             </thead>
             <tbody>
+            <tr>
+              <th>ID radnog naloga</th>
+              <th>ID uputa</th>
+              <th>Datum i vreme kreiranja</th>
+              <th>Status obrade</th>
+              <th>Akcija</th>
+            </tr>
                <tr
                  *ngFor="let labWorkOrder of labWorkOrderList | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total};  let i = index"  (click)="onRowClick(labWorkOrder)">
+                 <td>{{labWorkOrder.id}}</td>
                  <td>{{labWorkOrder.prescription.id}}</td>
                  <td>{{labWorkOrder.creationDateTime}}</td>
                  <td>{{labWorkOrder.status}}</td>

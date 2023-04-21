@@ -16,7 +16,7 @@
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 </head>
-<form  class="mb-5 needs-validation" novalidate>
+<form [formGroup]="form" class="mb-5 needs-validation" novalidate>
 
   <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
 
@@ -25,12 +25,12 @@
 
       <div class="col-md-4 offset-2">
         <label class="labels">Od datuma</label>
-        <input  name = "dateFrom" type="date" class="form-control"
+        <input [formControlName]="'dateFrom'" name = "dateFrom" type="date" class="form-control"
                data-cy = "dateFrom" >
       </div>
       <div class="col-md-4">
         <label class="labels">Do datuma</label>
-        <input  type="date" class="form-control"
+        <input [formControlName]="'dateTo'" type="date" class="form-control"
                data-cy = "dateTo">
       </div>
       <div class="col-md-4 offset-2">
@@ -44,7 +44,7 @@
 <!--          <option *ngFor="let arrival  of patientArrivals" [value]="arrival ">{{ arrival  }}</option>-->
 <!--        </select>-->
         <label class="labels">Status obrade:</label>
-        <select class="form-control">
+        <select [formControlName]="'selectedStatus'" class="form-control">
           <option>NEOBRADJEN</option>
           <option>U_OBRADI</option>
           <option>OBRADJEN</option>
@@ -54,13 +54,13 @@
 
       <div class="col-md-4 offset-2">
         <label class="labels">LBP</label>
-        <input  name = "lbp" type="lbp" class="form-control"
-                data-cy = "lbp" >
+        <input type="text" [formControlName]="'lbp'" name = "lbp" class="form-control"
+                data-cy = "lbp">
       </div>
 
 
       <div class="mt-4 text-center">
-        <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
+        <button (click)="findWorkOrders()" class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
       </div>
 
       <div class="row py-5">
@@ -98,6 +98,19 @@
 <!--            </tr>-->
 
 <!--          </ng-container>-->
+
+                    <ng-container
+                      *ngFor="let workOrder of workOrdersList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index">
+                      <tr>
+                        <td>{{workOrder.id}}</td>
+                        <td>{{workOrder.creationDateTime}}</td>
+                        <td>{{workOrder.lbp}}</td>
+                        <td>{{patientName}} {{patientSurname}}</td>
+                        <td>{{workOrder.status}}</td>
+                        <td>{{lbz}}</td>
+                      </tr>
+
+                    </ng-container>
 
           </tbody>
         </table>

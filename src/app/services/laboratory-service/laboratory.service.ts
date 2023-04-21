@@ -28,6 +28,7 @@ import {ExaminationStatus} from "../../models/laboratory-enums/ExaminationStatus
 import {LabWorkOrderWithAnalysis} from "../../models/laboratory/LabWorkOrderWithAnalysis";
 
 import {LabWorkOrderNew} from "../../models/laboratory/LabWorkOrderNew";
+import {OrderStatus} from "../../models/laboratory-enums/OrderStatus";
 
 
 //import {Prescription} from "../../models/laboratory/Prescription";
@@ -142,6 +143,11 @@ export class LaboratoryService {
     return this.http.get<LabWorkOrderWithAnalysis>(`${environmentLaboratory.apiURL}/${lab}/results`, { headers: this.getHeaders() });
   }
 
+  findAnalysisParametersResults1(lab: number): Observable<Page<AnalysisParameter>>{
+    console.log("dosao do servisa");
+    return this.http.get<Page<AnalysisParameter>>(`${environmentLaboratory.apiURL}/${lab}/results`, { headers: this.getHeaders() });
+  }
+
   getAnalysisParams(id: number, page: number, size: number): Observable<Page<ParameterDto>>{
     console.log("dosao do servisa");
     let httpParams = new HttpParams().append("id", id)
@@ -194,13 +200,11 @@ export class LaboratoryService {
     );
   }
 
-
-
-
   public findWorkOrders(
     lbp: string,
     fromDate: Date,
     toDate: Date,
+    status: OrderStatus,
     page: number,
     size: number
   ): Observable<Page<LabWorkOrderNew>> {
@@ -208,15 +212,40 @@ export class LaboratoryService {
     let httpParams = new HttpParams().append("lbp",lbp)
       .append("fromDate", fromDate.toISOString())
       .append("toDate",toDate.toISOString())
+      .append("status", status)
       .append("page", page)
       .append("size",size)
 
-    return this.http.post<Page<LabWorkOrderNew>>(
+    console.log("usao u servis!!!!!!!!!!!!!!!!!!11")
+
+    return this.http.get<Page<LabWorkOrderNew>>(
       `${environmentLaboratory.apiURL}/work-orders/find-work-orders`,
       { params: httpParams, headers: this.getHeaders()}
     );
   }
 
+
+  public findWorkOrders1(
+    lbp: string,
+    fromDate: Date,
+    toDate: Date,
+    status: OrderStatus,
+    page: number,
+    size: number
+  ): Observable<Page<LabWorkOrderNew>> {
+
+    let httpParams = new HttpParams().append("lbp",lbp)
+      .append("fromDate", fromDate.toISOString())
+      .append("toDate",toDate.toISOString())
+      .append("status", status)
+      .append("page", page)
+      .append("size",size)
+
+    return this.http.get<Page<LabWorkOrderNew>>(
+      `${environmentLaboratory.apiURL}/work-orders/find-work-orders`,
+      { params: httpParams, headers: this.getHeaders()}
+    );
+  }
 
   public registerPatient(
     lbp: string
@@ -257,18 +286,6 @@ export class LaboratoryService {
       { headers: this.getHeaders()}
     );
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
