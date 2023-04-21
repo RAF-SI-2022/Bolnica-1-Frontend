@@ -329,4 +329,24 @@ export class UserService {
     return this.http.get<Number>(`${environment.apiURL}/department/employee/${lbz}`, { headers: this.getHeaders() });
   }
 
+
+
+  getDepartmentForRefferal(
+    name: string,
+    page: number,
+    size:number
+  ): Observable<Page<DeparmentShort>> {
+
+    let httpParams = new HttpParams()
+      .append("name",name)
+      .append("page",page)
+      .append("size",size);
+
+    return this.http.get<Page<DeparmentShort>>(
+      `${environment.apiURL}/department/getHospitalsByDepartmentNameDep`,
+      {params: httpParams, headers:this.getHeaders()});
+  }
+
+
+
 }
