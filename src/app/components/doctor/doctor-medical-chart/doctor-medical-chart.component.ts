@@ -8,10 +8,8 @@ import {Page} from "../../../models/models";
 import {ExaminationHistory} from "../../../models/patient/ExaminationHistory";
 import {Allergy} from "../../../models/patient/Allergy";
 import {Vaccination} from "../../../models/patient/Vaccination";
-import {Prescription} from "../../../models/laboratory/Prescription";
 import {LabAnalysis} from "../../../models/laboratory/LabAnalysis";
 import {LaboratoryService} from "../../../services/laboratory-service/laboratory.service";
-import {LabWorkOrder} from "../../../models/laboratory/LabWorkOrder";
 import {LabWorkOrderWithAnalysis} from "../../../models/laboratory/LabWorkOrderWithAnalysis";
 import {PrescriptionStatus} from "../../../models/laboratory-enums/PrescriptionStatus";
 
@@ -65,7 +63,9 @@ export class DoctorMedicalChartComponent implements OnInit {
     allergies: Allergy [] = []
     vaccines: Vaccination [] = []
     public checkStatus: OrderStatus = OrderStatus.OBRADJEN;
-    public showDetailsBoolean: boolean = false;
+  public checkStatusPrescription: PrescriptionStatus = PrescriptionStatus.NEREALIZOVAN;
+
+  public showDetailsBoolean: boolean = false;
 
     detailsLabWorkOrders: LabWorkOrderWithAnalysis = new LabWorkOrderWithAnalysis();
     medicalPage: Page<MedicalHistory> = new Page<MedicalHistory>()
@@ -77,10 +77,10 @@ export class DoctorMedicalChartComponent implements OnInit {
     vaccinationsList: Vaccination [] = []
     allergiesList: Allergy [] = []
     patientName: string = ''
-      page = 0;
+    pageExamination = 0;
     pageMedical = 0;
-    // pageExamination = 0
-    // pageMedical= 0
+    pagePrescription = 0;
+    pageLaboratory = 0;
     pageSize = 5
     totalExamination:number = 0
     totalMedicalHistory: number = 0;
@@ -142,18 +142,16 @@ export class DoctorMedicalChartComponent implements OnInit {
         this.getGeneralMedical(this.lbp)
 
       //OVO JE ZA ISTORIJU PREGLEDA cim se ucita
-      this.patientService.getExaminationHistoryByRange(this.lbp, new Date(0), new Date(), this.page, this.pageSize).subscribe(
+      this.patientService.getExaminationHistoryByRange(this.lbp, new Date(0), new Date(), this.pageExamination, this.pageSize).subscribe(
         response => {
-
           this.examinationPage = response
           this.examinationHistories = this.examinationPage.content
            this.totalExamination = this.examinationPage.totalElements
           this.changeDetectorRef.detectChanges();
         })
 
-        //za istoriju bolesti cim se ucita
-      console.log("LALALALALALALA" + this.diagnosis)
-      this.patientService.getMedicalHistoryByLbpPaged(this.lbp, this.page, this.pageSize).subscribe(
+
+      this.patientService.getMedicalHistoryByLbpPaged(this.lbp, this.pageMedical, this.pageSize).subscribe(
         response => {
           this.medicalPage = response
           this.medicalHistories = this.medicalPage.content
@@ -162,24 +160,24 @@ export class DoctorMedicalChartComponent implements OnInit {
 
         })
       //za istoriju uputa
-      this.prescriptionService.getPrescriptions(new Date(0), new Date(), this.lbp, this.page, this.pageSize).subscribe(
+      this.prescriptionService.getPrescriptions(this.lbz, new Date(0), new Date(), this.lbp, this.pagePrescription, this.pageSize).subscribe(
         response => {
           this.prescriptionPage = response
           this.prescriptionHistories = this.prescriptionPage.content
           this.totalPrescription = this.prescriptionPage.totalElements
-          console.log("UPUTTTT " + this.totalPrescription)
           this.changeDetectorRef.detectChanges();
 
         })
      // ovo je za labaratorijske izvestaje
-      this.labaratoryService.workOrdersHistory(this.lbp, this.dateFromLabaratory, this.dateToLabaratory, 0, this.pageSize).subscribe(
+      this.labaratoryService.workOrdersHistory(this.lbp, new Date(0), new Date(), this.pageLaboratory, this.pageSize).subscribe(
         response => {
           this.labWorkOrderPage = response
           this.labWorkOrders = this.labWorkOrderPage.content
           this.totalLaboratory = this.labWorkOrderPage.totalElements
-           this.changeDetectorRef.detectChanges();
+          this.changeDetectorRef.detectChanges();
 
         })
+
         this.getAllergy()
         this.getVaccine()
 
@@ -211,12 +209,14 @@ export class DoctorMedicalChartComponent implements OnInit {
 
     saveGeneralMedical(): void {
         this.patientService.createMedicalData(
-            this.lbp,this.generalForm.get('bloodGroup')?.value,this.generalForm.get('rhFactor')?.value,
-            this.generalMedical.vaccinationDtos, this.generalMedical.allergyDtos).subscribe();
+          this.lbp,this.generalForm.get('bloodGroup')?.value,this.generalForm.get('rhFactor')?.value,
+          this.generalMedical.vaccinationDtos, this.generalMedical.allergyDtos).subscribe(result => {
+          this.generalForm.get('bloodGroup')?.disable()
+          this.generalForm.get('rhFactor')?.disable()
+        });
     }
 
     saveAllergy(): void {
-
         this.patientService.addAllergy(this.lbp, this.allergyForm.get('allergen')?.value).subscribe(result => {
           this.getGeneralMedical(this.lbp)
         })
@@ -248,11 +248,12 @@ export class DoctorMedicalChartComponent implements OnInit {
             this.getExaminationHistoryWithDate()
         }else if(this.dateFrom != '' && this.dateTo != ''){
             this.getExaminationHistoryWithRange()
-        } else{
-          if(this.page == 0)
-            this.page = 1;
+        }else{
 
-          this.patientService.getExaminationHistoryByRange(this.lbp, new Date(0), new Date(), this.page-1, this.pageSize).subscribe(
+          if(this.pageExamination == 0)
+            this.pageExamination = 1;
+
+          this.patientService.getExaminationHistoryByRange(this.lbp, new Date(0), new Date(), this.pageExamination-1, this.pageSize).subscribe(
             response => {
               this.examinationPage = response
               this.examinationHistories = this.examinationPage.content
@@ -268,40 +269,46 @@ export class DoctorMedicalChartComponent implements OnInit {
       this.dateFrom = ''
       this.dateTo = ''
 
-            console.log("Istorija pregleda jedan datum")
-      if(this.page == 0)
-        this.page = 1;
+      console.log("Istorija pregleda jedan datum")
+      if(this.pageExamination == 0)
+        this.pageExamination = 1;
 
-            this.patientService.getExaminationHistoryByDate(this.lbp,this.examinationForm.get('correctDate')?.value,this.page-1, this.pageSize).subscribe(
+            this.patientService.getExaminationHistoryByDate(this.lbp,this.examinationForm.get('correctDate')?.value,this.pageExamination-1, this.pageSize).subscribe(
                 response => {
                     this.examinationPage = response
                     this.examinationHistories = this.examinationPage.content
-                    this.totalExamination = this.examinationHistories.length
+                    this.totalExamination = this.examinationPage.totalElements
+                    this.changeDetectorRef.detectChanges();
+
                 })
-    }
+        }
+
     //ISTORIJA PREGLEDA SA OD DO
     getExaminationHistoryWithRange(): void {
       this.correctDate = ''
 
       console.log("Istorija pregleda dva datuma")
-      if(this.page == 0)
-        this.page = 1;
+      if(this.pageExamination == 0)
+        this.pageExamination = 1;
 
-        this.patientService.getExaminationHistoryByRange(this.lbp, this.examinationForm.get('dateFrom')?.value, this.examinationForm.get('dateTo')?.value, this.page-1, this.pageSize).subscribe(
+        this.patientService.getExaminationHistoryByRange(this.lbp, this.examinationForm.get('dateFrom')?.value, this.examinationForm.get('dateTo')?.value, this.pageExamination-1, this.pageSize).subscribe(
         response => {
             this.examinationPage = response
             this.examinationHistories = this.examinationPage.content
-            this.totalExamination = this.examinationHistories.length
+            this.totalExamination = this.examinationPage.totalElements
+            this.changeDetectorRef.detectChanges();
+
+
         })
 
     }
   //TAB ISTORIJA BOLESTI
     getMedicalHistoryByDiagnosisCode(): void {
-      if (this.page == 0)
-        this.page = 1;
+      if (this.pageMedical == 0)
+        this.pageMedical = 1;
 
       if (this.diagnosis != '') {
-        this.patientService.getMedicalHistoriesByDiagnosisCodePaged(this.lbp, this.diagnosis, this.page-1, this.pageSize).subscribe(
+        this.patientService.getMedicalHistoriesByDiagnosisCodePaged(this.lbp, this.diagnosis, this.pageMedical-1, this.pageSize).subscribe(
           response => {
             this.medicalPage = response
             this.medicalHistories = this.medicalPage.content
@@ -310,7 +317,7 @@ export class DoctorMedicalChartComponent implements OnInit {
 
           })
       }else{
-        this.patientService.getMedicalHistoryByLbpPaged(this.lbp, this.page-1, this.pageSize).subscribe(
+        this.patientService.getMedicalHistoryByLbpPaged(this.lbp, this.pageMedical-1, this.pageSize).subscribe(
           response => {
             this.medicalPage = response
             this.medicalHistories = this.medicalPage.content
@@ -323,10 +330,10 @@ export class DoctorMedicalChartComponent implements OnInit {
     }
     //TAB ISTORIJA UPUTA, PRESCRIPTION JE UPUT!
     getPrescriptions(): void {
-      if(this.page == 0)
-        this.page = 1;
+      if(this.pagePrescription == 0)
+        this.pagePrescription = 1;
 
-        this.prescriptionService.getPrescriptions(this.dateFromPrescription, this.dateToPrescription, this.lbp, this.page, this.pageSize).subscribe(
+        this.prescriptionService.getPrescriptions(this.lbz, this.dateFromPrescription, this.dateToPrescription, this.lbp, this.pagePrescription-1, this.pageSize).subscribe(
         response => {
             this.prescriptionPage = response
             this.prescriptionHistories = this.prescriptionPage.content
@@ -337,15 +344,15 @@ export class DoctorMedicalChartComponent implements OnInit {
     }
 
     getLabaratory(): void {
-      if(this.page == 0)
-        this.page = 1;
+      if(this.pageLaboratory == 0)
+        this.pageLaboratory = 1;
 
-        this.labaratoryService.workOrdersHistory(this.lbp, this.dateFromLabaratory, this.dateToLabaratory, this.page, this.pageSize).subscribe(
+        this.labaratoryService.workOrdersHistory(this.lbp, this.dateFromLabaratory, this.dateToLabaratory, this.pageLaboratory-1, this.pageSize).subscribe(
         response => {
             this.labWorkOrderPage = response
             this.labWorkOrders = this.labWorkOrderPage.content
             this.totalLaboratory = this.labWorkOrderPage.totalElements
-          this.changeDetectorRef.detectChanges();
+            this.changeDetectorRef.detectChanges();
 
         })
     }
@@ -358,6 +365,7 @@ export class DoctorMedicalChartComponent implements OnInit {
 
         this.patientService.deletePerscription(id).subscribe(response => {
           console.log("USPESNO OBRISAN")
+          this.getPrescriptions()
         })
     }
 
@@ -374,24 +382,25 @@ export class DoctorMedicalChartComponent implements OnInit {
 
     //
     onTableDataChangeMedicalHistory(event: any): void {
-      this.page = event;
+      this.pageMedical = event;
       this.getMedicalHistoryByDiagnosisCode();
      }
     //
      onTableDataChangeExamination(event: any): void {
-        this.page = event;
-         this.getExaminationHistoryChoose();
+       this.pageExamination = event;
+       this.getExaminationHistoryChoose();
+
     }
 
     onTableDataChangePrescription(event: any): void {
-      this.page = event;
+      this.pagePrescription = event;
       this.getPrescriptions();
        }
 
-  onTableDataChangeLab(event: any): void {
-    this.page = event;
-    this.getLabaratory();
-  }
+    onTableDataChangeLab(event: any): void {
+      this.pageLaboratory = event;
+      this.getLabaratory();
+    }
 
     onRowClick(prescription: PrescriptionDoneDto): void {
         this.idPrescription = prescription.id
@@ -418,6 +427,15 @@ export class DoctorMedicalChartComponent implements OnInit {
   onRowClickExamination(examinationHistory: ExaminationHistory): void {
       this.idExaminationHistory = 0
       this.idExaminationHistory = examinationHistory.id
+  }
+
+  check(status: PrescriptionStatus): boolean{
+      console.log("LALALALALALLALA " + status)
+      if(status == PrescriptionStatus.NEREALIZOVAN){
+        console.log("USOOO")
+        return true
+      }
+      return false
   }
 
 

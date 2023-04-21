@@ -63,11 +63,11 @@ export class LaboratoryService {
       .append("lbp",lbp)
       .append("date", dateFrom.getTime())
       .append("note",note);
-    console.log("LBPPPP " + lbp)
+
 
     return this.http.post<HttpStatusCode>(
       `${environmentLaboratory.apiURL}/examinations/create`,
-      { params: httpParams, headers: this.getHeaders()}
+      lbp,{ params: httpParams, headers: this.getHeaders()}
     );
   }
 
@@ -131,6 +131,22 @@ export class LaboratoryService {
 
     return this.http.get<Page<Prescription>>(
       `${environmentLaboratory.apiURL}/prescription/get_rest/${lbp}`,
+      { params: httpParams, headers: this.getHeaders()}
+    );
+  }
+
+  public getdPrescriptionsForPatientNotRealized(
+    lbp: string,
+    page: number,
+    size: number
+  ): Observable<Page<Prescription>> {
+
+    let httpParams = new HttpParams()
+      .append("page", page)
+      .append("size",size)
+
+    return this.http.get<Page<Prescription>>(
+      `${environmentLaboratory.apiURL}/prescription/get_patient/${lbp}`,
       { params: httpParams, headers: this.getHeaders()}
     );
   }

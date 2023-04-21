@@ -20,6 +20,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     pageSize = 5
     total = 0
     patientPage: Page<Patient> = new Page<Patient>()
+    rawLabaratoryPage: Page<Prescription> = new Page<Prescription>()
     scheduledLabExaminationPage: Page<ScheduledLabExamination> = new Page<ScheduledLabExamination>()
 
     patientList: Patient[] = []
@@ -65,7 +66,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
     ngOnInit(): void {
         this.getPatientList()
-        this.listScheduledEexaminations()
+       // this.listScheduledEexaminations()
     }
 
     getPatientList(){
@@ -100,24 +101,27 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
     //nerealizovani uputi
     findExaminations() {
+      this.lbp = this.searchForm.get('name')?.value
+
       if(this.page == 0)
         this.page = 1;
 
       // @ts-ignore
-      this.labaratoryService.getPrescriptionsForPatientByLbzRest(localStorage.getItem("ID"),this.searchForm.get('name')?.value, this.page-1, this.pageSize)
+      this.labaratoryService.getdPrescriptionsForPatientNotRealized(this.lbp, this.page-1, this.pageSize)
         .subscribe((response) => {
-          this.prescriptionPage = response
-          this.prescriptionList = this.prescriptionPage.content
-          this.total = this.prescriptionPage.totalElements
+          this.rawLabaratoryPage = response
+          this.rawLabararatoryPrescriptions = this.rawLabaratoryPage.content
+          this.total = this.rawLabaratoryPage.totalElements
 
         })
     }
 
     //todo da dodaju na beku @RequestParam za datum i pacijenta
     listScheduledEexaminations(){
-        // if(this.page == 0){
-        //   this.page = 1
-        // }
+        if(this.page == 0){
+          this.page = 1
+        }
+
         this.lbp = this.searchVisitForm.get('name')?.value
         this.dateSearch = this.searchVisitForm.get('date')?.value
 

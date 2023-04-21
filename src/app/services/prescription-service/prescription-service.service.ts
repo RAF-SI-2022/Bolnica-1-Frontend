@@ -6,7 +6,7 @@ import {PrescriptionStatus} from "../../models/laboratory-enums/PrescriptionStat
 import {PrescriptionAnalysis} from "../../models/laboratory/PrescriptionAnalysis";
 import {Observable} from "rxjs";
 import {PrescriptionCreate} from "../../models/laboratory/PrescriptionCreate";
-import {environmentPatient} from "../../../environments/environment";
+import {environmentLaboratory, environmentPatient} from "../../../environments/environment";
 import {Page} from "../../models/models";
 import {Prescription} from "../../models/laboratory/Prescription";
 import {PrescriptionLabSendDto} from "../../models/prescription/PrescriptionLabSendDto";
@@ -161,13 +161,14 @@ export class PrescriptionServiceService {
    *  Svi uputi pacijenta
    * */
   public getPrescriptions(
+    lbz: string,
     dateFromm: Date,
     dateToo: Date,
     lbp: string,
     page: number,
     size:number
   ): Observable<Page<PrescriptionDoneDto>> {
-
+    const id = localStorage.getItem("ID")
     const dateFrom = new Date(dateFromm)
     const dateTo = new Date(dateToo)
     console.log("Date from " + dateFrom.getTime())
@@ -175,13 +176,13 @@ export class PrescriptionServiceService {
     console.log("LALALALALALA " + new Date(1681946882325))
 
     let httpParams = new HttpParams()
-      .append("dateFrom", dateFrom.getTime())
-      .append("dateTo", dateTo.getTime())
+      // .append("dateFrom", dateFrom.getTime())
+      // // .append("dateTo", dateTo.getTime())
       .append("page",page)
       .append("size",size);
 
     return this.http.get<Page<PrescriptionDoneDto>>(
-      `${environmentPatient.apiURL}/prescription/done_prescriptions/${lbp}`,
+      `${environmentLaboratory.apiURL}/prescription/${lbz}/get/${lbp}`,
       {params: httpParams, headers:this.getHeaders()}
     );
   }
