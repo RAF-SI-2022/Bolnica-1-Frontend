@@ -44,8 +44,10 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
   onRowClick(workOrderId: number): void {
     // const url = `/biochemist-details/${workOrderId}`;
     // this.router.navigateByUrl(url);
-    const url = `/biochemist-details`;
-    this.router.navigateByUrl(url);
+    //*******************************
+    //const url = `/biochemist-details`;
+   //this.router.navigateByUrl(url);
+    this.router.navigate(['/biochemist-details']);
 
   }
 

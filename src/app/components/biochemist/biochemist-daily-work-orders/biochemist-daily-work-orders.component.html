@@ -34,13 +34,13 @@
 
           </tr>
           </thead>
-          <tbody>
+          <tbody (click)="onRowClick(1)">
 
-<!--          <tr (click)="onRowClick()">-->
-<!--            <td>primer ID radnog naloga</td>-->
-<!--            <td>primer LBP pacijenta</td>-->
-<!--            <td>primer Ime i prezime pacijenta</td>-->
-<!--          </tr>-->
+          <tr >
+            <td>primer ID radnog naloga</td>
+            <td>primer LBP pacijenta</td>
+            <td>primer Ime i prezime pacijenta</td>
+          </tr>
                     <ng-container
                       *ngFor="let workOrder of workOrderList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"  (click)="onRowClick(workOrder.id)">
                       <tr (click)="onRowClick(workOrder.id)">

@@ -41,6 +41,10 @@ export class BiochemistDetailsAnalysisComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      // this.productId = +params.get('id');
+      // this.category = params.get('category');
+    });
     console.log("detailed analysis component");
     //dodaj u app routing module
     this.workOrderId = <string>this.route.snapshot.paramMap.get('id');

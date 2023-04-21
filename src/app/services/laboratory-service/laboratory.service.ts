@@ -230,8 +230,6 @@ export class LaboratoryService {
     lbp: string,
     fromDatee: Date,
     toDatee: Date,
-    fromDate: Date,
-    toDate: Date,
     status: OrderStatus,
     page: number,
     size: number
@@ -246,7 +244,7 @@ export class LaboratoryService {
       .append("page", page)
       .append("size",size)
 
-    console.log("usao u servis!!!!!!!!!!!!!!!!!!11")
+    console.log("usao u servis!!!!!!!!!!!!!!!!!!")
 
     return this.http.get<Page<LabWorkOrderNew>>(
       `${environmentLaboratory.apiURL}/work-orders/find-work-orders`,

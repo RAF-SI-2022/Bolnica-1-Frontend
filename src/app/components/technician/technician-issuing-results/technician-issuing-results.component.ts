@@ -64,5 +64,4 @@ export class TechnicianIssuingResultsComponent  implements OnInit {
 
   }
 
-
 }

@@ -20,6 +20,7 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit{
 
   workOrdersList: LabWorkOrderNew[] = [];
   workOrdersPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>();
+
   PAGE_SIZE: number = 5;
   page: number = 0;
   total: number = 0;
@@ -30,7 +31,7 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit{
   dateFrom: Date = new Date();
   dateTo: Date = new Date();
   exactDate: Date = new Date();
-  selectedStatus: OrderStatus = 0;
+  //selectedStatus: OrderStatus = 0;
 
   patientName: string = '';
   patientSurname: string = '';
@@ -50,6 +51,7 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit{
   ngOnInit(): void {
     const lbp = this.form.value.lbp;
     this.lbz = this.authService.getLBZ();
+    console.log("lbz: " + this.lbz);
     this.patientService.getPatientByLbp(lbp).subscribe((response) => {
       this.patientName = response.name;
       this.patientSurname = response.surname;
@@ -66,17 +68,20 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit{
 
   findWorkOrders(): void{
     const lbp = this.form.value.lbp;
+    const forma = this.form.value;
+
+    const selectedStatus = forma.selectedStatus;
+
     console.log(lbp)
     console.log(this.dateFrom)
     console.log(this.dateTo)
-    console.log(this.selectedStatus)
-    this.laboratoryServis.findWorkOrders(lbp, this.dateFrom, this.dateTo, this.selectedStatus,0, 1)
+    console.log("status : " + selectedStatus)
+    this.laboratoryServis.findWorkOrders(lbp, this.dateFrom, this.dateTo, selectedStatus,0, 5)
       .subscribe((response) => {
         this.workOrdersPage = response
         this.workOrdersList = this.workOrdersPage.content
         this.total = this.workOrdersPage.totalElements
       })
-
 
   }
 
