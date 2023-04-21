@@ -60,7 +60,7 @@ import { BiochemistSearchWorkOrdersComponent } from './components/biochemist/bio
 import { BiochemistDetailsAnalysisComponent } from './components/biochemist/biochemist-details-analysis/biochemist-details-analysis.component';
 import { BiochemistDailyWorkOrdersComponent } from './components/biochemist/biochemist-daily-work-orders/biochemist-daily-work-orders.component';
 // import { DoctorCreateReferralNewComponent } from './components/doctor/doctor-create-referral-new/doctor-create-referral-new.component';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -110,7 +110,7 @@ import { BiochemistDailyWorkOrdersComponent } from './components/biochemist/bioc
     ReactiveFormsModule,
     NgxPaginationModule,
     BrowserAnimationsModule,
-
+    NgSelectModule,
     ScheduleModule,RecurrenceEditorModule,DropDownListModule,DateTimePickerModule
   ],
   providers: [DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService],

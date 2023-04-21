@@ -11,6 +11,7 @@ import {AuthService} from "../../../services/auth.service";
 import {GeneralMedicalData} from "../../../models/patient/GeneralMedicalData";
 import {Vaccination} from "../../../models/patient/Vaccination";
 import {Allergy} from "../../../models/patient/Allergy";
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-doctor-workspace-one-patient',
@@ -41,7 +42,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     isPopupVisible = false;
     errorMessage: string = "";
 
-    constructor(private authService: AuthService, private userService:UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
+    constructor(private authService: AuthService, private userService:UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private sharedService: SharedService) {
       this.generalMedical = {
         id: 0,
         bloodType: '',
@@ -75,6 +76,8 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
       this.patientSurname = this.currentPatient.surname
       this.patientdateOfBirth = this.currentPatient.dateOfBirth
       this.getGeneralMedicalData(this.lbp);
+
+      this.restoreFormData();
     }
 
     showPopup(event: any): void {
@@ -232,6 +235,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
 
 
     goToMedicalRecord(): void {
+      this.saveFormData();
         this.router.navigate(['doctor-medical-chart',this.lbp]);
     }
 
@@ -277,12 +281,23 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
   goToUput(): void {
       console.log("usao");
       console.log(this.lbp);
+      this.saveFormData();
     this.router.navigate(['doctor-create-referral',this.lbp]);
   }
 
 
+  saveFormData() {
+    this.sharedService.formData = { ...this.addReport.value };
+    this.sharedService.lbp = this.lbp;
+}
 
+restoreFormData() {
+  if (this.sharedService.formData && this.sharedService.lbp == this.lbp) {
+      this.addReport.patchValue(this.sharedService.formData);
+  }
+}
 
-
-
+  disableFields(){
+    this.addReport.disable();
+  }
 }
