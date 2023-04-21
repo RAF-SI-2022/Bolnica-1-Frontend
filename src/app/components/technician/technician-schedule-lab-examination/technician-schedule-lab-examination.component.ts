@@ -7,7 +7,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Prescription} from "../../../models/laboratory/Prescription";
 import {LaboratoryService} from "../../../services/laboratory-service/laboratory.service";
 import {ExaminationStatus} from "../../../models/laboratory-enums/ExaminationStatus";
-
+import { NgSelectModule } from '@ng-select/ng-select';
 @Component({
   selector: 'app-technician-schedule-lab-examination',
   templateUrl: './technician-schedule-lab-examination.component.html',
@@ -151,4 +151,10 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
         //ili ????? ger Examination
         this.getPatientList();
     }
+
+
+    onSearch(searchText: string) {
+      this.patientList = this.patientList.filter(patient => patient.lbp.toLowerCase().includes(searchText.toLowerCase()));
+    }
+
 }

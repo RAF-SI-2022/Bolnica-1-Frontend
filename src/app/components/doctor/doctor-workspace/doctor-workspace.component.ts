@@ -198,19 +198,11 @@ export class DoctorWorkspaceComponent implements OnInit {
 
   startExam(patient: ExamForPatient): void {
 
-    // this.examinationService.updatePatientStatus(patient.id, PatientArrival.TRENUTNO).subscribe(res=>{
-    //   console.log(res)
-    // })
-    //
-    // this.patientService.getPatientByLbp(patient.lbp).subscribe(res => {
-    //   console.log("NANANANANANANANANNANANANANA" + patient.name)
-    //   //this.router.navigate(['doctor-workspace-one', lbp])
-    //   // const encodedUser = encodeURIComponent(JSON.stringify(patient));
-    //   const url = `/doctor-workspace-one/${patient.lbp}`;
-    //   // this.router.navigateByUrl(url);
-    //   this.router.navigateByUrl(url, { state: { patient  } });
-    // })
-
+    if(!confirm('Da li ste sigurni da želite da započnete pregled?')){
+      return;
+    }
+    
+    
     this.examinationService.updatePatientStatus(patient.id, PatientArrival.TRENUTNO).pipe(
       switchMap(res => {
         console.log(res);
@@ -218,6 +210,9 @@ export class DoctorWorkspaceComponent implements OnInit {
       })
     ).subscribe(res => {
       console.log("NANANANANANANANANNANANANANA" + patient.name);
+      //this.router.navigate(['doctor-workspace-one', lbp])
+      // const encodedUser = encodeURIComponent(JSON.stringify(patient));
+
       const url = `/doctor-workspace-one/${patient.lbp}`;
       this.router.navigateByUrl(url, { state: { patient } });
     });
@@ -228,4 +223,8 @@ export class DoctorWorkspaceComponent implements OnInit {
 
       this.router.navigate(['doctor-medical-chart', patient.lbp])
   }
+
+  
+
+
 }

@@ -5,14 +5,14 @@
     <div class="row mt-2 mb-4">
       <div class="col-md-4">
         <label for="doctor">Doktor</label>
-        <select class="form-control" [(ngModel)]="selectedDoctor" id="doctor" name="doctor">
-<!--          <option value="doctor1">Doktor 1</option>-->
-<!--          <option value="doctor2">Doktor 2</option>-->
-<!--          <option value="doctor3">Doktor 3</option>-->
-<!--          <option value="doctor4">Doktor 4</option>-->
-          <option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</option>
 
-        </select>
+        <ng-select class="custom" [(ngModel)]="selectedDoctor" id="doctor" name="doctor"
+        required
+        [searchable]="true"
+        bindLabel="name"
+        bindValue="name">
+<ng-option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
+</ng-select>
       </div>
       <div class = "row mt-1">
         <div class="col-md-4">
@@ -24,8 +24,13 @@
 
   </div>
 
-  <ejs-schedule #scheduleObj  dateFormat="M/d/yyyy h:mm a"  [eventSettings]="eventSettings" (popupOpen)="onPopupOpen($event)">
-    <ng-template #editorTemplate>
+  <ejs-schedule #scheduleObj dateFormat="M/d/yyyy h:mm a"  [eventSettings]="eventSettings"
+  (popupOpen)="onPopupOpen($event)"
+  (cellClick)="onCellClick($event)"
+  [editorTemplate]="editorTemplate"
+  startHour="07:00"
+  endHour="22:00">
+    <ng-template #editorTemplate let-data> 
       <div class="custom-event-editor">
 
         <div class="card basic">
@@ -61,21 +66,15 @@
 
               <div class="col-md-6">
           <label for="patient">Pacijent</label>
-<!--          <select class="form-control" [(ngModel)]="patient" name="patient" id="patient">-->
-<!--&lt;!&ndash;            <option *ngFor="let item of patientList" [value]="item.lbp">{{item.name}} {{item.surname}}</option>&ndash;&gt;-->
-<!--            <option value="Pacijent1">Pacijent1</option>-->
-<!--            <option value="Pacijent1">Pacijent1</option>-->
-<!--            <option value="Pacijent1">Pacijent1</option>-->
-<!--            <option value="Pacijent1">Pacijent1</option>-->
-
-            <select  name = "patient" [(ngModel)]="patient" class="form-select" id="patient"
-                     aria-label="Default select example"  data-cy = "patient" >
-              <option selected>Odaberite pacijenta</option>
-              <option *ngFor="let p of patientList" [value]="p.lbp">{{ p.name }} {{p.surname}}</option>
-
-            </select>
-<!--          </select>-->
-
+            <ng-select name = "patient" [(ngModel)]="patient" class="custom" id="patient"
+            aria-label="Default select example"  data-cy = "patient"
+            required
+            [searchable]="true"
+            bindLabel="name"
+            bindValue="name"
+            data-cy="patients1">
+    <ng-option *ngFor="let patient of patientList" [value]="patient.lbp">{{patient.name }} {{patient.surname}}</ng-option>
+  </ng-select>
               </div></div></div>
         </div>
             </div></div></div>
@@ -87,7 +86,7 @@
                       <div class="row justify-content-center mt-1 mt-1">
                       <div class="col-md-6">
                         <label>Datum pregleda</label>
-                        <ejs-datetimepicker name="selectedDateTime"  [(ngModel)]="selectedDateTime" ></ejs-datetimepicker>
+                        <ejs-datetimepicker name="selectedDateTime" [(ngModel)]="selectedDateTime" ></ejs-datetimepicker>
                       </div>
                       </div>
                     </div>
