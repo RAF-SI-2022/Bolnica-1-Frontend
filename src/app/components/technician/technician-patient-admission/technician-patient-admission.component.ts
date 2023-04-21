@@ -49,7 +49,7 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
       if(this.page == 0)
         this.page = 1;
 
-      this.laboratoryService.listScheduledEexaminationsByLbp(this.lbp, new Date(), this.page-1, this.PAGE_SIZE).subscribe((response) => {
+      this.laboratoryService.listScheduledExaminationsByLbp(this.lbp, new Date(), this.page-1, this.PAGE_SIZE).subscribe((response) => {
        this.scheduledLabExaminationPage = response
        this.scheduledLabExaminationList = this.scheduledLabExaminationPage.content
         this.total = this.scheduledLabExaminationPage.totalElements

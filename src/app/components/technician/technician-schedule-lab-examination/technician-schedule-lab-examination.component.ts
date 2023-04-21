@@ -118,7 +118,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     }
 
     //todo da dodaju na beku @RequestParam za datum i pacijenta
-    listScheduledEexaminations(){
+    listScheduledExaminations(){
         if(this.page == 0){
           this.page = 1
         }
@@ -129,7 +129,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
         if(this.searchVisitForm.get('date')?.value == ''){
           this.dateSearch = new Date()
         }
-        this.labaratoryService.listScheduledEexaminationsByLbp(this.lbp, new Date(), this.page, this.pageSize).subscribe((response) => {
+        this.labaratoryService.listScheduledExaminationsByLbp(this.lbp, new Date(), this.page, this.pageSize).subscribe((response) => {
             this.scheduledLabExaminationPage = response
             this.scheduledLabExaminations = this.scheduledLabExaminationPage.content
             this.totalView = this.scheduledLabExaminationPage.totalElements

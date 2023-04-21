@@ -91,7 +91,7 @@ export class LaboratoryService {
    * Dohvata sve zakazane posete
    *
    * */
-  listScheduledEexaminationsByLbp(lbp: string, datee: Date,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
+  listScheduledExaminationsByLbp(lbp: string, datee: Date,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
 
     const date = new Date(datee)
 
