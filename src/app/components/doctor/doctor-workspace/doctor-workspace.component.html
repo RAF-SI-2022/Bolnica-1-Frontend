@@ -34,6 +34,7 @@
         <table class="table table-hover">
           <thead>
           <tr>
+            <th>Satnica</th>
             <th>Ime</th>
             <th>Prezime</th>
             <th>Datum rodjenja </th>
@@ -46,6 +47,8 @@
           <tbody>
           <tr class="table-row">
           <tr *ngFor="let patient of patients2" >
+
+            <td>{{patient.examDate | date:'shortTime'}}
 
             <td>{{patient.name}}</td>
             <td>{{patient.surname}}</td>
@@ -78,16 +81,31 @@
                     background-color: red;
                   }
                 </style>
-                <li >Trenutno</li>
-                <li>Zakazano</li>
-                <li>Ceka</li>
-                <li>Zavrseno</li>
-                <li>Otkazano</li>
+
+
+                <option *ngFor="let arrival of patientArrivals" [ngStyle]="{'font-weight': patient.patientArrival === arrival ? 'bold' : 'normal', 'font-size': patient.patientArrival !== arrival ? 'smaller' : 'normal', 'display': 'flex', 'align-items': 'center'}" [value]="arrival">
+                  {{ arrival }}
+                </option>
+
+
+                <!--                -->
+
+<!--                <li *ngIf="patient.patientArrival === trenutno">Trenutno</li>-->
+<!--                <li *ngIf="patient.patientArrival === zakazano" >Zakazano</li>-->
+<!--                <li *ngIf="patient.patientArrival === ceka" >Ceka</li>-->
+<!--                <li *ngIf="patient.patientArrival === zavrseno" >Zavrseno</li>-->
+<!--                <li *ngIf="patient.patientArrival === otkazano">Otkazano</li>-->
               </ul>
             </td>
-            <td><button (click)="startExam(patient)" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da započnete pregled?')">Pregled</button></td>
 
-            <td><button (click)="goToChart(patient)" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da udjete u karton?')">Karton</button></td>
+
+            <!--*ngIf="patient.patientArrival.toString() === ceka.toString()"-->
+            <td ><button (click)="startExam(patient)" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da započnete pregled?')">Pregled</button></td>
+
+
+
+
+<!--            <td><button (click)="goToChart(patient)" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da udjete u karton?')">Karton</button></td>-->
 
           </tr>
           </tbody>

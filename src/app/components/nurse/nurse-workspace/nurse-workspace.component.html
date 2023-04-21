@@ -115,20 +115,26 @@
 <!--                    }-->
 <!--                  </style>-->
 
-<!--                  <li [ngClass]="{'grey-background': patient.patientArrival != trenutno, 'blue-background': patient.patientArrival == trenutno}">Trenutno</li>-->
+<!--                  <li [ngClass]="{'blue-background': patient.patientArrival == trenutno}">Trenutno</li>-->
 <!--                  <li [ngClass]="{'grey-background': patient.patientArrival != zakazano, 'orange-background': patient.patientArrival == zakazano}">Zakazano</li>-->
 <!--                  <li [ngClass]="{'grey-background': patient.patientArrival != ceka, 'yellow-background': patient.patientArrival == ceka}">Ceka</li>-->
 <!--                  <li [ngClass]="{'grey-background': patient.patientArrival != zavrseno, 'green-background': patient.patientArrival == zavrseno}">Zavrseno</li>-->
 <!--                  <li [ngClass]="{'grey-background': patient.patientArrival != otkazano, 'red-background': patient.patientArrival == otkazano}">Otkazano</li>-->
 
-<!--                  -->
-<!--                  -->
-<!--                  -->
+<!--                <div>-->
+<!--                  <button class="btn btn-outline-secondary" [class.active]="patient.patientArrival === zakazano" (click)="onPatientArrivalChange('scheduled')">Scheduled</button>-->
+<!--                  <button class="btn btn-outline-secondary" [class.active]="patient.patientArrival === ceka" (click)="onPatientArrivalChange('arrived')">Arrived</button>-->
+<!--                  <button class="btn btn-outline-secondary" [class.active]="patient.patientArrival === trenutno" (click)="onPatientArrivalChange('inProgress')">In Progress</button>-->
+<!--                  <button class="btn btn-outline-secondary" [class.active]="patient.patientArrival === zavrseno" (click)="onPatientArrivalChange('completed')">Completed</button>-->
+<!--                  <button class="btn btn-outline-secondary" [class.active]="patient.patientArrival === otkazano" (click)="onPatientArrivalChange('canceled')">Canceled</button>-->
+<!--                </div>-->
+
+
 <!--                </ul>-->
 
                 <div >
-                  <select class="form-select" name="pattientArrival" data-cy="pattientArrival"  [ngModel]="selectedStatus" >
-                    <option *ngFor="let arrival  of patientArrivals" [value]="arrival ">{{ arrival  }}</option>
+                  <select class="form-select" name="patientArrival" [(ngModel)]="patient.patientArrival">
+                    <option *ngFor="let arrival of patientArrivals" [value]="arrival">{{ arrival }}</option>
                   </select>
 <!--                  <select [ngModel]="selectedStatus" >-->
 <!--                    <option value="ZAKAZANO" selected>ZAKAZANO</option>-->
@@ -142,7 +148,7 @@
 
               </td>
 
-              <td>
+              <td *ngIf="patient.patientArrival != otkazano">
 
                 <button (click)="changeStatus(patient)" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da izmenite status?')">Azuriraj</button>
 
