@@ -28,7 +28,7 @@ export class NurseWorkspaceComponent implements OnInit {
   selectedDoctor: DoctorDepartmentDto = new DoctorDepartmentDto();
 
   page = 0
-  pageSize = 5
+  pageSize = 99999999 // infinity
   total = 0
   schedulePage: Page<ScheduleExam> = new Page<ScheduleExam>()
 
@@ -101,6 +101,8 @@ export class NurseWorkspaceComponent implements OnInit {
 
   getSheduledExams(): void {
 
+    this.patients =[]
+
     // this.examinationService.getScheduledExaminationsPagedNurse(this.page, this.pageSize).subscribe((response) => {
     //   this.schedulePage = response
     //   this.scheduledExams = this.schedulePage.content
@@ -136,10 +138,13 @@ export class NurseWorkspaceComponent implements OnInit {
     //
     //   });
 
+
+
     this.examinationService.getScheduledExaminationsPagedNurse(this.page, this.pageSize).subscribe((response) => {
       this.schedulePage = response
       this.scheduledExams = this.schedulePage.content
       this.total = this.schedulePage.totalElements
+
 
 
       const patientObservables = this.scheduledExams.map(exam => {
@@ -150,7 +155,7 @@ export class NurseWorkspaceComponent implements OnInit {
         patients.forEach((patient, i) => {
           const examForPatient: ExamForPatient = {
 
-            id: patient.id,
+            id: this.scheduledExams[i].id,
             lbp: this.scheduledExams[i].lbp,
             name: patient.name,
             surname: patient.surname,
@@ -161,36 +166,56 @@ export class NurseWorkspaceComponent implements OnInit {
           };
 
           console.log(examForPatient.patientArrival)
+          console.log()
+          console.log("radim fork join")
+
           this.patients.push(examForPatient);
         });
+
+        // sort patients array by examDate
+        this.patients.sort((a, b) => {
+          return new Date(a.examDate).getTime() - new Date(b.examDate).getTime();
+        });
+
       });
     });
 
   }
 
   changeStatus(patient : ExamForPatient){
-    if(this.selectedStatus ==0 ){
-      this.examinationService.updatePatientStatus(patient.id, PatientArrival.ZAKAZANO).subscribe({
-      })
-    }
-    if(this.selectedStatus == 1){
-      this.examinationService.updatePatientStatus(patient.id, PatientArrival.OTKAZANO).subscribe({
-      })
-    } if(this.selectedStatus == 2){
-      this.examinationService.updatePatientStatus(patient.id, PatientArrival.CEKA).subscribe({
-      })
-    }
-    if(this.selectedStatus == 3){
-      this.examinationService.updatePatientStatus(patient.id, PatientArrival.TRENUTNO).subscribe({
-      })
-    }
-    if(this.selectedStatus == 4){
-      this.examinationService.updatePatientStatus(patient.id, PatientArrival.ZAVRSENO).subscribe({
-      })
-    }
+
+    console.log("arrival "+ patient.patientArrival)
+    console.log(patient.id);
+
+    // if(this.selectedStatus ==0 ){
+    //   this.examinationService.updatePatientStatus(patient.id, PatientArrival.ZAKAZANO).subscribe({
+    //   })
+    // }
+    // if(this.selectedStatus == 1){
+    //   this.examinationService.updatePatientStatus(patient.id, PatientArrival.OTKAZANO).subscribe({
+    //   })
+    // } if(this.selectedStatus == 2){
+    //   this.examinationService.updatePatientStatus(patient.id, PatientArrival.CEKA).subscribe({
+    //   })
+    // }
+    // if(this.selectedStatus == 3){
+    //   this.examinationService.updatePatientStatus(patient.id, PatientArrival.TRENUTNO).subscribe({
+    //   })
+    // }
+    // if(this.selectedStatus == 4){
+    //   this.examinationService.updatePatientStatus(patient.id, PatientArrival.ZAVRSENO).subscribe({
+    //   })
+    // }
+
+    this.examinationService.updatePatientStatus(patient.id, patient.patientArrival).subscribe(res=>{
+      console.log(res)
+    })
 
     console.log("status "+this.selectedStatus)
     console.log("id "+patient.id)
+
+
+    this.getSheduledExams();
   }
 
 
