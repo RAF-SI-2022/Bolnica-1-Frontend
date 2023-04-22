@@ -255,16 +255,16 @@ export class LaboratoryService {
     const dateTo = new Date(toDatee)
 
     let httpParams = new HttpParams().append("lbp",lbp)
-      .append("fromDate", dateFrom.getTime())
-      .append("toDate", dateTo.getTime())
-      .append("status", status)
+      .append("fromDate", dateFrom.getTime().toString())
+      .append("toDate", dateTo.getTime().toString())
+      .append("status", status) // TODO: Error: Status is undefined, baca gresku zbog toga
       .append("page", page)
       .append("size",size)
 
     console.log("usao u servis!!!!!!!!!!!!!!!!!!")
 
     return this.http.get<Page<LabWorkOrderNew>>(
-      `${environmentLaboratory.apiURL}/work-orders/find-work-orders`,
+      `${environmentLaboratory.apiURL}/work-orders/find_work_orders`,
       { params: httpParams, headers: this.getHeaders()}
     );
   }
