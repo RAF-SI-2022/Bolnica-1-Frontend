@@ -10,6 +10,7 @@ import {LabWorkOrderWithAnalysis} from "../../../models/laboratory/LabWorkOrderW
 import {ParameterAnalysisResultWithDetails} from "../../../models/laboratory/ParameterAnalysisResultWithDetails";
 import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
 import {LabWorkOrderDto} from "../../../models/laboratory/LabWorkOrderDto";
+import {AdminPromeniZaposlenog, Zaposleni} from "../../../models/models";
 
 @Component({
   selector: 'app-biochemist-details-analysis',
@@ -22,6 +23,7 @@ export class BiochemistDetailsAnalysisComponent implements OnInit{
 
   labWorkOrderWithAnalysis: LabWorkOrderWithAnalysis = new LabWorkOrderWithAnalysis();
   parameterAnalysisResults: ParameterAnalysisResultWithDetails[]= [];
+  biochemistVerified: AdminPromeniZaposlenog = new AdminPromeniZaposlenog();
 
   obradjen: boolean = false;
 
@@ -48,14 +50,16 @@ export class BiochemistDetailsAnalysisComponent implements OnInit{
               private router: Router, private formBuilder: FormBuilder,
               private patientService: PatientService){
 
-    this.currentLabWorkOrder = history.state.labWorkOrder;
+    this.currentLabWorkOrder = history.state.lab;
 
   }
 
   ngOnInit(): void {
 
     this.workOrderId =parseInt( <string>this.route.snapshot.paramMap.get('id'));
-    this.lbz = this.authService.getLBZ();
+    // @ts-ignore
+    this.lbz = localStorage.getItem("LBZ")
+    console.log("lbz " + this.lbz)
 
     // OTKOMENTARISATI KAD PRORADI STRANICA
 
@@ -75,10 +79,15 @@ export class BiochemistDetailsAnalysisComponent implements OnInit{
   }
 
   getBiochemistVerified(): void{
-    this.userService.getEmployee(this.biochemistLbzVerified).subscribe((response) => {
-      this.biochemistName = response.name;
-      this.biochemistSurname = response.surname;
-    })
+    this.userService.getEmployee(this.biochemistLbzVerified).subscribe(result => {
+    }, err => {
+      if (err.status == 302) { // found!
+        this.biochemistVerified = err.error; // Message recieved on error -> err.error to get message
+        this.biochemistName = this.biochemistVerified.name
+        this.biochemistSurname = this.biochemistVerified.surname
+      }
+    });
+
   }
 
   getLabWorkOrderWithAnalysis(): void{
@@ -126,6 +135,9 @@ export class BiochemistDetailsAnalysisComponent implements OnInit{
   verifyWorkOrder(): void{
       this.laboratoryService.verifyWorkOrder(this.workOrderId).subscribe(res=>{
         this.successMessage = res.message
+        this.obradjen = true
+        this.biochemistLbzVerified = this.lbz
+        this.getBiochemistVerified()
         console.log(res.message)
       }, error => {
         console.log(error.message)
