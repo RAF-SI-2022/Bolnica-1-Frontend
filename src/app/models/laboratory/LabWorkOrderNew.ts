@@ -1,5 +1,7 @@
 import {Prescription} from "./Prescription";
 import {OrderStatus} from "../laboratory-enums/OrderStatus";
+import {Patient} from "../patient/Patient";
+import {PatientGeneralDto} from "../patient/PatientGeneralDto";
 
 export interface LabWorkOrderNew {
   id: number;
@@ -9,4 +11,7 @@ export interface LabWorkOrderNew {
   status: OrderStatus;
   technicianLbz: string;
   biochemistLbz: string;
+
+  // dodato za biochemist
+  patient: PatientGeneralDto;
 }

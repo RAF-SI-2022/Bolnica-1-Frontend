@@ -30,7 +30,7 @@
             <tr>
               <th>ID radnog naloga</th>
               <th>LBP pacijenta</th>
-  <!--            <th>Ime i prezime pacijenta</th>-->
+              <th>Ime i prezime pacijenta</th>
             </tr>
           </thead>
 
@@ -40,6 +40,7 @@
               (click)="onRowClick(lab)">
               <td>{{lab.id}}</td>
               <td>{{lab.lbp}}</td>
+<!--              <td>{{lab.patient?.name}} {{lab.patient?.surname}}</td>-->
             </tr>
           </tbody>
 

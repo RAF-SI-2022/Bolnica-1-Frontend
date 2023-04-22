@@ -254,6 +254,11 @@ export class LaboratoryService {
     const dateFrom = new Date(fromDatee)
     const dateTo = new Date(toDatee)
 
+    console.log(lbp)
+    console.log(dateFrom.getTime())
+    console.log(dateTo.getTime())
+    console.log(status)
+
     let httpParams = new HttpParams().append("lbp",lbp)
       .append("fromDate", dateFrom.getTime().toString())
       .append("toDate", dateTo.getTime().toString())
