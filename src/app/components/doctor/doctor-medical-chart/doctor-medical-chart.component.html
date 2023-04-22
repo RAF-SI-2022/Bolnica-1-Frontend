@@ -262,10 +262,29 @@
           <div class="row">
             <form [formGroup]="medicalForm" (submit)="(getMedicalHistoryByDiagnosisCode())" class="mb-5 needs-validation" novalidate>
 
-              <div class="col-md-4 offset-4">
+              <!-- <div class="col-md-4 offset-4">
                 <label class="labels">Dijagnoza</label>
                 <input [(ngModel)]="diagnosis" name = "diagnosis" type="text" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "diagnosis">
-              </div>
+              </div> -->
+
+              <input
+              [(ngModel)]="diagnosis"
+              (input)="filterDiagnosisCodes(diagnosis)"
+              name="diagnosis"
+              type="text"
+              class="form-control"
+              [ngModelOptions]="{ standalone: true }"
+              data-cy="diagnosis"
+            />
+                <div *ngIf="filteredDiagnosisCodes.length > 0" class="suggestions">
+                  <div 
+                    *ngFor="let suggestion of filteredDiagnosisCodes"
+                    (click)="selectSuggestion(suggestion)"
+                    class="suggestion"
+                  >
+                    {{ suggestion.code }} - {{ suggestion.description }} ({{ suggestion.latinDescription }})
+                  </div>
+                </div>
 
               <div class="mt-4 text-center">
                 <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi2">Pretrazi</button>

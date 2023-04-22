@@ -17,5 +17,6 @@ export interface ScheduleExam{
   patientArrival: PatientArrival;
   lbz: string;
   lbp: string;
+  doctorLbz: string;
 
 }

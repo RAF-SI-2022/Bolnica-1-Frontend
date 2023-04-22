@@ -64,6 +64,7 @@ export class NurseWorkspaceComponent implements OnInit {
 
   searchExams():void{
     this.doctorLbz = this.selectedDoctor.lbz;
+    console.log("izabrani doktor je " + this.doctorLbz)
     this.getSheduledExams();
   }
 
@@ -107,14 +108,16 @@ export class NurseWorkspaceComponent implements OnInit {
     //   this.schedulePage = response
     //   this.scheduledExams = this.schedulePage.content
     //   this.total = this.schedulePage.totalElements
-    //
-    //
+      
+    
+    
     //   this.scheduledExams.forEach(exam => {
     //     this.patientService.getPatientByLbp(exam.lbp).subscribe(patient => {
-    //
-    //       console.log(exam)
-    //
+    
+          
+    
     //       const examForPatient: ExamForPatient = {
+    //         id: exam.id,
     //         lbp: exam.lbp,
     //         name: patient.name,
     //         surname: patient.surname,
@@ -123,19 +126,19 @@ export class NurseWorkspaceComponent implements OnInit {
     //         patientArrival: exam.patientArrival,
     //         examDate: exam.dateAndTime
     //       };
-    //
+    
     //       this.patients.push(examForPatient);
-    //
+    
     //     });
     //   });
-    //
+    
     // })
 
     // this.examinationService.getScheduledExaminations(this.doctorLbz, new Date())
     //   .subscribe(res =>{
     //     this.scheduledExams = res;
-    //
-    //
+    
+    
     //   });
 
 
@@ -150,26 +153,29 @@ export class NurseWorkspaceComponent implements OnInit {
       const patientObservables = this.scheduledExams.map(exam => {
         return this.patientService.getPatientByLbp(exam.lbp);
       });
-
+      console.log("Usaoo " + response.content)
       forkJoin(patientObservables).subscribe(patients => {
         patients.forEach((patient, i) => {
-          const examForPatient: ExamForPatient = {
+          // Svi pacijenti su kod E0006 a nemamo tog doktora
+          console.log("moj " + this.scheduledExams[i].doctorLbz + " I " + this.doctorLbz)
+          if(this.scheduledExams[i].lbz == this.doctorLbz){
 
-            id: this.scheduledExams[i].id,
-            lbp: this.scheduledExams[i].lbp,
-            name: patient.name,
-            surname: patient.surname,
-            dateOfBirth: patient.dateOfBirth,
-            gender: patient.gender,
-            patientArrival: this.scheduledExams[i].patientArrival,
-            examDate: this.scheduledExams[i].dateAndTime
-          };
-
-          console.log(examForPatient.patientArrival)
-          console.log()
-          console.log("radim fork join")
-
-          this.patients.push(examForPatient);
+            const examForPatient: ExamForPatient = {
+              id: this.scheduledExams[i].id,
+              lbp: this.scheduledExams[i].lbp,
+              name: patient.name,
+              surname: patient.surname,
+              dateOfBirth: patient.dateOfBirth,
+              gender: patient.gender,
+              patientArrival: this.scheduledExams[i].patientArrival,
+              examDate: this.scheduledExams[i].dateAndTime
+            };
+  
+            console.log(examForPatient.patientArrival)
+            console.log()
+            console.log("radim fork join " + examForPatient.lbp)
+            this.patients.push(examForPatient);
+          }  
         });
 
         // sort patients array by examDate

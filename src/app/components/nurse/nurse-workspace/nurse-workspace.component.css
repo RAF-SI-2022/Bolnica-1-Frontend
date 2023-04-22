@@ -160,7 +160,7 @@ table.table .avatar {
 
 .btn{
   font-size: 15px;
-  //border-bottom: 2px solid forestgreen;
+  border-bottom: 2px solid forestgreen;
   border-radius: 0 ;
   margin-right: 5px;
 }
@@ -174,53 +174,18 @@ table.table .avatar {
 
 
 }
-/*
-.button round-blue {
-  border-radius: 20px;
-  background-color: blue;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.pagination {
-  float: right;
-  margin: 0 0 5px;
-}
-.pagination li a {
-  border: none;
-  font-size: 13px;
-  min-width: 30px;
-  min-height: 30px;
-  color: #4d4d4d;
-  margin: 0 2px;
-  line-height: 30px;
-  border-radius: 2px !important;
-  text-align: center;
-  padding: 0 6px;
-}
-.pagination li a:hover {
-  color: #666;
-}
-.pagination li.active a, .pagination li.active a.page-link {
-  background: #5e5e5e;
-  color:white;
-}
-.pagination li.active a:hover {
-  background: #888888;
-}
-.pagination li.disabled i {
-  color: #ccc;
-}
-.pagination li i {
-  font-size: 16px;
-  padding-top: 6px
-}
-.hint-text {
-  float: left;
-  margin-top: 10px;
-  font-size: 13px;
-}
-*/
+.ng-select.custom ::ng-deep {
+  border:1px solid rgba(0, 0, 0, 0.15);
+  height: 38px;
+  border-radius: 0.25rem;
+  background-color: white;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  font-family: sans-serif;
+  }
+  .ng-select.custom ::ng-deep .ng-option {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid gray;
+      background-color: white;
+    }
+    

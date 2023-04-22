@@ -3,3 +3,22 @@
   padding: 10px;
   margin-bottom: 10px;
 }
+
+.suggestions {
+  border: 1px solid #ccc;
+  background-color: #fff;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+}
+
+.suggestion {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.suggestion:hover {
+  background-color: #f0f0f0;
+}
