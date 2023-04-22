@@ -461,12 +461,12 @@
                     <!--sta je ID RADNOG NALOGA???  -->
                     <td>{{lab.id}}</td>
                     <td>{{lab.prescription.id}}</td>
-                    <td>{{lab.creationDateTime}}</td>
+                    <td>{{lab.creationDateTime |date:'dd-MM-Y'}}</td>
                     <td>{{lab.status}}</td>
-                    <td>
-<!--                      <a *ngIf="lab.status === checkStatus && lab.status" (click)="showDetails(lab)" class="fa fa-eye" title="Prikazi detalje" data-toggle="tooltip"> <i class="bi bi-x-circle-fill"></i>-->
-<!--                      </a>-->
+                      <td *ngIf="lab.status === checkStatus && lab.status">
+                        <button (click)="showDetails(lab)"  class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="sacuvaj">Detalji</button>
                       </td>
+
 
                     </tr>
                     </tbody>
@@ -478,6 +478,9 @@
                 </div>
 
                 <div *ngIf="showDetailsBoolean">
+                  <button (click)="closeDetails()"  class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="sacuvaj">Zatvori detalje</button>
+
+
                   <div class="row py-5">
                     <table class="table table-hover" data-cy="table1">
                       <thead>
@@ -495,20 +498,20 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr *ngFor="let parameterAnalysisResult of detailsLabWorkOrders.parameterAnalysisResults">
-                        <td>{{detailsLabWorkOrders.id}}</td>
-                        <td>{{parameterAnalysisResult.labAnalysis.abbreviation}}</td>
-                        <td>{{parameterAnalysisResult.parameter}}</td>
-                        <td>{{parameterAnalysisResult.parameter.parameterName}}</td>
-                        <td>{{parameterAnalysisResult.result}}</td>
-                        <td>{{parameterAnalysisResult.parameter.unitOfMeasure}}</td>
-                        <td>{{parameterAnalysisResult.parameter.lowerLimit}}</td>
-                        <td>{{parameterAnalysisResult.parameter.upperLimit}}</td>
-                        <td>{{parameterAnalysisResult.dateTime}}</td>
-                        <td>{{parameterAnalysisResult.lbzBiochemist}}</td>
-
+                      <tr *ngFor="let p of parameterAnalysisResults">
+                        <td>{{p.labAnalysis.id}}</td>
+                        <td>{{p.labAnalysis.abbreviation}}</td>
+                        <td>{{p.parameter.id}}</td>
+                        <td>{{p.parameter.parameterName}}</td>
+                        <td >{{p.result}}</td>
+                        <td>{{p.parameter.unitOfMeasure}}</td>
+                        <td>{{p.parameter.lowerLimit}}</td>
+                        <td>{{p.parameter.upperLimit}}</td>
+                        <td>{{p.dateTime|date:'dd-MM-Y'}}</td>
+                        <td>{{p.lbzBiochemist}}</td>
 
                       </tr>
+
                       </tbody>
                     </table>
                   </div>

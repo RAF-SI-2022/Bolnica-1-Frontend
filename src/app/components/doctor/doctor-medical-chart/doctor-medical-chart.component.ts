@@ -18,6 +18,7 @@ import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
 import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
 import {PrescriptionServiceService} from "../../../services/prescription-service/prescription-service.service";
 import {PrescriptionDoneDto} from "../../../models/prescription/PrescriptionDoneDto";
+import {ParameterAnalysisResultWithDetails} from "../../../models/laboratory/ParameterAnalysisResultWithDetails";
 
 
 @Component({
@@ -27,6 +28,9 @@ import {PrescriptionDoneDto} from "../../../models/prescription/PrescriptionDone
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DoctorMedicalChartComponent implements OnInit {
+
+    labWorkOrderWithAnalysis: LabWorkOrderWithAnalysis = new LabWorkOrderWithAnalysis();
+    parameterAnalysisResults: ParameterAnalysisResultWithDetails[]= [];
 
     generalForm: FormGroup
     allergyForm: FormGroup
@@ -67,7 +71,8 @@ export class DoctorMedicalChartComponent implements OnInit {
 
   public showDetailsBoolean: boolean = false;
 
-    detailsLabWorkOrders: LabWorkOrderWithAnalysis = new LabWorkOrderWithAnalysis();
+    // detailsLabWorkOrders: LabWorkOrderWithAnalysis = new LabWorkOrderWithAnalysis();
+
     medicalPage: Page<MedicalHistory> = new Page<MedicalHistory>()
     prescriptionPage: Page<PrescriptionDoneDto> = new Page<PrescriptionDoneDto>()
     labWorkOrderPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>()
@@ -356,6 +361,24 @@ export class DoctorMedicalChartComponent implements OnInit {
 
         })
     }
+
+  getLabWorkOrderWithAnalysis(workOrderId: number): void{
+
+    this.labaratoryService.getLabWorkOrderWithAnalysis(workOrderId).subscribe(
+      res=>{
+
+      }, err => {
+        if (err.status == 302) { // found!
+          this.labWorkOrderWithAnalysis = err.error; // Message recieved on error -> err.error to get message
+          this.parameterAnalysisResults = this.labWorkOrderWithAnalysis.parameterAnalysisResults
+          console.log("popunio sam")
+          console.log(this.labWorkOrderWithAnalysis)
+
+        }
+      })
+
+  }
+
   //todo sta ovdde, koja ruta sa bekenda??
     getLabaratoryObradjeni(): void {
 
@@ -416,12 +439,12 @@ export class DoctorMedicalChartComponent implements OnInit {
     }
 
     showDetails(lab: LabWorkOrderNew){
-    this.showDetailsBoolean = true;
+      this.showDetailsBoolean = true;
+      this.getLabWorkOrderWithAnalysis(lab.id);
+    }
 
-      this.labaratoryService.findAnalysisParametersResults(lab).subscribe(
-        response => {
-          this.detailsLabWorkOrders = response;
-        })
+    closeDetails():void{
+      this.showDetailsBoolean = false
     }
 
   onRowClickExamination(examinationHistory: ExaminationHistory): void {

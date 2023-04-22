@@ -6,6 +6,7 @@ import {Page} from "../../../models/models";
 // import {Page} from "ngx-pagination";
 import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
 import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
+import {PatientService} from "../../../services/patient-service/patient.service";
 
 @Component({
   selector: 'app-biochemist-daily-work-orders',
@@ -21,7 +22,8 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
   pageSize:number = 5;
   totalLaboratory: number = 0;
 
-  constructor(private laboratoryService: LaboratoryService, private router: Router){
+  constructor(private laboratoryService: LaboratoryService, private router: Router,
+              private patientService:PatientService){
 
   }
 
@@ -39,6 +41,44 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
         this.totalLaboratory = this.labWorkOrderPage.totalElements
       })
   }
+
+  /*
+   getWorkOrders(): void {
+    this.laboratoryService.findWorkOrders('', new Date(), new Date(), OrderStatus.NEOBRADJEN, this.pageLaboratory, this.pageSize)
+      .pipe(
+        switchMap((res: Page<LabWorkOrderNew>) => {
+          // create an array of observables that fetch patient information for each LabWorkOrderNew object
+          const observables = res.content.map((labWorkOrder: LabWorkOrderNew) => {
+            return this.patientService.getPatientByLbp(labWorkOrder.lbp).pipe(
+              map((patient: PatientGeneralDto) => {
+                labWorkOrder.patient = patient;
+                return labWorkOrder;
+              })
+            );
+          });
+
+          // combine all observables into a single observable that emits an array of LabWorkOrderNew objects
+          return forkJoin(observables).pipe(
+            map((labWorkOrders: LabWorkOrderNew[]) => {
+              res.content = labWorkOrders;
+              return res;
+            })
+          );
+        })
+      )
+      .subscribe(
+        (res: Page<LabWorkOrderNew>) => {
+          this.labWorkOrderPage = res;
+          this.labWorkOrders = this.labWorkOrderPage.content;
+          this.totalLaboratory = this.labWorkOrderPage.totalElements;
+        },
+        (error: any) => {
+          console.error('Error fetching lab work orders:', error);
+        }
+      );
+  }
+  */
+
 
   onTableDataChange(event: any): void {
     this.pageLaboratory = event;
