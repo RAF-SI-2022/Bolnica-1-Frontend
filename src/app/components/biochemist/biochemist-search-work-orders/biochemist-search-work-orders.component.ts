@@ -53,9 +53,10 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit{
   getWorkOrders(): void{
     const sendData = this.form.value;
     console.log(sendData)
+    console.log(sendData.selectedStatus.toString())
 
     this.laboratoryService.findWorkOrders(sendData.lbp, this.dateFrom, this.dateTo,
-      sendData.selectedStatus, this.page, this.PAGE_SIZE)
+      sendData.selectedStatus.toString(), this.page, this.PAGE_SIZE)
       .subscribe(res=>{
         this.workOrdersPage = res
         this.workOrdersList = this.workOrdersPage.content

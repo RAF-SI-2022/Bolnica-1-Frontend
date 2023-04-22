@@ -247,7 +247,7 @@ export class LaboratoryService {
     lbp: string,
     fromDatee: Date,
     toDatee: Date,
-    status: OrderStatus,
+    status: string,
     page: number,
     size: number
   ): Observable<Page<LabWorkOrderNew>> {
@@ -262,7 +262,7 @@ export class LaboratoryService {
     let httpParams = new HttpParams().append("lbp",lbp)
       .append("fromDate", dateFrom.getTime().toString())
       .append("toDate", dateTo.getTime().toString())
-      .append("status", status) // TODO: Error: Status is undefined, baca gresku zbog toga
+      .append("status", status) // TODO: SREDJENO ? Status is undefined, baca gresku zbog toga
       .append("page", page)
       .append("size",size)
 

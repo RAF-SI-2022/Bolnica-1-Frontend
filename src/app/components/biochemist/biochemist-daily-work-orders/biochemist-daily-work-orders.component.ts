@@ -34,7 +34,7 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
 
   getWorkOrders(): void{
     this.laboratoryService.findWorkOrders('', new Date(), new Date(),
-      OrderStatus.NEOBRADJEN, this.pageLaboratory, this.pageSize)
+      OrderStatus.NEOBRADJEN.toString(), this.pageLaboratory, this.pageSize)
       .subscribe(res=>{
         this.labWorkOrderPage = res
         this.labWorkOrders = this.labWorkOrderPage.content

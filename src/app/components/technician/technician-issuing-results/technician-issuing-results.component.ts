@@ -43,7 +43,7 @@ export class TechnicianIssuingResultsComponent  implements OnInit {
       return;
     }
     console.log("usao u findWorkOrders u tsu")
-    this.laboratoryServis.findWorkOrders(workOrder.lbp, workOrder.from, workOrder.to, workOrder.status, this.page, this.pageSize).subscribe((response) => {
+    this.laboratoryServis.findWorkOrders(workOrder.lbp, workOrder.from, workOrder.to, '', this.page, this.pageSize).subscribe((response) => {
       this.labWorkOrderPage = response;
       this.labWorkOrderList = this.labWorkOrderPage.content;
       this.total = this.labWorkOrderPage.totalElements
