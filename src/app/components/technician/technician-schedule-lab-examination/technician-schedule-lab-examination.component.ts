@@ -18,7 +18,8 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     // Pagination properites
     page = 0
     pageSize = 5
-    total = 0
+    totalSchedule = 0
+    totalView = 0
     patientPage: Page<Patient> = new Page<Patient>()
     rawLabaratoryPage: Page<Prescription> = new Page<Prescription>()
     scheduledLabExaminationPage: Page<ScheduledLabExamination> = new Page<ScheduledLabExamination>()
@@ -111,13 +112,13 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
         .subscribe((response) => {
           this.rawLabaratoryPage = response
           this.rawLabararatoryPrescriptions = this.rawLabaratoryPage.content
-          this.total = this.rawLabaratoryPage.totalElements
+          this.totalSchedule = this.rawLabaratoryPage.totalElements
 
         })
     }
 
     //todo da dodaju na beku @RequestParam za datum i pacijenta
-    listScheduledEexaminations(){
+    listScheduledExaminations(){
         if(this.page == 0){
           this.page = 1
         }
@@ -128,10 +129,10 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
         if(this.searchVisitForm.get('date')?.value == ''){
           this.dateSearch = new Date()
         }
-        this.labaratoryService.listScheduledEexaminationsByLbp(this.lbp, new Date(), this.page, this.pageSize).subscribe((response) => {
+        this.labaratoryService.listScheduledExaminationsByLbp(this.lbp, this.dateSearch, this.page-1, this.pageSize).subscribe((response) => {
             this.scheduledLabExaminationPage = response
             this.scheduledLabExaminations = this.scheduledLabExaminationPage.content
-            this.total = this.scheduledLabExaminationPage.totalElements
+            this.totalView = this.scheduledLabExaminationPage.totalElements
         })
 
     }

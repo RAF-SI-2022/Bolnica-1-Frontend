@@ -25,23 +25,23 @@
 
       <div class="row">
         <div class="col-md-4">
-          <label class="labels">LBP: </label>
+          <label class="labels">LBP: {{lbp}} </label>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4">
-          <label class="labels">Ime pacijenta: </label>
+          <label class="labels">Ime pacijenta: {{patientName}}</label>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4">
-          <label class="labels">Prezime pacijenta: </label>
+          <label class="labels">Prezime pacijenta: {{patientSurname}} </label>
         </div>
       </div>
 
 
-      <div class="mt-4 text-center">
-        <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="verifikuj">Verifikuj</button>
+      <div *ngIf="obradjen==false" class="mt-4 text-center">
+        <button (click)="verifyWorkOrder()" class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="verifikuj">Verifikuj</button>
       </div>
 
       <div class="row py-5">
@@ -56,56 +56,39 @@
             <th>Jedinica mere</th>
             <th>Donja granica</th>
             <th>Gornja granica</th>
-            <th>Zaposleni</th>
-            <th>Akcija <th>
+            <th>Biohemičar</th>
+            <th *ngIf="obradjen==false">Akcija <th>
           </tr>
           </thead>
           <tbody>
 
-          <tr>
-            <td>ID analize</td>
-            <td>Skraćenica analize</td>
-            <td>ID parametra</td>
-            <td>Naziv parametra</td>
-            <td>
-                <input  name = "rezultat" type="rezultat" class="form-control"
-                        data-cy = "rezultat" >
+          <tr *ngFor="let p of parameterAnalysisResults">
+            <td>{{p.labAnalysis.id}}</td>
+            <td>{{p.labAnalysis.abbreviation}}</td>
+            <td>{{p.parameter.id}}</td>
+            <td>{{p.parameter.parameterName}}</td>
+            <td *ngIf="obradjen==false">
+              <input [(ngModel)]="p.result" name="rezultat" type="text" class="form-control" data-cy="rezultat">
             </td>
-            <td>Jedinica mere</td>
-            <td>Donja granica</td>
-            <td>Gornja granica</td>
-            <td>Zaposleni</td>
-            <td>
-              <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="sacuvaj">Sacuvaj</button>
+            <td *ngIf="obradjen==true">
+              {{p.result}}
+            </td>
+            <td>{{p.parameter.unitOfMeasure}}</td>
+            <td>{{p.parameter.lowerLimit}}</td>
+            <td>{{p.parameter.upperLimit}}</td>
+            <td>{{p.lbzBiochemist}}</td>
+            <td *ngIf="obradjen==false">
+              <button (click)="saveChanges(p.id, p.result)"  class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="sacuvaj">Sacuvaj</button>
             </td>
 
           </tr>
-          <!--          <ng-container-->
-          <!--            *ngFor="let parameter of parameterList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"  (click)="onRowClick(parameter.idParameter)">-->
-          <!--            <tr>-->
-          <!--              <td>{{workOrder.id}}</td>-->
-          <!--              <td>{{workOrder.date}}</td>-->
-          <!--              <td>{{workOrder.lbp}}</td>-->
-          <!--              <td>{{workOrder.name}} {{workOrder.surname}}</td>-->
-          <!--              <td>{{workOrder.status}}</td>-->
-          <!--              <td>{{workOrder.lbz}}</td>-->
-<!--                        <td>-->
-<!--                          <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="sacuvaj">Sacuvaj</button>-->
-<!--                        </td>-->
-          <!--            </tr>-->
-
-          <!--          </ng-container>-->
 
           </tbody>
         </table>
-        <div class="d-flex align-items-center justify-content-center h-100">
-          <pagination-controls previousLabel="Pret" nextLabel="Sled" >
-          </pagination-controls>
-        </div>
 
-        <div class="row">
+        <div *ngIf="obradjen==true" class="row">
           <div class="col-md-4">
-            <label class="labels">Zaposleni koji je verifikovao nalog: </label>
+            <label class="labels">Zaposleni koji je verifikovao nalog: {{biochemistName}} {{biochemistSurname}}</label>
           </div>
         </div>
 

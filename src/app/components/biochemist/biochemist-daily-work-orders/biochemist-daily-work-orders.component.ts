@@ -1,6 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {LaboratoryService} from "../../../services/laboratory-service/laboratory.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {Page} from "../../../models/models";
+// import {Page} from "ngx-pagination";
+import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
+import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
 
 @Component({
   selector: 'app-biochemist-daily-work-orders',
@@ -9,19 +14,42 @@ import {Router} from "@angular/router";
 })
 export class BiochemistDailyWorkOrdersComponent implements OnInit{
 
-  constructor(private laboratoryServis:LaboratoryService, private router: Router) {
+  labWorkOrders: LabWorkOrderNew [] = []
+  labWorkOrderPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>()
+
+  pageLaboratory: number = 0;
+  pageSize:number = 5;
+  totalLaboratory: number = 0;
+
+  constructor(private laboratoryService: LaboratoryService, private router: Router){
 
   }
-
 
   ngOnInit(): void {
-    console.log("daily work orders component")
-
+    this.getWorkOrders();
   }
 
-  onRowClick(): void {
-    const url = `/biochemist-details`;
-    this.router.navigateByUrl(url);
 
+  getWorkOrders(): void{
+    this.laboratoryService.findWorkOrders('', new Date(), new Date(),
+      OrderStatus.NEOBRADJEN, this.pageLaboratory, this.pageSize)
+      .subscribe(res=>{
+        this.labWorkOrderPage = res
+        this.labWorkOrders = this.labWorkOrderPage.content
+        this.totalLaboratory = this.labWorkOrderPage.totalElements
+      })
   }
+
+  onTableDataChange(event: any): void {
+    this.pageLaboratory = event;
+    this.getWorkOrders();
+  }
+
+  onRowClick(lab: LabWorkOrderNew): void {
+    console.log("Id radnog naloga za detalje: " + lab.id)
+    const url = `/biochemist-details/${lab.id}`;
+
+    this.router.navigateByUrl(url, { state: { lab } });
+  }
+
 }

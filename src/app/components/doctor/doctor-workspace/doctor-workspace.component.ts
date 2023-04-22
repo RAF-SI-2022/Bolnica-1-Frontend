@@ -9,7 +9,7 @@ import {Page} from "../../../models/models";
 import {ScheduleExam} from "../../../models/patient/ScheduleExam";
 import {ExamForPatient} from "../../../models/patient/ExamForPatient";
 import {PatientArrival} from "../../../models/laboratory-enums/PatientArrival";
-import {forkJoin} from "rxjs";
+import {forkJoin, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-doctor-workspace',
@@ -21,7 +21,7 @@ export class DoctorWorkspaceComponent implements OnInit {
     public patients: Patient[] = [];
     patientPage: Page<Patient> = new Page<Patient>()
 
-  patientArrivals = Object.values(PatientArrival).filter(value => typeof value === 'string');
+    patientArrivals = Object.values(PatientArrival).filter(value => typeof value === 'string');
 
     isPopupVisible = false;
     lbz: string = '';
@@ -197,25 +197,34 @@ export class DoctorWorkspaceComponent implements OnInit {
     // }
 
   startExam(patient: ExamForPatient): void {
+
     if(!confirm('Da li ste sigurni da želite da započnete pregled?')){
       return;
     }
-    this.patientService.getPatientByLbp(patient.lbp).subscribe(res => {
-      console.log("NANANANANANANANANNANANANANA" + patient.name)
+
+
+    this.examinationService.updatePatientStatus(patient.id, PatientArrival.TRENUTNO).pipe(
+      switchMap(res => {
+        console.log(res);
+        return this.patientService.getPatientByLbp(patient.lbp);
+      })
+    ).subscribe(res => {
+      console.log("NANANANANANANANANNANANANANA" + patient.name);
       //this.router.navigate(['doctor-workspace-one', lbp])
       // const encodedUser = encodeURIComponent(JSON.stringify(patient));
-      const url = `/doctor-workspace-one/${patient.lbp}`;
-      // this.router.navigateByUrl(url);
-      this.router.navigateByUrl(url, { state: { patient  } });
 
-    })
+      const url = `/doctor-workspace-one/${patient.lbp}`;
+      this.router.navigateByUrl(url, { state: { patient } });
+    });
+
   }
 
   goToChart(patient: ExamForPatient): void{
+
       this.router.navigate(['doctor-medical-chart', patient.lbp])
   }
 
-  
+
 
 
 }
