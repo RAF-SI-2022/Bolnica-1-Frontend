@@ -92,8 +92,7 @@ export class LaboratoryService {
    * Dohvata sve zakazane posete
    *
    * */
-  listScheduledEexaminationsByLbp(lbp: string, datee: Date,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
-    const datum = new Date(datee);
+  listScheduledExaminationsByLbp(lbp: string, datee: Date,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
 
     const date = new Date(datee)
 
@@ -109,13 +108,20 @@ export class LaboratoryService {
       {params: httpParams, headers:this.getHeaders()}
     );
   }
+    //todo da dodaju na Beku paginaciju!
+  listScheduledEexaminations(page: number, pageSize: number): Observable<Page<ScheduledLabExamination>> {
+    const date = new Date()
 
-  listScheduledEexaminations(): Observable<Page<ScheduledLabExamination>> {
-
+    let httpParams = new HttpParams()
+      .append("lbp", " ")
+      .append("startDate", date.getTime())
+      .append("endDate", date.getTime())
+      .append("page", page)
+      .append("size", pageSize)
 
     return this.http.get<Page<ScheduledLabExamination>>(
-      `${environmentLaboratory.apiURL}/examinations/list-scheduled-examinations`,
-      {headers:this.getHeaders()}
+      `${environmentLaboratory.apiURL}/examinations/list-scheduled-examinations/by-lbp-date`,
+      {params: httpParams, headers:this.getHeaders()}
     );
   }
 
@@ -187,15 +193,14 @@ export class LaboratoryService {
   public changeExaminationStatus(
     id: number,
     examinationStatus: ExaminationStatus,
-
   ): Observable<HttpStatusCode> {
-
     let httpParams = new HttpParams()
       .append("id", id)
       .append("newStatus", examinationStatus)
 
 
-    return this.http.put<HttpStatusCode>(`${environmentLaboratory.apiURL}/examinations/update-status`,  {params: httpParams, headers: this.getHeaders()});
+    return this.http.put<HttpStatusCode>(`${environmentLaboratory.apiURL}/examinations/update-status`,id,
+      {params: httpParams, headers: this.getHeaders()});
   }
 
 
@@ -283,8 +288,8 @@ export class LaboratoryService {
       .append("lbp", lbp)
 
     return this.http.put<HttpStatusCode>(
-      `${environmentLaboratory.apiURL}/work-orders/register_patient_arrival`,
-      { params: httpParams, headers: this.getHeaders()}
+      `${environmentLaboratory.apiURL}/work-orders/register_patient_arrival`
+      ,lbp,{ params: httpParams, headers: this.getHeaders()}
     );
   }
 

@@ -1,5 +1,5 @@
 export enum ExaminationStatus {
-  ZAKAZANO,
-  OTKAZANO,
-  ZAVRSENO
+  ZAKAZANO= "ZAKAZANO",
+  OTKAZANO= "OTKAZANO",
+  ZAVRSENO = "ZAVRSENO"
 }

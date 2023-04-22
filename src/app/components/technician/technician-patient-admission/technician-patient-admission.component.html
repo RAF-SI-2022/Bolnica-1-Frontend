@@ -24,7 +24,7 @@
                         <input  [(ngModel)]="lbp" type="text" class="form-control" data-cy = "lbp_patient" [ngModelOptions]="{standalone: true}">
                     </div>
                     <div class="col-md-8 mt-4">
-                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi_patient">Pretrazi</button>
+                        <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi_patient">Pretrazi</button>
                     </div>
 
                     <table class="table table-hover" data-cy="table_patient">
@@ -37,7 +37,8 @@
                                 <th>Status pregleda</th>
                                 <th>Napomena</th>
                                 <th>LBZ</th>
-                                <th>Akcija</th>
+                                <th>Brisanje</th>
+                                <th>Zavrsi pregled</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,12 +52,15 @@
                             <td>{{scheduled.examinationStatus}}</td>
                             <td>{{scheduled.note}}</td>
                             <td>{{scheduled.lbz}}</td>
-
                           <td>
-                              <a (click)="cancellation(scheduled.id)" class="delete" title="Otkazivanje" data-toggle="tooltip"><i
-                                class="bi bi-gear-fill"></i></a>
+                            <a (click)="cancellation(scheduled.id)" class="delete" title="Otkazi" data-toggle="tooltip"> <i class="bi bi-x-circle-fill"></i></a>
 
                             </td>
+
+                          <td>
+                            <a (click)="done(scheduled.id, scheduled.lbp)" class="complete" title="Zavrsi pregled" data-toggle="tooltip"> <i class="bi bi-check-circle-fill"></i></a>
+
+                          </td>
                         </ng-container>
                         </tbody>
                     </table>
