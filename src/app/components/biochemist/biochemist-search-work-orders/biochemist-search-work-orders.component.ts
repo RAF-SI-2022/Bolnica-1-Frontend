@@ -25,20 +25,16 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit{
   page: number = 0;
   total: number = 0;
 
-  lbz: string = '';
-
- // lbp: string = '';
   dateFrom: Date = new Date();
   dateTo: Date = new Date();
   exactDate: Date = new Date();
-  //selectedStatus: OrderStatus = 0;
-
-  patientName: string = '';
-  patientSurname: string = '';
 
   form: FormGroup;
 
-  constructor(private patientService: PatientService, private authService: AuthService, private laboratoryServis:LaboratoryService, private router: Router, private formBuilder: FormBuilder,) {
+  constructor(private patientService: PatientService, private authService: AuthService,
+              private laboratoryService:LaboratoryService, private router: Router,
+              private formBuilder: FormBuilder,) {
+
     this.form = this.formBuilder.group({
       lbp: ['', [Validators.required]],
       dateFrom: ['', [Validators.required]],
@@ -49,40 +45,35 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    const lbp = this.form.value.lbp;
-    this.lbz = this.authService.getLBZ();
-    console.log("lbz: " + this.lbz);
-    this.patientService.getPatientByLbp(lbp).subscribe((response) => {
-      this.patientName = response.name;
-      this.patientSurname = response.surname;
-    })
-    console.log("Ime: " + this.patientName)
-    console.log("Prezime: " + this.patientSurname)
-    console.log("search work orders component")
+    // this.lbz = this.authService.getLBZ();
+    // console.log("lbz: " + this.lbz);
   }
 
-  onRowClick(): void {
-    const url = `/biochemist-details`;
-    this.router.navigateByUrl(url);
-  }
 
-  findWorkOrders(): void{
-    const lbp = this.form.value.lbp;
-    const forma = this.form.value;
+  getWorkOrders(): void{
+    const sendData = this.form.value;
+    console.log(sendData)
 
-    const selectedStatus = forma.selectedStatus;
-
-    console.log(lbp)
-    console.log(this.dateFrom)
-    console.log(this.dateTo)
-    console.log("status : " + selectedStatus)
-    this.laboratoryServis.findWorkOrders(lbp, this.dateFrom, this.dateTo, selectedStatus,0, 5)
-      .subscribe((response) => {
-        this.workOrdersPage = response
+    this.laboratoryService.findWorkOrders(sendData.lbp, this.dateFrom, this.dateTo,
+      sendData.selectedStatus, this.page, this.PAGE_SIZE)
+      .subscribe(res=>{
+        this.workOrdersPage = res
         this.workOrdersList = this.workOrdersPage.content
         this.total = this.workOrdersPage.totalElements
       })
+  }
 
+  onTableDataChange(event: any): void {
+    this.page = event;
+    this.getWorkOrders();
+  }
+
+
+  onRowClick(lab: LabWorkOrderNew): void {
+    console.log("Id radnog naloga za detalje: " + lab.id)
+    const url = `/biochemist-details/${lab.id}`;
+
+    this.router.navigateByUrl(url, { state: { lab } });
   }
 
 }

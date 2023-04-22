@@ -33,16 +33,15 @@
         <input [formControlName]="'dateTo'" type="date" class="form-control"
                data-cy = "dateTo">
       </div>
+
       <div class="col-md-4 offset-2">
-        <label class="labels">Tačan datum</label>
-        <input  type="date" class="form-control"
-               data-cy = "correctDate" >
+        <label class="labels">LBP</label>
+        <input type="text" [formControlName]="'lbp'" name = "lbp" class="form-control"
+               data-cy = "lbp">
       </div>
 
       <div class="col-md-4">
-<!--        <select class="form-select" name="pattientArrival" data-cy="pattientArrival"  [ngModel]="selectedStatus" >-->
-<!--          <option *ngFor="let arrival  of patientArrivals" [value]="arrival ">{{ arrival  }}</option>-->
-<!--        </select>-->
+
         <label class="labels">Status obrade:</label>
         <select [formControlName]="'selectedStatus'" class="form-control">
           <option>NEOBRADJEN</option>
@@ -52,15 +51,8 @@
 
       </div>
 
-      <div class="col-md-4 offset-2">
-        <label class="labels">LBP</label>
-        <input type="text" [formControlName]="'lbp'" name = "lbp" class="form-control"
-                data-cy = "lbp">
-      </div>
-
-
       <div class="mt-4 text-center">
-        <button (click)="findWorkOrders()" class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
+        <button (click)="getWorkOrders()" class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
       </div>
 
       <div class="row py-5">
@@ -70,52 +62,27 @@
             <th>ID radnog naloga</th>
             <th>Datum i vreme kreiranja</th>
             <th>LBP pacijenta</th>
-            <th>Ime i prezime pacijenta</th>
             <th>Status obrade</th>
             <th>LBZ tehničara</th>
           </tr>
           </thead>
+
           <tbody>
-
-          <tr (click)="onRowClick()">
-            <td>primer ID radnog naloga</td>
-            <td>primer Datum i vreme kreiranja</td>
-            <td>primer LBP pacijenta</td>
-            <td>primer Ime i prezime pacijenta</td>
-            <td>primer Status obrade</td>
-            <td>primer LBZ tehničara</td>
-
+          <tr
+            *ngFor="let workOrder of workOrdersList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
+            (click)="onRowClick(workOrder)">
+            <td>{{workOrder.id}}</td>
+            <td>{{workOrder.creationDateTime}}</td>
+            <td>{{workOrder.lbp}}</td>
+            <td>{{workOrder.status}}</td>
+            <td>{{workOrder.technicianLbz}}</td>
           </tr>
-<!--          <ng-container-->
-<!--            *ngFor="let workOrder of workOrderList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"  (click)="onRowClick(workOrder.id)">-->
-<!--            <tr>-->
-<!--              <td>{{workOrder.id}}</td>-->
-<!--              <td>{{workOrder.date}}</td>-->
-<!--              <td>{{workOrder.lbp}}</td>-->
-<!--              <td>{{workOrder.name}} {{workOrder.surname}}</td>-->
-<!--              <td>{{workOrder.status}}</td>-->
-<!--              <td>{{workOrder.lbz}}</td>-->
-<!--            </tr>-->
-
-<!--          </ng-container>-->
-
-                    <ng-container
-                      *ngFor="let workOrder of workOrdersList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index">
-                      <tr>
-                        <td>{{workOrder.id}}</td>
-                        <td>{{workOrder.creationDateTime}}</td>
-                        <td>{{workOrder.lbp}}</td>
-                        <td>{{patientName}} {{patientSurname}}</td>
-                        <td>{{workOrder.status}}</td>
-                        <td>{{lbz}}</td>
-                      </tr>
-
-                    </ng-container>
-
           </tbody>
+
         </table>
+
         <div class="d-flex align-items-center justify-content-center h-100">
-          <pagination-controls previousLabel="Pret" nextLabel="Sled" >
+          <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
           </pagination-controls>
         </div>
 
