@@ -6,9 +6,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LaboratoryService} from "../../../services/laboratory-service/laboratory.service";
 import {Page} from "../../../models/models";
-import {Patient} from "../../../models/patient/Patient";
-import {LabWorkOrder} from "../../../models/laboratory/LabWorkOrder";
 import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
+import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
 
 @Component({
   selector: 'app-technician-issuing-results',
@@ -23,6 +22,8 @@ export class TechnicianIssuingResultsComponent  implements OnInit {
   labWorkOrderPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>();
   labWorkOrderList: LabWorkOrderNew[] = [];
   total = 0;
+
+  obradjen: OrderStatus = OrderStatus.OBRADJEN;
 
   constructor(private laboratoryServis:LaboratoryService, private authService: AuthService, private userService:UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
     this.form = this.formBuilder.group({
@@ -58,10 +59,16 @@ export class TechnicianIssuingResultsComponent  implements OnInit {
     return true;
   }
 
-  onRowClick(labWorkOrder: LabWorkOrderNew): void {
-    const url = `/doctor-workspace-one/${labWorkOrder.prescription.id}`;
-    this.router.navigateByUrl(url, { state: { labWorkOrder } });
 
+  navigateToDetails(lab: LabWorkOrderNew): void {
+    console.log("Id radnog naloga za detalje: " + lab.id)
+    const url = `/technician-issuing-results-details/${lab.id}`;
+    this.router.navigateByUrl(url, { state: { lab } });
+  }
+
+  onTableDataChange(event: any): void {
+    this.page = event;
+    this.findWorkOrders();
   }
 
 }

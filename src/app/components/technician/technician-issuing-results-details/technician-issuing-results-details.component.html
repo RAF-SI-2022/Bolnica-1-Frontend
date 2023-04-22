@@ -22,70 +22,47 @@
     <div class="row">
 
         <div class="mb-3">
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="nazad">Nazad</button>
+            <button (click)="navigateBack()" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="nazad">Nazad</button>
         </div>
 
-
-
+      <div class="row py-5">
         <table class="table table-hover" data-cy="table">
-            <thead>
-                <tr>
-                    <th>ID laboratorijske analize</th>
-                    <th>Skraćenica laboratorijske analize</th>
-                    <th>ID parametra</th>
-                    <th>Naziv parametra</th>
-                    <th>Rezultat</th>
-                    <th>Jedinica mere</th>
-                    <th>Donja granica</th>
-                    <th>Gornja granica</th>
-                    <th>Datum</th>
-                    <th>Ime i Prezime</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>512512512512</td>
-                    <td>SDM</td>
-                    <td>124411</td>
-                    <td>Sedementacija</td>
-                    <td>12</td>
-                    <td>mm/sat</td>
-                    <td>10</td>
-                    <td>20</td>
-                    <td>12/08/2017</td>
-                    <td>paul.davis</td>
-                </tr>
-                <tr>
-                    <td>512512512512</td>
-                    <td>SDM</td>
-                    <td>124411</td>
-                    <td>Sedementacija</td>
-                    <td>12</td>
-                    <td>mm/sat</td>
-                    <td>10</td>
-                    <td>20</td>
-                    <td>12/08/2017</td>
-                    <td>paul.davis</td>
-                </tr>
-                <tr>
-                    <td>512512512512</td>
-                    <td>SDM</td>
-                    <td>124411</td>
-                    <td>Sedementacija</td>
-                    <td>12</td>
-                    <td>mm/sat</td>
-                    <td>10</td>
-                    <td>20</td>
-                    <td>12/08/2017</td>
-                    <td>paul.davis</td>
-                </tr>
-            </tbody>
+          <thead>
+          <tr>
+            <th>ID analize</th>
+            <th>Skraćenica analize</th>
+            <th>ID parametra</th>
+            <th>Naziv parametra</th>
+            <th>Rezultat</th>
+            <th>Jedinica mere</th>
+            <th>Donja granica</th>
+            <th>Gornja granica</th>
+            <th>Datum i vreme upisa rezultata</th>
+            <th>Biohemičar</th>
+
+          </tr>
+          </thead>
+          <tbody>
+
+          <tr *ngFor="let p of parameterAnalysisResults">
+            <td>{{p.labAnalysis.id}}</td>
+            <td>{{p.labAnalysis.abbreviation}}</td>
+            <td>{{p.parameter.id}}</td>
+            <td>{{p.parameter.parameterName}}</td>
+            <td >{{p.result}}</td>
+            <td>{{p.parameter.unitOfMeasure}}</td>
+            <td>{{p.parameter.lowerLimit}}</td>
+            <td>{{p.parameter.upperLimit}}</td>
+            <td>{{p.dateTime|date:'dd-MM-Y'}}</td>
+            <td>{{p.lbzBiochemist}}</td>
+
+          </tr>
+
+          </tbody>
         </table>
 
-        <div class="d-flex align-items-center justify-content-center">
-            <pagination-controls previousLabel="Pret" nextLabel="Sled" data-cy="pagination">
-            </pagination-controls>
-        </div>
+
+      </div>
 
     </div>
   </div>

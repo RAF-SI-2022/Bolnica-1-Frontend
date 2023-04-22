@@ -57,7 +57,7 @@
             <th>Donja granica</th>
             <th>Gornja granica</th>
             <th>Biohemičar</th>
-            <th>Akcija <th>
+            <th *ngIf="obradjen==false">Akcija <th>
           </tr>
           </thead>
           <tbody>
@@ -67,14 +67,17 @@
             <td>{{p.labAnalysis.abbreviation}}</td>
             <td>{{p.parameter.id}}</td>
             <td>{{p.parameter.parameterName}}</td>
-            <td>
+            <td *ngIf="obradjen==false">
               <input [(ngModel)]="p.result" name="rezultat" type="text" class="form-control" data-cy="rezultat">
+            </td>
+            <td *ngIf="obradjen==true">
+              {{p.result}}
             </td>
             <td>{{p.parameter.unitOfMeasure}}</td>
             <td>{{p.parameter.lowerLimit}}</td>
             <td>{{p.parameter.upperLimit}}</td>
             <td>{{p.lbzBiochemist}}</td>
-            <td>
+            <td *ngIf="obradjen==false">
               <button (click)="saveChanges(p.id, p.result)"  class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="sacuvaj">Sacuvaj</button>
             </td>
 
