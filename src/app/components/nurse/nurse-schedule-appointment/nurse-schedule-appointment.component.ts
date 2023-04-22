@@ -1,24 +1,25 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActionEventArgs, CellClickEventArgs, EventSettingsModel, PopupOpenEventArgs, ScheduleComponent, View} from '@syncfusion/ej2-angular-schedule';
-import {L10n} from "@syncfusion/ej2-base";
-import {PatientService} from "../../../services/patient-service/patient.service";
-import {UserService} from "../../../services/user-service/user.service";
-import {ExaminationService} from "../../../services/examination-service/examination.service";
-import {Patient} from "../../../models/patient/Patient";
-import {Page} from "../../../models/models";
-import {DoctorDepartmentDto} from "../../../models/DoctorDepartmentDto";
-import {ScheduleExam} from "../../../models/patient/ScheduleExam";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActionEventArgs, CellClickEventArgs, EventClickArgs, EventSettingsModel, PopupOpenEventArgs, ScheduleComponent, View } from '@syncfusion/ej2-angular-schedule';
+import { L10n } from "@syncfusion/ej2-base";
+import { PatientService } from "../../../services/patient-service/patient.service";
+import { UserService } from "../../../services/user-service/user.service";
+import { ExaminationService } from "../../../services/examination-service/examination.service";
+import { Patient } from "../../../models/patient/Patient";
+import { Page } from "../../../models/models";
+import { DoctorDepartmentDto } from "../../../models/DoctorDepartmentDto";
+import { ScheduleExam } from "../../../models/patient/ScheduleExam";
 import * as moment from 'moment';
-import {PatientArrival} from "../../../models/laboratory-enums/PatientArrival";
+import { PatientArrival } from "../../../models/laboratory-enums/PatientArrival";
+import { event } from 'cypress/types/jquery';
 
 
 L10n.load({
-  'en-US':{
-    'schedule':{
-      'saveButton' :'Sacuvaj',
-      'cancelButton':'Otkazi',
-      'deleteButton':'Remove',
-      'newEvent':'Dodaj pregled',
+  'en-US': {
+    'schedule': {
+      'saveButton': 'Sacuvaj',
+      'cancelButton': 'Otkazi',
+      'deleteButton': 'Remove',
+      'newEvent': 'Pregled',
     }
   }
 });
@@ -29,11 +30,11 @@ L10n.load({
   templateUrl: './nurse-schedule-appointment.component.html',
   styleUrls: ['./nurse-schedule-appointment.component.css']
 })
-export class NurseScheduleAppointmentComponent implements OnInit{
+export class NurseScheduleAppointmentComponent implements OnInit {
 
   @ViewChild('scheduleObj', { static: false }) scheduleObj: ScheduleComponent | undefined;
 
-  public setView: View= 'Month';
+  public setView: View = 'Month';
 
   public eventSettings: EventSettingsModel = {
     dataSource: [],
@@ -63,7 +64,7 @@ export class NurseScheduleAppointmentComponent implements OnInit{
   lbp: string = '';
   doctors: DoctorDepartmentDto[] = [];
   patientList: Patient[] = []
-  nurseDepartmentPbo : string = '';
+  nurseDepartmentPbo: string = '';
   responseExams: ScheduleExam[] = [];
 
   page = 0
@@ -71,6 +72,7 @@ export class NurseScheduleAppointmentComponent implements OnInit{
   total = 0
   patientPage: Page<Patient> = new Page<Patient>()
 
+  editMenu: boolean = false;
 
   constructor(private patientService: PatientService, private userService: UserService, private examinationService: ExaminationService) {
 
@@ -84,9 +86,9 @@ export class NurseScheduleAppointmentComponent implements OnInit{
     this.getNurseDepartment();
   }
 
-  getNurseDepartment(): void{
+  getNurseDepartment(): void {
 
-    this.userService.getEmployee(this.lbz).subscribe(res => {},
+    this.userService.getEmployee(this.lbz).subscribe(res => { },
       err => {
         if (err.status == 302) { // found!
           this.nurseDepartmentPbo = err.error.department.pbo;
@@ -97,15 +99,15 @@ export class NurseScheduleAppointmentComponent implements OnInit{
       })
   }
 
-  getDoctors(): void{
-    this.examinationService.getDoctorsByDepartment(this.nurseDepartmentPbo).subscribe(res=>{
+  getDoctors(): void {
+    this.examinationService.getDoctorsByDepartment(this.nurseDepartmentPbo).subscribe(res => {
       this.doctors = res
       console.log(this.doctors)
     })
   }
 
-  getPatientList(){
-    this.patientService.getAllPatients("", "", "", "" , this.page, this.pageSize).subscribe((response) => {
+  getPatientList() {
+    this.patientService.getAllPatients("", "", "", "", this.page, this.pageSize).subscribe((response) => {
       this.patientPage = response
       this.patientList = this.patientPage.content
       this.total = this.patientPage.totalElements
@@ -147,18 +149,18 @@ export class NurseScheduleAppointmentComponent implements OnInit{
 
     this.examinationService.getScheduledExaminationByDoctor(
       this.selectedDoctor
-    ).subscribe( res =>{
+    ).subscribe(res => {
 
       this.scheduleObj?.deleteEvent(this.scheduleObj?.eventsData)
       this.responseExams = res;
 
       this.responseExams.forEach(event => {
         // this.scheduleObj?.appendTo('#schedule');
-        if (event.patientArrival.toString() !== 'OTKAZANO'){
+        if (event.patientArrival.toString() !== 'OTKAZANO') {
 
 
-          console.log("arrival "+ event.patientArrival.valueOf())
-          console.log("enum "+PatientArrival.OTKAZANO.valueOf())
+          console.log("arrival " + event.patientArrival.valueOf())
+          console.log("enum " + PatientArrival.OTKAZANO.valueOf())
 
 
           const eventData = {
@@ -188,7 +190,7 @@ export class NurseScheduleAppointmentComponent implements OnInit{
 
     const eventData = {
       Id: (<Record<string, any>>this.eventSettings.dataSource)['length'] + 1,
-      Subject: this.subject,
+      Subject: this.note,
       StartTime: this.selectedDateTime,
       EndTime: new Date(this.selectedDateTime.getTime() + (30 * 60 * 1000)),
       Note: this.note,
@@ -196,7 +198,7 @@ export class NurseScheduleAppointmentComponent implements OnInit{
     };
 
 
-    this.examinationService.createExamination(this.selectedDateTime, this.selectedDoctor, this.patient, this.note).subscribe(res=>{
+    this.examinationService.createExamination(this.selectedDateTime, this.selectedDoctor, this.patient, this.note).subscribe(res => {
       console.log(res)
     })
 
@@ -218,14 +220,20 @@ export class NurseScheduleAppointmentComponent implements OnInit{
     if (args.type === 'QuickInfo') {
       args.cancel = true;
       let data = args.data as { [key: string]: Object };
-      this.scheduleObj?.openEditor(data, 'Add');
+      if (!this.updateEJSView()){
+        this.scheduleObj?.openEditor(data, 'Add');
+        this.editMenu = false;
+      }
+      else{
+        this.scheduleObj?.openEditor(this.eventsOnCellClick[0], 'Add');
+        this.editMenu = true;
+      }
     }
     if (args.type === 'Editor') {
-
       setTimeout(() => {
         const saveButton = args.element.querySelector('.e-event-save') as HTMLElement;
         const cancelButton = args.element.querySelector('.e-event-cancel') as HTMLElement;
-  
+
         if (saveButton) {
           saveButton.style.display = 'none';
         }
@@ -233,22 +241,34 @@ export class NurseScheduleAppointmentComponent implements OnInit{
           cancelButton.style.display = 'none';
         }
       });
+
     }
   }
-  
+  eventsOnCellClick: Record<string, any>[] = [];
   onCellClick(args: CellClickEventArgs): void {
-    
     this.selectedDateTime = args.startTime;
-    const events = this.scheduleObj!.getEvents(args.startTime, args.endTime);
-
-  if (events.length === 0) {
-    
-  } else {
-    const eventData = events[0];
-
-    // Open the editor in 'Edit' mode with the existing event data
-    console.log("POSTOJI DATA " + eventData[0])
-    this.scheduleObj?.openEditor(eventData, 'Add');
+    this.eventsOnCellClick = this.scheduleObj!.getEvents(args.startTime, args.endTime);
   }
+
+  updateEJSView(): boolean {
+    if (this.eventsOnCellClick.length == 0) {
+      return false;
+    } else {
+      const eventData = this.eventsOnCellClick[0];
+      this.patient = eventData['Patient']
+      this.note = eventData['Note']
+      this.selectedDateTime = eventData['StartTime']
+      return true;
+    }
+
   }
+  onEdit(): void {
+    // Sta da se desi kada se klikne izmeni se pise ovde
+  }
+
+  public onEventClick(args: EventClickArgs): void {
+    this.eventsOnCellClick[0] = args.event
+    this.editMenu = true;
+  }
+  
 }

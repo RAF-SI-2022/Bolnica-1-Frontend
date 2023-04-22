@@ -263,6 +263,10 @@ export class PatientService {
     return this.http.get<Vaccination[]>(`${environmentPatient.apiURL}/record/gather_vaccines`, { headers: this.getHeaders() });
   }
 
+  getDiagnosis(): Observable<DiagnosisCodeDto[]>{
+    return this.http.get<DiagnosisCodeDto[]>(`${environmentPatient.apiURL}/record/gather_diagnosis`, { headers: this.getHeaders() });
+  }
+
   public addAllergy(
     lbp: string,
     allergy: string,

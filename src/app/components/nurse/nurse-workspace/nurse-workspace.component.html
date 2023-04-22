@@ -37,10 +37,14 @@
         <form (submit)="searchExams()">
         <div class="col-md-4 ">
           <label for="doctors" >Izaberite doktora:</label>
-          <select [(ngModel)]="selectedDoctor"  id="doctors" name="doctors" class="form-select"
-                  aria-label="Default select example"  data-cy = "doctors" required>
-              <option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</option>
-          </select>
+
+          <ng-select class="custom" [(ngModel)]="selectedDoctor.lbz" id="doctor" name="doctor"
+                required
+                [searchable]="true"
+                bindLabel="name"
+                bindValue="name">
+        <ng-option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
+        </ng-select>
         </div>
         <div class = "row mt-1">
           <div class="col-md-4">

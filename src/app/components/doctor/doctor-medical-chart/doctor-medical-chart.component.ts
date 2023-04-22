@@ -18,7 +18,11 @@ import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
 import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
 import {PrescriptionServiceService} from "../../../services/prescription-service/prescription-service.service";
 import {PrescriptionDoneDto} from "../../../models/prescription/PrescriptionDoneDto";
+
 import {ParameterAnalysisResultWithDetails} from "../../../models/laboratory/ParameterAnalysisResultWithDetails";
+
+import { DiagnosisCodeDto } from 'src/app/models/patient/DiagnosisCode';
+
 
 
 @Component({
@@ -66,6 +70,7 @@ export class DoctorMedicalChartComponent implements OnInit {
     labWorkOrders: LabWorkOrderNew [] = []
     allergies: Allergy [] = []
     vaccines: Vaccination [] = []
+    allDiagnosis: DiagnosisCodeDto[] = []
     public checkStatus: OrderStatus = OrderStatus.OBRADJEN;
   public checkStatusPrescription: PrescriptionStatus = PrescriptionStatus.NEREALIZOVAN;
 
@@ -185,7 +190,7 @@ export class DoctorMedicalChartComponent implements OnInit {
 
         this.getAllergy()
         this.getVaccine()
-
+        this.getDiagnosis()
     }
 
     updateGeneral(): void {
@@ -246,6 +251,13 @@ export class DoctorMedicalChartComponent implements OnInit {
         this.vaccines = result;
         this.changeDetectorRef.detectChanges();
       }, err => {});
+    }
+
+    getDiagnosis(): void {
+      this.patientService.getDiagnosis().subscribe(result => {
+        this.allDiagnosis = result;
+        console.log(this.allDiagnosis)
+      })
     }
 
     getExaminationHistoryChoose(): void {
@@ -313,7 +325,8 @@ export class DoctorMedicalChartComponent implements OnInit {
         this.pageMedical = 1;
 
       if (this.diagnosis != '') {
-        this.patientService.getMedicalHistoriesByDiagnosisCodePaged(this.lbp, this.diagnosis, this.pageMedical-1, this.pageSize).subscribe(
+        let tmpdiagnosis = this.diagnosis.split("-")[0].trim();
+        this.patientService.getMedicalHistoriesByDiagnosisCodePaged(this.lbp, tmpdiagnosis, this.pageMedical-1, this.pageSize).subscribe(
           response => {
             this.medicalPage = response
             this.medicalHistories = this.medicalPage.content
@@ -461,5 +474,37 @@ export class DoctorMedicalChartComponent implements OnInit {
       return false
   }
 
+  filteredDiagnosisCodes: DiagnosisCodeDto[] = [];
+
+  filterDiagnosisCodes(searchText: string): void {
+    if (this.allDiagnosis && this.allDiagnosis.length > 0 && searchText.length > 0) {
+      this.filteredDiagnosisCodes = this.allDiagnosis.filter(
+        (diagnosiss) =>
+          (diagnosiss.code?.toString().toLowerCase().includes(searchText.toLowerCase()) || '') ||
+          (diagnosiss.description?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+          (diagnosiss.latinDescription?.toLowerCase().includes(searchText.toLowerCase()) || '')
+      );
+    } else {
+      this.filteredDiagnosisCodes = [];
+    }
+     console.log("Imam nas " + this.filterDiagnosisCodes.length)
+  }
+  
+  selectSuggestion(suggestion: DiagnosisCodeDto): void {
+    this.diagnosis = `${suggestion.code} - ${suggestion.description} (${suggestion.latinDescription})`;
+    this.filteredDiagnosisCodes = [];
+  }
+
+  isInputFocused: boolean = false;
+
+  onFocus(): void {
+    this.isInputFocused = true;
+  }
+
+  onBlur(): void {
+    setTimeout(() => {
+      this.isInputFocused = false;
+    }, 200); // Add a small delay to allow for click events to be registered
+  }
 
 }
