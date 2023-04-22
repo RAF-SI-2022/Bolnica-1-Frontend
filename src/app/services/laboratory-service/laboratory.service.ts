@@ -29,6 +29,8 @@ import {LabWorkOrderWithAnalysis} from "../../models/laboratory/LabWorkOrderWith
 
 import {LabWorkOrderNew} from "../../models/laboratory/LabWorkOrderNew";
 import {OrderStatus} from "../../models/laboratory-enums/OrderStatus";
+import {LabWorkOrderMessageDto} from "../../models/LabWorkOrderMessageDto";
+import {LabWorkOrderDto} from "../../models/laboratory/LabWorkOrderDto";
 
 
 //import {Prescription} from "../../models/laboratory/Prescription";
@@ -190,6 +192,16 @@ export class LaboratoryService {
   }
 
 
+  public getLabWorkOrderWithAnalysis(
+    workOrderId: number
+  ): Observable<LabWorkOrderWithAnalysis>{
+
+    return this.http.get<LabWorkOrderWithAnalysis>(`${environmentLaboratory.apiURL}/work-orders/${workOrderId}/results`,
+      { headers: this.getHeaders() });
+  }
+
+
+
   public changeExaminationStatus(
     id: number,
     examinationStatus: ExaminationStatus,
@@ -258,27 +270,27 @@ export class LaboratoryService {
   }
 
 
-  public findWorkOrders1(
-    lbp: string,
-    fromDate: Date,
-    toDate: Date,
-    status: OrderStatus,
-    page: number,
-    size: number
-  ): Observable<Page<LabWorkOrderNew>> {
-
-    let httpParams = new HttpParams().append("lbp",lbp)
-      .append("fromDate", fromDate.toISOString())
-      .append("toDate",toDate.toISOString())
-      .append("status", status)
-      .append("page", page)
-      .append("size",size)
-
-    return this.http.get<Page<LabWorkOrderNew>>(
-      `${environmentLaboratory.apiURL}/work-orders/find-work-orders`,
-      { params: httpParams, headers: this.getHeaders()}
-    );
-  }
+  // public findWorkOrders1(
+  //   lbp: string,
+  //   fromDate: Date,
+  //   toDate: Date,
+  //   status: OrderStatus,
+  //   page: number,
+  //   size: number
+  // ): Observable<Page<LabWorkOrderNew>> {
+  //
+  //   let httpParams = new HttpParams().append("lbp",lbp)
+  //     .append("fromDate", fromDate.toISOString())
+  //     .append("toDate",toDate.toISOString())
+  //     .append("status", status)
+  //     .append("page", page)
+  //     .append("size",size)
+  //
+  //   return this.http.get<Page<LabWorkOrderNew>>(
+  //     `${environmentLaboratory.apiURL}/work-orders/find-work-orders`,
+  //     { params: httpParams, headers: this.getHeaders()}
+  //   );
+  // }
 
   public registerPatient(
     lbp: string
@@ -300,7 +312,6 @@ export class LaboratoryService {
     result: string
   ): Observable<HttpStatusCode> {
 
-
     let httpParams = new HttpParams()
       .append("result", result)
 
@@ -312,10 +323,19 @@ export class LaboratoryService {
 
   public verifyWorkOrder(
     id: number
-  ): Observable<HttpStatusCode> {
+  ): Observable<LabWorkOrderMessageDto> {
 
-    return this.http.get<HttpStatusCode>(
+    return this.http.get<LabWorkOrderMessageDto>(
       `${environmentLaboratory.apiURL}/work-orders/verify/${id}`,
+      { headers: this.getHeaders()}
+    );
+  }
+
+  public findWorkOrder(
+    id:number
+  ): Observable<LabWorkOrderDto>{
+    return this.http.get<LabWorkOrderDto>(
+      `${environmentLaboratory.apiURL}/work-orders/${id}`,
       { headers: this.getHeaders()}
     );
   }

@@ -21,7 +21,7 @@ export class DoctorWorkspaceComponent implements OnInit {
     public patients: Patient[] = [];
     patientPage: Page<Patient> = new Page<Patient>()
 
-  patientArrivals = Object.values(PatientArrival).filter(value => typeof value === 'string');
+    patientArrivals = Object.values(PatientArrival).filter(value => typeof value === 'string');
 
     isPopupVisible = false;
     lbz: string = '';
@@ -201,8 +201,8 @@ export class DoctorWorkspaceComponent implements OnInit {
     if(!confirm('Da li ste sigurni da želite da započnete pregled?')){
       return;
     }
-    
-    
+
+
     this.examinationService.updatePatientStatus(patient.id, PatientArrival.TRENUTNO).pipe(
       switchMap(res => {
         console.log(res);
@@ -224,7 +224,7 @@ export class DoctorWorkspaceComponent implements OnInit {
       this.router.navigate(['doctor-medical-chart', patient.lbp])
   }
 
-  
+
 
 
 }

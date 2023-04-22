@@ -1,11 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {HospitalShort, Page, Zaposleni} from "../../../models/models";
-import {AnalysisParameter} from "../../../models/laboratory/AnalysisParameter";
 import {LaboratoryService} from "../../../services/laboratory-service/laboratory.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder} from "@angular/forms";
 import {AuthService} from "../../../services/auth.service";
 import {UserService} from "../../../services/user-service/user.service";
+import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
+import {PatientService} from "../../../services/patient-service/patient.service";
+import {LabWorkOrderWithAnalysis} from "../../../models/laboratory/LabWorkOrderWithAnalysis";
+import {ParameterAnalysisResultWithDetails} from "../../../models/laboratory/ParameterAnalysisResultWithDetails";
+import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
+import {LabWorkOrderDto} from "../../../models/laboratory/LabWorkOrderDto";
 
 @Component({
   selector: 'app-biochemist-details-analysis',
@@ -14,54 +18,120 @@ import {UserService} from "../../../services/user-service/user.service";
 })
 export class BiochemistDetailsAnalysisComponent implements OnInit{
 
-  analysisParams: AnalysisParameter[] = [];
-  analysisParamsPage: Page<AnalysisParameter> = new Page<AnalysisParameter>();
-  PAGE_SIZE: number = 5;
-  page: number = 0;
-  total: number = 0;
+  currentLabWorkOrder: LabWorkOrderNew;
+
+  labWorkOrderWithAnalysis: LabWorkOrderWithAnalysis = new LabWorkOrderWithAnalysis();
+  parameterAnalysisResults: ParameterAnalysisResultWithDetails[]= [];
+
+  obradjen: boolean = false;
 
   lbz: string = '';
-  employeeName: string = '';
+
   biochemist: boolean = false;
   biochemistSpec: boolean = false;
-
-  result: string = '';
 
   errorMessage: string = '';
   successMessage: string = '';
 
-  workOrderId = '';
-  lbp = '';
-  patientName = '';
-  patientSurname = '';
+  workOrderId: number = 0;
+  lbp: string = '';
+  patientName: string = '';
+  patientSurname:string = '';
+
+  biochemistLbzVerified: string = ''
+  biochemistName: string = ''
+  biochemistSurname: string = ''
 
 
-  constructor(private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private laboratoryServis:LaboratoryService, private router: Router, private formBuilder: FormBuilder){
+  constructor(private route: ActivatedRoute, private userService: UserService,
+              private authService: AuthService, private laboratoryService:LaboratoryService,
+              private router: Router, private formBuilder: FormBuilder,
+              private patientService: PatientService){
+
+    this.currentLabWorkOrder = history.state.labWorkOrder;
 
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      // this.productId = +params.get('id');
-      // this.category = params.get('category');
-    });
-    console.log("detailed analysis component");
-    //dodaj u app routing module
-    this.workOrderId = <string>this.route.snapshot.paramMap.get('id');
 
+    this.workOrderId =parseInt( <string>this.route.snapshot.paramMap.get('id'));
     this.lbz = this.authService.getLBZ();
-    this.userService.getEmployee(this.lbz).subscribe((response) => {
-      this.employeeName = response.name;
+
+    // OTKOMENTARISATI KAD PRORADI STRANICA
+
+    /*
+    this.lbp = this.currentLabWorkOrder.lbp
+    this.biochemistLbzVerified = this.currentLabWorkOrder.biochemistLbz
+
+    if(this.currentLabWorkOrder.status.toString() == OrderStatus.OBRADJEN.toString()){
+      this.obradjen = true
+    }
+
+    this.getPatient();
+    this.getBiochemistVerified();*/
+
+    this.getLabWorkOrderWithAnalysis();
+
+  }
+
+  getBiochemistVerified(): void{
+    this.userService.getEmployee(this.biochemistLbzVerified).subscribe((response) => {
+      this.biochemistName = response.name;
+      this.biochemistSurname = response.surname;
     })
+  }
 
+  getLabWorkOrderWithAnalysis(): void{
 
-    this.laboratoryServis.findAnalysisParametersResults1(Number(this.workOrderId)).subscribe((response) => {
-      this.analysisParamsPage = response;
-      this.analysisParams = this.analysisParamsPage.content
-      this.total = this.analysisParamsPage.totalElements
+    this.laboratoryService.getLabWorkOrderWithAnalysis(this.workOrderId).subscribe(
+      res=>{
+
+      }, err => {
+      if (err.status == 302) { // found!
+        this.labWorkOrderWithAnalysis = err.error; // Message recieved on error -> err.error to get message
+        this.parameterAnalysisResults = this.labWorkOrderWithAnalysis.parameterAnalysisResults
+      }
     })
 
   }
+
+  getPatient(): void{
+    this.patientService.getPatientByLbp(this.lbp).subscribe((response) => {
+      this.patientName = response.name;
+      this.patientSurname = response.surname;
+    })
+
+    console.log("Ime: " + this.patientName)
+    console.log("Prezime: " + this.patientSurname)
+  }
+
+
+  saveChanges(paramId: number, result: string): void {
+
+    console.log("result before service "+ result);
+    console.log("id parametra "+ paramId);
+
+    this.laboratoryService.updateAnalysisParameters(this.workOrderId, paramId, result)
+      .subscribe((response) => {
+      this.errorMessage = '';
+      this.successMessage = 'Promena je uspesno sacuvana!'
+    }, error => {
+      console.log("Error " + error.status);
+      if(error.status == 409){
+        this.errorMessage = 'Promena nije sacuvana!';
+      }
+    })
+  }
+
+  verifyWorkOrder(): void{
+      this.laboratoryService.verifyWorkOrder(this.workOrderId).subscribe(res=>{
+        this.successMessage = res.message
+        console.log(res.message)
+      }, error => {
+        console.log(error.message)
+      })
+  }
+
 
   checkMedBiohemicar(): boolean {
     this.userService.checkRole('ROLE_MED_BIOHEMICAR').subscribe(hasRole => {
@@ -81,19 +151,6 @@ export class BiochemistDetailsAnalysisComponent implements OnInit{
       else this.biochemistSpec = false;
     });
     return this.biochemistSpec;
-  }
-
-  saveChanges(workOrderId: number, paramId: number, result: string): void {
-    this.laboratoryServis.updateAnalysisParameters(workOrderId, paramId, result).subscribe((response) => {
-
-      this.errorMessage = '';
-      this.successMessage = 'Promena je uspesno sacuvana!'
-    }, error => {
-      console.log("Error " + error.status);
-      if(error.status == 409){
-        this.errorMessage = 'Promena nije sacuvana!';
-      }
-    })
   }
 
 }

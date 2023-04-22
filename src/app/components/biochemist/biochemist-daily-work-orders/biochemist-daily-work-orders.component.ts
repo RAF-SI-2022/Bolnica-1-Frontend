@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {LaboratoryService} from "../../../services/laboratory-service/laboratory.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {Page, Zaposleni} from "../../../models/models";
-import {LabWorkOrderWithAnalysis} from "../../../models/laboratory/LabWorkOrderWithAnalysis";
+import {Page} from "../../../models/models";
 // import {Page} from "ngx-pagination";
-import {LabWorkOrder} from "../../../models/laboratory/LabWorkOrder";
+import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
+import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
 
 @Component({
   selector: 'app-biochemist-daily-work-orders',
@@ -14,50 +14,42 @@ import {LabWorkOrder} from "../../../models/laboratory/LabWorkOrder";
 })
 export class BiochemistDailyWorkOrdersComponent implements OnInit{
 
-  PAGE_SIZE: number = 5;
-  page: number = 0;
-  total: number = 0;
-  workOrdersForm: FormGroup;
-  workOrdersPage: Page<LabWorkOrder> = new Page<LabWorkOrder>();
-  workOrderList: LabWorkOrder[] = [];
+  labWorkOrders: LabWorkOrderNew [] = []
+  labWorkOrderPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>()
 
-  workOrderId = '';
+  pageLaboratory: number = 0;
+  pageSize:number = 5;
+  totalLaboratory: number = 0;
 
-  constructor(private laboratoryServis:LaboratoryService, private router: Router, private formBuilder: FormBuilder, private route: ActivatedRoute){
-    this.workOrdersForm = this.formBuilder.group({
+  constructor(private laboratoryService: LaboratoryService, private router: Router){
 
-    });
   }
-
 
   ngOnInit(): void {
-    console.log("daily work orders component")
-   // this.workOrderId = this.route.snapshot.paramMap.get('id') || '';
-
-    //
-    // this.laboratoryServis.findWorkOrders().subscribe((response) => {
-    //   this.workOrders = response;
-    // })
-
+    this.getWorkOrders();
   }
 
-  onRowClick(workOrderId: number): void {
-    // const url = `/biochemist-details/${workOrderId}`;
-    // this.router.navigateByUrl(url);
-    //*******************************
-    //const url = `/biochemist-details`;
-   //this.router.navigateByUrl(url);
-    this.router.navigate(['/biochemist-details']);
-
-  }
 
   getWorkOrders(): void{
-    // this.laboratoryServis.findWorkOrders(this.ime, this.prezime, this.selektovanaOrdinacija, this.selektovanaBolnica, this.deleted, this.page-1, this.PAGE_SIZE).subscribe((response) => {
-    //   this.workOrdersPage = response;
-    //   this.workOrderList = this.workOrdersPage.content;
-    //   this.total = this.workOrdersPage.totalElements
-    // });
+    this.laboratoryService.findWorkOrders('', new Date(), new Date(),
+      OrderStatus.NEOBRADJEN, this.pageLaboratory, this.pageSize)
+      .subscribe(res=>{
+        this.labWorkOrderPage = res
+        this.labWorkOrders = this.labWorkOrderPage.content
+        this.totalLaboratory = this.labWorkOrderPage.totalElements
+      })
   }
 
+  onTableDataChange(event: any): void {
+    this.pageLaboratory = event;
+    this.getWorkOrders();
+  }
+
+  onRowClick(lab: LabWorkOrderNew): void {
+    console.log("Id radnog naloga za detalje: " + lab.id)
+    const url = `/biochemist-details/${lab.id}`;
+
+    this.router.navigateByUrl(url, { state: { lab } });
+  }
 
 }

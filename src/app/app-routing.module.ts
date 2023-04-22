@@ -154,7 +154,7 @@ const routes: Routes = [
     canActivate: [AuthGuard, BiochemistGuard]
   },
   {
-    path: "biochemist-details",
+    path: "biochemist-details/:id",
     component: BiochemistDetailsAnalysisComponent,
     canActivate: [AuthGuard, BiochemistGuard]
   },
