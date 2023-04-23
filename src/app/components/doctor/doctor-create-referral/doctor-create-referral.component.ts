@@ -171,11 +171,7 @@ export class DoctorCreateReferralComponent implements OnInit {
       }
 
 
-  confirmUput(): void {
 
-    if (!confirm('Da li ste sigurni da želite da napravite uput?')) {
-      return;
-    }
 
     const referral = this.referralForm.value;
     console.log("uput potvrdjen");

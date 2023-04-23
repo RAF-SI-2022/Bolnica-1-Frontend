@@ -160,23 +160,26 @@ export class NurseWorkspaceComponent implements OnInit {
         patients.forEach((patient, i) => {
           // Svi pacijenti su kod E0006 a nemamo tog doktora
           console.log("moj " + this.scheduledExams[i].doctorLbz + " I " + this.doctorLbz)
-          if (this.scheduledExams[i].lbz == this.doctorLbz) {
+          if (this.scheduledExams[i].doctorLbz.toString() == this.doctorLbz.toString()) {
+            if(this.scheduledExams[i].patientArrival.toString() == PatientArrival.ZAKAZANO.toString()){
 
-            const examForPatient: ExamForPatient = {
-              id: this.scheduledExams[i].id,
-              lbp: this.scheduledExams[i].lbp,
-              name: patient.name,
-              surname: patient.surname,
-              dateOfBirth: patient.dateOfBirth,
-              gender: patient.gender,
-              patientArrival: this.scheduledExams[i].patientArrival,
-              examDate: this.scheduledExams[i].dateAndTime
-            };
+              const examForPatient: ExamForPatient = {
+                id: this.scheduledExams[i].id,
+                lbp: this.scheduledExams[i].lbp,
+                name: patient.name,
+                surname: patient.surname,
+                dateOfBirth: patient.dateOfBirth,
+                gender: patient.gender,
+                patientArrival: this.scheduledExams[i].patientArrival,
+                examDate: this.scheduledExams[i].dateAndTime
+              };
 
-            console.log(examForPatient.patientArrival)
-            console.log()
-            console.log("radim fork join " + examForPatient.lbp)
-            this.patients.push(examForPatient);
+              console.log(examForPatient.patientArrival)
+              console.log()
+              console.log("radim fork join " + examForPatient.lbp)
+              this.patients.push(examForPatient);
+
+            }
           }
         });
         if(this.patients.length == 0){
@@ -193,10 +196,6 @@ export class NurseWorkspaceComponent implements OnInit {
   }
 
   changeStatus(patient: ExamForPatient) {
-
-    if (!confirm('Da li ste sigurni da želite da izmenite status?')) {
-      return;
-    }
 
     console.log("arrival " + patient.patientArrival)
     console.log(patient.id);
@@ -224,6 +223,8 @@ export class NurseWorkspaceComponent implements OnInit {
     this.examinationService.updatePatientStatus(patient.id, patient.patientArrival).subscribe(res => {
       console.log(res)
       this.snackBar.openSuccessSnackBar("Uspesno!")
+      this.getSheduledExams();
+
     }, err => {
       this.snackBar.openErrorSnackBar("Greska!")
     })
@@ -232,7 +233,7 @@ export class NurseWorkspaceComponent implements OnInit {
     console.log("id " + patient.id)
 
 
-    this.getSheduledExams();
+
   }
 
 

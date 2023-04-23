@@ -100,7 +100,7 @@
 
 
             <!--*ngIf="patient.patientArrival.toString() === ceka.toString()"-->
-            <td ><button *ngIf="patient.patientArrival.toString() === 'CEKA'" (click)="startExam(patient)" onclick="return confirm('Da li ste sigurni da želite da započnete pregled?')" class="btn btn-primary" >Pregled</button></td>
+            <td ><button *ngIf="patient.patientArrival.toString() === 'CEKA' || patient.patientArrival.toString() === 'TRENUTNO'" (click)="startExam(patient)" class="btn btn-primary" >Pregled</button></td>
           </tr>
           </tbody>
         </table>
