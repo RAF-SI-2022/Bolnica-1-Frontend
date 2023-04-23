@@ -143,6 +143,9 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
       this.scheduledLabExaminationPage = response
       this.scheduledLabExaminations = this.scheduledLabExaminationPage.content
       this.totalView = this.scheduledLabExaminationPage.totalElements
+      if(this.scheduledLabExaminations.length == 0){
+        this.snackBar.openWarningSnackBar("Nema pregleda")
+      }
     }, err => {
       this.snackBar.openErrorSnackBar("Greska")
     })

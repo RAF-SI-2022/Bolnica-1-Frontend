@@ -83,4 +83,58 @@ export class NurseSearchPatientsComponent implements OnInit {
         this.page = event;
         this.getPatientList();
     }
+
+
+    sortState = {
+        column: '',
+        direction: '',
+        clicks: 0
+      };
+      sortOrder: { [key: string]: number } = {};
+    
+      sortColumn(column: string): void {
+        if (this.sortState.column === column) {
+          this.sortState.clicks++;
+          if (this.sortState.clicks === 3) {
+            this.sortState.direction = '';
+            this.sortState.clicks = 0;
+          } else {
+            this.sortState.direction = this.sortState.direction === 'asc' ? 'desc' : 'asc';
+          }
+        } else {
+          this.sortState.column = column;
+          this.sortState.direction = 'asc';
+          this.sortState.clicks = 1;
+        }
+        this.sortOrder[column] = this.sortOrder[column] || 0;
+        this.sortOrder[column] = (this.sortOrder[column] + 1) % 3;
+    
+        if (this.sortOrder[column] === 0) {
+    
+          this.getPatientList();
+        } else {
+            console.log("SORTIRAJ")
+          this.patientList.sort((a: Patient, b: Patient) => {
+            const factor = this.sortOrder[column] === 1 ? 1 : -1;
+            const aValue = a[column as keyof Patient];
+            const bValue = b[column as keyof Patient];
+            console.log("POREDIM: " + a.id + " i " + b.id)
+            if (aValue instanceof Date && bValue instanceof Date) {
+              return (aValue.getTime() - bValue.getTime()) * factor;
+            }
+    
+            if (typeof aValue === 'string' && typeof bValue === 'string') {
+              return aValue.localeCompare(bValue) * factor;
+            }
+    
+            if (aValue < bValue) {
+              return -1 * factor;
+            }
+            if (aValue > bValue) {
+              return 1 * factor;
+            }
+            return 0;
+          });
+        }
+      }
 }

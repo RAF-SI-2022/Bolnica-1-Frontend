@@ -67,7 +67,11 @@ export class NurseWorkspaceComponent implements OnInit {
   searchExams(): void {
     this.doctorLbz = this.selectedDoctor.lbz;
     console.log("izabrani doktor je " + this.doctorLbz)
-    this.getSheduledExams();
+    if(this.doctorLbz.length == 0){
+      this.snackBar.openErrorSnackBar("Izaberite doktora")
+    }
+    else
+      this.getSheduledExams();
   }
 
   getNurseDepartment(): void {
