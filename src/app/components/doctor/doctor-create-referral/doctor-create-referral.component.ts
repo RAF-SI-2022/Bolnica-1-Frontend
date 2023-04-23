@@ -67,7 +67,36 @@ export class DoctorCreateReferralComponent implements OnInit {
 
   constructor(private prescriptionService: PrescriptionServiceService, private snackBar: SnackbarServiceService, private laboratoryService: LaboratoryService, private authService: AuthService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
     this.referralForm = this.formBuilder.group({
-      ustanova: ['', [Validators.required]],
+
+        // ustanova: ['', [Validators.required]],
+        // ustanova1: [new DeparmentShort(), [Validators.required]],
+        // ustanova2: [new HospitalShort(), [Validators.required]],
+        // ustanova3: [new HospitalShort(), [Validators.required]],
+        analysis: ['' ,[Validators.required]],
+        comment: ['', [Validators.required]],
+        // refferalDiagnosis: ['', [Validators.required]],
+        // referralReason: ['', [Validators.required]],
+        // prescriptionAnalysisDtos: ['', [Validators.required]]
+      });
+    }
+    // onOptionSelected(value: string) {
+    //     this.selectedOption = value;
+    // }
+
+    isPopupVisible = false;
+
+    ngOnInit(): void {
+      this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
+      console.log(this.lbp);
+      this.getDepartments();
+       // this.getHospitals();
+       this.lbz = this.authService.getLBZ();
+       console.log(this.lbz);
+       this.getLabAnalysis();
+       this.getDoctorDepartment()
+    }
+
+/*      ustanova: ['', [Validators.required]],
       ustanova1: [new DeparmentShort(), [Validators.required]],
       ustanova2: [new HospitalShort(), [Validators.required]],
       ustanova3: [new HospitalShort(), [Validators.required]],
@@ -93,7 +122,8 @@ export class DoctorCreateReferralComponent implements OnInit {
     console.log(this.lbz);
     this.getLabAnalysis();
     this.getDoctorDepartment()
-  }
+  }*/
+
 
   getDoctorDepartment(): void {
     this.userService.getEmployee(this.lbz).subscribe(result => { },
@@ -113,13 +143,33 @@ export class DoctorCreateReferralComponent implements OnInit {
   //   });
   // }
 
-  showPopup(event: any): void {
-    this.isPopupVisible = true;
+    showPopup(event: any): void {
+        this.isPopupVisible = true;
+    }
+
+    hidePopup(): void {
+        this.isPopupVisible = false;
+    }
+  validateEntries() : boolean {
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    form.classList.add('was-validated');
+
+    if(form.checkValidity() === false){
+      return false;
+    }
+
+    return true;
   }
 
-  hidePopup(): void {
-    this.isPopupVisible = false;
-  }
+    confirmUput(): void {
+
+      if(!this.validateEntries())
+        return;
+
+      if(!confirm('Da li ste sigurni da želite da napravite uput?')){
+        return;
+      }
+
 
   confirmUput(): void {
 
