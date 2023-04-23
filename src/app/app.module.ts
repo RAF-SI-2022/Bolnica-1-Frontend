@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app/app.component';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {DropDownListModule} from "@syncfusion/ej2-angular-dropdowns";
 import {DateTimePickerModule} from "@syncfusion/ej2-angular-calendars";
 import {ScheduleModule,RecurrenceEditorModule, DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService} from '@syncfusion/ej2-angular-schedule';
@@ -111,7 +111,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgxPaginationModule,
     BrowserAnimationsModule,
     NgSelectModule,
-    ScheduleModule,RecurrenceEditorModule,DropDownListModule,DateTimePickerModule
+    ScheduleModule,RecurrenceEditorModule,DropDownListModule,DateTimePickerModule,
+    MatSnackBarModule
   ],
   providers: [DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService],
   //providers[],

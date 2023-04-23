@@ -1,13 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {ExaminationService} from "../../../services/examination-service/examination.service";
-import {PatientService} from "../../../services/patient-service/patient.service";
-import {ExamForPatient} from "../../../models/patient/ExamForPatient";
-import {ScheduleExam} from "../../../models/patient/ScheduleExam";
-import {UserService} from "../../../services/user-service/user.service";
-import {Page} from "../../../models/models";
-import {PatientArrival} from "../../../models/laboratory-enums/PatientArrival";
-import {forkJoin} from "rxjs";
-import {DoctorDepartmentDto} from "../../../models/DoctorDepartmentDto";
+import { Component, OnInit } from '@angular/core';
+import { ExaminationService } from "../../../services/examination-service/examination.service";
+import { PatientService } from "../../../services/patient-service/patient.service";
+import { ExamForPatient } from "../../../models/patient/ExamForPatient";
+import { ScheduleExam } from "../../../models/patient/ScheduleExam";
+import { UserService } from "../../../services/user-service/user.service";
+import { Page } from "../../../models/models";
+import { PatientArrival } from "../../../models/laboratory-enums/PatientArrival";
+import { forkJoin } from "rxjs";
+import { DoctorDepartmentDto } from "../../../models/DoctorDepartmentDto";
+import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 
 @Component({
   selector: 'app-nurse-workspace',
@@ -20,7 +21,7 @@ export class NurseWorkspaceComponent implements OnInit {
   selectedStatus: PatientArrival
   activeStatus: string = ''
   lbz: string = '';
-  scheduledExams : ScheduleExam[] = [];
+  scheduledExams: ScheduleExam[] = [];
   patients: ExamForPatient[] = [];
   doctorLbz: string = '';
   nurseDepartmentPbo: string = '';
@@ -39,9 +40,10 @@ export class NurseWorkspaceComponent implements OnInit {
   ceka: PatientArrival = PatientArrival.CEKA;
 
   constructor(private examinationService: ExaminationService,
-              private patientService: PatientService,
-              private userService: UserService) {
-      this.selectedStatus = PatientArrival.ZAKAZANO;
+    private patientService: PatientService,
+    private snackBar: SnackbarServiceService,
+    private userService: UserService) {
+    this.selectedStatus = PatientArrival.ZAKAZANO;
 
 
   }
@@ -62,26 +64,26 @@ export class NurseWorkspaceComponent implements OnInit {
 
   }
 
-  searchExams():void{
+  searchExams(): void {
     this.doctorLbz = this.selectedDoctor.lbz;
     console.log("izabrani doktor je " + this.doctorLbz)
     this.getSheduledExams();
   }
 
-  getNurseDepartment(): void{
+  getNurseDepartment(): void {
 
-    this.userService.getEmployee(this.lbz).subscribe(res => {},
+    this.userService.getEmployee(this.lbz).subscribe(res => { },
       err => {
         if (err.status == 302) { // found!
           this.nurseDepartmentPbo = err.error.department.pbo;
           console.log("department " + this.nurseDepartmentPbo)
           this.getDoctors()
         }
-    })
+      })
   }
 
-  getDoctors(): void{
-    this.examinationService.getDoctorsByDepartment(this.nurseDepartmentPbo).subscribe(res=>{
+  getDoctors(): void {
+    this.examinationService.getDoctorsByDepartment(this.nurseDepartmentPbo).subscribe(res => {
       this.doctors = res
       console.log(this.doctors)
     })
@@ -102,7 +104,7 @@ export class NurseWorkspaceComponent implements OnInit {
 
   getSheduledExams(): void {
 
-    this.patients =[]
+    this.patients = []
 
     // this.examinationService.getScheduledExaminationsPagedNurse(this.page, this.pageSize).subscribe((response) => {
     //   this.schedulePage = response
@@ -158,7 +160,7 @@ export class NurseWorkspaceComponent implements OnInit {
         patients.forEach((patient, i) => {
           // Svi pacijenti su kod E0006 a nemamo tog doktora
           console.log("moj " + this.scheduledExams[i].doctorLbz + " I " + this.doctorLbz)
-          if(this.scheduledExams[i].lbz == this.doctorLbz){
+          if (this.scheduledExams[i].lbz == this.doctorLbz) {
 
             const examForPatient: ExamForPatient = {
               id: this.scheduledExams[i].id,
@@ -177,7 +179,9 @@ export class NurseWorkspaceComponent implements OnInit {
             this.patients.push(examForPatient);
           }
         });
-
+        if(this.patients.length == 0){
+          this.snackBar.openWarningSnackBar("Nema pacijenata")
+        }
         // sort patients array by examDate
         this.patients.sort((a, b) => {
           return new Date(a.examDate).getTime() - new Date(b.examDate).getTime();
@@ -188,13 +192,13 @@ export class NurseWorkspaceComponent implements OnInit {
 
   }
 
-  changeStatus(patient : ExamForPatient){
+  changeStatus(patient: ExamForPatient) {
 
-    if(!confirm('Da li ste sigurni da želite da izmenite status?')){
+    if (!confirm('Da li ste sigurni da želite da izmenite status?')) {
       return;
     }
 
-    console.log("arrival "+ patient.patientArrival)
+    console.log("arrival " + patient.patientArrival)
     console.log(patient.id);
 
     // if(this.selectedStatus ==0 ){
@@ -217,12 +221,15 @@ export class NurseWorkspaceComponent implements OnInit {
     //   })
     // }
 
-    this.examinationService.updatePatientStatus(patient.id, patient.patientArrival).subscribe(res=>{
+    this.examinationService.updatePatientStatus(patient.id, patient.patientArrival).subscribe(res => {
       console.log(res)
+      this.snackBar.openSuccessSnackBar("Uspesno!")
+    }, err => {
+      this.snackBar.openErrorSnackBar("Greska!")
     })
 
-    console.log("status "+this.selectedStatus)
-    console.log("id "+patient.id)
+    console.log("status " + this.selectedStatus)
+    console.log("id " + patient.id)
 
 
     this.getSheduledExams();

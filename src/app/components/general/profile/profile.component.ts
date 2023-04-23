@@ -4,11 +4,12 @@ import { UserService } from "../../../services/user-service/user.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
     userEdit: AdminPromeniZaposlenog;
@@ -26,7 +27,7 @@ export class ProfileComponent implements OnInit {
 
     department: string = '';
 
-    constructor(private userService: UserService, private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+    constructor(private userService: UserService, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
         this.userForm = this.formBuilder.group({
             name: ['', [Validators.required]],
             lastName: ['', [Validators.required]],
@@ -72,19 +73,19 @@ export class ProfileComponent implements OnInit {
 
     getDepartments(): void {
         this.userService.getDepartments().subscribe(result => {
-        this.departments = result;
-        }, err => {});
+            this.departments = result;
+        }, err => { });
     }
 
     getUser(LBZ: string): void {
-        this.userService.getEmployee(LBZ).subscribe(result => {},
-        err => {
-            if (err.status == 302) { // found!
-                this.userEdit = err.error;
-                this.department = this.userEdit.department.pbo
-                this.userForm.get('gender')?.setValue(this.userEdit.gender == 'true' ? true : false);
-            }
-        })
+        this.userService.getEmployee(LBZ).subscribe(result => { },
+            err => {
+                if (err.status == 302) { // found!
+                    this.userEdit = err.error;
+                    this.department = this.userEdit.department.pbo
+                    this.userForm.get('gender')?.setValue(this.userEdit.gender == 'true' ? true : false);
+                }
+            })
     }
 
     getUserPermissions(): void {
@@ -116,31 +117,31 @@ export class ProfileComponent implements OnInit {
             if (p.shortName == 'ROLE_ADMIN')
                 this.userPermissionDisplayed.admin = true;
             else if (p.shortName == 'ROLE_DR_SPEC_ODELJENJA')
-              this.userPermissionDisplayed.dr_spec_odeljenja = true;
+                this.userPermissionDisplayed.dr_spec_odeljenja = true;
             else if (p.shortName == 'ROLE_DR_SPEC')
                 this.userPermissionDisplayed.dr_spec = true;
             else if (p.shortName == 'ROLE_DR_SPEC_POV')
-              this.userPermissionDisplayed.dr_spec_pov = true;
+                this.userPermissionDisplayed.dr_spec_pov = true;
             else if (p.shortName == 'ROLE_MED_SESTRA')
                 this.userPermissionDisplayed.med_sestra = true;
             else if (p.shortName == 'ROLE_VISA_MED_SESTRA')
                 this.userPermissionDisplayed.visa_med_sestra = true;
             else if (p.shortName == 'ROLE_VISI_LAB_TEHNICAR')
-              this.userPermissionDisplayed.visi_lab_tehnicar = true;
+                this.userPermissionDisplayed.visi_lab_tehnicar = true;
             else if (p.shortName == 'ROLE_LAB_TEHNICAR')
-              this.userPermissionDisplayed.lab_tehnicar = true;
+                this.userPermissionDisplayed.lab_tehnicar = true;
             else if (p.shortName == 'ROLE_MED_BIOHEMICAR')
-              this.userPermissionDisplayed.med_biohemicar = true;
+                this.userPermissionDisplayed.med_biohemicar = true;
             else if (p.shortName == 'ROLE_SPEC_MED_BIOHEMIJE')
-              this.userPermissionDisplayed.spec_med_biohemije = true;
+                this.userPermissionDisplayed.spec_med_biohemije = true;
             console.log(p)
         }
     }
 
     saveUser(): void {
-        if(!this.validateFields())
+        if (!this.validateFields())
             return;
-        if(!this.populateAndValidatePermissions())
+        if (!this.populateAndValidatePermissions())
             return;
 
         console.log("uloge " + this.permissionsList)
@@ -163,11 +164,13 @@ export class ProfileComponent implements OnInit {
             this.department,
             this.permissionsList
         ).subscribe(response => {
-            console.log("[Debug]: USPEH " + response.name);
-            this.errorMessage = '';
-            this.showSuccessMessage("Uspesno sacuvan korisnik!");
-        }, err=>{
-            this.errorMessage="Mejl mora biti na domenu @ibis.rs";
+            // console.log("[Debug]: USPEH " + response.name);
+            // this.errorMessage = '';
+            // this.showSuccessMessage("Uspesno sacuvan korisnik!");
+            this.snackBar.openSuccessSnackBar("Uspesno sacuvan korisnik!")
+        }, err => {
+            // this.errorMessage = "Mejl mora biti na domenu @ibis.rs";
+            this.snackBar.openErrorSnackBar("Korisnik nije sacuvan!")
         })
 
         this.permissionsList = [];
@@ -208,7 +211,7 @@ export class ProfileComponent implements OnInit {
     validateFields(): boolean {
         var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
         form.classList.add('was-validated');
-        if(form.checkValidity() === false){
+        if (form.checkValidity() === false) {
             return false;
         }
         return true;
@@ -253,14 +256,15 @@ export class ProfileComponent implements OnInit {
     }
 
     populateAndValidatePermissions(): boolean {
-        if(this.userPermissionDisplayed.admin == true) this.permissionsList.push('ROLE_ADMIN');
-        if(this.userPermissionDisplayed.dr_spec == true) this.permissionsList.push('ROLE_DR_SPEC');
-        if(this.userPermissionDisplayed.dr_spec_pov == true) this.permissionsList.push('ROLE_DR_SPEC_POV');
-        if(this.userPermissionDisplayed.med_sestra == true) this.permissionsList.push('ROLE_MED_SESTRA');
-        if(this.userPermissionDisplayed.visa_med_sestra == true) this.permissionsList.push('ROLE_VISA_MED_SESTRA');
+        if (this.userPermissionDisplayed.admin == true) this.permissionsList.push('ROLE_ADMIN');
+        if (this.userPermissionDisplayed.dr_spec == true) this.permissionsList.push('ROLE_DR_SPEC');
+        if (this.userPermissionDisplayed.dr_spec_pov == true) this.permissionsList.push('ROLE_DR_SPEC_POV');
+        if (this.userPermissionDisplayed.med_sestra == true) this.permissionsList.push('ROLE_MED_SESTRA');
+        if (this.userPermissionDisplayed.visa_med_sestra == true) this.permissionsList.push('ROLE_VISA_MED_SESTRA');
 
         if (this.permissionsList.length == 0) {
-        this.errorMessage = 'Izaberi barem jednu privilegiju!';
+            // this.errorMessage = 'Izaberi barem jednu privilegiju!';
+            this.snackBar.openErrorSnackBar("Izaberi bar 1 privilegiju!")
             return false;
         }
         return true;

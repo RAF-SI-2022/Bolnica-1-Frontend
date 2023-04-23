@@ -14,7 +14,9 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 </head>
 <form [formGroup]="form" class="mb-5 needs-validation" novalidate>
 
@@ -25,19 +27,16 @@
 
       <div class="col-md-4 offset-2">
         <label class="labels">Od datuma</label>
-        <input [formControlName]="'dateFrom'" name = "dateFrom" type="date" class="form-control"
-               data-cy = "dateFrom" >
+        <input [formControlName]="'dateFrom'" name="dateFrom" type="date" class="form-control" data-cy="dateFrom">
       </div>
       <div class="col-md-4">
         <label class="labels">Do datuma</label>
-        <input [formControlName]="'dateTo'" type="date" class="form-control"
-               data-cy = "dateTo">
+        <input [formControlName]="'dateTo'" type="date" class="form-control" data-cy="dateTo">
       </div>
 
       <div class="col-md-4 offset-2">
         <label class="labels">LBP</label>
-        <input type="text" [formControlName]="'lbp'" name = "lbp" class="form-control"
-               data-cy = "lbp">
+        <input type="text" [formControlName]="'lbp'" name="lbp" class="form-control" data-cy="lbp">
       </div>
 
       <div class="col-md-4">
@@ -52,31 +51,33 @@
       </div>
 
       <div class="mt-4 text-center">
-        <button (click)="getWorkOrders()" class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
+        <button (click)="getWorkOrders()" class="btn btn-primary" type="submit" data-toggle="collapse"
+          data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+          data-cy="pretrazi">Pretrazi</button>
       </div>
 
       <div class="row py-5">
         <table class="table table-hover" data-cy="table">
           <thead>
-          <tr>
-            <th>ID radnog naloga</th>
-            <th>Datum i vreme kreiranja</th>
-            <th>LBP pacijenta</th>
-            <th>Status obrade</th>
-            <th>LBZ tehničara</th>
-          </tr>
+            <tr>
+              <th>ID radnog naloga</th>
+              <th>Datum i vreme kreiranja</th>
+              <th>LBP pacijenta</th>
+              <th>Status obrade</th>
+              <th>LBZ tehničara</th>
+            </tr>
           </thead>
 
           <tbody>
-          <tr
-            *ngFor="let workOrder of workOrdersList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
-            (click)="onRowClick(workOrder)">
-            <td>{{workOrder.id}}</td>
-            <td>{{workOrder.creationDateTime |date:'dd-MM-Y'}}</td>
-            <td>{{workOrder.lbp}}</td>
-            <td>{{workOrder.status}}</td>
-            <td>{{workOrder.technicianLbz}}</td>
-          </tr>
+            <tr
+              *ngFor="let workOrder of workOrdersList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
+              (click)="onRowClick(workOrder)">
+              <td>{{workOrder.id}}</td>
+              <td>{{workOrder.creationDateTime |date:'dd-MM-Y'}}</td>
+              <td>{{workOrder.lbp}}</td>
+              <td>{{workOrder.status}}</td>
+              <td>{{workOrder.technicianLbz}}</td>
+            </tr>
           </tbody>
 
         </table>
