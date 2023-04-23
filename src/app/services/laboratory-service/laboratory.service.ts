@@ -98,7 +98,6 @@ export class LaboratoryService {
     let httpParams = new HttpParams()
     const date = new Date(datee)
     if(lbp == '') {
-      console.log("Sta salje")
       httpParams
         .append("startDate", date.getTime())
         .append("endDate", date.getTime())
@@ -106,7 +105,6 @@ export class LaboratoryService {
         .append("size", size);
       console.log("dateeee " + date.getTime())
     }else{
-      console.log("A SADDDDDD" + lbp)
 
         httpParams
           .append("lbp", lbp)

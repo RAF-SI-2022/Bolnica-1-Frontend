@@ -185,13 +185,11 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
     onTableDataChange(event: any): void {
         this.page = event;
-        //ili ????? ger Examination
         this.findExaminations();
     }
 
   onTableDataChangeSecond(event: any): void {
     this.page = event;
-    //ili ????? ger Examination
     this.listScheduledExaminations();
   }
 
