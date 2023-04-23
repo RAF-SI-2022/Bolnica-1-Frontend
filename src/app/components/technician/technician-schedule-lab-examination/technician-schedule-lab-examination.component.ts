@@ -122,6 +122,8 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
         if(this.rawLabararatoryPrescriptions.length == 0){
           this.snackBar.openWarningSnackBar("Nema nerealizovanih uputa")
         }
+      }, err =>{
+        this.snackBar.openErrorSnackBar("Greska")
       })
   }
 
@@ -141,6 +143,8 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
       this.scheduledLabExaminationPage = response
       this.scheduledLabExaminations = this.scheduledLabExaminationPage.content
       this.totalView = this.scheduledLabExaminationPage.totalElements
+    }, err => {
+      this.snackBar.openErrorSnackBar("Greska")
     })
 
   }

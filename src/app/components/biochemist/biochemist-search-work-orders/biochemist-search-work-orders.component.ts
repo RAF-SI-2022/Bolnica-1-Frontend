@@ -10,6 +10,7 @@ import { OrderStatus } from "../../../models/laboratory-enums/OrderStatus";
 import { AnalysisParameter } from "../../../models/laboratory/AnalysisParameter";
 import { Page } from "../../../models/models";
 import { LabWorkOrderNew } from "../../../models/laboratory/LabWorkOrderNew";
+import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 
 @Component({
   selector: 'app-biochemist-search-work-orders',
@@ -32,7 +33,7 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit {
   form: FormGroup;
 
   constructor(private patientService: PatientService, private authService: AuthService,
-    private laboratoryService: LaboratoryService, private router: Router,
+    private laboratoryService: LaboratoryService, private router: Router, private snackBar: SnackbarServiceService,
     private formBuilder: FormBuilder,) {
 
     this.form = this.formBuilder.group({
@@ -64,6 +65,11 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit {
         this.workOrdersPage = res
         this.workOrdersList = this.workOrdersPage.content
         this.total = this.workOrdersPage.totalElements
+        if(this.workOrdersList.length == 0){
+          this.snackBar.openWarningSnackBar("Nema radnih naloga")
+        }
+      }, err => {
+        this.snackBar.openErrorSnackBar("Greska")
       })
   }
 

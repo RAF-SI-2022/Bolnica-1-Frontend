@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { PatientArrival } from "../../../models/laboratory-enums/PatientArrival";
 import { event } from 'cypress/types/jquery';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { first } from 'cypress/types/lodash';
 
 
 L10n.load({
@@ -74,7 +75,7 @@ export class NurseScheduleAppointmentComponent implements OnInit {
   patientPage: Page<Patient> = new Page<Patient>()
 
   editMenu: boolean = false;
-
+  firstTimeErrorCheck = true;
   constructor(private patientService: PatientService, private snackBar: SnackbarServiceService, private userService: UserService, private examinationService: ExaminationService) {
 
   }
@@ -154,7 +155,9 @@ export class NurseScheduleAppointmentComponent implements OnInit {
 
       this.scheduleObj?.deleteEvent(this.scheduleObj?.eventsData)
       this.responseExams = res;
-
+      if(this.responseExams.length == 0){
+        this.snackBar.openWarningSnackBar("Nema zakazanih pregleda")
+      }
       this.responseExams.forEach(event => {
         // this.scheduleObj?.appendTo('#schedule');
         if (event.patientArrival.toString() !== 'OTKAZANO') {
@@ -182,6 +185,11 @@ export class NurseScheduleAppointmentComponent implements OnInit {
 
 
       });
+    }, err => {
+      if(!this.firstTimeErrorCheck){
+        this.snackBar.openErrorSnackBar("Greska!")
+      }
+      this.firstTimeErrorCheck = false;
     });
 
   }
@@ -200,8 +208,11 @@ export class NurseScheduleAppointmentComponent implements OnInit {
 
 
     this.examinationService.createExamination(this.selectedDateTime, this.selectedDoctor, this.patient, this.note).subscribe(res => {
-      console.log(res)
-      this.snackBar.openSuccessSnackBar("Uspesno!")
+      console.log(res)         
+      this.scheduleObj?.addEvent(eventData);
+      this.scheduleObj?.refresh();
+      this.scheduleObj?.closeEditor();
+      this.snackBar.openSuccessSnackBar("Uspesno!") 
     }, err => {
       this.snackBar.openErrorSnackBar("Greska!")
     })
@@ -210,9 +221,6 @@ export class NurseScheduleAppointmentComponent implements OnInit {
     // console.log(eventData.EndTime)
     // console.log(eventData.Id)
 
-    this.scheduleObj?.addEvent(eventData);
-    this.scheduleObj?.refresh();
-    this.scheduleObj?.closeEditor();
 
   }
 
@@ -223,6 +231,10 @@ export class NurseScheduleAppointmentComponent implements OnInit {
   public onPopupOpen(args: PopupOpenEventArgs): void {
     if (args.type === 'QuickInfo') {
       args.cancel = true;
+      if(this.selectedDoctor.length == 0){
+        this.snackBar.openWarningSnackBar("Izaberite doktora")
+        return;
+      }
       let data = args.data as { [key: string]: Object };
       if (!this.updateEJSView()) {
         this.scheduleObj?.openEditor(data, 'Add');
@@ -266,7 +278,7 @@ export class NurseScheduleAppointmentComponent implements OnInit {
     }
 
   }
-  onEdit(): void {
+  onDelete(): void {
     // TODO: Sta da se desi kada se klikne izmeni se pise ovde
   }
 

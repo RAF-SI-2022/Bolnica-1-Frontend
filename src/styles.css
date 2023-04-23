@@ -1237,7 +1237,7 @@ SNACKBAR
 
 .success-snackbar {
   color: white;
-  --mdc-snackbar-container-color: green;
+  --mdc-snackbar-container-color: 66bb6a;
 }
 .success-snackbar button {
   color: white;
@@ -1252,7 +1252,7 @@ SNACKBAR
 .error-snackbar {
   max-width: max-content !important;
   color: white;
-  --mdc-snackbar-container-color: red;
+  --mdc-snackbar-container-color: #f44336;
   border-color: #f5c6cb;
 }
 
@@ -1267,7 +1267,7 @@ SNACKBAR
 .warning-snackbar {
   max-width: max-content !important;
   color: white;
-  --mdc-snackbar-container-color: orange;
+  --mdc-snackbar-container-color: #29b6f6;
   border-color: #f5c6cb;
 }
 

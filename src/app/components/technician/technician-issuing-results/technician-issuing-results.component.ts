@@ -48,6 +48,11 @@ export class TechnicianIssuingResultsComponent implements OnInit {
       this.labWorkOrderPage = response;
       this.labWorkOrderList = this.labWorkOrderPage.content;
       this.total = this.labWorkOrderPage.totalElements
+      if(this.labWorkOrderList.length == 0){
+        this.snackBar.openWarningSnackBar("Nema uputa")
+      }
+    }, err => {
+      this.snackBar.openErrorSnackBar("Greska")
     });
   }
 

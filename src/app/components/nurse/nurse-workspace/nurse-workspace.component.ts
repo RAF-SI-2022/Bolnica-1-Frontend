@@ -179,7 +179,9 @@ export class NurseWorkspaceComponent implements OnInit {
             this.patients.push(examForPatient);
           }
         });
-
+        if(this.patients.length == 0){
+          this.snackBar.openWarningSnackBar("Nema pacijenata")
+        }
         // sort patients array by examDate
         this.patients.sort((a, b) => {
           return new Date(a.examDate).getTime() - new Date(b.examDate).getTime();

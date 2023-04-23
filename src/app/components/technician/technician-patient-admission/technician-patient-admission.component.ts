@@ -49,11 +49,15 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
   getListScheduledEexaminations(): void {
     if (this.page == 0)
       this.page = 1;
-
     this.laboratoryService.listScheduledExaminationsByLbp(this.lbp, new Date(), this.page - 1, this.PAGE_SIZE).subscribe((response) => {
       this.scheduledLabExaminationPage = response
       this.scheduledLabExaminationList = this.scheduledLabExaminationPage.content
       this.total = this.scheduledLabExaminationPage.totalElements
+      if(this.scheduledLabExaminationList.length == 0){
+        this.snackBar.openWarningSnackBar("Nema pacijenata")
+      }
+    }, err =>{
+      this.snackBar.openErrorSnackBar("Greska")
     });
   }
   cancellation(id: number) {
