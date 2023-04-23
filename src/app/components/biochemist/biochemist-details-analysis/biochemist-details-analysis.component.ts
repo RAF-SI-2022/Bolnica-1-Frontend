@@ -61,13 +61,15 @@ export class BiochemistDetailsAnalysisComponent implements OnInit{
     this.lbz = localStorage.getItem("LBZ")
     console.log("lbz " + this.lbz)
 
+    //mora preko state jer je na beku u dto lbp long umesto string
+
     // OTKOMENTARISATI KAD PRORADI STRANICA
 
     /*
     this.lbp = this.currentLabWorkOrder.lbp
     this.biochemistLbzVerified = this.currentLabWorkOrder.biochemistLbz
 
-    if(this.currentLabWorkOrder.status.toString() == OrderStatus.OBRADJEN.toString()){
+    if(this.currentLabWorkOrder.status == 'OBRADJEN'){
       this.obradjen = true
     }
 

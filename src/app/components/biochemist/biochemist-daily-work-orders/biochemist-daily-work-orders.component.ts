@@ -33,7 +33,15 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
 
 
   getWorkOrders(): void{
-    this.laboratoryService.findWorkOrders('', new Date(), new Date(),
+
+    const startOfDAY = new Date()
+    startOfDAY.setHours(0, 0, 0, 0)
+
+    const endOfDay = new Date()
+    endOfDay.setHours(23, 59, 59, 999)
+
+
+    this.laboratoryService.findWorkOrders('', startOfDAY, endOfDay,
       OrderStatus.NEOBRADJEN.toString(), this.pageLaboratory, this.pageSize)
       .subscribe(res=>{
         this.labWorkOrderPage = res
