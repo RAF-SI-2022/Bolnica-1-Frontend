@@ -56,9 +56,9 @@
                  *ngFor="let labWorkOrder of labWorkOrderList | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total};  let i = index" >
                  <td>{{labWorkOrder.id}}</td>
                  <td>{{labWorkOrder.prescription.id}}</td>
-                 <td>{{labWorkOrder.creationDateTime}}</td>
+                 <td>{{labWorkOrder.creationDateTime |date:'dd-MM-Y'}}</td>
                  <td>{{labWorkOrder.status}}</td>
-                 <td *ngIf="labWorkOrder.status.toString == obradjen.toString">
+                 <td *ngIf="labWorkOrder.status == 'OBRADJEN'">
                    <a (click)="navigateToDetails(labWorkOrder)" class="settings" title="Podesavanja" data-toggle="tooltip"><i
                      class="bi bi-gear-fill"></i></a>
                  </td>

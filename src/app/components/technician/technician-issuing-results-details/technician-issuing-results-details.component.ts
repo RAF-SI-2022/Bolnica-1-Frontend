@@ -34,6 +34,8 @@ export class TechnicianIssuingResultsDetailsComponent {
   ngOnInit(): void {
 
     this.workOrderId =parseInt( <string>this.route.snapshot.paramMap.get('id'));
+
+    console.log(this.workOrderId)
     this.getLabWorkOrderWithAnalysis();
 
   }
@@ -49,6 +51,9 @@ export class TechnicianIssuingResultsDetailsComponent {
           this.parameterAnalysisResults = this.labWorkOrderWithAnalysis.parameterAnalysisResults
         }
       })
+
+    console.log(this.labWorkOrderWithAnalysis)
+    console.log(this.parameterAnalysisResults)
 
   }
 

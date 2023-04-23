@@ -21,6 +21,9 @@ import {Patient} from "../../../models/patient/Patient";
 })
 export class DoctorCreateReferralComponent implements OnInit{
 
+    successMessage: string = '';
+    errorMessage: string = '';
+
     selectedOption: string = '';
     departmentFromId: number = 0;
     departmentToId: number = 0;
@@ -121,6 +124,11 @@ export class DoctorCreateReferralComponent implements OnInit{
     }
 
     confirmUput(): void {
+
+      if(!confirm('Da li ste sigurni da želite da napravite uput?')){
+        return;
+      }
+
         const referral = this.referralForm.value;
         console.log("uput potvrdjen");
         console.log(this.selectedAnalysis);
@@ -141,6 +149,13 @@ export class DoctorCreateReferralComponent implements OnInit{
         this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArray
       ).subscribe(res=>{
           console.log(res)
+          this.errorMessage = '';
+          this.successMessage = 'Uspesno dodat uput!';
+        }, error=>{
+          console.log("Error " + error.status);
+          this.successMessage = '';
+          this.errorMessage = 'ERROR: Uput nije kreiran!';
+
         }
       );
 

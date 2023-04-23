@@ -312,7 +312,7 @@
                           </div>
 
                           <div class="col-6 mt-3">
-                            <label for="ustanova1">Odeljenje na koje se upucuje:</label>
+                            <label for="department">Odeljenje na koje se upucuje:</label>
                             <select [(ngModel)]="selectedDepartment" id="department" name="department" class="form-select" aria-label="Default select example"
                                     data-cy="department" (change)="onDepartmentSelected($event)">
                               <option *ngFor="let item of departments" [value]="item.name">{{item.name}}</option>
@@ -357,6 +357,14 @@
                           <button type="submit" (click)="confirmUput()" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da napravite uput?')">Dodaj</button>
                         </div>
                       </div>
+                    </div>
+
+                    <div *ngIf="errorMessage.length != 0" class="mt-4 text-center">
+                      <label style="color: red"> Neuspeh: {{ errorMessage }} </label>
+                    </div>
+
+                    <div *ngIf="successMessage.length != 0" class="mt-4 text-center">
+                      <label style="color: green" > {{ successMessage }} </label>
                     </div>
 
 

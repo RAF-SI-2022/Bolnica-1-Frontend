@@ -108,14 +108,14 @@ export class NurseWorkspaceComponent implements OnInit {
     //   this.schedulePage = response
     //   this.scheduledExams = this.schedulePage.content
     //   this.total = this.schedulePage.totalElements
-      
-    
-    
+
+
+
     //   this.scheduledExams.forEach(exam => {
     //     this.patientService.getPatientByLbp(exam.lbp).subscribe(patient => {
-    
-          
-    
+
+
+
     //       const examForPatient: ExamForPatient = {
     //         id: exam.id,
     //         lbp: exam.lbp,
@@ -126,19 +126,19 @@ export class NurseWorkspaceComponent implements OnInit {
     //         patientArrival: exam.patientArrival,
     //         examDate: exam.dateAndTime
     //       };
-    
+
     //       this.patients.push(examForPatient);
-    
+
     //     });
     //   });
-    
+
     // })
 
     // this.examinationService.getScheduledExaminations(this.doctorLbz, new Date())
     //   .subscribe(res =>{
     //     this.scheduledExams = res;
-    
-    
+
+
     //   });
 
 
@@ -170,12 +170,12 @@ export class NurseWorkspaceComponent implements OnInit {
               patientArrival: this.scheduledExams[i].patientArrival,
               examDate: this.scheduledExams[i].dateAndTime
             };
-  
+
             console.log(examForPatient.patientArrival)
             console.log()
             console.log("radim fork join " + examForPatient.lbp)
             this.patients.push(examForPatient);
-          }  
+          }
         });
 
         // sort patients array by examDate
@@ -189,6 +189,10 @@ export class NurseWorkspaceComponent implements OnInit {
   }
 
   changeStatus(patient : ExamForPatient){
+
+    if(!confirm('Da li ste sigurni da želite da izmenite status?')){
+      return;
+    }
 
     console.log("arrival "+ patient.patientArrival)
     console.log(patient.id);

@@ -44,9 +44,9 @@
 
         <label class="labels">Status obrade:</label>
         <select [formControlName]="'selectedStatus'" class="form-control">
-          <option>NEOBRADJEN</option>
-          <option>U_OBRADI</option>
-          <option>OBRADJEN</option>
+          <option value="NEOBRADJEN">NEOBRADJEN</option>
+          <option value="U_OBRADI">U_OBRADI</option>
+          <option value="OBRADJEN">OBRADJEN</option>
         </select>
 
       </div>
@@ -72,7 +72,7 @@
             *ngFor="let workOrder of workOrdersList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
             (click)="onRowClick(workOrder)">
             <td>{{workOrder.id}}</td>
-            <td>{{workOrder.creationDateTime}}</td>
+            <td>{{workOrder.creationDateTime |date:'dd-MM-Y'}}</td>
             <td>{{workOrder.lbp}}</td>
             <td>{{workOrder.status}}</td>
             <td>{{workOrder.technicianLbz}}</td>
