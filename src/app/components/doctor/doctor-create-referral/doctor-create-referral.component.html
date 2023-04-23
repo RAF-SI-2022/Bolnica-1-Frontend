@@ -288,30 +288,28 @@
     <div class="tab-content pt-2" id="borderedTabJustifiedContent">
       <div class="tab-pane active show" id="bordered-justified-patient" role="tabpanel" aria-labelledby="patient-tab">
         <div class="row">
-          <form [formGroup]="referralForm" class="mb-5 needs-validation" novalidate>
 
+            <form [formGroup]="referralForm"  class="mb-5 needs-validation" novalidate>
+              <div class="card basic">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-6">
+                            <label>Odaberite laboratorijske analize:</label>
+                            <select [(ngModel)]="selectedAnalysis" [formControlName]="'analysis'" id="analysis" name="analysis" class="form-select" aria-label="Default select example" data-cy="analysis">
+                              <option *ngFor="let item of analysisSaBeka" [value]="item.id">{{item.analysisName}}</option>
+                            </select>
+                          </div>
+                          <div class="col-12 mt-3">
+                            <button class="btn btn-outline-primary" (click)="getParams()">Dodaj parametre</button>
+                          </div>
+                          <div class="col-12 mt-3">
+                            <label class="labels">Komentar</label>
+                            <input name="comment" [formControlName]="'comment'" type="text" class="form-control" id="comment" placeholder="Unesite opcioni komentar" value="">
+                          </div>
 
-            <div class="card basic">
-              <div class="card-body">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="row">
-                        <div class="col-6">
-                          <label>Odaberite laboratorijske analize:</label>
-                          <select [(ngModel)]="selectedAnalysis" [formControlName]="'analysis'" id="analysis"
-                            name="analysis" class="form-select" aria-label="Default select example" data-cy="analysis">
-                            <option *ngFor="let item of analysisSaBeka" [value]="item.id">{{item.analysisName}}</option>
-                          </select>
-                        </div>
-                        <div class="col-12 mt-3">
-                          <button class="btn btn-outline-primary" (click)="getParams()">Dodaj parametre</button>
-                        </div>
-                        <div class="col-12 mt-3">
-                          <label class="labels">Komentar</label>
-                          <input name="comment" [formControlName]="'comment'" type="text" class="form-control"
-                            id="comment" placeholder="Unesite opcioni komentar" value="">
-                        </div>
 
                         <div class="col-6 mt-3">
                           <label for="department">Odeljenje na koje se upucuje:</label>
@@ -357,11 +355,13 @@
 
                   </div>
 
+
                   <div class="d-flex justify-content-center align-items-center">
                     <div class="row mt-3">
                       <div class="col-md-4">
                         <button type="submit" (click)="confirmUput()" class="btn btn-primary"
                           onclick="return confirm('Da li ste sigurni da želite da napravite uput?')">Dodaj</button>
+
                       </div>
                     </div>
                   </div>

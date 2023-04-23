@@ -95,15 +95,25 @@ export class LaboratoryService {
    *
    * */
   listScheduledExaminationsByLbp(lbp: string, datee: Date,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
-
-    const date = new Date(datee)
-
     let httpParams = new HttpParams()
-      .append("lbp",lbp)
-      .append("startDate",date.getTime())
-      .append("endDate",date.getTime())
-      .append("page",page)
-      .append("size",size);
+    const date = new Date(datee)
+    if(lbp == '') {
+      httpParams
+        .append("startDate", date.getTime())
+        .append("endDate", date.getTime())
+        .append("page", page)
+        .append("size", size);
+      console.log("dateeee " + date.getTime())
+    }else{
+
+        httpParams
+          .append("lbp", lbp)
+          .append("startDate", date.getTime())
+          .append("endDate", date.getTime())
+          .append("page", page)
+          .append("size", size);
+
+    }
 
     return this.http.get<Page<ScheduledLabExamination>>(
       `${environmentLaboratory.apiURL}/examinations/list-scheduled-examinations/by-lbp-date`,
