@@ -322,6 +322,7 @@ export class LaboratoryService {
 
     return this.http.put<HttpStatusCode>(
       `${environmentLaboratory.apiURL}/work-orders/${workOrderId}/${parameterAnalysisId}/update`,
+      {},
       { params: httpParams, headers: this.getHeaders()}
     );
   }
@@ -353,12 +354,5 @@ export class LaboratoryService {
       .append("size", size)
     return this.http.get<Page<Patient>>(`${environmentLaboratory.apiURL}/prescription/patients_lab`, { params: httpParams, headers: this.getHeaders() });
   }
-
-
-
-
-
-
-
 
 }

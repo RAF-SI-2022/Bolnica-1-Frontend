@@ -1,20 +1,21 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../../../services/auth.service";
-import {UserService} from "../../../services/user-service/user.service";
-import {PatientService} from "../../../services/patient-service/patient.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {LaboratoryService} from "../../../services/laboratory-service/laboratory.service";
-import {Page} from "../../../models/models";
-import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
-import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from "../../../services/auth.service";
+import { UserService } from "../../../services/user-service/user.service";
+import { PatientService } from "../../../services/patient-service/patient.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { LaboratoryService } from "../../../services/laboratory-service/laboratory.service";
+import { Page } from "../../../models/models";
+import { LabWorkOrderNew } from "../../../models/laboratory/LabWorkOrderNew";
+import { OrderStatus } from "../../../models/laboratory-enums/OrderStatus";
+import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 
 @Component({
   selector: 'app-technician-issuing-results',
   templateUrl: './technician-issuing-results.component.html',
   styleUrls: ['./technician-issuing-results.component.css']
 })
-export class TechnicianIssuingResultsComponent  implements OnInit {
+export class TechnicianIssuingResultsComponent implements OnInit {
 
   form: FormGroup;
   page = 0;
@@ -25,7 +26,7 @@ export class TechnicianIssuingResultsComponent  implements OnInit {
 
   obradjen: OrderStatus = OrderStatus.OBRADJEN;
 
-  constructor(private laboratoryServis:LaboratoryService, private authService: AuthService, private userService:UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
+  constructor(private laboratoryServis: LaboratoryService, private snackBar: SnackbarServiceService, private authService: AuthService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
     this.form = this.formBuilder.group({
       lbp: ['', [Validators.required]],
       from: ['', [Validators.required]],
@@ -36,10 +37,10 @@ export class TechnicianIssuingResultsComponent  implements OnInit {
   ngOnInit(): void {
   }
 
-  findWorkOrders(){
+  findWorkOrders() {
     const workOrder = this.form.value;
 
-    if(!this.validateFields){
+    if (!this.validateFields) {
       return;
     }
     console.log("usao u findWorkOrders u tsu")
@@ -53,7 +54,7 @@ export class TechnicianIssuingResultsComponent  implements OnInit {
   validateFields(): boolean {
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     form.classList.add('was-validated');
-    if(form.checkValidity() === false){
+    if (form.checkValidity() === false) {
       return false;
     }
     return true;

@@ -1,15 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {PatientService} from "../../../services/patient-service/patient.service";
-import {Patient} from "../../../models/patient/Patient";
-import {Page, Zaposleni} from "../../../models/models";
-import {Router} from "@angular/router";
-import {UserService} from "../../../services/user-service/user.service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { PatientService } from "../../../services/patient-service/patient.service";
+import { Patient } from "../../../models/patient/Patient";
+import { Page, Zaposleni } from "../../../models/models";
+import { Router } from "@angular/router";
+import { UserService } from "../../../services/user-service/user.service";
+import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 
 @Component({
-  selector: 'app-nurse-search-patients',
-  templateUrl: './nurse-search-patients.component.html',
-  styleUrls: ['./nurse-search-patients.component.css']
+    selector: 'app-nurse-search-patients',
+    templateUrl: './nurse-search-patients.component.html',
+    styleUrls: ['./nurse-search-patients.component.css']
 })
 export class NurseSearchPatientsComponent implements OnInit {
     deleted = false;
@@ -29,7 +30,8 @@ export class NurseSearchPatientsComponent implements OnInit {
         private patientService: PatientService,
         private formBuilder: FormBuilder,
         private router: Router,
-        private userService: UserService
+        private userService: UserService,
+        private snackBar: SnackbarServiceService
     ) {
         this.searchForm = this.formBuilder.group({
             name: '',
@@ -40,12 +42,12 @@ export class NurseSearchPatientsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-      this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.PAGE_SIZE)
-        .subscribe((response) => {
-          this.patientPage = response
-          this.patientList = this.patientPage.content
-          this.total = this.patientPage.totalElements
-        })
+        this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.PAGE_SIZE)
+            .subscribe((response) => {
+                this.patientPage = response
+                this.patientList = this.patientPage.content
+                this.total = this.patientPage.totalElements
+            })
         this.userService.checkRole("ROLE_VISA_MED_SESTRA").subscribe(res => {
             this.rolaVisaMedSestra = res;
         });
@@ -55,6 +57,9 @@ export class NurseSearchPatientsComponent implements OnInit {
         if (confirm(`Da li ste sigurni da zelite da obrisite pacijenta ${LBP}?`)) {
             this.patientService.deletePatient(LBP).subscribe(() => {
                 this.getPatientList();
+                this.snackBar.openSuccessSnackBar("Uspesno obrisan!")
+            }, err => {
+                this.snackBar.openErrorSnackBar("Greska prilikom brisanja!")
             });
         }
     }
@@ -64,10 +69,10 @@ export class NurseSearchPatientsComponent implements OnInit {
     }
 
     getPatientList(): void {
-      if(this.page == 0)
-        this.page = 1;
+        if (this.page == 0)
+            this.page = 1;
 
-        this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page-1, this.PAGE_SIZE).subscribe((response) => {
+        this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page - 1, this.PAGE_SIZE).subscribe((response) => {
             this.patientPage = response;
             this.patientList = this.patientPage.content;
             this.total = this.patientPage.totalElements;

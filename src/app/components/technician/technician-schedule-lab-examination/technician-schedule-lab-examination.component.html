@@ -57,12 +57,12 @@
                         <table class="table table-hover" data-cy="table1">
                           <thead>
 
-                          <tr>
+                          <tr style="text-align: center;">
                             <th>ID uputa</th>
                             <th>Tip</th>
                             <th>ID lekara</th>
-                            <th>ID odeljenja iz</th>
-                            <th>ID odeljenja ka</th>
+                            <th>Iz odeljenja</th>
+                            <th>Ka odeljenju</th>
                             <th>LBP</th>
                             <th>Datum i vreme kreiranja</th>
                             <th>Status</th>
@@ -82,7 +82,7 @@
                             <td>{{prescription.departmentToId}}</td>
                             <td>{{prescription.departmentFromId}}</td>
                             <td>{{prescription.lbp}}</td>
-                            <td>{{prescription.creationDateTime}}</td>
+                            <td>{{ prescription.creationDateTime | date: 'HH:mm dd.MM.yyyy' }}</td>
                             <td>{{prescription.status}}</td>
                             <td>
                               <div *ngFor="let analysisData of prescription.prescriptionAnalysisDataDtoList">

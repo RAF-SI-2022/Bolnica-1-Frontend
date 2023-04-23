@@ -14,9 +14,11 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 </head>
-<form  class="mb-5 needs-validation" novalidate>
+<form class="mb-5 needs-validation" novalidate>
 
   <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
 
@@ -40,48 +42,54 @@
       </div>
 
 
+
       <div *ngIf="obradjen==false" class="mt-4 text-center">
-        <button (click)="verifyWorkOrder()" class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="verifikuj">Verifikuj</button>
+        <button (click)="verifyWorkOrder()" class="btn btn-primary" type="submit" data-toggle="collapse"
+          data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+          data-cy="verifikuj">Verifikuj</button>
       </div>
 
       <div class="row py-5">
         <table class="table table-hover" data-cy="table">
           <thead>
-          <tr>
-            <th>ID analize</th>
-            <th>Skraćenica analize</th>
-            <th>ID parametra</th>
-            <th>Naziv parametra</th>
-            <th>Rezultat</th>
-            <th>Jedinica mere</th>
-            <th>Donja granica</th>
-            <th>Gornja granica</th>
-            <th>Biohemičar</th>
-            <th *ngIf="obradjen==false">Akcija <th>
-          </tr>
+            <tr>
+              <th>ID analize</th>
+              <th>Skraćenica analize</th>
+              <th>ID parametra</th>
+              <th>Naziv parametra</th>
+              <th>Rezultat</th>
+              <th>Jedinica mere</th>
+              <th>Donja granica</th>
+              <th>Gornja granica</th>
+              <th>Biohemičar</th>
+              <th *ngIf="obradjen==false">Akcija
+              <th>
+            </tr>
           </thead>
           <tbody>
 
-          <tr *ngFor="let p of parameterAnalysisResults">
-            <td>{{p.labAnalysis.id}}</td>
-            <td>{{p.labAnalysis.abbreviation}}</td>
-            <td>{{p.parameter.id}}</td>
-            <td>{{p.parameter.parameterName}}</td>
-            <td *ngIf="obradjen==false">
-              <input [(ngModel)]="p.result" name="rezultat" type="text" class="form-control" data-cy="rezultat">
-            </td>
-            <td *ngIf="obradjen==true">
-              {{p.result}}
-            </td>
-            <td>{{p.parameter.unitOfMeasure}}</td>
-            <td>{{p.parameter.lowerLimit}}</td>
-            <td>{{p.parameter.upperLimit}}</td>
-            <td>{{p.lbzBiochemist}}</td>
-            <td *ngIf="obradjen==false">
-              <button (click)="saveChanges(p.id, p.result)"  class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="sacuvaj">Sacuvaj</button>
-            </td>
+            <tr *ngFor="let p of parameterAnalysisResults">
+              <td>{{p.labAnalysis.id}}</td>
+              <td>{{p.labAnalysis.abbreviation}}</td>
+              <td>{{p.parameter.id}}</td>
+              <td>{{p.parameter.parameterName}}</td>
+              <td *ngIf="obradjen==false">
+                <input [(ngModel)]="p.result" name="rezultat" type="text" class="form-control" data-cy="rezultat">
+              </td>
+              <td *ngIf="obradjen==true">
+                {{p.result}}
+              </td>
+              <td>{{p.parameter.unitOfMeasure}}</td>
+              <td>{{p.parameter.lowerLimit}}</td>
+              <td>{{p.parameter.upperLimit}}</td>
+              <td>{{p.lbzBiochemist}}</td>
+              <td *ngIf="obradjen==false">
+                <button (click)="saveChanges(p.id, p.result)" class="btn btn-primary" type="submit"
+                  data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                  data-cy="sacuvaj">Sacuvaj</button>
+              </td>
 
-          </tr>
+            </tr>
 
           </tbody>
         </table>

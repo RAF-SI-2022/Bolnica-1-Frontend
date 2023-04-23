@@ -11,6 +11,7 @@ import { ScheduleExam } from "../../../models/patient/ScheduleExam";
 import * as moment from 'moment';
 import { PatientArrival } from "../../../models/laboratory-enums/PatientArrival";
 import { event } from 'cypress/types/jquery';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 
 
 L10n.load({
@@ -74,7 +75,7 @@ export class NurseScheduleAppointmentComponent implements OnInit {
 
   editMenu: boolean = false;
 
-  constructor(private patientService: PatientService, private userService: UserService, private examinationService: ExaminationService) {
+  constructor(private patientService: PatientService, private snackBar: SnackbarServiceService, private userService: UserService, private examinationService: ExaminationService) {
 
   }
 
@@ -200,6 +201,9 @@ export class NurseScheduleAppointmentComponent implements OnInit {
 
     this.examinationService.createExamination(this.selectedDateTime, this.selectedDoctor, this.patient, this.note).subscribe(res => {
       console.log(res)
+      this.snackBar.openSuccessSnackBar("Uspesno!")
+    }, err => {
+      this.snackBar.openErrorSnackBar("Greska!")
     })
 
     // console.log(eventData.StartTime)
@@ -220,11 +224,11 @@ export class NurseScheduleAppointmentComponent implements OnInit {
     if (args.type === 'QuickInfo') {
       args.cancel = true;
       let data = args.data as { [key: string]: Object };
-      if (!this.updateEJSView()){
+      if (!this.updateEJSView()) {
         this.scheduleObj?.openEditor(data, 'Add');
         this.editMenu = false;
       }
-      else{
+      else {
         this.scheduleObj?.openEditor(this.eventsOnCellClick[0], 'Add');
         this.editMenu = true;
       }
@@ -263,12 +267,12 @@ export class NurseScheduleAppointmentComponent implements OnInit {
 
   }
   onEdit(): void {
-    // Sta da se desi kada se klikne izmeni se pise ovde
+    // TODO: Sta da se desi kada se klikne izmeni se pise ovde
   }
 
   public onEventClick(args: EventClickArgs): void {
     this.eventsOnCellClick[0] = args.event
     this.editMenu = true;
   }
-  
+
 }
