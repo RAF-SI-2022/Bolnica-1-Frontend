@@ -7,6 +7,9 @@ import {Page} from "../../../models/models";
 import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
 import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
 import {PatientService} from "../../../services/patient-service/patient.service";
+import {forkJoin, switchMap} from "rxjs";
+import {PatientGeneralDto} from "../../../models/patient/PatientGeneralDto";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-biochemist-daily-work-orders',
@@ -32,7 +35,7 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
   }
 
 
-  getWorkOrders(): void{
+  /*getWorkOrders(): void{
 
     const startOfDAY = new Date()
     startOfDAY.setHours(0, 0, 0, 0)
@@ -41,21 +44,28 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
     endOfDay.setHours(23, 59, 59, 999)
 
 
-    this.laboratoryService.findWorkOrders('', startOfDAY, endOfDay,
+    this.laboratoryService.getDailyWorkOrders(startOfDAY, endOfDay,
       OrderStatus.NEOBRADJEN.toString(), this.pageLaboratory, this.pageSize)
       .subscribe(res=>{
         this.labWorkOrderPage = res
         this.labWorkOrders = this.labWorkOrderPage.content
         this.totalLaboratory = this.labWorkOrderPage.totalElements
       })
-  }
+  }*/
 
-  /*
+
    getWorkOrders(): void {
-    this.laboratoryService.findWorkOrders('', new Date(), new Date(), OrderStatus.NEOBRADJEN, this.pageLaboratory, this.pageSize)
+
+    const startOfDAY = new Date()
+    startOfDAY.setHours(0, 0, 0, 0)
+
+    const endOfDay = new Date()
+    endOfDay.setHours(23, 59, 59, 999)
+
+    this.laboratoryService.getDailyWorkOrders( startOfDAY, endOfDay, OrderStatus.NEOBRADJEN.toString(),
+    this.pageLaboratory, this.pageSize)
       .pipe(
         switchMap((res: Page<LabWorkOrderNew>) => {
-          // create an array of observables that fetch patient information for each LabWorkOrderNew object
           const observables = res.content.map((labWorkOrder: LabWorkOrderNew) => {
             return this.patientService.getPatientByLbp(labWorkOrder.lbp).pipe(
               map((patient: PatientGeneralDto) => {
@@ -65,7 +75,6 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
             );
           });
 
-          // combine all observables into a single observable that emits an array of LabWorkOrderNew objects
           return forkJoin(observables).pipe(
             map((labWorkOrders: LabWorkOrderNew[]) => {
               res.content = labWorkOrders;
@@ -85,7 +94,7 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
         }
       );
   }
-  */
+
 
 
   onTableDataChange(event: any): void {

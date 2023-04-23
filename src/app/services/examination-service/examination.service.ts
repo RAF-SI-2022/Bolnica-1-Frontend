@@ -160,6 +160,8 @@ export class ExaminationService {
     pa: PatientArrival
   ): Observable<HttpStatusCode>{
 
+    console.log("menja status")
+
     let httpParams = new HttpParams()
       .append("pa",pa)
 

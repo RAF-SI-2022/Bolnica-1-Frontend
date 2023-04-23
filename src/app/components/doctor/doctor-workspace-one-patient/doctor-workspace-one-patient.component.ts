@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { Patient } from "../../../models/patient/Patient";
-import { Anamnesis, AnamnesisDto } from "../../../models/patient/Anamnesis";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { PatientService } from "../../../services/patient-service/patient.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { DiagnosisCodeDto } from "../../../models/patient/DiagnosisCode";
-import { TreatmentResult } from "../../../models/patient-enums/TreatmentResult";
-import { UserService } from "../../../services/user-service/user.service";
-import { AuthService } from "../../../services/auth.service";
-import { GeneralMedicalData } from "../../../models/patient/GeneralMedicalData";
-import { Vaccination } from "../../../models/patient/Vaccination";
-import { Allergy } from "../../../models/patient/Allergy";
-import { SharedService } from 'src/app/services/shared.service';
-import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import {Component, OnInit} from '@angular/core';
+import {Patient} from "../../../models/patient/Patient";
+import {Anamnesis, AnamnesisDto} from "../../../models/patient/Anamnesis";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {PatientService} from "../../../services/patient-service/patient.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {DiagnosisCodeDto} from "../../../models/patient/DiagnosisCode";
+import {UserService} from "../../../services/user-service/user.service";
+import {AuthService} from "../../../services/auth.service";
+import {GeneralMedicalData} from "../../../models/patient/GeneralMedicalData";
+import {Vaccination} from "../../../models/patient/Vaccination";
+import {Allergy} from "../../../models/patient/Allergy";
+import {SharedService} from 'src/app/services/shared.service';
+import {SnackbarServiceService} from 'src/app/services/snackbar-service.service';
+import {ExaminationService} from "../../../services/examination-service/examination.service";
+import {ExamForPatient} from "../../../models/patient/ExamForPatient";
+import {PatientArrival} from "../../../models/laboratory-enums/PatientArrival";
 
 @Component({
   selector: 'app-doctor-workspace-one-patient',
@@ -38,12 +40,15 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
   generalMedical: GeneralMedicalData;
   vaccinationsList: Vaccination[] = [];
   allergiesList: Allergy[] = [];
+  // currentExamForPatient: ExamForPatient;
+
+  zavrseno: boolean = false;
 
 
   isPopupVisible = false;
   errorMessage: string = "";
 
-  constructor(private authService: AuthService, private snackBar: SnackbarServiceService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private sharedService: SharedService) {
+  constructor(private authService: AuthService, private snackBar: SnackbarServiceService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private sharedService: SharedService, private examinationService:ExaminationService) {
     this.generalMedical = {
       id: 0,
       bloodType: '',
@@ -51,6 +56,9 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
       vaccinationDtos: [],
       allergyDtos: []
     };
+
+    // this.currentExamForPatient = history.state.examForPatient;
+
     this.checkDoctorSpecPov();
     this.addReport = this.formBuilder.group({
       mainProblems: ['', [Validators.required]],
@@ -79,6 +87,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     this.getGeneralMedicalData(this.lbp);
 
     this.restoreFormData();
+
   }
 
   showPopup(event: any): void {
@@ -102,10 +111,21 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     this.anamneza.currDisease = examinationHistoryCreteDto.currDisease;
     this.patientService.createExaminationHistory(this.lbp, new Date(), this.lbz, examinationHistoryCreteDto.confidential, examinationHistoryCreteDto.objectiveFinding,
       examinationHistoryCreteDto.advice, examinationHistoryCreteDto.therapy, this.diagnosisCode, this.anamneza).subscribe(result => {
-        this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
+      this.changeExamStatus();
+      this.zavrseno = true;
+      this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
+
       },err => {
-        this,this.snackBar.openErrorSnackBar("Noje sacuvano!")
+
+        this,this.snackBar.openErrorSnackBar("NIje sacuvano!")
       })
+  }
+
+  changeExamStatus():void{
+    console.log("usao u metodu change status")
+    this.examinationService.updatePatientStatus(this.patient.id, PatientArrival.ZAVRSENO).subscribe(res => {
+      console.log(res)
+    })
   }
 
   //postavljanje dijagnoze - MedicalHistoryCreateDto

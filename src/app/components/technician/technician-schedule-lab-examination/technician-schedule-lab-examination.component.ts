@@ -259,6 +259,9 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
       this.scheduledLabExaminations = this.scheduledLabExaminationPage.content
       this.totalView = this.scheduledLabExaminationPage.totalElements
     }, err => {
+      console.log("udje")
+      console.log(err.error)
+      console.log(err.status)
       this.snackBar.openErrorSnackBar("Greska")
     })
 
@@ -276,14 +279,14 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     return false
   }
 
-  onTableDataChange(event: any): void {
+ /* onTableDataChange(event: any): void {
     this.page = event;
     //ili ????? ger Examination
     this.getPatientList();
-  }
+  }*/
 
 
-/*    onTableDataChange(event: any): void {
+    onTableDataChange(event: any): void {
         this.page = event;
         this.findExaminations();
     }
@@ -292,11 +295,6 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     this.page = event;
     this.listScheduledExaminations();
   }
-
-
-    onSearch(searchText: string) {
-      this.patientList = this.patientList.filter(patient => patient.lbp.toLowerCase().includes(searchText.toLowerCase()));
-    } */
 
 
   onSearch(searchText: string) {

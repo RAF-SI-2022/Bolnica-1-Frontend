@@ -154,7 +154,7 @@ export class DoctorWorkspaceComponent implements OnInit {
 
         /* this.scheduledExams.forEach(exam => {
            this.patientService.getPatientByLbp(exam.lbp).subscribe(patient => {
- 
+
              const examForPatient: ExamForPatient = {
                id: exam.id,
                lbp: exam.lbp,
@@ -165,13 +165,13 @@ export class DoctorWorkspaceComponent implements OnInit {
                patientArrival: exam.patientArrival,
                examDate: exam.dateAndTime
              };
- 
+
              console.log("exam")
- 
- 
+
+
              const today = new Date();
              const examDate = new Date(exam.dateAndTime);
- 
+
              if (
                examDate.getDate() === today.getDate() &&
                examDate.getMonth() === today.getMonth() &&
@@ -180,9 +180,9 @@ export class DoctorWorkspaceComponent implements OnInit {
                this.patients2.push(examForPatient);
                // examDate is today
              }
- 
+
              });
- 
+
            });*/
       });
     });
@@ -198,9 +198,9 @@ export class DoctorWorkspaceComponent implements OnInit {
 
   startExam(patient: ExamForPatient): void {
 
-    if (!confirm('Da li ste sigurni da želite da započnete pregled?')) {
-      return;
-    }
+    // if (!confirm('Da li ste sigurni da želite da započnete pregled?')) {
+    //   return;
+    // }
 
 
     this.examinationService.updatePatientStatus(patient.id, PatientArrival.TRENUTNO).pipe(
@@ -219,10 +219,11 @@ export class DoctorWorkspaceComponent implements OnInit {
 
   }
 
-  goToChart(patient: ExamForPatient): void {
-
-    this.router.navigate(['doctor-medical-chart', patient.lbp])
-  }
+  // goToChart(examForPatient: ExamForPatient): void {
+  //   const url = `/doctor-medical-chart/${examForPatient.lbp}`;
+  //   this.router.navigateByUrl(url, { state: { examForPatient } });
+  //   // this.router.navigate(['doctor-medical-chart', patient.lbp])
+  // }
 
 
 
