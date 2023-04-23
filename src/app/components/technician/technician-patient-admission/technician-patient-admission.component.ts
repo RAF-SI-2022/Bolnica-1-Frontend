@@ -32,18 +32,18 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
     }
 
     ngOnInit(): void {
-     this.getAll()
+     this.getListScheduledEexaminations()
     }
 
-    getAll(){
-      this.laboratoryService.listScheduledEexaminations(this.page, this.PAGE_SIZE)
-        .subscribe((response) => {
-          //console.log("RESPONSEEE " + response.content)
-          this.scheduledLabExaminationPage = response
-          this.scheduledLabExaminationList = this.scheduledLabExaminationPage.content
-          this.total = this.scheduledLabExaminationPage.totalElements
-        })
-    }
+    // getAll(){
+    //   this.laboratoryService.listScheduledEexaminations(this.page-1, this.PAGE_SIZE)
+    //     .subscribe((response) => {
+    //       //console.log("RESPONSEEE " + response.content)
+    //       this.scheduledLabExaminationPage = response
+    //       this.scheduledLabExaminationList = this.scheduledLabExaminationPage.content
+    //       this.total = this.scheduledLabExaminationPage.totalElements
+    //     })
+    // }
 
     getListScheduledEexaminations(): void {
       if(this.page == 0)
@@ -59,7 +59,7 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
 
       this.laboratoryService.changeExaminationStatus(id, ExaminationStatus.OTKAZANO).
                             subscribe((response) => {
-      this.getAll()
+      this.scheduledLabExaminationList
       alert("Uspesno otkazano")
 
       });
@@ -77,7 +77,7 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
     done(id: number, lbp: string){
       this.laboratoryService.changeExaminationStatus(id, ExaminationStatus.ZAVRSENO).
       subscribe((response) => {
-        this.getAll()
+        this.getListScheduledEexaminations()
         this.registerPatient(lbp)
         alert("Uspesno Zavrseno")
 

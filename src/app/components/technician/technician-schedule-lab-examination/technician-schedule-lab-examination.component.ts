@@ -67,7 +67,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
     ngOnInit(): void {
         this.getPatientList()
-       // this.listScheduledEexaminations()
+        this.listScheduledExaminations()
     }
 
     getPatientList(){
@@ -79,6 +79,9 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     }
 
     countPatientByDay(){
+      if(!this.validateEntriesDate())
+        return;
+
         this.labaratoryService.listScheduledExaminationsByDay(this.countForm.get('date')?.value).subscribe((response) => {
             this.numberOfScheduled = response
         })
@@ -99,9 +102,36 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
             }
         })
     }
+  validateEntriesName() : boolean {
+    console.log("UDJE")
+    var form = document.getElementsByClassName('needs-validation-1')[0] as HTMLFormElement;
+    form.classList.add('was-validated');
+    console.log("IZADJE")
+    console.log("JEEEEEEEEEEEEEEEEEEEEEEEEJ" + form.checkValidity().valueOf())
+
+    if(form.checkValidity() === false){
+      return false;
+    }
+
+    return true;
+  }
+
+  validateEntriesDate() : boolean {
+    var form = document.getElementsByClassName('needs-validation-2')[0] as HTMLFormElement;
+    form.classList.add('was-validated');
+
+    if(form.checkValidity() === false){
+      return false;
+    }
+
+    return true;
+  }
 
     //nerealizovani uputi
     findExaminations() {
+      if(!this.validateEntriesName())
+        return;
+
       this.lbp = this.searchForm.get('name')?.value
 
       if(this.page == 0)
@@ -125,8 +155,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
         this.lbp = this.searchVisitForm.get('name')?.value
         this.dateSearch = this.searchVisitForm.get('date')?.value
-
-        if(this.searchVisitForm.get('date')?.value == ''){
+        if(this.searchVisitForm.get('date')?.value){
           this.dateSearch = new Date()
         }
         this.labaratoryService.listScheduledExaminationsByLbp(this.lbp, this.dateSearch, this.page-1, this.pageSize).subscribe((response) => {
@@ -138,6 +167,13 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     }
     //todo fali ruta na beku za otkazivanje pregleda
     cancelExamination(idPregleda: number){
+
+      this.labaratoryService.changeExaminationStatus(idPregleda, ExaminationStatus.OTKAZANO).
+      subscribe((response) => {
+        this.findExaminations
+        alert("Uspesno otkazano")
+
+      });
     }
 
     checkStatus(exam: ScheduledLabExamination): boolean{
@@ -150,8 +186,14 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     onTableDataChange(event: any): void {
         this.page = event;
         //ili ????? ger Examination
-        this.getPatientList();
+        this.findExaminations();
     }
+
+  onTableDataChangeSecond(event: any): void {
+    this.page = event;
+    //ili ????? ger Examination
+    this.listScheduledExaminations();
+  }
 
 
     onSearch(searchText: string) {

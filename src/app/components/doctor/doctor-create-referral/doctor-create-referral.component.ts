@@ -69,15 +69,15 @@ export class DoctorCreateReferralComponent implements OnInit{
 
   constructor(private prescriptionService : PrescriptionServiceService, private laboratoryService: LaboratoryService, private authService: AuthService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
     this.referralForm = this.formBuilder.group({
-        ustanova: ['', [Validators.required]],
-        ustanova1: [new DeparmentShort(), [Validators.required]],
-        ustanova2: [new HospitalShort(), [Validators.required]],
-        ustanova3: [new HospitalShort(), [Validators.required]],
-        analysis: [new LabAnalysisDto(), [Validators.required]],
+        // ustanova: ['', [Validators.required]],
+        // ustanova1: [new DeparmentShort(), [Validators.required]],
+        // ustanova2: [new HospitalShort(), [Validators.required]],
+        // ustanova3: [new HospitalShort(), [Validators.required]],
+        analysis: ['' ,[Validators.required]],
         comment: ['', [Validators.required]],
-        refferalDiagnosis: ['', [Validators.required]],
-        referralReason: ['', [Validators.required]],
-        prescriptionAnalysisDtos: ['', [Validators.required]]
+        // refferalDiagnosis: ['', [Validators.required]],
+        // referralReason: ['', [Validators.required]],
+        // prescriptionAnalysisDtos: ['', [Validators.required]]
       });
     }
     // onOptionSelected(value: string) {
@@ -122,8 +122,21 @@ export class DoctorCreateReferralComponent implements OnInit{
     hidePopup(): void {
         this.isPopupVisible = false;
     }
+  validateEntries() : boolean {
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    form.classList.add('was-validated');
+
+    if(form.checkValidity() === false){
+      return false;
+    }
+
+    return true;
+  }
 
     confirmUput(): void {
+
+      if(!this.validateEntries())
+        return;
 
       if(!confirm('Da li ste sigurni da želite da napravite uput?')){
         return;

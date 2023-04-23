@@ -96,10 +96,10 @@ export class AdminAddEmployeeComponent implements OnInit {
      * @returns true if every input is filled in correctly
      */
     validateEntries() : boolean {
-        var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+        var form = document.getElementsByClassName('needs-validation-1')[0] as HTMLFormElement;
         this.checkEmailError();
         form.classList.add('was-validated');
-
+        console.log("LALALALLA " + form.checkValidity().valueOf())
         if(form.checkValidity() === false){
             return false;
         }

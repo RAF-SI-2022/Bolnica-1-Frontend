@@ -26,6 +26,7 @@
                     <div class="col-md-8 mt-4">
                         <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi_patient">Pretrazi</button>
                     </div>
+                    <div class="row py-5">
 
                     <table class="table table-hover" data-cy="table_patient">
                         <thead>
@@ -42,7 +43,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <ng-container
+                        <tr
                           *ngFor="let scheduled of scheduledLabExaminationList  | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total};  let i = index">
 
                             <td>{{scheduled.id}}</td>
@@ -61,13 +62,14 @@
                             <a (click)="done(scheduled.id, scheduled.lbp)" class="complete" title="Zavrsi pregled" data-toggle="tooltip"> <i class="bi bi-check-circle-fill"></i></a>
 
                           </td>
-                        </ng-container>
+                        </tr>
                         </tbody>
                     </table>
 
                     <div class="d-flex align-items-center justify-content-center" >
-                        <pagination-controls previousLabel="Pret" nextLabel="Sled" data-cy="pagination_patient">
+                        <pagination-controls previousLabel="Pret" nextLabel="Sled" data-cy="pagination_patient" (pageChange)="onTableDataChange($event)">
                         </pagination-controls>
+                    </div>
                     </div>
                   </form>
                 </div>
