@@ -51,8 +51,7 @@
 
 .label{
   color: #2c384e;
-  font-weight: bolder;
-  font-size: 20px;
+  font-size: 18px;
   padding-bottom: 10px;
 }
 
@@ -64,9 +63,6 @@
   width: 1000px;
 }
 
-.table {
-
-}
 
 .table tr{
   padding-top: 10px;
@@ -127,3 +123,11 @@ label {
   font-size: 14px;
 }
 
+
+.patient-info-table td:first-child {
+  width: 50%;
+}
+
+.patient-info-table td:nth-child(2) {
+  width: 30%;
+}

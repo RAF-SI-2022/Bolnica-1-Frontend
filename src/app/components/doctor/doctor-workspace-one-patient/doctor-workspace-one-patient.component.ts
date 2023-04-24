@@ -95,6 +95,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
 
   }
   showPopup(event: any): void {
+    console.log("IDE OP")
     this.isPopupVisible = true;
   }
 
@@ -133,11 +134,13 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
   }
 
   //postavljanje dijagnoze - MedicalHistoryCreateDto
-  saveDiagnosis(): void {
+  saveDiagnosis(): boolean {
     const diagnosis = this.addReport.value;
-
-    if (!this.validateFields) {
-      return;
+    console.log("DIJAGNOZA " + diagnosis.currStateDesc)
+    if (!this.validateFields || diagnosis.currStateDesc.length == 0 || diagnosis.treatmentResult == null
+      || diagnosis.treatmentResult.length == 0 || diagnosis.selectedCode == null || diagnosis.selectedCode.length == 0) {
+      this.snackBar.openErrorSnackBar("Popunite dijagnozu")
+      return false;
     }
 
     this.diagnosisCode.code = diagnosis.selectedCode;
@@ -189,12 +192,14 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
           this.snackBar.openErrorSnackBar("Nije sacuvano!")
         }
       });
+      return true;
 
   }
   addReportt() {
-    this.saveDiagnosis()
-    this.saveTherapy()
-    this.confirmSacuvaj()
+    if(!this.saveDiagnosis())
+      return;
+    this.saveTherapy();
+    this.disableFields();
   }
 
   //predlaganje terapije - ExaminationHistoryCreateDto

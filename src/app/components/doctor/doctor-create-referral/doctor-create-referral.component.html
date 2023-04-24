@@ -1,269 +1,3 @@
-<!--<head xmlns="http://www.w3.org/1999/html">-->
-<!--  <meta charset="utf-8">-->
-<!--  <meta content="width=device-width, initial-scale=1.0" name="viewport">-->
-
-<!--  <meta content="" name="description">-->
-<!--  <meta content="" name="keywords">-->
-
-<!--  <script src="/path/to/jquery.min.js"></script>-->
-<!--  <script src="/path/to/bootstrap.bundle.min.js"></script>-->
-
-
-<!--<link href="assets/img/favicon.png" rel="icon">-->
-<!--<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">-->
-
-
-<!--<link href="https://fonts.gstatic.com" rel="preconnect">-->
-<!--<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">-->
-<!--</head>-->
-
-<!--<body>-->
-<!--<div class="container">-->
-<!--  <div class="table-responsive">-->
-<!--    <div class="table-wrapper">-->
-
-<!--      <div style="padding-top: 20px">-->
-
-<!--        <form [formGroup]="referralForm"  class="mb-5 needs-validation" novalidate>-->
-<!--          &lt;!&ndash;-<select id="dropdown" name="dropdown" (change)="onOptionSelected($event.target.value)">&ndash;&gt;-->
-
-<!--          <div class="row justify-content-center">-->
-<!--            <div class="col-md-8 border-right">-->
-<!--              <div class="p-3 py-5">-->
-
-<!--                <div class="d-flex justify-content-between align-items-center mb-3">-->
-<!--                  <h4 class="text-right">Kreiranje uputa</h4>-->
-<!--                </div>-->
-
-<!--                <div class="row justify-content-center mt-1">-->
-
-
-<!--                  <div class="col-md-4 py-3">-->
-
-<!--                    <label for="tip-uputa" class="text-center">Izaberite tip uputa:</label>-->
-<!--                    <select id="tip-uputa" name="tip-uputa" class="form-select"-->
-<!--                            aria-label="Default select example" [(ngModel)]="selectedOption" [formControlName]="'ustanova'" data-cy = "tip-uputa">-->
-<!--                      <option value="Izaberite tip uputa" selected>Izaberite tip uputa</option>-->
-<!--                      <option value="Laboratorija">Laboratorija</option>-->
-<!--&lt;!&ndash;                      <option value="Dijagnostika">Dijagnostika</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                      <option value="Stacionar">Stacionar</option>&ndash;&gt;-->
-<!--                    </select>-->
-<!--                  </div>-->
-
-
-<!--                </div>-->
-
-
-
-<!--                <div *ngIf="selectedOption == 'Laboratorija'">-->
-
-<!--                  <div class="card basic">-->
-<!--                    <div class="card-body">-->
-<!--                      <div class="container">-->
-
-<!--                  <div class="row justify-content-center mt-1 mt-1">-->
-
-
-<!--                    <div class="col-md-4 ">-->
-<!--                      <label for="ustanova1" >Zdravstvena ustanova:</label>-->
-<!--                      <select [(ngModel)]="selectedHospital" [formControlName]="'ustanova1'" id="ustanova1" name="ustanova1" class="form-select"-->
-<!--                              aria-label="Default select example"  data-cy = "ustanova1" >-->
-<!--                        &lt;!&ndash;                              <option value="1">ustanova1</option>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                              <option value="2">ustanova2</option>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                              <option value="3">ustanova3</option>&ndash;&gt;-->
-<!--                        <option *ngFor="let item of hospitals" [value]="item.name">{{item.name}}</option>-->
-<!--                      </select>-->
-<!--                    </div>-->
-
-<!--&lt;!&ndash;                    <div class="col-md-4 ">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <label>Odaberite laboratorijske analize:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div *ngFor="let analysis of analysisSaBeka">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <input type="checkbox" [(ngModel)]="selectedAnalysis" id="{{ analysis }}" name="{{ analysis }}" value="{{ analysis.id }}">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <label for="{{ analysis.id }}">{{ analysis.analysisName }}</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-
-<!--                    <div class="col-md-4 ">-->
-<!--                      <label>Odaberite laboratorijske analize:</label>-->
-<!--                      <select [(ngModel)]="selectedAnalysis" [formControlName]="'analysis'" id="analysis" name="analysis" class="form-select"-->
-<!--                              aria-label="Default select example"  data-cy = "analysis">-->
-<!--                        <option *ngFor="let item of analysisSaBeka" [value]="item.id">{{item.analysisName}}</option>-->
-<!--                      </select>-->
-<!--                    </div>-->
-
-<!--                    <div>-->
-<!--                      <button class="btn btn-outline-primary" (click)="getParams()">Dodaj parametre</button>-->
-<!--                    </div>-->
-
-
-
-<!--                    <div class="col-md-4 ">-->
-<!--                      <label>Odaberite parametre:</label>-->
-<!--                      <div *ngFor="let params of paramsList">-->
-<!--&lt;!&ndash;                        <input type="checkbox" id="{{ params }}" name="{{ params }}" value="{{ params.id}}" [(ngModel)]="params." (change)="onCheckboxChange($event.target.checked, params.id)">&ndash;&gt;-->
-<!--                        <input type="checkbox" id="{{ params.id }}" name="{{ params.parameterName }}" (change)="onCheckboxChange($event, params.id)">-->
-<!--                        <label for="{{ params }}">{{ params.parameterName }}</label>-->
-<!--                      </div>-->
-<!--                    </div>-->
-
-
-<!--&lt;!&ndash;                    <div class="col-md-4 ">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <label>Odaberite parametre:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                      <select   id="params" name="params" class="form-select"&ndash;&gt;-->
-<!--&lt;!&ndash;                              aria-label="Default select example"  data-cy = "params" required>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <option *ngFor="let item of analysisParams" [value]="item.labAnalysis.analysisName">{{item.labAnalysis.analysisName}}</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </select>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-
-
-
-<!--                    <div class="col-md-8 ">-->
-<!--                      <label class="labels">Komentar</label>-->
-<!--                      <input name="comment" [formControlName]="'comment'" type="text" class="form-control" id="comment" placeholder="Unesite opcioni komentar" value="">-->
-<!--                    </div>-->
-
-<!--                  </div>-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-
-<!--                </div>-->
-
-<!--&lt;!&ndash;                <div *ngIf="selectedOption == 'Dijagnostika'">&ndash;&gt;-->
-
-<!--&lt;!&ndash;                  <div class="card basic">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="card-body">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div class="container">&ndash;&gt;-->
-
-<!--&lt;!&ndash;                        <div class="row justify-content-center mt-1 mt-1">&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;                          <div class="col-md-4 ">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <label for="ustanova2" >Zdravstvena ustanova:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <select [(ngModel)]="selectedHospital" [formControlName]="'ustanova2'" id="ustanova2" name="ustanova2" class="form-select"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    aria-label="Default select example"  data-cy = "ustanova2" required>&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                              <option value="1">ustanova1</option>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                              <option value="2">ustanova2</option>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                              <option value="3">ustanova3</option>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option *ngFor="let item of hospitals" [value]="item.name">{{item.name}}</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </select>&ndash;&gt;-->
-<!--&lt;!&ndash;                          </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                          <div class="col-md-4 ">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <label for="dijagnoza1" >Uputna dijagnoza:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <select id="dijagnoza1" name="dijagnoza1" class="form-select"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    aria-label="Default select example"  data-cy = "dijagnoza1" [formControlName]="'referralDiagnosis'" required>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="A15.3">A15.3</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="D50">D50</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="I10">I10</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="I35.0">I35.0</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="J11">J11</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="J12.9">J12.9</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="K35">K35</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="K70.3">K70.3</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="K71.0">K71.0</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="N20.0">N20.0</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </select>&ndash;&gt;-->
-<!--&lt;!&ndash;                          </div>&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;                          <div class="col-md-8 ">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <label class="labels">Razlog upucivanja</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <input name="referralReason" [formControlName]="'referralReason'"  type="text" class="form-control" id="referralReason" placeholder="Unesite razlog uputa" value="" required>&ndash;&gt;-->
-<!--&lt;!&ndash;                          </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                <div *ngIf="selectedOption == 'Stacionar'">&ndash;&gt;-->
-
-<!--&lt;!&ndash;                  <div class="card basic">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="card-body">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div class="container">&ndash;&gt;-->
-
-<!--&lt;!&ndash;                        <div class="row justify-content-center mt-1 mt-1">&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;                          <div class="col-md-4 ">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <label for="ustanova3" >Zdravstvena ustanova:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <select [(ngModel)]="selectedHospital" [formControlName]="'ustanova3'" id="ustanova3" name="ustanova3" class="form-select"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    aria-label="Default select example"  data-cy = "ustanova3" required>&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                              <option value="1">ustanova1</option>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                              <option value="2">ustanova2</option>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                              <option value="3">ustanova3</option>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option *ngFor="let item of hospitals" [value]="item.name">{{item.name}}</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </select>&ndash;&gt;-->
-<!--&lt;!&ndash;                          </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                          <div class="col-md-4 ">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <label for="dijagnoza2" >Uputna dijagnoza:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <select id="dijagnoza2" name="dijagnoza2" class="form-select"&ndash;&gt;-->
-<!--&lt;!&ndash;                                    aria-label="Default select example"  data-cy = "dijagnoza2" [formControlName]="'referralDiagnosis'" required>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="A15.3">A15.3</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="D50">D50</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="I10">I10</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="I35.0">I35.0</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="J11">J11</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="J12.9">J12.9</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="K35">K35</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="K70.3">K70.3</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="K71.0">K71.0</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <option value="N20.0">N20.0</option>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </select>&ndash;&gt;-->
-<!--&lt;!&ndash;                          </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-
-<!--                <div *ngIf="selectedOption =='Stacionar'|| selectedOption =='Laboratorija'|| selectedOption =='Dijagnostika' " class="d-flex justify-content-center align-items-center">-->
-<!--                  <div class="row mt-1 mt-1">-->
-<!--                    <div class="col-md-4">-->
-<!--                      <button type="submit" (click)="confirmUput()" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da napravite uput?')">Dodaj</button>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-
-
-<!--          &lt;!&ndash; Za popup prozor &ndash;&gt;-->
-
-<!--&lt;!&ndash;          <div class="popup-overlay" *ngIf="isPopupVisible">&ndash;&gt;-->
-<!--&lt;!&ndash;            <div class="popup">&ndash;&gt;-->
-<!--&lt;!&ndash;              <p>Zelite da potvrdite uput?</p>&ndash;&gt;-->
-<!--&lt;!&ndash;              <div class="popup-buttons">&ndash;&gt;-->
-<!--&lt;!&ndash;                <button (click)="confirmUput()">OK</button>&ndash;&gt;-->
-<!--&lt;!&ndash;                <button (click)="hidePopup()">Cancel</button>&ndash;&gt;-->
-<!--&lt;!&ndash;              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;          </div>&ndash;&gt;-->
-
-<!--              </div>-->
-<!--            </div>-->
-
-<!--          </div>-->
-<!--        </form>-->
-<!--      </div>-->
-
-
-
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
-
-<!--</body>-->
-
-
-
 
 <div class="card">
   <div style="margin-top: 25px;" class="card-body">
@@ -271,19 +5,12 @@
     <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
       <h4 class="text-right">Kreiranje uputa</h4>
     </div>
-    <!--    <h5 class="card-title">Technician patient admission</h5>-->
-
     <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
       <li class="nav-item flex-fill" role="presentation">
         <button class="nav-link w-100 active" id="patient-tab" data-bs-toggle="tab"
           data-bs-target="#bordered-justified-patient" type="button" role="tab" aria-controls="patient"
           aria-selected="true" data-cy="patient-tab">Uput za laboratoriju</button>
       </li>
-      <!--            <li class="nav-item flex-fill" role="presentation">-->
-      <!--                <button class="nav-link w-100" id="work-tab" data-bs-toggle="tab"-->
-      <!--                    data-bs-target="#bordered-justified-work" type="button" role="tab" aria-controls="work"-->
-      <!--                    aria-selected="false" tabindex="-1" data-cy="work-tab">Kreiranje radnog naloga</button>-->
-      <!--            </li>-->
     </ul>
     <div class="tab-content pt-2" id="borderedTabJustifiedContent">
       <div class="tab-pane active show" id="bordered-justified-patient" role="tabpanel" aria-labelledby="patient-tab">
@@ -331,9 +58,9 @@
                           <label>Zdravstvena ustanova u koju se upucuje:</label>
                           <div *ngFor="let h of hospitals">
                             <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="departmentToId" name="departmentToId"
-                                (change)="onCheckboxChangeForHospital($event, h.id)">
-                              <label class="form-check-label" for="{{ h }}">{{ h.hospitalName }}</label>
+                              <input class="" type="checkbox" id="departmentToId" name="departmentToId"
+                                (change)="onCheckboxChangeForHospital($event, h.id)"> &nbsp;
+                              <label class="form-check-label" for="{{ h }}"> {{ h.hospitalName }}</label>
                             </div>
                           </div>
                         </div>
@@ -346,9 +73,9 @@
                       <label>Odaberite parametre:</label>
                       <div *ngFor="let params of paramsList">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="{{ params.id }}"
-                            name="{{ params.parameterName }}" (change)="onCheckboxChange($event, params.id)">
-                          <label class="form-check-label" for="{{ params }}">{{ params.parameterName }}</label>
+                          <input class="" type="checkbox" id="{{ params.id }}"
+                            name="{{ params.parameterName }}" (change)="onCheckboxChange($event, params.id)"> &nbsp;
+                          <label class="form-check-label" for="{{ params }}"> {{ params.parameterName }}</label>
                         </div>
                       </div>
                     </div>
@@ -386,71 +113,6 @@
           </form>
         </div>
       </div>
-
-      <!--        <div class="tab-pane" id="bordered-justified-work" role="tabpanel" aria-labelledby="work-tab">-->
-      <!--            <div class="row">-->
-      <!--                <div class="col-md-4">-->
-      <!--                    <label class="labels">LBP</label>-->
-      <!--                    <input type="text" class="form-control" data-cy = "lbp_work">-->
-      <!--                </div>-->
-      <!--                <div class="col-md-8 mt-4">-->
-      <!--                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi_work">Pretrazi</button>-->
-      <!--                </div>-->
-      <!--                <table class="table table-hover" data-cy="table_work">-->
-      <!--                    <thead>-->
-      <!--                        <tr>-->
-      <!--                            <th>ID uputa</th>-->
-      <!--                            <th>Lekar</th>-->
-      <!--                            <th>Datum kreiranja uputa</th>-->
-      <!--                            <th>Naziv odeljenja</th>-->
-      <!--                            <th>Spisak lab analiza</th>-->
-      <!--                            <th>Komentar</th>-->
-      <!--                            <th>Akcija</th>-->
-      <!--                        </tr>-->
-      <!--                    </thead>-->
-      <!--                    <tbody>-->
-      <!--                        <tr>-->
-      <!--                            <td>12512431</td>-->
-      <!--                            <td>paul.davis</td>-->
-      <!--                            <td>12/08/2017</td>-->
-      <!--                            <td>Teh</td>-->
-      <!--                            <td>spisak</td>-->
-      <!--                            <td>Hitno</td>-->
-      <!--                            <td>-->
-      <!--                                <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>-->
-      <!--                            </td>-->
-      <!--                        </tr>-->
-      <!--                        <tr>-->
-      <!--                            <td>12512431</td>-->
-      <!--                            <td>paul.davis</td>-->
-      <!--                            <td>12/08/2017</td>-->
-      <!--                            <td>Teh</td>-->
-      <!--                            <td>spisak</td>-->
-      <!--                            <td>Hitno</td>-->
-      <!--                            <td>-->
-      <!--                                <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>-->
-      <!--                            </td>-->
-      <!--                        </tr>-->
-      <!--                        <tr>-->
-      <!--                            <td>12512431</td>-->
-      <!--                            <td>paul.davis</td>-->
-      <!--                            <td>12/08/2017</td>-->
-      <!--                            <td>Teh</td>-->
-      <!--                            <td>spisak</td>-->
-      <!--                            <td>Hitno</td>-->
-      <!--                            <td>-->
-      <!--                                <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>-->
-      <!--                            </td>-->
-      <!--                        </tr>-->
-      <!--                    </tbody>-->
-      <!--                </table>-->
-
-      <!--                <div class="d-flex align-items-center justify-content-center" >-->
-      <!--                    <pagination-controls previousLabel="Pret" nextLabel="Sled" data-cy="pagination_work">-->
-      <!--                    </pagination-controls>-->
-      <!--                </div>-->
-      <!--            </div>-->
-      <!--        </div>-->
     </div>
   </div>
 </div>

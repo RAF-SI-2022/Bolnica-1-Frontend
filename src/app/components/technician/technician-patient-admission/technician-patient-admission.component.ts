@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import { ExaminationStatus } from "../../../models/laboratory-enums/ExaminationStatus";
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 import { interval } from 'rxjs';
+import { Patient } from 'src/app/models/patient/Patient';
 
 @Component({
   selector: 'app-technician-patient-admission',
@@ -65,7 +66,8 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
   lbp = '';
   rolaVisiLabTeh = false;
   rolaLabTeh = false;
-
+  patients: Patient[] = [];
+  
   constructor(private laboratoryService: LaboratoryService, private userService: UserService, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder) {
     this.searchForm = this.formBuilder.group({
       lbp: '',

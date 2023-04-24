@@ -176,6 +176,14 @@ export class DoctorCreateReferralComponent implements OnInit {
         this.snackBar.openErrorSnackBar("Popunite trazena polja!")
         return;
       }
+      if(this.totalDepartmentsChecked == 0){
+        this.snackBar.openErrorSnackBar("Izaberite parametre")
+        return;
+      }
+      if(this.totalHopsitalChecked == 0){
+        this.snackBar.openErrorSnackBar("Izaberite bolnicu")
+        return;
+      }
 
       if(!confirm('Da li ste sigurni da želite da napravite uput?')){
         return;
@@ -262,29 +270,34 @@ export class DoctorCreateReferralComponent implements OnInit {
 
   selectedParams = [];
 
+  totalDepartmentsChecked = 0;
   onCheckboxChange(event: any, id: number) {
     const isChecked = (event.target as HTMLInputElement).checked;
     if (isChecked) {
+      this.totalDepartmentsChecked++;
       // @ts-ignore
       this.selectedParams.push(id);
     } else {
       // @ts-ignore
       const index = this.selectedParams.indexOf(id);
+      this.totalDepartmentsChecked--;
       if (index !== -1) {
         this.selectedParams.splice(index, 1);
       }
     }
   }
 
+  totalHopsitalChecked = 0;
 
   onCheckboxChangeForHospital(event: any, id: number) {
     const isChecked = (event.target as HTMLInputElement).checked;
     if (isChecked) {
       // @ts-ignore
       this.departmentToId = id;
-
+      this.totalHopsitalChecked++;
       console.log("departmentToId " + this.departmentToId)
     } else {
+      this.totalHopsitalChecked--;
       // @ts-ignore
       this.departmentToId = null;
     }

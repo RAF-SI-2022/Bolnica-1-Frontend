@@ -226,6 +226,23 @@ export class DoctorWorkspaceComponent implements OnInit {
   //   // this.router.navigate(['doctor-medical-chart', patient.lbp])
   // }
 
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'ZAKAZANO':
+        return 'badge-primary';
+      case 'OTKAZANO':
+        return 'badge-warning';
+      case 'CEKA':
+        return 'badge-info';
+      case 'TRENUTNO':
+        return 'badge-success';
+      case 'ZAVRSENO':
+        return 'badge-danger';
+      default:
+        return 'badge-secondary';
+    }
+  }
+  
 
 
 

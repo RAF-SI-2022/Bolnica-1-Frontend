@@ -62,44 +62,14 @@
 <!--            <td>Pol</td>-->
             <!--- Trenutno je za status samo napravljena lista koja je obojena, treba da se uradi logika za dobavljanje statusa da bi se
             status namestio da se oboji koji postoji a ostali da ostanu sivi-->
-            <td class="list-cell">
-              <ul class="horizontal-list">
-                <style>
-                  li:nth-child(1) {
-                    background-color: cornflowerblue;
-                  }
-                  li:nth-child(2) {
-                    background-color: darkorange;
-                  }
-                  li:nth-child(3) {
-                    background-color: yellow;
-                  }
-                  li:nth-child(4) {
-                    background-color: forestgreen;
-                  }
-                  li:nth-child(5) {
-                    background-color: red;
-                  }
-                </style>
-
-
-                <option *ngFor="let arrival of patientArrivals" [ngStyle]="{'font-weight': patient.patientArrival === arrival ? 'bold' : 'normal', 'font-size': patient.patientArrival !== arrival ? 'smaller' : 'normal', 'display': 'flex', 'align-items': 'center'}" [value]="arrival">
-                  {{ arrival }}
-                </option>
-
-
-                <!--                -->
-
-<!--                <li *ngIf="patient.patientArrival === trenutno">Trenutno</li>-->
-<!--                <li *ngIf="patient.patientArrival === zakazano" >Zakazano</li>-->
-<!--                <li *ngIf="patient.patientArrival === ceka" >Ceka</li>-->
-<!--                <li *ngIf="patient.patientArrival === zavrseno" >Zavrseno</li>-->
-<!--                <li *ngIf="patient.patientArrival === otkazano">Otkazano</li>-->
-              </ul>
+            <td>
+              <span class="badge" [ngClass]="getStatusClass(patient.patientArrival)">{{ patient.patientArrival }}</span>
             </td>
 
 
             <!--*ngIf="patient.patientArrival.toString() === ceka.toString()"-->
+
+            
             <td ><button *ngIf="patient.patientArrival.toString() === 'CEKA' || patient.patientArrival.toString() === 'TRENUTNO'" (click)="startExam(patient)" class="btn btn-primary" >Pregled</button></td>
           </tr>
           </tbody>
