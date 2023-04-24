@@ -134,9 +134,11 @@ export class ExaminationService {
    * Brisanje zakazanog pregleda
    * */
   public deleteExamination(id: number) {
-    return this.http.delete<HttpStatusCode>(`${environmentPatient.apiURL}/examination${id}`,
+
+    return this.http.delete<HttpStatusCode>(`${environmentPatient.apiURL}/examination/${id}`,
       {headers: this.getHeaders()})
   }
+
 
   /**
    * Pretraga lekara po odeljenju

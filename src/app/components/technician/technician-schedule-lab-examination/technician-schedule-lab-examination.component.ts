@@ -199,9 +199,18 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     })
 
   }
-  //todo fali ruta na beku za otkazivanje pregleda
-  cancelExamination(idPregleda: number) {
-    this.snackBar.openSuccessSnackBar("Otkazan pregled!")
+
+
+  cancelExamination(id: number) {
+    console.log("id pregleda za otkazivanje " + id)
+
+    this.labaratoryService.changeExaminationStatus(id, ExaminationStatus.OTKAZANO).
+    subscribe((response) => {
+      this.listScheduledExaminations()
+      this.snackBar.openSuccessSnackBar("Uspesno otkazano!")
+    });
+
+
   }
 
   checkStatus(exam: ScheduledLabExamination): boolean {

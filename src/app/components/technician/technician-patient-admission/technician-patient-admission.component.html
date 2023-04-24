@@ -1,12 +1,12 @@
 <div class="card">
     <div style="margin-top: 25px;" class="card-body">
-        <h5 class="card-title">Technician patient admission</h5>
+        <h5 class="card-title">Prijem pacijenata</h5>
 
         <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
             <li class="nav-item flex-fill" role="presentation">
                 <button class="nav-link w-100 active" id="patient-tab" data-bs-toggle="tab"
                     data-bs-target="#bordered-justified-patient" type="button" role="tab" aria-controls="patient"
-                    aria-selected="true" data-cy="patient-tab">Zakazani pacijenti</button>
+                    aria-selected="true" data-cy="patient-tab">Zakazani danasnji pregledi</button>
             </li>
 <!--            <li class="nav-item flex-fill" role="presentation">-->
 <!--                <button class="nav-link w-100" id="work-tab" data-bs-toggle="tab"-->
@@ -54,13 +54,11 @@
                             <td>{{scheduled.note}}</td>
                             <td>{{scheduled.lbz}}</td>
                           <td>
-                            <a (click)="cancellation(scheduled.id)" class="delete" title="Otkazi" data-toggle="tooltip"> <i class="bi bi-x-circle-fill"></i></a>
-
-                            </td>
+                            <button *ngIf="scheduled.examinationStatus.toString()=='ZAKAZANO'" (click)="cancellation(scheduled.id)" class="btn btn-primary" >Otkaži</button>
+                          </td>
 
                           <td>
-                            <a (click)="done(scheduled.id, scheduled.lbp)" class="complete" title="Zavrsi pregled" data-toggle="tooltip"> <i class="bi bi-check-circle-fill"></i></a>
-
+                            <button *ngIf="scheduled.examinationStatus.toString()=='ZAKAZANO'" (click)="done(scheduled.id, scheduled.lbp)" class="btn btn-primary" >Završi</button>
                           </td>
                         </tr>
                         </tbody>

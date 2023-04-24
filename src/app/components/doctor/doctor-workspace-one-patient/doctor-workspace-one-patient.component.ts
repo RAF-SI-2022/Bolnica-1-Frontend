@@ -33,7 +33,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
   lbz: string = '';
   lbp: string = '';
   doctorSpecPov = false;
-  currentPatient: Patient = new Patient();
+  currentPatient: ExamForPatient;
   patientName: string = 'Ime'
   patientSurname: string = 'Prezime'
   patientdateOfBirth: Date = new Date();
@@ -59,6 +59,8 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
 
     // this.currentExamForPatient = history.state.examForPatient;
 
+    this.currentPatient = history.state.patient;
+
     this.checkDoctorSpecPov();
     this.addReport = this.formBuilder.group({
       mainProblems: ['', [Validators.required]],
@@ -80,7 +82,7 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
   ngOnInit(): void {
     this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
     this.lbz = this.authService.getLBZ();
-    this.currentPatient = history.state.patient;
+
     this.patientName = this.currentPatient.name
     this.patientSurname = this.currentPatient.surname
     this.patientdateOfBirth = this.currentPatient.dateOfBirth
@@ -113,24 +115,20 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     this.anamneza.familyAnamnesis = examinationHistoryCreteDto.familyAnamnesis;
     this.anamneza.personalAnamnesis = examinationHistoryCreteDto.personalAnamnesis;
     this.anamneza.currDisease = examinationHistoryCreteDto.currDisease;
+
     this.patientService.createExaminationHistory(this.lbp, new Date(), this.lbz, examinationHistoryCreteDto.confidential, examinationHistoryCreteDto.objectiveFinding,
       examinationHistoryCreteDto.advice, examinationHistoryCreteDto.therapy, this.diagnosisCode, this.anamneza).subscribe(result => {
-      this.changeExamStatus();
-      this.zavrseno = true;
-      this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
 
+      this.examinationService.updatePatientStatus(this.patient.id, PatientArrival.ZAVRSENO).subscribe(res => {
+        this.zavrseno = true;
+        this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
       },err => {
-
         this,this.snackBar.openErrorSnackBar("NIje sacuvano!")
+      })
+
       })
   }
 
-  changeExamStatus():void{
-    console.log("usao u metodu change status")
-    this.examinationService.updatePatientStatus(this.patient.id, PatientArrival.ZAVRSENO).subscribe(res => {
-      console.log(res)
-    })
-  }
 
   //postavljanje dijagnoze - MedicalHistoryCreateDto
   saveDiagnosis(): void {
@@ -252,6 +250,14 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
 
 
     this.patientService.createExaminationHistory(this.lbp, new Date(), this.lbz, therapy.confidential, therapy.objectiveFinding, therapy.advice, therapy.suggestedTherapies, this.diagnosisCode, this.anamneza).subscribe((response) => {
+
+      console.log("id workspace one " + this.currentPatient.id)
+
+      this.examinationService.updatePatientStatus(this.currentPatient.id, PatientArrival.ZAVRSENO).subscribe(res=>{
+        this.zavrseno = true;
+        console.log("zavrseno " + this.zavrseno)
+      })
+
       this,this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
     }, error => {
       console.log("Error " + error.status);
@@ -259,8 +265,8 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
         // this.errorMessage = 'greska';
         this.snackBar.openErrorSnackBar("Nije sacuvano!")
       }
-    })
-      ;
+    });
+
     console.log("proslo")
   }
 
