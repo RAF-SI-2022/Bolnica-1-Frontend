@@ -8,6 +8,7 @@ import { ExaminationStatus } from "../../../models/laboratory-enums/ExaminationS
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 import { interval } from 'rxjs';
 import { Patient } from 'src/app/models/patient/Patient';
+import { PatientService } from 'src/app/services/patient-service/patient.service';
 
 @Component({
   selector: 'app-technician-patient-admission',
@@ -17,45 +18,6 @@ import { Patient } from 'src/app/models/patient/Patient';
 
 
 export class TechnicianPatientAdmissionComponent implements OnInit {
-
-
-/*    searchForm: FormGroup;
-    scheduledLabExaminationPage: Page<ScheduledLabExamination> = new Page<ScheduledLabExamination>();
-    scheduledLabExaminationList: ScheduledLabExamination[] = [];
-    page = 0;
-    PAGE_SIZE = 5
-    total = 0;
-    lbp = '';
-    rolaVisiLabTeh = false;
-    rolaLabTeh = false;
-
-    constructor(private laboratoryService:LaboratoryService, private  userService: UserService,  private formBuilder: FormBuilder) {
-      this.searchForm = this.formBuilder.group({
-        lbp: '',
-      });
-    }
-
-    ngOnInit(): void {
-     this.getListScheduledEexaminations()
-    }
-
-    // getAll(){
-    //   this.laboratoryService.listScheduledEexaminations(this.page-1, this.PAGE_SIZE)
-    //     .subscribe((response) => {
-    //       //console.log("RESPONSEEE " + response.content)
-    //       this.scheduledLabExaminationPage = response
-    //       this.scheduledLabExaminationList = this.scheduledLabExaminationPage.content
-    //       this.total = this.scheduledLabExaminationPage.totalElements
-    //     })
-    // }
-
-    getListScheduledEexaminations(): void {
-      if(this.page == 0)
-        this.page = 1;
-
-      this.laboratoryService.listScheduledExaminationsByLbp(this.lbp, new Date(), this.page-1, this.PAGE_SIZE).subscribe((response) => {
-       this.scheduledLabExaminationPage = response
-       this.scheduledLabExaminationList = this.scheduledLabExaminationPage.content */
 
   searchForm: FormGroup;
   scheduledLabExaminationPage: Page<ScheduledLabExamination> = new Page<ScheduledLabExamination>();
@@ -68,7 +30,7 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
   rolaLabTeh = false;
   patients: Patient[] = [];
   
-  constructor(private laboratoryService: LaboratoryService, private userService: UserService, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder) {
+  constructor(private patientService: PatientService ,private laboratoryService: LaboratoryService, private userService: UserService, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder) {
     this.searchForm = this.formBuilder.group({
       lbp: '',
     });
@@ -76,10 +38,19 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
 
   ngOnInit(): void {
     //interval(5000).subscribe(() => {
+      this.populatePatients();
       this.getAll();
     //});
   }
 
+  populatePatients() {
+    this.patientService.getAllPatients("", "","", "", 0, 100).subscribe(res => {
+      this.patients = res.content;
+      console.log("IMA NAS " + res.content.length)
+    }, err => {
+      console.log("GRESKA " + err.message)
+    })
+  }
   getAll() {
     this.laboratoryService.listScheduledEexaminations(this.page, this.PAGE_SIZE)
       .subscribe((response) => {
@@ -94,7 +65,8 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
     if (this.page == 0)
       this.page = 1;
     console.log("LBP " + this.lbp)
-    this.laboratoryService.listScheduledExaminationsByLbp(this.lbp, new Date(), this.page - 1, this.PAGE_SIZE).subscribe((response) => {
+    const fixedLbp = this.lbp.split("-")[0];
+    this.laboratoryService.listScheduledExaminationsByLbp(fixedLbp, new Date(), this.page - 1, this.PAGE_SIZE).subscribe((response) => {
       this.scheduledLabExaminationPage = response
       this.scheduledLabExaminationList = this.scheduledLabExaminationPage.content
       this.total = this.scheduledLabExaminationPage.totalElements
@@ -153,5 +125,23 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
     this.getListScheduledEexaminations();
   }
 
+  filteredPatients: Patient[] = [];
+  filterPatientLbp(searchText: string){
+    if (this.patients && this.patients.length > 0 && searchText.length > 0) {
+      this.filteredPatients = this.patients.filter(
+        (patientt) =>
+          (patientt.lbp?.toString().toLowerCase().includes(searchText.toLowerCase()) || '') ||
+          (patientt.name?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+          (patientt.surname?.toLowerCase().includes(searchText.toLowerCase()) || '')
+      );
+    } else {
+      this.filteredPatients = [];
+    }
+    console.log("Imam nas " + this.filteredPatients.length)
+  }
 
+  selectSuggestion(patient: Patient){
+    this.lbp = `${patient.lbp} - ${patient.name} (${patient.surname})`;
+    this.filteredPatients = [];
+  }
 }

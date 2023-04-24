@@ -9,6 +9,7 @@ import { Page } from "../../../models/models";
 import { LabWorkOrderNew } from "../../../models/laboratory/LabWorkOrderNew";
 import { OrderStatus } from "../../../models/laboratory-enums/OrderStatus";
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { Patient } from 'src/app/models/patient/Patient';
 
 @Component({
   selector: 'app-technician-issuing-results',
@@ -35,11 +36,12 @@ export class TechnicianIssuingResultsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.populatePatients()
   }
 
   findWorkOrders() {
     const workOrder = this.form.value;
-
+    workOrder.lbp = workOrder.lbp.split("-")[0];
     if (!this.validateFields) {
       return;
     }
@@ -77,4 +79,34 @@ export class TechnicianIssuingResultsComponent implements OnInit {
     this.findWorkOrders();
   }
 
+  patients: Patient[] = []
+  filteredPatients: Patient[] = [];
+  filterPatientLbp(searchText: string){
+    if (this.patients && this.patients.length > 0 && searchText.length > 0) {
+      this.filteredPatients = this.patients.filter(
+        (patientt) =>
+          (patientt.lbp?.toString().toLowerCase().includes(searchText.toLowerCase()) || '') ||
+          (patientt.name?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+          (patientt.surname?.toLowerCase().includes(searchText.toLowerCase()) || '')
+      );
+    } else {
+      this.filteredPatients = [];
+    }
+    console.log("Imam nas " + this.filteredPatients.length)
+  }
+
+  selectSuggestion(patient: Patient){
+    this.form.value.lbp = `${patient.lbp} - ${patient.name} (${patient.surname})`;
+    this.filteredPatients = [];
+  }
+
+
+  populatePatients() {
+    this.patientService.getAllPatients("", "","", "", 0, 100).subscribe(res => {
+      this.patients = res.content;
+      console.log("IMA NAS " + res.content.length)
+    }, err => {
+      console.log("GRESKA " + err.message)
+    })
+  }
 }

@@ -9,7 +9,7 @@ import { Page } from "../../../models/models";
 import { ScheduleExam } from "../../../models/patient/ScheduleExam";
 import { ExamForPatient } from "../../../models/patient/ExamForPatient";
 import { PatientArrival } from "../../../models/laboratory-enums/PatientArrival";
-import { forkJoin, switchMap } from "rxjs";
+import { forkJoin, interval, switchMap } from "rxjs";
 
 @Component({
   selector: 'app-doctor-workspace',
@@ -83,9 +83,12 @@ export class DoctorWorkspaceComponent implements OnInit {
     this.lbz = localStorage.getItem('LBZ');
 
     console.log(this.lbz)
-
-    //setInterval(this.getSheduledExams, 5000);
     this.getSheduledExams();
+
+    interval(5000).subscribe(() => {
+      this.getSheduledExams();
+      });
+    //setInterval(this.getSheduledExams, 5000);
   }
 
   // getPatients(): void {

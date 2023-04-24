@@ -23,7 +23,25 @@
     <div class="row">
         <div class="col-md-4">
           <label class="labels">LBP</label>
-            <input type="text" [formControlName]="'lbp'"  class="form-control" data-cy = "lbp" required>
+
+            <input
+            [formControlName]="'lbp'"
+            [(ngModel)]="form.value.lbp"
+            (input)="filterPatientLbp(form.value.lbp)"
+            type="text"
+            class="form-control"
+
+            data-cy="lbp"
+          />
+              <div *ngIf="filteredPatients.length > 0" class="suggestions">
+                <div
+                  *ngFor="let fPatient of filteredPatients"
+                  (click)="selectSuggestion(fPatient)"
+                  class="suggestion"
+                >
+                  {{ fPatient.lbp }} - {{ fPatient.name }} {{ fPatient.surname }}
+                </div>
+              </div>
         </div>
 
         <div class="col-md-4"><label class="labels">Od</label>
