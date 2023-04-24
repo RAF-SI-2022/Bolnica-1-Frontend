@@ -4,4 +4,5 @@ export enum PatientArrival{
   CEKA="CEKA",
   TRENUTNO="TRENUTNO",
   ZAVRSENO="ZAVRSENO"
+
 }

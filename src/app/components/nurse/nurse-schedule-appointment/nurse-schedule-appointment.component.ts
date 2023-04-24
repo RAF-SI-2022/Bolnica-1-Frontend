@@ -179,7 +179,8 @@ export class NurseScheduleAppointmentComponent implements OnInit {
             StartTime: event.dateAndTime,
             EndTime: moment(event.dateAndTime).add(30, 'minutes').toDate(),
             Note: this.note,
-            Patient: event.lbp
+            Patient: event.lbp,
+            ExamId: event.id
           };
 
           this.scheduleObj?.addEvent(eventData);
@@ -214,11 +215,14 @@ export class NurseScheduleAppointmentComponent implements OnInit {
 
 
     this.examinationService.createExamination(this.selectedDateTime, this.selectedDoctor, this.patient, this.note).subscribe(res => {
-      console.log(res)         
-      this.scheduleObj?.addEvent(eventData);
-      this.scheduleObj?.refresh();
+      console.log(res)
+      // this.scheduleObj?.addEvent(eventData);
+      // this.scheduleObj?.refresh();
+
       this.scheduleObj?.closeEditor();
-      this.snackBar.openSuccessSnackBar("Uspesno!") 
+      this.snackBar.openSuccessSnackBar("Uspesno!")
+      this.addEventsData()
+
     }, err => {
       this.snackBar.openErrorSnackBar("Greska!")
     })
@@ -285,7 +289,21 @@ export class NurseScheduleAppointmentComponent implements OnInit {
 
   }
   onDelete(): void {
-    // TODO: Sta da se desi kada se klikne izmeni se pise ovde
+
+    const eventData = this.eventsOnCellClick[0];
+    const id = eventData['ExamId']
+    console.log("id za brisanje " + id);
+
+    this.examinationService.deleteExamination(id).subscribe(
+      res => {
+        this.addEventsData();
+        this.snackBar.openSuccessSnackBar("Uspesno obrisan pregled!")
+      },
+      err => {
+        this.snackBar.openErrorSnackBar("Greska prilikom brisanja!")
+      }
+    );
+
   }
 
   public onEventClick(args: EventClickArgs): void {

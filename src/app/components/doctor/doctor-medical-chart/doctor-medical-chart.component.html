@@ -26,7 +26,7 @@
       <li class="nav-item flex-fill" role="presentation">
         <button class="nav-link w-100" id="historyLab-tab" data-bs-toggle="tab"
                 data-bs-target="#bordered-justified-historyLab" type="button" role="tab" aria-controls="historyLab"
-                aria-selected="false" tabindex="-1">Istorija labaratorijskih izveštaja</button>
+                aria-selected="false" tabindex="-1">Istorija laboratorijskih izveštaja</button>
       </li>
     </ul>
     <div class="tab-content pt-2" id="borderedTabJustifiedContent">
@@ -267,6 +267,8 @@
                 <input [(ngModel)]="diagnosis" name = "diagnosis" type="text" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "diagnosis">
               </div> -->
 
+              <label class="labels">Unesite dijagnozu</label>
+
               <input
               [(ngModel)]="diagnosis"
               (input)="filterDiagnosisCodes(diagnosis)"
@@ -277,7 +279,7 @@
               data-cy="diagnosis"
             />
                 <div *ngIf="filteredDiagnosisCodes.length > 0" class="suggestions">
-                  <div 
+                  <div
                     *ngFor="let suggestion of filteredDiagnosisCodes"
                     (click)="selectSuggestion(suggestion)"
                     class="suggestion"

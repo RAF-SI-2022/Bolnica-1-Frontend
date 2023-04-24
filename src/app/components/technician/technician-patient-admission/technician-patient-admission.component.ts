@@ -110,8 +110,8 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
 
     this.laboratoryService.changeExaminationStatus(id, ExaminationStatus.OTKAZANO).
       subscribe((response) => {
-        this.getAll()
-        alert("Uspesno otkazano")
+      this.getListScheduledEexaminations()
+        // alert("Uspesno otkazano")
         this.snackBar.openSuccessSnackBar("Uspesno otkazano!")
       });
 
@@ -133,7 +133,7 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
     this.laboratoryService.registerPatient(lbp).
       subscribe((response) => {
         console.log("DODAT PACIJENT USPESNO! ")
-        this.snackBar.openSuccessSnackBar("Uspesno dodat pacijent!")
+        // this.snackBar.openSuccessSnackBar("Uspesno dodat pacijent!")
       });
 
   }
@@ -143,7 +143,7 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
       subscribe((response) => {
         this.getListScheduledEexaminations()
         this.registerPatient(lbp)
-        alert("Uspesno Zavrseno")
+
         this.snackBar.openSuccessSnackBar("Uspesno zavrseno!")
       });
   }

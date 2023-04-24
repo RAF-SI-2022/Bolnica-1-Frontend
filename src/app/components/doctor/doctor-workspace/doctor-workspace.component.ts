@@ -203,6 +203,8 @@ export class DoctorWorkspaceComponent implements OnInit {
     //   return;
     // }
 
+    console.log("id workspace " + patient.id)
+
 
     this.examinationService.updatePatientStatus(patient.id, PatientArrival.TRENUTNO).pipe(
       switchMap(res => {

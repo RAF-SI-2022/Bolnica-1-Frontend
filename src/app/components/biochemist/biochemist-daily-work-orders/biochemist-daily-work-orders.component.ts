@@ -65,8 +65,11 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
     const endOfDay = new Date()
     endOfDay.setHours(23, 59, 59, 999)
 
+     if (this.pageLaboratory == 0)
+       this.pageLaboratory = 1;
+
     this.laboratoryService.getDailyWorkOrders( startOfDAY, endOfDay, OrderStatus.NEOBRADJEN.toString(),
-    this.pageLaboratory, this.pageSize)
+    this.pageLaboratory - 1, this.pageSize)
       .pipe(
         switchMap((res: Page<LabWorkOrderNew>) => {
           const observables = res.content.map((labWorkOrder: LabWorkOrderNew) => {
