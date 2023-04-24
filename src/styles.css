@@ -1237,7 +1237,7 @@ SNACKBAR
 
 .success-snackbar {
   color: white;
-  --mdc-snackbar-container-color: 66bb6a;
+  --mdc-snackbar-container-color: #66bb6a;
 }
 .success-snackbar button {
   color: white;

@@ -4,6 +4,7 @@ import { Page } from "../../../models/models";
 import { Patient } from "../../../models/patient/Patient";
 import { Router } from "@angular/router";
 import { PatientService } from "../../../services/patient-service/patient.service";
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-doctor-search-patients',
@@ -39,14 +40,26 @@ export class DoctorSearchPatientsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.PAGE_SIZE)
-      .subscribe((response) => {
-        this.patientPage = response
-        this.patientList = this.patientPage.content
-        this.total = this.patientPage.totalElements
+    .subscribe((response) => {
+      this.patientPage = response
+      this.patientList = this.patientPage.content
+      this.total = this.patientPage.totalElements
+    })
+    //nterval(5000).subscribe(() => {
+      this.updateData();
+//    });
+  }
 
-      })
+  updateData(){
+    console.log("FETCHING")
+    this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.PAGE_SIZE)
+    .subscribe((response) => {
+      this.patientPage = response
+      this.patientList = this.patientPage.content
+      this.total = this.patientPage.totalElements
+
+    })
   }
 
   getPatientList(): void {

@@ -10,6 +10,8 @@ import { FamilyStatus } from "../../../models/patient-enums/FamilyStatus";
 import { MaritalStatus } from "../../../models/patient-enums/MaritalStatus";
 import { ExpertiseDegree } from "../../../models/patient-enums/ExpertiseDegree";
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { update } from 'cypress/types/lodash';
+import { interval } from 'rxjs';
 
 @Component({
     selector: 'app-nurse-edit-patient',
@@ -38,9 +40,14 @@ export class NurseEditPatientComponent implements OnInit {
 
     ngOnInit(): void {
         this.lbp = this.route.snapshot.paramMap.get('lbp') || '';
-        this.getPatient(this.lbp);
+       // interval(5000).subscribe(() => {
+            this.updateData();
+         // });
     }
 
+    updateData(){
+        this.getPatient(this.lbp);
+    }
     filterEnum(enumObject: any): string[] {
         return Object.values(enumObject).filter((value) => typeof value === 'string') as string[];
     }

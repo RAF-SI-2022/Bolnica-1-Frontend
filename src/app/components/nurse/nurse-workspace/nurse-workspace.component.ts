@@ -6,7 +6,7 @@ import { ScheduleExam } from "../../../models/patient/ScheduleExam";
 import { UserService } from "../../../services/user-service/user.service";
 import { Page } from "../../../models/models";
 import { PatientArrival } from "../../../models/laboratory-enums/PatientArrival";
-import { forkJoin } from "rxjs";
+import { forkJoin, interval } from "rxjs";
 import { DoctorDepartmentDto } from "../../../models/DoctorDepartmentDto";
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 
@@ -53,17 +53,21 @@ export class NurseWorkspaceComponent implements OnInit {
     this.lbz = localStorage.getItem('LBZ');
     console.log(this.lbz)
 
-    this.getNurseDepartment();
+
     // this.getDoctors();
     // this.userService.findDepartmentByLbz(this.lbz).subscribe(res=>{
     //   console.log(res)
     // })
 
     // this.getDoctors();
-
-
+    //nterval(5000).subscribe(() => {
+      this.updateData();
+//    });
   }
 
+  updateData(){
+    this.getNurseDepartment();
+  }
   searchExams(): void {
     this.doctorLbz = this.selectedDoctor.lbz;
     console.log("izabrani doktor je " + this.doctorLbz)

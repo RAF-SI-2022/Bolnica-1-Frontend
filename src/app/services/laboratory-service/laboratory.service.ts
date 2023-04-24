@@ -108,15 +108,15 @@ export class LaboratoryService {
 
         httpParams
           .append("lbp", lbp)
-          .append("startDate", date.getTime())
-          .append("endDate", date.getTime())
+          .append("startDate", date.getTime().toString())
+          .append("endDate", date.getTime().toString())
           .append("page", page)
           .append("size", size);
 
     }
 
     return this.http.get<Page<ScheduledLabExamination>>(
-      `${environmentLaboratory.apiURL}/examinations/list-scheduled-examinations/by-lbp-date`,
+      `${environmentLaboratory.apiURL}/list-scheduled-examinations/by-lbp-date`,
       {params: httpParams, headers:this.getHeaders()}
     );
   }

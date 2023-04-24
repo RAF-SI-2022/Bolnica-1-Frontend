@@ -12,7 +12,8 @@ import * as moment from 'moment';
 import { PatientArrival } from "../../../models/laboratory-enums/PatientArrival";
 import { event } from 'cypress/types/jquery';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
-import { first } from 'cypress/types/lodash';
+import { first, update } from 'cypress/types/lodash';
+import { interval } from 'rxjs';
 
 
 L10n.load({
@@ -83,11 +84,16 @@ export class NurseScheduleAppointmentComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     this.lbz = localStorage.getItem('LBZ').toString()
+    //nterval(5000).subscribe(() => {
+      this.updateData();
+//    });
+  }
+
+  updateData(){
     this.addEventsData();
     this.getPatientList();
     this.getNurseDepartment();
   }
-
   getNurseDepartment(): void {
 
     this.userService.getEmployee(this.lbz).subscribe(res => { },

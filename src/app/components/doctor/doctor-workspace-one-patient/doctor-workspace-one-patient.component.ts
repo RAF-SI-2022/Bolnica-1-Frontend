@@ -13,6 +13,7 @@ import { Vaccination } from "../../../models/patient/Vaccination";
 import { Allergy } from "../../../models/patient/Allergy";
 import { SharedService } from 'src/app/services/shared.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-doctor-workspace-one-patient',
@@ -76,11 +77,15 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     this.patientName = this.currentPatient.name
     this.patientSurname = this.currentPatient.surname
     this.patientdateOfBirth = this.currentPatient.dateOfBirth
-    this.getGeneralMedicalData(this.lbp);
-
-    this.restoreFormData();
+    //nterval(5000).subscribe(() => {
+      this.updateData();
+//    });
   }
 
+  updateData(){
+    this.getGeneralMedicalData(this.lbp);
+    this.restoreFormData();
+  }
   showPopup(event: any): void {
     this.isPopupVisible = true;
   }

@@ -84,6 +84,7 @@ export class DoctorWorkspaceComponent implements OnInit {
 
     console.log(this.lbz)
 
+    //setInterval(this.getSheduledExams, 5000);
     this.getSheduledExams();
   }
 

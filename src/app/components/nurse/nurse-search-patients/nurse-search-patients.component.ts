@@ -6,6 +6,7 @@ import { Page, Zaposleni } from "../../../models/models";
 import { Router } from "@angular/router";
 import { UserService } from "../../../services/user-service/user.service";
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { interval } from 'rxjs';
 
 @Component({
     selector: 'app-nurse-search-patients',
@@ -42,17 +43,22 @@ export class NurseSearchPatientsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.PAGE_SIZE)
-            .subscribe((response) => {
-                this.patientPage = response
-                this.patientList = this.patientPage.content
-                this.total = this.patientPage.totalElements
-            })
-        this.userService.checkRole("ROLE_VISA_MED_SESTRA").subscribe(res => {
-            this.rolaVisaMedSestra = res;
-        });
+       // interval(5000).subscribe(() => {
+            this.updateData();
+        //  });
     }
 
+    updateData(){
+        this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.PAGE_SIZE)
+        .subscribe((response) => {
+            this.patientPage = response
+            this.patientList = this.patientPage.content
+            this.total = this.patientPage.totalElements
+        })
+    this.userService.checkRole("ROLE_VISA_MED_SESTRA").subscribe(res => {
+        this.rolaVisaMedSestra = res;
+    });
+    }
     deletePatient(LBP: string): void {
         if (confirm(`Da li ste sigurni da zelite da obrisite pacijenta ${LBP}?`)) {
             this.patientService.deletePatient(LBP).subscribe(() => {

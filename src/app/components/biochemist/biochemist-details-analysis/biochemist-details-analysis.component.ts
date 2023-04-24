@@ -77,8 +77,8 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
     this.getPatient();
     this.getBiochemistVerified();*/
 
+    //setInterval(this.getLabWorkOrderWithAnalysis, 5000)
     this.getLabWorkOrderWithAnalysis();
-
   }
 
   getBiochemistVerified(): void {

@@ -6,6 +6,7 @@ import { UserService } from "../../../services/user-service/user.service";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ExaminationStatus } from "../../../models/laboratory-enums/ExaminationStatus";
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-technician-patient-admission',
@@ -72,7 +73,9 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAll()
+    //interval(5000).subscribe(() => {
+      this.getAll();
+    //});
   }
 
   getAll() {

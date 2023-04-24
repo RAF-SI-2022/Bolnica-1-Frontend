@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Zaposleni, Page, DeparmentShort, HospitalShort } from "../../../models/models";
 import { NgxPaginationModule } from 'ngx-pagination';
+import { interval } from 'rxjs';
 
 @Component({
     selector: 'app-admin-search-employee',
@@ -48,24 +49,29 @@ export class AdminSearchEmployeeComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        // Populate departments
-        this.userService.getDepartments().subscribe((response) => {
-            this.departments = response
-        })
-
-        // Populate hospitals
-        this.userService.getHospitals().subscribe((response) => {
-            this.hospitals = response
-        })
-
-        // Get all users
-        this.userService.getAllUsers(this.ime, this.prezime, this.selektovanaOrdinacija, this.selektovanaBolnica, this.deleted, this.page, this.PAGE_SIZE).subscribe((response) => {
-            this.userPage = response;
-            this.userList = this.userPage.content
-            this.total = this.userPage.totalElements
-        })
+      //interval(5000).subscribe(() => {
+        this.getHospitalsDepartmentsUsers();
+      //});
     }
 
+    getHospitalsDepartmentsUsers(){
+              // Populate departments
+              this.userService.getDepartments().subscribe((response) => {
+                this.departments = response
+            })
+    
+            // Populate hospitals
+            this.userService.getHospitals().subscribe((response) => {
+                this.hospitals = response
+            })
+    
+            // Get all users
+            this.userService.getAllUsers(this.ime, this.prezime, this.selektovanaOrdinacija, this.selektovanaBolnica, this.deleted, this.page, this.PAGE_SIZE).subscribe((response) => {
+                this.userPage = response;
+                this.userList = this.userPage.content
+                this.total = this.userPage.totalElements
+            })
+    }
     search(): void {
         this.getUserList();
     }

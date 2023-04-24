@@ -9,6 +9,7 @@ import {AuthService} from "../../../services/auth.service";
 import {LaboratoryService} from "../../../services/laboratory-service/laboratory.service";
 import {FormBuilder} from "@angular/forms";
 import {PatientService} from "../../../services/patient-service/patient.service";
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-technician-issuing-results-details',
@@ -36,8 +37,9 @@ export class TechnicianIssuingResultsDetailsComponent {
     this.workOrderId =parseInt( <string>this.route.snapshot.paramMap.get('id'));
 
     console.log(this.workOrderId)
-    this.getLabWorkOrderWithAnalysis();
-
+   // interval(5000).subscribe(() => {
+      this.getLabWorkOrderWithAnalysis();
+    //});
   }
 
   getLabWorkOrderWithAnalysis(): void{

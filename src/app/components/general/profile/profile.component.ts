@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { interval } from 'rxjs';
 
 @Component({
     selector: 'app-profile',
@@ -67,10 +68,15 @@ export class ProfileComponent implements OnInit {
         this.disableUserFormFields();
         console.log("[Debug]: LBZ " + localStorage.getItem("LBZ")!);
         this.getUser(localStorage.getItem("LBZ")!);
+        interval(5000).subscribe(() => {
+            this.updateData();
+          });
+    }
+
+    updateData(){
         this.getUserPermissions();
         this.getDepartments();
     }
-
     getDepartments(): void {
         this.userService.getDepartments().subscribe(result => {
             this.departments = result;

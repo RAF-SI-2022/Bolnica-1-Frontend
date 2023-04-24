@@ -13,6 +13,7 @@ import { PrescriptionType } from "../../../models/laboratory-enums/PrescriptionT
 import { PrescriptionServiceService } from "../../../services/prescription-service/prescription-service.service";
 import { Patient } from "../../../models/patient/Patient";
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { interval } from 'rxjs';
 
 
 @Component({
@@ -88,14 +89,19 @@ export class DoctorCreateReferralComponent implements OnInit {
     ngOnInit(): void {
       this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
       console.log(this.lbp);
-      this.getDepartments();
-       // this.getHospitals();
-       this.lbz = this.authService.getLBZ();
-       console.log(this.lbz);
-       this.getLabAnalysis();
-       this.getDoctorDepartment()
+      //interval(5000).subscribe(() => {
+        this.getLabDoctorDepartments();
+      //});
     }
 
+    getLabDoctorDepartments(){
+      this.getDepartments();
+      // this.getHospitals();
+      this.lbz = this.authService.getLBZ();
+      console.log(this.lbz);
+      this.getLabAnalysis();
+      this.getDoctorDepartment()
+    }
 /*      ustanova: ['', [Validators.required]],
       ustanova1: [new DeparmentShort(), [Validators.required]],
       ustanova2: [new HospitalShort(), [Validators.required]],
@@ -134,6 +140,9 @@ export class DoctorCreateReferralComponent implements OnInit {
           this.departmentFromId = this.userEdit.department.id
           console.log(this.departmentFromId)
         }
+        else{
+          this.snackBar.openErrorSnackBar("Greska")
+        }
       })
   }
 
@@ -163,19 +172,14 @@ export class DoctorCreateReferralComponent implements OnInit {
 
     confirmUput(): void {
 
-      if(!this.validateEntries())
+      if(!this.validateEntries()){
+        this.snackBar.openErrorSnackBar("Popunite trazena polja!")
         return;
+      }
 
       if(!confirm('Da li ste sigurni da želite da napravite uput?')){
         return;
       }
-
-
-  confirmUput(): void {
-
-    if (!confirm('Da li ste sigurni da želite da napravite uput?')) {
-      return;
-    }
 
     const referral = this.referralForm.value;
     console.log("uput potvrdjen");
@@ -230,6 +234,9 @@ export class DoctorCreateReferralComponent implements OnInit {
       this.paramsList = this.paramsPage.content
       this.total = this.paramsPage.totalElements
       console.log(this.paramsList)
+      if(this.paramsList.length == 0){
+        this.snackBar.openWarningSnackBar("Izaberite tip parametra")
+      }
     })
   }
 
@@ -243,7 +250,9 @@ export class DoctorCreateReferralComponent implements OnInit {
       this.hospitals = this.hospitalPage.content
       this.totalHospital = this.paramsPage.totalElements
       console.log(this.hospitals)
-
+      if(this.hospitals.length == 0){
+        this.snackBar.openWarningSnackBar("Izaberite ustanovu")
+      }
     })
   }
 

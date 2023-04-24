@@ -9,6 +9,7 @@ import { LaboratoryService } from "../../../services/laboratory-service/laborato
 import { ExaminationStatus } from "../../../models/laboratory-enums/ExaminationStatus";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { interval } from 'rxjs';
 @Component({
   selector: 'app-technician-schedule-lab-examination',
   templateUrl: './technician-schedule-lab-examination.component.html',
@@ -67,8 +68,14 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getPatientList()
+    //nterval(5000).subscribe(() => {
+      this.updateData();
+//    });
     // this.listScheduledEexaminations()
+  }
+
+  updateData(){
+    this.getPatientList()
   }
 
   getPatientList() {
@@ -92,7 +99,10 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     this.lbp = this.searchForm.get('name')?.value
     this.date = this.countForm.get('date')?.value
     this.note = this.noteForm.get('note')?.value
-
+    if(!this.validateEntries() || this.lbp.length == 0 || !this.date){
+      this.snackBar.openErrorSnackBar("Popunite sva polja")
+      return;
+    }
     this.labaratoryService.createScheduledExamination(this.lbp, this.date, this.note).subscribe((response) => {
       // this.errorMessage = '';
       // this.successMessage = 'Uspesno dodat pregled!'
@@ -104,99 +114,19 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
         this.snackBar.openErrorSnackBar("Greska!")
       }
 
-
-
-
-/*    ngOnInit(): void {
-        this.getPatientList()
-        this.listScheduledExaminations()
-    }
-
-    getPatientList(){
-      this.labaratoryService.getPatients(this.page, this.pageSize)
-        .subscribe((response) => {
-          this.patientPage = response
-          this.patientList = this.patientPage.content
-        })
-    }
-
-    countPatientByDay(){
-      if(!this.validateEntriesDate())
-        return;
-
-        this.labaratoryService.listScheduledExaminationsByDay(this.countForm.get('date')?.value).subscribe((response) => {
-            this.numberOfScheduled = response
-        })
-    }
-
-    examinationCreate(){
-        this.lbp = this.searchForm.get('name')?.value
-        this.date = this.countForm.get('date')?.value
-        this.note = this.noteForm.get('note')?.value
-
-        this.labaratoryService.createScheduledExamination(this.lbp, this.date, this.note) .subscribe((response) => {
-            this.errorMessage = '';
-            this.successMessage = 'Uspesno dodat pregled!'
-        }, error => {
-            console.log("Error " + error.status);
-            if(error.status == 409){
-                this.errorMessage = 'greska';
-            }
-        })
-    }
-  validateEntriesName() : boolean {
-    console.log("UDJE")
-    var form = document.getElementsByClassName('needs-validation-1')[0] as HTMLFormElement;
-    form.classList.add('was-validated');
-    console.log("IZADJE")
-    console.log("JEEEEEEEEEEEEEEEEEEEEEEEEJ" + form.checkValidity().valueOf())
-
-    if(form.checkValidity() === false){
-      return false;
-    }
-
-    return true;
-  }
-
-  validateEntriesDate() : boolean {
-    var form = document.getElementsByClassName('needs-validation-2')[0] as HTMLFormElement;
-    form.classList.add('was-validated');
-
-    if(form.checkValidity() === false){
-      return false;
-    }
-
-    return true;
-  }
-
-    //nerealizovani uputi
-    findExaminations() {
-      if(!this.validateEntriesName())
-        return;
-
-      this.lbp = this.searchForm.get('name')?.value
-
-      if(this.page == 0)
-        this.page = 1;
-
-      // @ts-ignore
-      this.labaratoryService.getdPrescriptionsForPatientNotRealized(this.lbp, this.page-1, this.pageSize)
-        .subscribe((response) => {
-          this.rawLabaratoryPage = response
-          this.rawLabararatoryPrescriptions = this.rawLabaratoryPage.content
-          this.totalSchedule = this.rawLabaratoryPage.totalElements
-
-        })
-    }
-
-    //todo da dodaju na beku @RequestParam za datum i pacijenta
-    listScheduledExaminations(){
-        if(this.page == 0){
-          this.page = 1 */
-
     })
   }
 
+  validateEntries() : boolean {
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    form.classList.add('was-validated');
+
+    if(form.checkValidity() === false){
+      return false;
+    }
+
+    return true;
+  }
   //nerealizovani uputi
   findExaminations() {
     this.lbp = this.searchForm.get('name')?.value
@@ -279,14 +209,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     return false
   }
 
-  onTableDataChange(event: any): void {
-    this.page = event;
-    //ili ????? ger Examination
-    this.getPatientList();
-  }
-
-
-/*    onTableDataChange(event: any): void {
+   onTableDataChange(event: any): void {
         this.page = event;
         this.findExaminations();
     }
@@ -295,11 +218,6 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     this.page = event;
     this.listScheduledExaminations();
   }
-
-
-    onSearch(searchText: string) {
-      this.patientList = this.patientList.filter(patient => patient.lbp.toLowerCase().includes(searchText.toLowerCase()));
-    } */
 
 
   onSearch(searchText: string) {

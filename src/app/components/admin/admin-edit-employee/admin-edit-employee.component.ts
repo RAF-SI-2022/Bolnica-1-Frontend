@@ -4,6 +4,7 @@
     import { FormBuilder, FormGroup, Validators } from "@angular/forms";
     import { ActivatedRoute } from "@angular/router";
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { interval } from 'rxjs';
 
     @Component({
     selector: 'app-admin-edit-employee',
@@ -76,7 +77,9 @@ import { SnackbarServiceService } from 'src/app/services/snackbar-service.servic
         this.lbz = <string>this.route.snapshot.paramMap.get('lbz');
         this.getUser(this.lbz);
         this.getUserPermissions(this.lbz);
-        this.getDepartments();
+        //interval(5000).subscribe(() => {
+            this.getDepartments();
+          //});
     }
 
     getDepartments(): void {

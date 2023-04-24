@@ -23,6 +23,7 @@ import { ParameterAnalysisResultWithDetails } from "../../../models/laboratory/P
 
 import { DiagnosisCodeDto } from 'src/app/models/patient/DiagnosisCode';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { interval } from 'rxjs';
 
 
 
@@ -140,7 +141,13 @@ export class DoctorMedicalChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //nterval(5000).subscribe(() => {
+      this.updateData();
+//    });
+   
+  }
 
+  updateData(){
     this.prescriptionForm.get('deleteButton')?.disable()
     this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
     // @ts-ignore

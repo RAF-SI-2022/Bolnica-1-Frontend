@@ -7,6 +7,7 @@ import {Page} from "../../../models/models";
 import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
 import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
 import {PatientService} from "../../../services/patient-service/patient.service";
+import { Observable, interval } from 'rxjs';
 
 @Component({
   selector: 'app-biochemist-daily-work-orders',
@@ -28,7 +29,10 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.getWorkOrders();
+    // this.getWorkOrders();
+    //interval(5000).subscribe(() => {
+      this.getWorkOrders();
+    //});
   }
 
 
@@ -99,5 +103,6 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
 
     this.router.navigateByUrl(url, { state: { lab } });
   }
+
 
 }
