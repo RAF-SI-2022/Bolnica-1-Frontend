@@ -9,7 +9,7 @@ import { Page } from "../../../models/models";
 import { ScheduleExam } from "../../../models/patient/ScheduleExam";
 import { ExamForPatient } from "../../../models/patient/ExamForPatient";
 import { PatientArrival } from "../../../models/laboratory-enums/PatientArrival";
-import { forkJoin, interval, switchMap } from "rxjs";
+import { Subscription, forkJoin, interval, switchMap } from "rxjs";
 
 @Component({
   selector: 'app-doctor-workspace',
@@ -38,6 +38,8 @@ export class DoctorWorkspaceComponent implements OnInit {
   zavrseno: PatientArrival = PatientArrival.ZAVRSENO;
   otkazano: PatientArrival = PatientArrival.OTKAZANO;
   ceka: PatientArrival = PatientArrival.CEKA;
+
+  intervalSubscription: Subscription | undefined;
 
 
   /*
@@ -70,6 +72,11 @@ export class DoctorWorkspaceComponent implements OnInit {
   //     this.router.navigate(['doctor-workspace-one']);
   // }
 
+  ngOnDestroy(): void {
+    if (this.intervalSubscription) {
+      this.intervalSubscription.unsubscribe();
+    }
+  }
 
   ngOnInit(): void {
     // // [TODO] Temporary values for getAllPatients parameters
@@ -85,7 +92,7 @@ export class DoctorWorkspaceComponent implements OnInit {
     console.log(this.lbz)
     this.getSheduledExams();
 
-    interval(5000).subscribe(() => {
+    this.intervalSubscription = interval(5000).subscribe(() => {
       this.getSheduledExams();
       });
     //setInterval(this.getSheduledExams, 5000);
