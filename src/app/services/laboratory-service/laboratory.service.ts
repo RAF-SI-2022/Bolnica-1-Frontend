@@ -116,7 +116,7 @@ export class LaboratoryService {
     // }
 
     return this.http.get<Page<ScheduledLabExamination>>(
-      `${environmentLaboratory.apiURL}/list-scheduled-examinations/by-lbp-date`,
+      `${environmentLaboratory.apiURL}/examinations/list-scheduled-examinations/by-lbp-date`,
       {params: httpParams, headers:this.getHeaders()}
     );
   }

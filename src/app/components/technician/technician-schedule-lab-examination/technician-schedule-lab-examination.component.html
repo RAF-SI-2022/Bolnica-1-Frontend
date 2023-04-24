@@ -68,8 +68,8 @@
                             <th>Status</th>
                             <th>Zahtevane analize</th>
                             <th>Komentar</th>
-                            <th>Uputna dijagnoza</th>
-                            <th>Razlog upucivanja</th>
+<!--                            <th>Uputna dijagnoza</th>-->
+<!--                            <th>Razlog upucivanja</th>-->
                           </tr>
                           </thead>
 
@@ -89,8 +89,8 @@
                                 {{analysisData.analysisName}}
                               </div>
                             </td>                            <td>{{prescription.comment}}</td>
-                            <td>{{prescription.referralDiagnosis}}</td>
-                            <td>{{prescription.referralReason}}</td>
+<!--                            <td>{{prescription.referralDiagnosis}}</td>-->
+<!--                            <td>{{prescription.referralReason}}</td>-->
                           </tr>
                           </tbody>
                         </table>
@@ -225,9 +225,8 @@
                     <td>{{exam.examinationStatus}}</td>
                     <td>{{exam.note}}</td>
                     <td>{{exam.lbz}}</td>
-                    <td>{{exam.examinationStatus}}</td>
                     <td>
-                      <button *ngIf=!checkStatus(exam) (click)="cancelExamination(exam.id)">Otkaži pregled</button>
+                    <button *ngIf=checkStatus(exam) (click)=cancelExamination(exam.id) class="btn btn-primary" >Otkaži</button>
                     </td>
 
                   </tr>
