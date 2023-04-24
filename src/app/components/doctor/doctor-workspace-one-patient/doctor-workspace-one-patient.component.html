@@ -119,7 +119,7 @@
         </tr>
       </table>
 
-      <div>
+      <div *ngIf="!zavrseno">
         <button class="btn btn-outline-primary" (click)="showElements()" >Dodati dijagnozu</button>
       </div>
 <!--- Treba da se namesti da je list-container vidljiv tek nakon kliktaja na dugme
@@ -180,7 +180,7 @@
         <input type="checkbox" id="confidential" name="checkbox" [formControlName]="'confidential'">
         <label for="checkbox">Poverljivo</label>
       </div>
-      <div>
+      <div *ngIf="!zavrseno">
         <button class="btn btn-primary" (click)="showPopup($event)">Sacuvaj</button>
       </div>
 

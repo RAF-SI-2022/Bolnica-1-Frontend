@@ -181,6 +181,9 @@ export class DoctorCreateReferralComponent implements OnInit {
         return;
       }
 
+
+
+
     const referral = this.referralForm.value;
     console.log("uput potvrdjen");
     console.log(this.selectedAnalysis);

@@ -66,7 +66,7 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
 
     // OTKOMENTARISATI KAD PRORADI STRANICA
 
-    /*
+
     this.lbp = this.currentLabWorkOrder.lbp
     this.biochemistLbzVerified = this.currentLabWorkOrder.biochemistLbz
 
@@ -75,7 +75,7 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
     }
 
     this.getPatient();
-    this.getBiochemistVerified();*/
+    this.getBiochemistVerified();
 
     //setInterval(this.getLabWorkOrderWithAnalysis, 5000)
     this.getLabWorkOrderWithAnalysis();

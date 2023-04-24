@@ -192,6 +192,9 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
         this.snackBar.openWarningSnackBar("Nema pregleda")
       }
     }, err => {
+      console.log("udje")
+      console.log(err.error)
+      console.log(err.status)
       this.snackBar.openErrorSnackBar("Greska")
     })
 
@@ -209,7 +212,14 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     return false
   }
 
-   onTableDataChange(event: any): void {
+ /* onTableDataChange(event: any): void {
+    this.page = event;
+    //ili ????? ger Examination
+    this.getPatientList();
+  }*/
+
+
+    onTableDataChange(event: any): void {
         this.page = event;
         this.findExaminations();
     }

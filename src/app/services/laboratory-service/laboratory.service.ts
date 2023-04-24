@@ -97,23 +97,23 @@ export class LaboratoryService {
   listScheduledExaminationsByLbp(lbp: string, datee: Date,  page: number, size:number): Observable<Page<ScheduledLabExamination>> {
     let httpParams = new HttpParams()
     const date = new Date(datee)
-    if(lbp == '') {
+    /*if(lbp == '') {
       httpParams
         .append("startDate", date.getTime())
         .append("endDate", date.getTime())
         .append("page", page)
         .append("size", size);
       console.log("dateeee " + date.getTime())
-    }else{
+    }else{*/
 
-        httpParams
-          .append("lbp", lbp)
+        httpParams = httpParams
+          .append("lbp", lbp.toString())
           .append("startDate", date.getTime().toString())
           .append("endDate", date.getTime().toString())
           .append("page", page)
           .append("size", size);
 
-    }
+    // }
 
     return this.http.get<Page<ScheduledLabExamination>>(
       `${environmentLaboratory.apiURL}/list-scheduled-examinations/by-lbp-date`,
@@ -273,6 +273,35 @@ export class LaboratoryService {
       .append("fromDate", dateFrom.getTime().toString())
       .append("toDate", dateTo.getTime().toString())
       .append("status", status) // TODO: SREDJENO ? Status is undefined, baca gresku zbog toga
+      .append("page", page)
+      .append("size",size)
+
+    console.log("usao u servis!!!!!!!!!!!!!!!!!!")
+
+    return this.http.get<Page<LabWorkOrderNew>>(
+      `${environmentLaboratory.apiURL}/work-orders/find_work_orders`,
+      { params: httpParams, headers: this.getHeaders()}
+    );
+  }
+
+  public getDailyWorkOrders(
+    fromDatee: Date,
+    toDatee: Date,
+    status: string,
+    page: number,
+    size: number
+  ): Observable<Page<LabWorkOrderNew>> {
+    const dateFrom = new Date(fromDatee)
+    const dateTo = new Date(toDatee)
+
+    console.log(dateFrom.getTime())
+    console.log(dateTo.getTime())
+    console.log(status)
+
+    let httpParams = new HttpParams()
+      .append("fromDate", dateFrom.getTime().toString())
+      .append("toDate", dateTo.getTime().toString())
+      .append("status", status)
       .append("page", page)
       .append("size",size)
 
