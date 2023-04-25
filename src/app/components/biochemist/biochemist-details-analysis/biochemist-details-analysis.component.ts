@@ -130,7 +130,10 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
     console.log("result before service " + result);
     console.log("id parametra " + paramId);
     console.log("work order "+ this.workOrderId)
-
+    if(result == null || result.length == 0){
+      this.snackBar.openErrorSnackBar("Polje ne sme biti prazno")
+      return;
+    }
     this.laboratoryService.updateResults(this.workOrderId, paramId, result, new Date(), this.lbz)
       .subscribe((response) => {
         // this.errorMessage = '';
@@ -147,6 +150,13 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
   }
 
   verifyWorkOrder(): void {
+    for (let par of this.parameterAnalysisResults) {
+      console.log("Evo " + par.result)
+      if(par.result == null || par.result.length == 0){
+        this.snackBar.openErrorSnackBar("Popunite sva polja")
+        return;
+      } 
+    }
     this.laboratoryService.verifyResult(this.workOrderId).subscribe(res => {
       console.log("usao ")
       // this.successMessage = res.message
