@@ -7,7 +7,7 @@
         <label for="doctor">Doktor</label>
 
         <ng-select class="custom" [(ngModel)]="selectedDoctor" id="doctor" name="doctor" required [searchable]="true"
-          bindLabel="name" bindValue="name">
+          bindLabel="name" bindValue="name" (change)="doctorChange()">
           <ng-option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
         </ng-select>
       </div>
