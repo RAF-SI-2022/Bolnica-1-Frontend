@@ -42,7 +42,7 @@
               (click)="onRowClick(lab)">
               <td>{{lab.id}}</td>
               <td>{{lab.lbp}}</td>
-              <td>{{lab.patient?.name}} {{lab.patient?.surname}}</td>
+              <td>{{lab.patient ? lab.patient.name : ''}} {{lab.patient ? lab.patient.surname : ''}}</td>
             </tr>
           </tbody>
 
