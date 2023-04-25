@@ -99,7 +99,8 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
     this.lbp = this.searchForm.get('name')?.value
     this.date = this.countForm.get('date')?.value
     this.note = this.noteForm.get('note')?.value
-    if(!this.validateEntries() || this.lbp.length == 0 || !this.date){
+    console.log("date " + this.date)
+    if(!this.validateEntries() || this.lbp.length == 0 || !this.date || this.date.toString().length == 0){
       this.snackBar.openErrorSnackBar("Popunite sva polja")
       return;
     }
@@ -183,6 +184,10 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
         alert("Uspesno otkazano")
 
       }); */
+    if(this.lbp.length == 0){
+      this.snackBar.openErrorSnackBar("Izaberite pacijenta")
+      return;
+    }
 
     this.labaratoryService.listScheduledExaminationsByLbp(this.lbp, this.dateSearch, this.page - 1, this.pageSize).subscribe((response) => {
       this.scheduledLabExaminationPage = response

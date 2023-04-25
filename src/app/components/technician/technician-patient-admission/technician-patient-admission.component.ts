@@ -64,8 +64,7 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
   getListScheduledEexaminations(): void {
     if (this.page == 0)
       this.page = 1;
-    console.log("LBP " + this.lbp)
-    const fixedLbp = this.lbp.split("-")[0];
+      const fixedLbp = this.lbp.split("-")[0].trim();
     this.laboratoryService.listScheduledExaminationsByLbp(fixedLbp, new Date(), this.page - 1, this.PAGE_SIZE).subscribe((response) => {
       this.scheduledLabExaminationPage = response
       this.scheduledLabExaminationList = this.scheduledLabExaminationPage.content
