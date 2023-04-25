@@ -79,6 +79,14 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
 
     //setInterval(this.getLabWorkOrderWithAnalysis, 5000)
     this.getLabWorkOrderWithAnalysis();
+
+    if(this.currentLabWorkOrder.status == 'OBRADJEN'){
+      this.obradjen = true
+      this.labWorkOrderWithAnalysis.biochemistLbz = this.labWorkOrderWithAnalysis.biochemistLbz
+      console.log("Woww " + this.labWorkOrderWithAnalysis.biochemistLbz)
+      this.biochemistLbzVerified = this.labWorkOrderWithAnalysis.biochemistLbz
+    }
+
   }
 
   getBiochemistVerified(): void {
@@ -127,7 +135,7 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
       .subscribe((response) => {
         // this.errorMessage = '';
         // this.successMessage = 'Promena je uspesno sacuvana!'
-        this.getLabWorkOrderWithAnalysis();
+        //this.getLabWorkOrderWithAnalysis();
         this.snackBar.openSuccessSnackBar("Promena uspesno sacuvana!")
       }, error => {
         console.log("Error " + error.status);
