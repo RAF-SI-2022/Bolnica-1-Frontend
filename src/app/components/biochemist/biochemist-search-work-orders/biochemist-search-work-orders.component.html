@@ -1,23 +1,4 @@
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <script src="/path/to/jquery.min.js"></script>
-  <script src="/path/to/bootstrap.bundle.min.js"></script>
-
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet">
-</head>
 <form [formGroup]="form" class="mb-5 needs-validation" novalidate>
 
   <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
@@ -36,7 +17,25 @@
 
       <div class="col-md-4 offset-2">
         <label class="labels">LBP</label>
-        <input type="text" [formControlName]="'lbp'" name="lbp" class="form-control" data-cy="lbp">
+        
+        <input
+        [formControlName]="'lbp'"
+        [(ngModel)]="form.value.lbp"
+        (input)="filterPatientLbp(form.value.lbp)"
+        type="text"
+        class="form-control"
+
+        data-cy="lbp"
+      />
+          <div *ngIf="filteredPatients.length > 0" class="suggestions">
+            <div
+              *ngFor="let fPatient of filteredPatients"
+              (click)="selectSuggestion(fPatient)"
+              class="suggestion"
+            >
+              {{ fPatient.lbp }} - {{ fPatient.name }} {{ fPatient.surname }}
+            </div>
+          </div>
       </div>
 
       <div class="col-md-4">
