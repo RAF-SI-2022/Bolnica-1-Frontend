@@ -68,13 +68,13 @@
           </thead>
           <tbody>
 
-            <tr *ngFor="let p of parameterAnalysisResults">
+            <tr *ngFor="let p of parameterAnalysisResults; let i = index">
               <td>{{p.labAnalysis.id}}</td>
               <td>{{p.labAnalysis.abbreviation}}</td>
               <td>{{p.parameter.id}}</td>
               <td>{{p.parameter.parameterName}}</td>
               <td *ngIf="!obradjen">
-                <input [(ngModel)]="p.result" name="rezultat" type="text" class="form-control" data-cy="rezultat">
+                <input [(ngModel)]="p.result" name="rezultat{{i}}" type="text" class="form-control" data-cy="rezultat">
               </td>
               <td *ngIf="obradjen">
                 {{p.result}}

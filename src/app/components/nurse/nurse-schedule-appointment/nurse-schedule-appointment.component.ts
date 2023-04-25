@@ -131,6 +131,7 @@ export class NurseScheduleAppointmentComponent implements OnInit {
       this.scheduleObj?.deleteEvent(this.scheduleObj?.eventsData)
       this.responseExams = res;
       console.log("DOBIO SAM " + res.length)
+      this.doctorSearched = true;
       if(this.responseExams.length == 0){
         this.snackBar.openWarningSnackBar("Nema zakazanih pregleda")
       }
@@ -160,9 +161,6 @@ export class NurseScheduleAppointmentComponent implements OnInit {
           console.log(event)
 
         }
-
-
-
       });
     }, err => {
       if(!this.firstTimeErrorCheck){
@@ -213,7 +211,7 @@ export class NurseScheduleAppointmentComponent implements OnInit {
   public onPopupOpen(args: PopupOpenEventArgs): void {
     if (args.type === 'QuickInfo') {
       args.cancel = true;
-      if(this.selectedDoctor.length == 0){
+      if(this.selectedDoctor.length == 0 || !this.doctorSearched){
         this.snackBar.openWarningSnackBar("Izaberite doktora")
         return;
       }
@@ -283,4 +281,8 @@ export class NurseScheduleAppointmentComponent implements OnInit {
     this.editMenu = true;
   }
 
+  doctorSearched = false;
+  doctorChange(){
+    this.doctorSearched = false;
+  }
 }
