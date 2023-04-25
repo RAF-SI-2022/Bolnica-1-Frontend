@@ -362,7 +362,7 @@
                     <td>{{prescription.id}}</td>
                     <td>{{prescription.type}}</td>
                     <td>{{prescription.doctorLbz}}</td>
-                    <td>{{prescription.creationDate}}</td>
+                    <td>{{prescription.creationDateTime |date:'dd-MM-Y'}}</td>
                     <td>{{prescription.departmentFromId}}</td>
                     <td>{{prescription.departmentToId}}</td>
                     <td>{{prescription.status}}</td>
@@ -398,7 +398,7 @@
 <!--&lt;!&ndash;                </div>&ndash;&gt;-->
 <!--              </div>-->
 <!--            </div>-->
-            <div *ngIf="idPrescription">
+            <div *ngIf="idPrescription && !deleted">
               <div class="row py-5">
                 <h2>Detalji uputa <b>{{idPrescription}}</b></h2>
                 <table class="table table-hover" data-cy="table1">
@@ -425,7 +425,7 @@
                         <td>{{prescription.departmentToId}}</td>
                         <td>{{prescription.doctorLbz}}</td>
                         <td>{{prescription.comment}}</td>
-                        <td>{{prescription.creationDate}}</td>
+                        <td>{{prescription.creationDateTime |date:'dd-MM-Y'}}</td>
                         <td>{{prescription.status}}</td>
                         <td>
                           <a *ngIf="!check(prescription.status)" (click)="deletePrescription(prescription.id)" class="delete" title="Obrisi" data-toggle="tooltip"> <i class="bi bi-x-circle-fill"></i>
