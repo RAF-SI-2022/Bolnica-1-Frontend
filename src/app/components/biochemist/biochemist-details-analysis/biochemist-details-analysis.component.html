@@ -96,7 +96,7 @@
           </tbody>
         </table>
 
-        <div *ngIf="obradjen==true" class="row">
+        <div *ngIf="obradjen==true && shouldShowFromPRoute == true" class="row">
           <div class="col-md-4">
             <label class="labels">Zaposleni koji je verifikovao nalog: {{biochemistName}} {{biochemistSurname}}</label>
           </div>

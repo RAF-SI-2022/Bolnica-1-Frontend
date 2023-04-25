@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LaboratoryService } from "../../../services/laboratory-service/laboratory.service";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router, RoutesRecognized } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { AuthService } from "../../../services/auth.service";
 import { UserService } from "../../../services/user-service/user.service";
@@ -13,6 +13,7 @@ import { LabWorkOrderDto } from "../../../models/laboratory/LabWorkOrderDto";
 import { AdminPromeniZaposlenog, Zaposleni } from "../../../models/models";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { filter, map, pairwise, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-biochemist-details-analysis',
   templateUrl: './biochemist-details-analysis.component.html',
@@ -46,8 +47,9 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
   biochemistSurname: string = ''
 
 
+  shouldShowFromPRoute = false;
   constructor(private route: ActivatedRoute, private userService: UserService, private snackBar: SnackbarServiceService,
-    private authService: AuthService, private laboratoryService: LaboratoryService,
+    private authService: AuthService, private laboratoryService: LaboratoryService, private activatedRoute: ActivatedRoute,
     private router: Router, private formBuilder: FormBuilder,
     private patientService: PatientService) {
 
@@ -55,8 +57,23 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
 
   }
 
+  previousUrl: string = "";
   ngOnInit(): void {
-
+    // biochemist daily prikazic
+    let prevRoute: string = "";
+    this.router.events
+    .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
+    .subscribe((events: RoutesRecognized[]) => {
+      this.previousUrl =  events[0].urlAfterRedirects
+      console.log('current url', events[1].urlAfterRedirects);
+      console.log("prev " + this.previousUrl)
+      if(this.previousUrl == "/biochemist-search"){
+        this.shouldShowFromPRoute = false;
+      }
+      else{
+        this.shouldShowFromPRoute = true;
+      }
+    });
     this.workOrderId = parseInt(<string>this.route.snapshot.paramMap.get('id'));
     // @ts-ignore
     this.lbz = localStorage.getItem("LBZ")
