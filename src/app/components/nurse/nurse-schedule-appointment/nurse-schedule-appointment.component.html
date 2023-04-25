@@ -7,13 +7,13 @@
         <label for="doctor">Doktor</label>
 
         <ng-select class="custom" [(ngModel)]="selectedDoctor" id="doctor" name="doctor" required [searchable]="true"
-          bindLabel="name" bindValue="name" (change)="doctorChange()">
+          bindLabel="name" bindValue="name" (change)="doctorChange()" data-cy="doctorSelect">
           <ng-option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
         </ng-select>
       </div>
       <div class="row mt-1">
         <div class="col-md-4">
-          <button (click)="addEventsData()" class="btn btn-primary">Pretrazi</button>
+          <button (click)="addEventsData()" class="btn btn-primary" data-cy="pretraziButton">Pretrazi</button>
         </div>
       </div>
 
@@ -36,7 +36,7 @@
 
                   <div class="col-md-6 ">
                     <label for="note">Razlog pregleda</label>
-                    <select class="form-control" [(ngModel)]="note" id="note" name="note">
+                    <select class="form-control" [(ngModel)]="note" id="note" name="note" data-cy="razlog">
                       <option value="Pregled">Pregled</option>
                       <option value="Kontrola">Kontrola</option>
                       <option value="Operacija">Operacija</option>
@@ -64,7 +64,7 @@
                       <label for="patient">Pacijent</label>
                       <ng-select name="patient" [(ngModel)]="patient" class="custom" id="patient"
                         aria-label="Default select example" data-cy="patient" required [searchable]="true"
-                        bindLabel="name" bindValue="name" data-cy="patients1">
+                        bindLabel="name" bindValue="name">
                         <ng-option *ngFor="let patient of patientList" [value]="patient.lbp">{{patient.name }}
                           {{patient.surname}}</ng-option>
                       </ng-select>
@@ -93,11 +93,11 @@
 
         <div class="row justify-content-center">
           <div class="col-md-4 d-flex justify-content-center">
-            <button *ngIf="!editMenu" type="button" class="btn btn-primary" (click)="onSave()">Dodaj</button>
+            <button *ngIf="!editMenu" type="button" class="btn btn-primary" (click)="onSave()" data-cy="dodajBtn">Dodaj</button>
             <button *ngIf="editMenu" type="button" class="btn btn-primary" (click)="onDelete()">Obrisi</button>
           </div>
           <div class="col-md-4 d-flex justify-content-center">
-            <button type="button" class="btn btn-secondary" (click)="onCancel()">Otkazi</button>
+            <button type="button" class="btn btn-secondary" (click)="onCancel()" data-cy="otkaziBtn">Otkazi</button>
           </div>
         </div>
 
