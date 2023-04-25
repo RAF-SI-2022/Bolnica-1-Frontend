@@ -73,17 +73,17 @@
               <td>{{p.labAnalysis.abbreviation}}</td>
               <td>{{p.parameter.id}}</td>
               <td>{{p.parameter.parameterName}}</td>
-              <td *ngIf="obradjen==false">
+              <td *ngIf="!obradjen">
                 <input [(ngModel)]="p.result" name="rezultat" type="text" class="form-control" data-cy="rezultat">
               </td>
-              <td *ngIf="obradjen==true">
+              <td *ngIf="obradjen">
                 {{p.result}}
               </td>
               <td>{{p.parameter.unitOfMeasure}}</td>
               <td>{{p.parameter.lowerLimit}}</td>
               <td>{{p.parameter.upperLimit}}</td>
               <td>{{p.lbzBiochemist}}</td>
-              <td *ngIf="obradjen==false">
+              <td *ngIf="!obradjen">
                 <button (click)="saveChanges(p.id, p.result)" class="btn btn-primary" type="submit"
                   data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table"
                   data-cy="sacuvaj">Sacuvaj</button>

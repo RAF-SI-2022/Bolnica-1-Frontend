@@ -79,7 +79,7 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit {
   }
 
 
-  onRowClick(lab: LabWorkOrderNew): void {
+  showDetails(lab: LabWorkOrderNew): void {
     console.log("Id radnog naloga za detalje: " + lab.id)
     const url = `/biochemist-details/${lab.id}`;
 

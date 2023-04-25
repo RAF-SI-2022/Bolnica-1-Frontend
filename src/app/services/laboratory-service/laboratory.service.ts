@@ -8,7 +8,7 @@ import {FamilyStatus} from "../../models/patient-enums/FamilyStatus";
 import {Observable} from "rxjs";
 import {PatientUpdateClass} from "../../models/patient/PatientUpdate";
 import {environment, environmentLaboratory, environmentPatient} from "../../../environments/environment";
-import {DeparmentShort, Page} from "../../models/models";
+import {DeparmentShort, EmployeeCreateDto, Page} from "../../models/models";
 import {ExaminationHistory} from "../../models/patient/ExaminationHistory";
 import {Patient} from "../../models/patient/Patient";
 import {ScheduledLabExamination} from "../../models/laboratory/ScheduledLabExamination";
@@ -31,6 +31,9 @@ import {LabWorkOrderNew} from "../../models/laboratory/LabWorkOrderNew";
 import {OrderStatus} from "../../models/laboratory-enums/OrderStatus";
 import {LabWorkOrderMessageDto} from "../../models/LabWorkOrderMessageDto";
 import {LabWorkOrderDto} from "../../models/laboratory/LabWorkOrderDto";
+import * as uuid from "uuid";
+import {ResultDetailDto} from "../../models/laboratory/ResultDetailDto";
+import {Message} from "../../models/Message";
 
 
 //import {Prescription} from "../../models/laboratory/Prescription";
@@ -362,6 +365,42 @@ export class LaboratoryService {
     return this.http.put<HttpStatusCode>(
       `${environmentLaboratory.apiURL}/work-orders/${workOrderId}/${parameterAnalysisId}/update`,
       {},
+      { params: httpParams, headers: this.getHeaders()}
+    );
+  }
+
+
+  public updateResults(
+    labWorkOrderId:number,
+    analysisParameterId:number,
+    result:string,
+    dateTime:Date,
+    biochemistLbz: string
+  ): Observable<HttpStatusCode> {
+
+    const obj : ResultDetailDto = {
+    labWorkOrderId:labWorkOrderId,
+    analysisParameterId:analysisParameterId,
+    result:result,
+    dateTime:dateTime,
+    biochemistLbz: biochemistLbz
+  }
+
+    return this.http.post<HttpStatusCode>(
+      `${environmentLaboratory.apiURL}/results/updateResults`,
+      obj,
+      {  headers: this.getHeaders()}
+    );
+  }
+
+  public verifyResult(
+    id: number
+  ): Observable<Message> {
+
+    let httpParams = new HttpParams().append("workOrderId", id);
+
+    return this.http.put<Message>(
+      `${environmentLaboratory.apiURL}/results/commitResults`,{},
       { params: httpParams, headers: this.getHeaders()}
     );
   }

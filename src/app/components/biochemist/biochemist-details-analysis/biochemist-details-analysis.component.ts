@@ -121,11 +121,13 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
   saveChanges(paramId: number, result: string): void {
     console.log("result before service " + result);
     console.log("id parametra " + paramId);
+    console.log("work order "+ this.workOrderId)
 
-    this.laboratoryService.updateAnalysisParameters(this.workOrderId, paramId, result)
+    this.laboratoryService.updateResults(this.workOrderId, paramId, result, new Date(), this.lbz)
       .subscribe((response) => {
         // this.errorMessage = '';
         // this.successMessage = 'Promena je uspesno sacuvana!'
+        this.getLabWorkOrderWithAnalysis();
         this.snackBar.openSuccessSnackBar("Promena uspesno sacuvana!")
       }, error => {
         console.log("Error " + error.status);
@@ -137,14 +139,20 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
   }
 
   verifyWorkOrder(): void {
-    this.laboratoryService.verifyWorkOrder(this.workOrderId).subscribe(res => {
-      this.successMessage = res.message
+    this.laboratoryService.verifyResult(this.workOrderId).subscribe(res => {
+      console.log("usao ")
+      // this.successMessage = res.message
       this.obradjen = true
       this.biochemistLbzVerified = this.lbz
       this.getBiochemistVerified()
-      console.log(res.message)
+      this.getLabWorkOrderWithAnalysis();
+      this.snackBar.openSuccessSnackBar("Verifikovan uspesno!")
     }, error => {
-      console.log(error.message)
+      console.log("Error " + error.status);
+      if (error.status == 409) {
+        // this.errorMessage = 'Promena nije sacuvana!';
+        this.snackBar.openErrorSnackBar("Promena nije sacuvana!")
+      }
     })
   }
 

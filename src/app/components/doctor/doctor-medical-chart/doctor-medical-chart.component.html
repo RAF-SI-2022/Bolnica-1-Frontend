@@ -362,7 +362,7 @@
                     <td>{{prescription.id}}</td>
                     <td>{{prescription.type}}</td>
                     <td>{{prescription.doctorLbz}}</td>
-                    <td>{{prescription.creationDateTime}}</td>
+                    <td>{{prescription.creationDate}}</td>
                     <td>{{prescription.departmentFromId}}</td>
                     <td>{{prescription.departmentToId}}</td>
                     <td>{{prescription.status}}</td>
@@ -425,7 +425,7 @@
                         <td>{{prescription.departmentToId}}</td>
                         <td>{{prescription.doctorLbz}}</td>
                         <td>{{prescription.comment}}</td>
-                        <td>{{prescription.creationDateTime}}</td>
+                        <td>{{prescription.creationDate}}</td>
                         <td>{{prescription.status}}</td>
                         <td>
                           <a *ngIf="!check(prescription.status)" (click)="deletePrescription(prescription.id)" class="delete" title="Obrisi" data-toggle="tooltip"> <i class="bi bi-x-circle-fill"></i>
@@ -515,7 +515,7 @@
                         <th>Donja granica</th>
                         <th>Gornja granica</th>
                         <th>Datum i vreme upisa rezultata</th>
-                        <th>Ime i prezime zaposlenog</th>
+                        <th>LBZ zaposlenog</th>
                       </tr>
                       </thead>
                       <tbody>
