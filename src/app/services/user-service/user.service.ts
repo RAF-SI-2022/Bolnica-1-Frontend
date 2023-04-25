@@ -302,8 +302,8 @@ export class UserService {
     getAllUsers(
         ime: string,
         prezime:string,
-        bolnica: string,
         odeljenje: string,
+        bolnica: string,
         deleted:boolean,
         page: number,
         size:number

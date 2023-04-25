@@ -68,9 +68,9 @@ export class ProfileComponent implements OnInit {
         this.disableUserFormFields();
         console.log("[Debug]: LBZ " + localStorage.getItem("LBZ")!);
         this.getUser(localStorage.getItem("LBZ")!);
-        interval(5000).subscribe(() => {
+        //interval(5000).subscribe(() => {
             this.updateData();
-          });
+          //});
     }
 
     updateData(){
@@ -267,7 +267,11 @@ export class ProfileComponent implements OnInit {
         if (this.userPermissionDisplayed.dr_spec_pov == true) this.permissionsList.push('ROLE_DR_SPEC_POV');
         if (this.userPermissionDisplayed.med_sestra == true) this.permissionsList.push('ROLE_MED_SESTRA');
         if (this.userPermissionDisplayed.visa_med_sestra == true) this.permissionsList.push('ROLE_VISA_MED_SESTRA');
-
+        if (this.userPermissionDisplayed.med_biohemicar == true) this.permissionsList.push('ROLE_MED_BIOHEMICAR');
+        if (this.userPermissionDisplayed.spec_med_biohemije == true) this.permissionsList.push('ROLE_SPEC_MED_BIOHEMIJE');
+        if (this.userPermissionDisplayed.visi_lab_tehnicar == true) this.permissionsList.push('ROLE_VISI_LAB_TEHNICAR');
+        if (this.userPermissionDisplayed.lab_tehnicar == true) this.permissionsList.push('ROLE_LAB_TEHNICAR');
+        if (this.userPermissionDisplayed.dr_spec_odeljenja == true) this.permissionsList.push('ROLE_DR_SPEC_ODELJENJA');
         if (this.permissionsList.length == 0) {
             // this.errorMessage = 'Izaberi barem jednu privilegiju!';
             this.snackBar.openErrorSnackBar("Izaberi bar 1 privilegiju!")

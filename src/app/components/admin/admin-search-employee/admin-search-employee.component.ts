@@ -94,11 +94,15 @@ export class AdminSearchEmployeeComponent implements OnInit {
     getUserList(): void {
         if (this.selektovanaOrdinacija == "Odaberite odeljenje")
             this.selektovanaOrdinacija = ""
+        else{
+          this.selektovanaOrdinacija = this.departments[Number(this.selektovanaOrdinacija)-1].name
+        }
         if (this.selektovanaBolnica == "Odaberite bolnicu")
             this.selektovanaBolnica = ""
         if (this.page == 0)
             this.page = 1;
-
+        this.selektovanaBolnica = ""; // imamo samo 1
+        console.log("bbb " + this.selektovanaOrdinacija)
         this.userService.getAllUsers(this.ime, this.prezime, this.selektovanaOrdinacija, this.selektovanaBolnica, this.deleted, this.page - 1, this.PAGE_SIZE).subscribe((response) => {
             this.userPage = response;
             this.userList = this.userPage.content;

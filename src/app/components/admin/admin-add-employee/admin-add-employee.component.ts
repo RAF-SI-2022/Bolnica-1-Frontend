@@ -85,14 +85,9 @@ export class AdminAddEmployeeComponent implements OnInit {
      * Print error message if input email is not in @ibis domain
      */
     checkEmailError(): void {
-        if (!(<string>this.addGroup.get('email')?.value).endsWith("@ibis.rs")) {
-            // this.emailErrorMessage = "Email mora da bude na domenu @ibis.rs";
-            this.snackBar.openErrorSnackBar("Pogresan format maila (@ibis.rs")
-        }
-        else {
             // this.emailErrorMessage = "Email greska";
             this.snackBar.openErrorSnackBar("Pogresan format maila")
-        }
+        
     }
 
     /**
