@@ -11,6 +11,7 @@ import { AnalysisParameter } from "../../../models/laboratory/AnalysisParameter"
 import { Page } from "../../../models/models";
 import { LabWorkOrderNew } from "../../../models/laboratory/LabWorkOrderNew";
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { Patient } from 'src/app/models/patient/Patient';
 
 @Component({
   selector: 'app-biochemist-search-work-orders',
@@ -31,6 +32,7 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit {
   exactDate: Date = new Date();
 
   form: FormGroup;
+  patients: Patient[] = []
 
   constructor(private patientService: PatientService, private authService: AuthService,
     private laboratoryService: LaboratoryService, private router: Router, private snackBar: SnackbarServiceService,
@@ -48,6 +50,7 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit {
   ngOnInit(): void {
     // this.lbz = this.authService.getLBZ();
     // console.log("lbz: " + this.lbz);
+    this.populatePatients()
   }
 
 
@@ -58,7 +61,8 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit {
 
     this.dateFrom.setHours(0, 0, 0, 0)
     this.dateTo.setHours(23, 59, 59, 999)
-
+    sendData.lbp = sendData.lbp.split("-")[0].toString().trim();
+    console.log("SALJEMM " + sendData.lpb)
     this.laboratoryService.findWorkOrders(sendData.lbp, this.dateFrom, this.dateTo,
       sendData.selectedStatus.toString(), this.page, this.PAGE_SIZE)
       .subscribe(res => {
@@ -86,4 +90,33 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit {
     this.router.navigateByUrl(url, { state: { lab } });
   }
 
+  filteredPatients: Patient[] = [];
+  filterPatientLbp(searchText: string){
+    if (this.patients && this.patients.length > 0 && searchText.length > 0) {
+      this.filteredPatients = this.patients.filter(
+        (patientt) =>
+          (patientt.lbp?.toString().toLowerCase().includes(searchText.toLowerCase()) || '') ||
+          (patientt.name?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+          (patientt.surname?.toLowerCase().includes(searchText.toLowerCase()) || '')
+      );
+    } else {
+      this.filteredPatients = [];
+    }
+    console.log("Imam nas " + this.filteredPatients.length)
+  }
+
+  selectSuggestion(patient: Patient){
+    this.form.value.lbp = `${patient.lbp} - ${patient.name} (${patient.surname})`;
+    this.filteredPatients = [];
+  }
+
+
+  populatePatients() {
+    this.patientService.getAllPatients("", "","", "", 0, 100).subscribe(res => {
+      this.patients = res.content;
+      console.log("IMA NAS " + res.content.length)
+    }, err => {
+      console.log("GRESKA " + err.message)
+    })
+  }
 }
