@@ -182,7 +182,7 @@ export class PrescriptionServiceService {
       .append("size",size);
 
     return this.http.get<Page<PrescriptionDoneDto>>(
-      `${environmentLaboratory.apiURL}/prescription/${lbz}/get/${lbp}`,
+      `${environmentLaboratory.apiURL}/prescription/prescription/${lbz}/get/${lbp}`,
       {params: httpParams, headers:this.getHeaders()}
     );
   }

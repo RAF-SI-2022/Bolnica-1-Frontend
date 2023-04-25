@@ -35,6 +35,7 @@ import {PrescriptionCreate} from "../../models/laboratory/PrescriptionCreate";
 import {Prescription} from "../../models/laboratory/Prescription";
 import {MedicalHistoryCreateDto} from "../../models/patient/MedicalHistoryCreateDto";
 import {VaccinationDataDto} from "../../models/patient/VaccinationDataDto";
+import {PrescriptionNewDto} from "../../models/prescription/PrescriptionNewDto";
 
 @Injectable({
   providedIn: 'root'
@@ -657,6 +658,24 @@ export class PatientService {
             {params: httpParams, headers:this.getHeaders()}
         );
     }
+
+  public getPrescriptionsForDoctor(
+    lbz:string,
+    lbp: string,
+    page: number,
+    size:number): Observable<Page<PrescriptionNewDto>> {
+
+
+    let httpParams = new HttpParams()
+      .append("lbz", lbz)
+      .append("page",page)
+      .append("size",size);
+
+    return this.http.get<Page<PrescriptionNewDto>>(
+      `${environmentPatient.apiURL}/prescription/prescriptions/${lbp}`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
 }
 
 
