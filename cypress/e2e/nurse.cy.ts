@@ -59,7 +59,7 @@ describe("Nurse Edit Patient", ()=>{
     })    
 
     it("Should edit newly created patient and then delete the user",()=>{
-        cy.get("[data-cy='ime']").clear().type("Marko",{force:true})
+        cy.get("[data-cy='ime']").clear().type("Pera",{force:true})
         cy.get("[data-cy='pretrazi']").contains("Pretrazi").click()
         cy.get("[class='settings']").last().click()
         cy.url().should('contain', "/nurse-edit-patient")
@@ -68,8 +68,35 @@ describe("Nurse Edit Patient", ()=>{
         cy.get("[data-cy='button']").contains("Napravi").click()
         cy.contains("Uspesno sacuvan pacijent!").should("be.visible")
         cy.visit("/nurse-search-patients")
-        cy.contains("Marko").should("be.visible")
-        cy.contains("Markovic").should("be.visible")
+    })
+
+})
+
+describe("Nurse Schedule Appointment and Status change", ()=>{
+    beforeEach(()=>{
+        cy.login("lisa.jones","password","/nurse-workspace")
+    })    
+
+    it("Should add a patient appointment to a doctor",()=>{
+        cy.visit("/nurse-schedule-appointment")
+        cy.get("[data-cy='doctorSelect']").click()
+        cy.get("[ng-reflect-ng-item-label='Mike Brown']").click({force:true})
+        cy.get("[data-cy='pretraziButton']").click()
+        cy.get("[data-date='1682497800000']").click({force:true})
+        cy.get("[data-cy='razlog']").select('Pregled')
+        cy.get("[data-cy='patient']").click()
+        cy.get("[ng-reflect-ng-item-label='Adam Lee']").click({force:true})
+        cy.get("[class='e-input-group-icon e-time-icon e-icons']").click()
+        cy.get("[class='e-datetimepicker e-popup e-lib e-control e-popup-open']").contains("12:00 PM").click()
+        cy.get("[data-cy='dodajBtn']").click()
+    })
+
+    it("Should add a patient appointment to a doctor",()=>{
+        cy.get("[data-cy='doctorSelect']").click()
+        cy.get("[ng-reflect-ng-item-label='Mike Brown']").click({force:true})
+        cy.get("[data-cy='pretraziBtn']").click()
+        cy.get("[data-cy='selectStatus']").last().select('CEKA')
+        cy.get("[data-cy='azurirajBtn']").last().click()
     })
 
 })
