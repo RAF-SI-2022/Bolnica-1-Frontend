@@ -39,6 +39,7 @@ export class DoctorMedicalChartComponent implements OnInit {
   labWorkOrderWithAnalysis: LabWorkOrderWithAnalysis = new LabWorkOrderWithAnalysis();
   parameterAnalysisResults: ParameterAnalysisResultWithDetails[] = [];
 
+  deleted: boolean = false
   generalForm: FormGroup
   allergyForm: FormGroup
   vaccineForm: FormGroup
@@ -68,7 +69,7 @@ export class DoctorMedicalChartComponent implements OnInit {
   public dateFromLabaratory: Date = new Date()
   medicalHistories: MedicalHistory[] = []
   examinationHistories: ExaminationHistory[] = []
-  prescriptionHistories: PrescriptionNewDto[] = []
+  prescriptionHistories: PrescriptionDoneDto[] = []
   labaratoryHistories: LabAnalysis[] = []
   labWorkOrders: LabWorkOrderNew[] = []
   allergies: Allergy[] = []
@@ -82,7 +83,7 @@ export class DoctorMedicalChartComponent implements OnInit {
   // detailsLabWorkOrders: LabWorkOrderWithAnalysis = new LabWorkOrderWithAnalysis();
 
   medicalPage: Page<MedicalHistory> = new Page<MedicalHistory>()
-  prescriptionPage: Page<PrescriptionNewDto> = new Page<PrescriptionNewDto>()
+  prescriptionPage: Page<PrescriptionDoneDto> = new Page<PrescriptionDoneDto>()
   labWorkOrderPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>()
   detailsLabWorkOrderPage: Page<LabWorkOrderWithAnalysis> = new Page<LabWorkOrderWithAnalysis>()
 
@@ -179,22 +180,22 @@ export class DoctorMedicalChartComponent implements OnInit {
 
       })
     //za istoriju uputa
-    /*this.prescriptionService.getPrescriptions(this.lbz, new Date(0), new Date(), this.lbp, this.pagePrescription, this.pageSize).subscribe(
+    this.prescriptionService.getPrescriptions(this.lbz, new Date(0), new Date(), this.lbp, this.pagePrescription, this.pageSize).subscribe(
       response => {
         this.prescriptionPage = response
         this.prescriptionHistories = this.prescriptionPage.content
         this.totalPrescription = this.prescriptionPage.totalElements
         this.changeDetectorRef.detectChanges();
 
-      })*/
-    this.patientService.getPrescriptionsForDoctor(this.lbz, this.lbp, this.pagePrescription, this.pageSize).subscribe(
+      })
+    /*this.patientService.getPrescriptionsForDoctor(this.lbz, this.lbp, this.pagePrescription, this.pageSize).subscribe(
       res=>{
         this.prescriptionPage = res
         this.prescriptionHistories = this.prescriptionPage.content
         this.totalPrescription = this.prescriptionPage.totalElements
         this.changeDetectorRef.detectChanges();
       }
-    )
+    )*/
 
     // ovo je za labaratorijske izvestaje
     this.labaratoryService.workOrdersHistory(this.lbp, new Date(0), new Date(), this.pageLaboratory, this.pageSize).subscribe(
@@ -373,7 +374,7 @@ export class DoctorMedicalChartComponent implements OnInit {
     }
   }
   //TAB ISTORIJA UPUTA, PRESCRIPTION JE UPUT!
-  getPrescriptions(): void {
+  /*getPrescriptions(): void {
     if (this.pagePrescription == 0)
       this.pagePrescription = 1;
 
@@ -385,6 +386,21 @@ export class DoctorMedicalChartComponent implements OnInit {
         this.changeDetectorRef.detectChanges();
       }
     )
+  }*/
+
+  //TAB ISTORIJA UPUTA, PRESCRIPTION JE UPUT!
+  getPrescriptions(): void {
+    if(this.pagePrescription == 0)
+      this.pagePrescription = 1;
+
+    this.prescriptionService.getPrescriptions(this.lbz, this.dateFromPrescription, this.dateToPrescription, this.lbp, this.pagePrescription-1, this.pageSize).subscribe(
+      response => {
+        this.prescriptionPage = response
+        this.prescriptionHistories = this.prescriptionPage.content
+        this.totalPrescription = this.prescriptionPage.totalElements
+        this.changeDetectorRef.detectChanges();
+
+      })
   }
 
   getLabaratory(): void {
@@ -429,6 +445,7 @@ export class DoctorMedicalChartComponent implements OnInit {
       console.log("USPESNO OBRISAN")
       this.snackBar.openSuccessSnackBar("Uspesno obrisano")
       this.getPrescriptions()
+      this.deleted = true
     }, err => {
       this.snackBar.openErrorSnackBar("Nije obrisano")
     })
@@ -467,7 +484,7 @@ export class DoctorMedicalChartComponent implements OnInit {
     this.getLabaratory();
   }
 
-  onRowClick(prescription: PrescriptionNewDto): void {
+  onRowClick(prescription: PrescriptionDoneDto): void {
     this.idPrescription = prescription.id
 
     // if(prescription.status == PrescriptionStatus.NEREALIZOVAN){
