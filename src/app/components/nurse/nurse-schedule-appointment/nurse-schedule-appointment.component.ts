@@ -215,6 +215,10 @@ export class NurseScheduleAppointmentComponent implements OnInit {
         this.snackBar.openWarningSnackBar("Izaberite doktora")
         return;
       }
+      if(this.selectedDateTime < new Date()){
+        this.snackBar.openWarningSnackBar("Izaberite skoriji datum i vreme")
+        return;
+      }
       let data = args.data as { [key: string]: Object };
       if (!this.updateEJSView()) {
         this.scheduleObj?.openEditor(data, 'Add');
