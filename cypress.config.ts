@@ -6,4 +6,5 @@ export default defineConfig({
   },
   viewportWidth: 1920,
   viewportHeight: 1080,
+  scrollBehavior:false
 });
