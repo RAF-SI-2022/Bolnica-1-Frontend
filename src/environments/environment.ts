@@ -15,3 +15,10 @@ export const environmentLaboratory = {
   title: 'Local Laboratory Environment',
   apiURL: 'http://localhost:8083/api/laboratory'
 };
+
+export const environmentInfirmary = {
+  production: false,
+  title: 'Local Infirmary Environment',
+  apiURL: 'http://localhost:8084/api/infirmary'
+};
+
