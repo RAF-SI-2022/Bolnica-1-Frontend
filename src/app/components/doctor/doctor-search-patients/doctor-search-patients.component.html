@@ -46,15 +46,52 @@
       <div class="row py-5">
         <table class="table table-hover" data-cy="table">
           <thead>
-          <tr>
-            <th>Ime</th>
-            <th>Prezime</th>
-            <th>Datum rodjenja</th>
-            <th>JMBG</th>
-            <th>LBP</th>
-            <th>Broj telefona</th>
-          </tr>
+            <tr>
+              <th (click)="sortColumn('name')">
+                Ime
+                <i *ngIf="sortState.column === 'name' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'name' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+              </th>
+              <th (click)="sortColumn('surname')">
+                Prezime
+                <i *ngIf="sortState.column === 'surname' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'surname' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+              </th>
+              <th (click)="sortColumn('dateOfBirth')">
+                Datum rodjenja
+                <i *ngIf="sortState.column === 'dateOfBirth' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'dateOfBirth' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+              </th>
+              <th (click)="sortColumn('jmbg')">
+                JMBG
+                <i *ngIf="sortState.column === 'jmbg' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'jmbg' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+              </th>
+              <th (click)="sortColumn('lbp')">
+                LBP
+                <i *ngIf="sortState.column === 'lbp' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'lbp' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+              </th>
+              <th (click)="sortColumn('phone')">
+                Broj telefona
+                <i *ngIf="sortState.column === 'phone' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'phone' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+              </th>
+            </tr>
           </thead>
+          
           <tbody>
           <ng-container
             *ngFor="let user of patientList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"  (click)="onRowClick(user.lbp)">

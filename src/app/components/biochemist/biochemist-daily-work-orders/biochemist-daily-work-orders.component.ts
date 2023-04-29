@@ -1,6 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {LaboratoryService} from "../../../services/laboratory-service/laboratory.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {Page} from "../../../models/models";
+// import {Page} from "ngx-pagination";
+import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
+import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
+import {PatientService} from "../../../services/patient-service/patient.service";
+import {forkJoin, switchMap} from "rxjs";
+import {PatientGeneralDto} from "../../../models/patient/PatientGeneralDto";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-biochemist-daily-work-orders',
@@ -9,19 +18,102 @@ import {Router} from "@angular/router";
 })
 export class BiochemistDailyWorkOrdersComponent implements OnInit{
 
-  constructor(private laboratoryServis:LaboratoryService, private router: Router) {
+  labWorkOrders: LabWorkOrderNew [] = []
+  labWorkOrderPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>()
+
+  pageLaboratory: number = 0;
+  pageSize:number = 5;
+  totalLaboratory: number = 0;
+
+  constructor(private laboratoryService: LaboratoryService, private router: Router,
+              private patientService:PatientService){
 
   }
-
 
   ngOnInit(): void {
-    console.log("daily work orders component")
-
+    // this.getWorkOrders();
+    //interval(5000).subscribe(() => {
+      this.getWorkOrders();
+    //});
   }
 
-  onRowClick(): void {
-    const url = `/biochemist-details`;
-    this.router.navigateByUrl(url);
 
+  /*getWorkOrders(): void{
+
+    const startOfDAY = new Date()
+    startOfDAY.setHours(0, 0, 0, 0)
+
+    const endOfDay = new Date()
+    endOfDay.setHours(23, 59, 59, 999)
+
+
+    this.laboratoryService.getDailyWorkOrders(startOfDAY, endOfDay,
+      OrderStatus.NEOBRADJEN.toString(), this.pageLaboratory, this.pageSize)
+      .subscribe(res=>{
+        this.labWorkOrderPage = res
+        this.labWorkOrders = this.labWorkOrderPage.content
+        this.totalLaboratory = this.labWorkOrderPage.totalElements
+      })
+  }*/
+
+
+   getWorkOrders(): void {
+
+    const startOfDAY = new Date()
+    startOfDAY.setHours(0, 0, 0, 0)
+
+    const endOfDay = new Date()
+    endOfDay.setHours(23, 59, 59, 999)
+
+     if (this.pageLaboratory == 0)
+       this.pageLaboratory = 1;
+
+    this.laboratoryService.getDailyWorkOrders( startOfDAY, endOfDay, OrderStatus.NEOBRADJEN.toString(),
+    this.pageLaboratory - 1, this.pageSize)
+      .pipe(
+        switchMap((res: Page<LabWorkOrderNew>) => {
+          const observables = res.content.map((labWorkOrder: LabWorkOrderNew) => {
+            return this.patientService.getPatientByLbp(labWorkOrder.lbp).pipe(
+              map((patient: PatientGeneralDto) => {
+                labWorkOrder.patient = patient;
+                return labWorkOrder;
+              })
+            );
+          });
+
+          return forkJoin(observables).pipe(
+            map((labWorkOrders: LabWorkOrderNew[]) => {
+              res.content = labWorkOrders;
+              return res;
+            })
+          );
+        })
+      )
+      .subscribe(
+        (res: Page<LabWorkOrderNew>) => {
+          this.labWorkOrderPage = res;
+          this.labWorkOrders = this.labWorkOrderPage.content;
+          this.totalLaboratory = this.labWorkOrderPage.totalElements;
+        },
+        (error: any) => {
+          console.error('Error fetching lab work orders:', error);
+        }
+      );
   }
+
+
+
+  onTableDataChange(event: any): void {
+    this.pageLaboratory = event;
+    this.getWorkOrders();
+  }
+
+  onRowClick(lab: LabWorkOrderNew): void {
+    console.log("Id radnog naloga za detalje: " + lab.id)
+    const url = `/biochemist-details/${lab.id}`;
+
+    this.router.navigateByUrl(url, { state: { lab } });
+  }
+
+
 }

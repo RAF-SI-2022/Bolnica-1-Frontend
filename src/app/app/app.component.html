@@ -13,6 +13,11 @@
 </head>
 
 <body class="{{toggleSb ? 'toggle-sidebar' : ''}}">
+  <ng-template #snackBarTemplate let-message let-action="dismiss">
+    <span>{{ message }}</span>
+    <button mat-button (click)="action()">{{ action }}</button>
+  </ng-template>
+  
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -132,12 +137,12 @@
         </a>
       </li>
 
-      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
-        <a class="nav-link collapsed" routerLink="../doctor-create-referral">
-          <i class="bi bi-journal-text"></i>
-          <span>Kreiranje uputa</span>
-        </a>
-      </li>
+<!--      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">-->
+<!--        <a class="nav-link collapsed" routerLink="../doctor-create-referral">-->
+<!--          <i class="bi bi-journal-text"></i>-->
+<!--          <span>Kreiranje uputa</span>-->
+<!--        </a>-->
+<!--      </li>-->
 
       <li *ngIf="nurse || nurseVisa" class="nav-item">
         <a class="nav-link collapsed" routerLink="../nurse-workspace">

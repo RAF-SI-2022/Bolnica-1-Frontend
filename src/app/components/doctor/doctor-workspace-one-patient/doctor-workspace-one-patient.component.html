@@ -1,209 +1,170 @@
-<!DOCTYPE html>
+
 <html xmlns:width="http://www.w3.org/1999/xhtml">
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+    <meta content="" name="description">
+    <meta content="" name="keywords">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet">
+  </head>
 
-</head>
 
-<body>
-<div class="container">
-<!--  izmena-->
+<div class="container rounded bg-white mt-5 mb-5">
+
   <form [formGroup]="addReport"  class="mb-5 needs-validation" novalidate>
-  <div class="table-responsive">
-    <div class="table-wrapper">
+    <div class="row">
+      <div class="col-md-10 border-right">
+        <div class="p-3 py-5">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="text-right" style="font-weight: bold;">Pacijent</h3>
+          </div>
 
-      <table class="table">
-        <tr>
-          <td><label class="activite-label">Pacijent</label></td>
-        </tr>
-        <tr>
-          <td><label class="label">{{patientName}}</label></td>
-        </tr>
-        <tr>
-          <td><label class="label">{{patientSurname}}</label></td>
-        </tr>
-        <tr>
-          <td><label class="label">{{patientdateOfBirth}}</label></td>
-        </tr>
-<!--        <tr>-->
-<!--          <td><textarea class="bi-textarea">Prezime</textarea></td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--          <td><textarea class="bi-textarea">Datum rodjenja</textarea></td>-->
-<!--        </tr>-->
-        <tr>
-          <td> <h4>Alergije </h4>
-            <ul>
-              <li *ngFor="let item of allergiesList">{{item.name}}</li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td> <h4>Vakcine </h4>
-            <ul>
-              <li *ngFor="let item of vaccinationsList">{{item.name}}</li>
-            </ul>
-          </td>
-        </tr>
-      </table>
-<!--- Za dugmice treba dodati logiku otvaranja zasebnih stranica
--->
-      <div class="button-container">
-        <button class="btn btn-outline-primary" >Pregled</button>
-        <button class="btn btn-outline-primary" (click)="goToMedicalRecord()">Karton</button>
-      </div>
-      <button class="btn btn-outline-primary" (click)="goToUput()">Uput</button>
+          <div class="row mt-2">
+            <div class="col-md-6"><h4 style="font-weight: bold;">Ime i prezime</h4>
+              <label class="label">{{patientName}} {{patientSurname}}</label>
+            </div>
+            <div class="col-md-6"><h4 style="font-weight: bold;">Datum rodjenja</h4>
+              <label class="label">{{ patientdateOfBirth | date: 'dd.MM.yyyy.' }}</label>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6"><h4 style="font-weight: bold;">Alergije</h4>
+              <ul *ngIf="allergiesList.length > 0">
+                <li *ngFor="let item of allergiesList">{{item.name}}</li>
+              </ul>
+              <p *ngIf="allergiesList.length === 0">Nema alergija</p>
+            </div>
+            <div class="col-md-6"><h4 style="font-weight: bold;">Vakcine</h4>
+              <ul *ngIf="vaccinationsList.length > 0">
+                <li *ngFor="let item of vaccinationsList">{{item.name}}</li>
+              </ul>
+              <p *ngIf="vaccinationsList.length === 0">Nema vakcinacija</p>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <button class="btn btn-primary" (click)="goToUput()"><i class="bi bi-info-circle"></i> Uput</button>
+
+            </div>
+            <div class="col-md-6">
+              <button class="btn btn-primary" (click)="goToMedicalRecord()"><i class="bi bi-info-circle"></i> Karton</button>
+            </div>
+          </div>
+          <div style="padding-top: 20px">
+            <p class="p-0">Izvestaj</p>
+          </div>
+
+          <table>
+            <tr>
+              <td><label class="label">Anamneza</label></td>
+            </tr>
+            <tr>
+              <td><textarea class="bi-textarea" placeholder="Tegobe" [formControlName]="'mainProblems'">Tegobe</textarea></td>
+            </tr>
+            <tr>
+              <td><textarea class="bi-textarea" placeholder="Bolest" [formControlName]="'currDisease'">Bolest</textarea></td>
+            </tr>
+            <tr>
+              <td><textarea class="bi-textarea" placeholder="Licna anamneza" [formControlName]="'personalAnamnesis'">Licna amneza</textarea></td>
+            </tr>
+            <tr>
+              <td><textarea class="bi-textarea" placeholder="Porodicna anamneza" [formControlName]="'familyAnamnesis'">Porodicna anamneza</textarea></td>
+            </tr>
+            <tr>
+              <td><textarea class="bi-textarea" placeholder="Misljenje pacijenta" [formControlName]="'patientOpinion'">Misljenje pacijenta</textarea></td>
+            </tr>
+          </table>
+
+          <table>
+            <br>
+            <tr>
+              <td><label class="label" for="dijagnoza">Dijagnoza</label></td>
+            </tr>
+            <tr>
+              <td><textarea class="bi-textarea" placeholder="Objektivni nalaz" [formControlName]="'objectiveFinding'" required id="dijagnoza" name="dijagnoza" required >Objektivni nalaz</textarea>
+            </tr>
+          </table>
+
+          <div *ngIf="!zavrseno">
+            <button class="btn btn-primary" (click)="showElements()"> <i
+              class="bi bi-pencil-square me-1"></i>Dodati dijagnozu</button>
+          </div>
+
+          <div *ngIf="show" class="list-container">
+            <div class="dropdown">
+              <select [formControlName]="'selectedCode'" required>
+                <option value="" disabled selected>Sifra</option>
+                <option value="A15.3">A15.3</option>
+                <option value="D50">D50</option>
+                <option value="I10">I10</option>
+                <option value="I35.0">I35.0</option>
+                <option value="J11">J11</option>
+                <option value="J12.9">J12.9</option>
+                <option value="K35">K35</option>
+                <option value="K70.3">K70.3</option>
+                <option value="K71.0">K71.0</option>
+              </select>
+            </div>
+            <div *ngIf="show" class="dropdown">
+              <select [formControlName]="'treatmentResult'" required>
+                <option value="U_TOKU" selected>U_TOKU</option>
+                <option value="OPORAVLJEN">OPORAVLJEN</option>
+                <option value="PREMINUO">PREMINUO</option>
+                <option value="STALNE_POSLEDICE">STALNE_POSLEDICE</option>
+              </select>
+            </div>
+            <textarea *ngIf="show" required class="bi-textarea" placeholder="Opis tekuceg stanja" [formControlName]="'currStateDesc'" ></textarea>
+          </div>
+          <div *ngIf="show" data-toggle="buttons" class="btn-group bizmoduleselect">
+            <label class="btn btn-outline-primary col-12 m-2">
+              <div class="itemcontent ms-auto text-start ps-2">
+                <input type="checkbox" name="checkbox" id="checkbox" [formControlName]="'exists'">
+                <span class="m-0 p-2">Postojeca dijagnoza</span>
+              </div>
+            </label>
+          </div>
+          <table>
+            <br>
+            <tr>
+              <td><label class="label">Terapija</label></td>
+              <br>
+            </tr>
+            <tr>
+              <td><textarea class="bi-textarea" placeholder="Predlagane terapije" [formControlName]="'suggestedTherapies'">Predlagane</textarea></td>
+            </tr>
+            <tr>
+              <td><textarea class="bi-textarea" placeholder="Savet" [formControlName]="'advice'">Savet</textarea></td>
+            </tr>
+          </table>
+          <div class="checkbox" *ngIf="doctorSpecPov">
+            <input type="checkbox" id="confidential" name="checkbox" [formControlName]="'confidential'">
+            <label for="checkbox">Poverljivo</label>
+          </div>
+          <div *ngIf="!zavrseno" class="mt-4 text-center">
+              <button class="btn btn-primary" (click)="showPopup($event)"><i
+                class="bi bi-save me-1"></i> Sacuvaj</button>
+          </div>
 
 
-      <div style="padding-top: 20px">
-        <p class="p-0">Izvestaj</p>
-      </div>
+          <div class="popup-overlay" *ngIf="isPopupVisible">
+            <div class="popup">
+              <p>Zelite da sacuvate izvestaj?</p>
+              <div class="popup-buttons">
+                <button (click)="addReportt();hidePopup();">OK</button>
 
-      <table>
-        <tr>
-          <td><label class="label">Anamneza</label></td>
-        </tr>
-        <tr>
-          <td><textarea class="bi-textarea" placeholder="Tegobe" [formControlName]="'mainProblems'">Tegobe</textarea></td>
-        </tr>
-<!--        <div class="col-md-12"><label class="labels"></label><input type="text" name="mainProblems"-->
-<!--                                                                    class="form-control" placeholder="Tegobe" value="" required [formControlName]="'mainProblems'">-->
-<!--          <div class="invalid-feedback">Unesite tegobe pacijenta</div>-->
-<!--        </div>-->
-        <tr>
-          <td><textarea class="bi-textarea" placeholder="Bolest" [formControlName]="'currDisease'">Bolest</textarea></td>
-        </tr>
-<!--        <div class="col-md-12"><label class="labels"></label><input type="text" name="currDisease"-->
-<!--                                                                    class="form-control" placeholder="Bolest" value="" required [formControlName]="'currDisease'">-->
-<!--          <div class="invalid-feedback">Unesite trenutnu bolest</div>-->
-<!--        </div>-->
-        <tr>
-          <td><textarea class="bi-textarea" placeholder="Licna anamneza" [formControlName]="'personalAnamnesis'">Licna amneza</textarea></td>
-        </tr>
-<!--        <div class="col-md-12"><label class="labels"></label><input type="text" name="personalAnamnesis"-->
-<!--                                                                    class="form-control" placeholder="Licna anamneza" value="" required [formControlName]="'personalAnamnesis'">-->
-<!--          <div class="invalid-feedback">Unesite anamnezu pacijenta</div>-->
-<!--        </div>-->
-        <tr>
-          <td><textarea class="bi-textarea" placeholder="Porodicna anamneza" [formControlName]="'familyAnamnesis'">Porodicna anamneza</textarea></td>
-        </tr>
-<!--        <div class="col-md-12"><label class="labels"></label><input type="text" name="familyAnamnesis"-->
-<!--                                                                    class="form-control" placeholder="Porodicna anamneza" value="" required [formControlName]="'familyAnamnesis'">-->
-<!--          <div class="invalid-feedback">Unesite porodicnu anamnezu</div>-->
-<!--        </div>-->
-        <tr>
-          <td><textarea class="bi-textarea" placeholder="Misljenje pacijenta" [formControlName]="'patientOpinion'">Misljenje pacijenta</textarea></td>
-        </tr>
-<!--        <div class="col-md-12"><label class="labels"></label><input type="text" name="patientOpinion"-->
-<!--                                                                    class="form-control" placeholder="Misljenje pacijenta" value="" required [formControlName]="'phoneNumber'">-->
-<!--          <div class="invalid-feedback">Unesite misljenje pacijenta</div>-->
-<!--        </div>-->
-      </table>
-
-      <table>
-        <tr>
-          <td><label class="label" for="dijagnoza">Dijagnoza</label></td>
-        </tr>
-        <tr>
-          <td><textarea class="bi-textarea" placeholder="Objektivni nalaz" [formControlName]="'objectiveFinding'" required id="dijagnoza" name="dijagnoza" required >Objektivni nalaz</textarea>
-        </tr>
-      </table>
-
-      <div>
-        <button class="btn btn-outline-primary" (click)="showElements()" >Dodati dijagnozu</button>
-      </div>
-<!--- Treba da se namesti da je list-container vidljiv tek nakon kliktaja na dugme
--->
-      <div *ngIf="show" class="list-container">
-        <div class="dropdown">
-          <select [formControlName]="'selectedCode'">
-            <option value="" disabled selected>Sifra</option>
-            <option value="A15.3">A15.3</option>
-            <option value="D50">D50</option>
-            <option value="I10">I10</option>
-            <option value="I35.0">I35.0</option>
-            <option value="J11">J11</option>
-            <option value="J12.9">J12.9</option>
-            <option value="K35">K35</option>
-            <option value="K70.3">K70.3</option>
-            <option value="K71.0">K71.0</option>
-            <option value="N20.0">N20.0</option>
-          </select>
-        </div>
-        <div *ngIf="show" class="dropdown">
-          <select [formControlName]="'treatmentResult'">
-            <option value="U_TOKU" selected>U_TOKU</option>
-            <option value="OPORAVLJEN">OPORAVLJEN</option>
-            <option value="PREMINUO">PREMINUO</option>
-            <option value="STALNE_POSLEDICE">STALNE_POSLEDICE</option>
-          </select>
-        </div>
-        <textarea *ngIf="show" class="bi-textarea" placeholder="Opis tekuceg stanja" [formControlName]="'currStateDesc'" ></textarea>
-        <div *ngIf="show" class="checkbox">
-          <input type="checkbox" id="checkbox" name="checkbox" [formControlName]="'exists'">
-          <label for="checkbox">Postojeca dijagnoza</label>
-        </div>
-
-      </div>
-
-      <table>
-        <tr>
-          <td><label class="label">Terapija</label></td>
-        </tr>
-        <tr>
-          <td><textarea class="bi-textarea" placeholder="Predlagane terapije" [formControlName]="'suggestedTherapies'">Predlagane</textarea></td>
-        </tr>
-<!--        <div class="col-md-12"><label class="labels"></label><input type="text" name="suggestedTherapies"-->
-<!--                                                                    class="form-control" placeholder="Predlagane terapije" value="" required [formControlName]="'suggestedTherapies'">-->
-<!--          <div class="invalid-feedback">Unesite predlagane terapije</div>-->
-<!--        </div>-->
-        <tr>
-          <td><textarea class="bi-textarea" placeholder="Savet" [formControlName]="'advice'">Savet</textarea></td>
-        </tr>
-
-<!--        <div class="col-md-12"><label class="labels"></label><input type="textarea" name="advice"-->
-<!--                                                                    class="form-control" placeholder="Savet" value="" required [formControlName]="'advice'">-->
-<!--          <div class="invalid-feedback">Unesite savet</div>-->
-<!--        </div>-->
-      </table>
-      <div class="checkbox" *ngIf="doctorSpecPov">
-        <input type="checkbox" id="confidential" name="checkbox" [formControlName]="'confidential'">
-        <label for="checkbox">Poverljivo</label>
-      </div>
-      <div>
-        <button class="btn btn-primary" (click)="showPopup($event)">Sacuvaj</button>
-      </div>
-
-      <div class="popup-overlay" *ngIf="isPopupVisible">
-        <div class="popup">
-          <p>Zelite da sacuvate izvestaj?</p>
-          <div class="popup-buttons">
-            <button (click)="saveDiagnosis();saveTherapy();hidePopup()">OK</button>
-<!--            <button (click)="provera() ; provera1()">OK</button>-->
-<!--                        <button (click)="saveDiagnosis()">OK</button>-->
-            <button (click)="hidePopup()">Cancel</button>
+                <button (click)="hidePopup()">Cancel</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-
     </div>
-  </div>
   </form>
 </div>
-
-
-</body>
-</html>
-
-

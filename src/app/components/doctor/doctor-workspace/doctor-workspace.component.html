@@ -34,6 +34,7 @@
         <table class="table table-hover">
           <thead>
           <tr>
+            <th>Satnica</th>
             <th>Ime</th>
             <th>Prezime</th>
             <th>Datum rodjenja </th>
@@ -47,6 +48,8 @@
           <tr class="table-row">
           <tr *ngFor="let patient of patients2" >
 
+            <td>{{patient.examDate | date:'shortTime'}}
+
             <td>{{patient.name}}</td>
             <td>{{patient.surname}}</td>
             <td>{{patient.dateOfBirth}}</td>
@@ -59,48 +62,18 @@
 <!--            <td>Pol</td>-->
             <!--- Trenutno je za status samo napravljena lista koja je obojena, treba da se uradi logika za dobavljanje statusa da bi se
             status namestio da se oboji koji postoji a ostali da ostanu sivi-->
-            <td class="list-cell">
-              <ul class="horizontal-list">
-                <style>
-                  li:nth-child(1) {
-                    background-color: cornflowerblue;
-                  }
-                  li:nth-child(2) {
-                    background-color: darkorange;
-                  }
-                  li:nth-child(3) {
-                    background-color: yellow;
-                  }
-                  li:nth-child(4) {
-                    background-color: forestgreen;
-                  }
-                  li:nth-child(5) {
-                    background-color: red;
-                  }
-                </style>
-                <li >Trenutno</li>
-                <li>Zakazano</li>
-                <li>Ceka</li>
-                <li>Zavrseno</li>
-                <li>Otkazano</li>
-              </ul>
+            <td>
+              <span class="badge" [ngClass]="getStatusClass(patient.patientArrival)">{{ patient.patientArrival }}</span>
             </td>
-            <td><button (click)="startExam(patient)" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da započnete pregled?')">Pregled</button></td>
 
-            <td><button (click)="goToChart(patient)" class="btn btn-primary" onclick="return confirm('Da li ste sigurni da želite da udjete u karton?')">Karton</button></td>
 
+            <!--*ngIf="patient.patientArrival.toString() === ceka.toString()"-->
+
+            
+            <td ><button *ngIf="patient.patientArrival.toString() === 'CEKA' || patient.patientArrival.toString() === 'TRENUTNO'" (click)="startExam(patient)" class="btn btn-primary" >Pregled</button></td>
           </tr>
           </tbody>
         </table>
-<!--      <div class="popup-overlay" *ngIf="isPopupVisible">-->
-<!--        <div class="popup">-->
-<!--          <p>Zelite da zapocnete pregled?</p>-->
-<!--          <div class="popup-buttons">-->
-<!--            <button (click)="confirmPregled()">OK</button>-->
-<!--            <button (click)="hidePopup()">Cancel</button>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
 
     </div>
   </div>

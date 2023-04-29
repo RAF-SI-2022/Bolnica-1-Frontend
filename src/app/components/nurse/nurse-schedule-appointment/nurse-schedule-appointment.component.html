@@ -5,18 +5,15 @@
     <div class="row mt-2 mb-4">
       <div class="col-md-4">
         <label for="doctor">Doktor</label>
-        <select class="form-control" [(ngModel)]="selectedDoctor" id="doctor" name="doctor">
-<!--          <option value="doctor1">Doktor 1</option>-->
-<!--          <option value="doctor2">Doktor 2</option>-->
-<!--          <option value="doctor3">Doktor 3</option>-->
-<!--          <option value="doctor4">Doktor 4</option>-->
-          <option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</option>
 
-        </select>
+        <ng-select class="custom" [(ngModel)]="selectedDoctor" id="doctor" name="doctor" required [searchable]="true"
+          bindLabel="name" bindValue="name" (change)="doctorChange()" data-cy="doctorSelect">
+          <ng-option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
+        </ng-select>
       </div>
-      <div class = "row mt-1">
+      <div class="row mt-1">
         <div class="col-md-4">
-          <button (click)="addEventsData()" class="btn btn-primary" >Pretrazi</button>
+          <button (click)="addEventsData()" class="btn btn-primary" data-cy="pretraziButton">Pretrazi</button>
         </div>
       </div>
 
@@ -24,8 +21,10 @@
 
   </div>
 
-  <ejs-schedule #scheduleObj  dateFormat="M/d/yyyy h:mm a"  [eventSettings]="eventSettings" (popupOpen)="onPopupOpen($event)">
-    <ng-template #editorTemplate>
+  <ejs-schedule #scheduleObj dateFormat="M/d/yyyy h:mm a" [eventSettings]="eventSettings"
+    (popupOpen)="onPopupOpen($event)" (cellClick)="onCellClick($event)" [editorTemplate]="editorTemplate"
+    startHour="07:00" endHour="22:00" (eventClick)="onEventClick($event)">
+    <ng-template #editorTemplate let-data>
       <div class="custom-event-editor">
 
         <div class="card basic">
@@ -36,78 +35,74 @@
                 <div class="row justify-content-center mt-1 mt-1">
 
                   <div class="col-md-6 ">
-                <label for="note">Razlog pregleda</label>
-                <select class="form-control" [(ngModel)]="note" id="note" name="note">
-                  <option value="Pregled">Pregled</option>
-                  <option value="Kontrola">Kontrola</option>
-                  <option value="Operacija">Operacija</option>
-                  <option value="Vizita">Vizita</option>
-                </select>
+                    <label for="note">Razlog pregleda</label>
+                    <select class="form-control" [(ngModel)]="note" id="note" name="note" data-cy="razlog">
+                      <option value="Pregled">Pregled</option>
+                      <option value="Kontrola">Kontrola</option>
+                      <option value="Operacija">Operacija</option>
+                      <option value="Vizita">Vizita</option>
+                    </select>
 
                   </div>
                 </div>
               </div>
 
-            </div></div></div>
+            </div>
+          </div>
+        </div>
 
         <div class="card basic">
           <div class="card-body">
             <div class="container">
-        <div class="form-group">
+              <div class="form-group">
 
-          <div class="form-group">
+                <div class="form-group">
 
-            <div class="row justify-content-center mt-1 mt-1">
+                  <div class="row justify-content-center mt-1 mt-1">
 
-              <div class="col-md-6">
-          <label for="patient">Pacijent</label>
-<!--          <select class="form-control" [(ngModel)]="patient" name="patient" id="patient">-->
-<!--&lt;!&ndash;            <option *ngFor="let item of patientList" [value]="item.lbp">{{item.name}} {{item.surname}}</option>&ndash;&gt;-->
-<!--            <option value="Pacijent1">Pacijent1</option>-->
-<!--            <option value="Pacijent1">Pacijent1</option>-->
-<!--            <option value="Pacijent1">Pacijent1</option>-->
-<!--            <option value="Pacijent1">Pacijent1</option>-->
-
-            <select  name = "patient" [(ngModel)]="patient" class="form-select" id="patient"
-                     aria-label="Default select example"  data-cy = "patient" >
-              <option selected>Odaberite pacijenta</option>
-              <option *ngFor="let p of patientList" [value]="p.lbp">{{ p.name }} {{p.surname}}</option>
-
-            </select>
-<!--          </select>-->
-
-              </div></div></div>
-        </div>
-            </div></div></div>
-
-              <div class="card basic">
-                <div class="card-body">
-                  <div class="container">
-                    <div class="form-group">
-                      <div class="row justify-content-center mt-1 mt-1">
-                      <div class="col-md-6">
-                        <label>Datum pregleda</label>
-                        <ejs-datetimepicker name="selectedDateTime"  [(ngModel)]="selectedDateTime" ></ejs-datetimepicker>
-                      </div>
-                      </div>
+                    <div class="col-md-6">
+                      <label for="patient">Pacijent</label>
+                      <ng-select name="patient" [(ngModel)]="patient" class="custom" id="patient"
+                        aria-label="Default select example" data-cy="patient" required [searchable]="true"
+                        bindLabel="name" bindValue="name">
+                        <ng-option *ngFor="let patient of patientList" [value]="patient.lbp">{{patient.name }}
+                          {{patient.surname}}</ng-option>
+                      </ng-select>
                     </div>
-                  </div></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card basic">
+          <div class="card-body">
+            <div class="container">
+              <div class="form-group">
+                <div class="row justify-content-center mt-1 mt-1">
+                  <div class="col-md-6">
+                    <label>Datum pregleda</label>
+                    <ejs-datetimepicker name="selectedDateTime" [(ngModel)]="selectedDateTime"></ejs-datetimepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="row justify-content-center">
           <div class="col-md-4 d-flex justify-content-center">
-            <button type="button" class="btn btn-primary" (click)="onSave()">Save</button>
+            <button *ngIf="!editMenu" type="button" class="btn btn-primary" (click)="onSave()" data-cy="dodajBtn">Dodaj</button>
+            <button *ngIf="editMenu" type="button" class="btn btn-primary" (click)="onDelete()">Obrisi</button>
           </div>
           <div class="col-md-4 d-flex justify-content-center">
-            <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+            <button type="button" class="btn btn-secondary" (click)="onCancel()" data-cy="otkaziBtn">Otkazi</button>
           </div>
         </div>
 
       </div>
-
-
-
     </ng-template>
-
 
   </ejs-schedule>
 </div>

@@ -7,7 +7,7 @@ import { registerLicense } from '@syncfusion/ej2-base';
 import {enableProdMode} from "@angular/core";
 
 // Registering Syncfusion license key
-registerLicense('ORg4AjUWIQA/Gnt2VFhhQlJBfVtdX2BWfFN0RnNedVt0flVOcC0sT3RfQF5jSnxVd0BgWXpfdnZSRg==');
+registerLicense('ORg4AjUWIQA/Gnt2VFhhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hSn5XdEZiXn9Xc31URmRc');
 
 if (environment.production) {
   enableProdMode();

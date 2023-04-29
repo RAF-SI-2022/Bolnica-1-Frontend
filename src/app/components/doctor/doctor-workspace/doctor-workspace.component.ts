@@ -1,13 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {Patient} from "../../../models/patient/Patient";
-import {PatientService} from "../../../services/patient-service/patient.service";
-import {FormBuilder} from "@angular/forms";
-import {ExaminationService} from "../../../services/examination-service/examination.service";
-import {Router} from "@angular/router";
-import {HttpErrorResponse} from "@angular/common/http";
-import {Page} from "../../../models/models";
-import {ScheduleExam} from "../../../models/patient/ScheduleExam";
-import {ExamForPatient} from "../../../models/patient/ExamForPatient";
+import { Component, OnInit } from '@angular/core';
+import { Patient } from "../../../models/patient/Patient";
+import { PatientService } from "../../../services/patient-service/patient.service";
+import { FormBuilder } from "@angular/forms";
+import { ExaminationService } from "../../../services/examination-service/examination.service";
+import { Router } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
+import { Page } from "../../../models/models";
+import { ScheduleExam } from "../../../models/patient/ScheduleExam";
+import { ExamForPatient } from "../../../models/patient/ExamForPatient";
+import { PatientArrival } from "../../../models/laboratory-enums/PatientArrival";
+import { Subscription, forkJoin, interval, switchMap } from "rxjs";
 
 @Component({
   selector: 'app-doctor-workspace',
@@ -16,127 +18,244 @@ import {ExamForPatient} from "../../../models/patient/ExamForPatient";
 })
 export class DoctorWorkspaceComponent implements OnInit {
 
-    public patients: Patient[] = [];
-    patientPage: Page<Patient> = new Page<Patient>()
+  public patients: Patient[] = [];
+  patientPage: Page<Patient> = new Page<Patient>()
 
-    isPopupVisible = false;
-    lbz: string = '';
-    scheduledExams : ScheduleExam[] = [];
-    patients2: ExamForPatient[] = [];
+  patientArrivals = Object.values(PatientArrival).filter(value => typeof value === 'string');
 
-    page = 0
-    pageSize = 5
-    total = 0
-    schedulePage: Page<ScheduleExam> = new Page<ScheduleExam>()
+  isPopupVisible = false;
+  lbz: string = '';
+  scheduledExams: ScheduleExam[] = [];
+  patients2: ExamForPatient[] = [];
 
-    /*
-    //popup se pojavljujem kliktajem na red
-    selectedPerson: any;
+  page = 0
+  pageSize = 99999999 //infinity
+  total = 0
+  schedulePage: Page<ScheduleExam> = new Page<ScheduleExam>()
 
-    onTableRowClicked(event: any) {
-        if (event.target.tagName === 'TD') {
-        this.selectedPerson = event.target.parentElement.cells[0].textContent;
-        this.isPopupVisible = true;
-        }
+  trenutno: PatientArrival = PatientArrival.TRENUTNO;
+  zakazano: PatientArrival = PatientArrival.ZAKAZANO;
+  zavrseno: PatientArrival = PatientArrival.ZAVRSENO;
+  otkazano: PatientArrival = PatientArrival.OTKAZANO;
+  ceka: PatientArrival = PatientArrival.CEKA;
+
+  intervalSubscription: Subscription | undefined;
+
+
+  /*
+  //popup se pojavljujem kliktajem na red
+  selectedPerson: any;
+
+  onTableRowClicked(event: any) {
+      if (event.target.tagName === 'TD') {
+      this.selectedPerson = event.target.parentElement.cells[0].textContent;
+      this.isPopupVisible = true;
+      }
+  }
+  */
+
+  constructor(private patientService: PatientService, private formBuilder: FormBuilder,
+    private examinationService: ExaminationService, private router: Router) { }
+
+  // showPopup(event: any): void {
+  //     const row = event.target.closest('.table-row');
+  //     this.isPopupVisible = true;
+  // }
+  //
+  // hidePopup(): void {
+  //     this.isPopupVisible = false;
+  // }
+  //
+  // confirmPregled(): void {
+  //     //otvori stranicu /doctor-workspace-one-patient
+  //     //za selektovanog pacijenta
+  //     this.router.navigate(['doctor-workspace-one']);
+  // }
+
+  ngOnDestroy(): void {
+    if (this.intervalSubscription) {
+      this.intervalSubscription.unsubscribe();
     }
-    */
+  }
 
-    constructor(private patientService: PatientService, private formBuilder: FormBuilder,
-        private examinationService: ExaminationService,  private router: Router) {}
+  ngOnInit(): void {
+    // // [TODO] Temporary values for getAllPatients parameters
+    // this.patientService.getAllPatients('', '', '', '', 0, 5).subscribe((response) => {
+    //     this.patientPage = response
+    //     this.patients = this.patientPage.content
+    //     this.total = this.patientPage.totalElements
+    // })
 
-    // showPopup(event: any): void {
-    //     const row = event.target.closest('.table-row');
-    //     this.isPopupVisible = true;
-    // }
-    //
-    // hidePopup(): void {
-    //     this.isPopupVisible = false;
-    // }
-    //
-    // confirmPregled(): void {
-    //     //otvori stranicu /doctor-workspace-one-patient
-    //     //za selektovanog pacijenta
-    //     this.router.navigate(['doctor-workspace-one']);
-    // }
+    // @ts-ignore
+    this.lbz = localStorage.getItem('LBZ');
 
+    console.log(this.lbz)
+    this.getSheduledExams();
 
-    ngOnInit(): void {
-        // // [TODO] Temporary values for getAllPatients parameters
-        // this.patientService.getAllPatients('', '', '', '', 0, 5).subscribe((response) => {
-        //     this.patientPage = response
-        //     this.patients = this.patientPage.content
-        //     this.total = this.patientPage.totalElements
-        // })
+    this.intervalSubscription = interval(5000).subscribe(() => {
+      this.getSheduledExams();
+      });
+    //setInterval(this.getSheduledExams, 5000);
+  }
 
-        // @ts-ignore
-        this.lbz = localStorage.getItem('LBZ');
+  // getPatients(): void {
+  //     // [TODO] Temporary values for getAllPatients parameters
+  //     this.patientService.getAllPatients('', '', '', '', 0, 5).subscribe((response) => {
+  //         this.patientPage = response
+  //         this.patients = this.patientPage.content
+  //         this.total = this.patientPage.totalElements
+  //     })
+  // }
 
-        console.log(this.lbz)
+  getSheduledExams(): void {
 
-        this.getSheduledExams();
-    }
-
-    // getPatients(): void {
-    //     // [TODO] Temporary values for getAllPatients parameters
-    //     this.patientService.getAllPatients('', '', '', '', 0, 5).subscribe((response) => {
-    //         this.patientPage = response
-    //         this.patients = this.patientPage.content
-    //         this.total = this.patientPage.totalElements
-    //     })
-    // }
-
-    getSheduledExams(): void {
+    this.patients2 = []
 
     this.examinationService.getScheduledExaminationByDoctor(
-        this.lbz
-        ).subscribe( res =>{
-          console.log("usao sam u metodu")
-          console.log(res)
-        this.scheduledExams = res;
+      this.lbz
+    ).subscribe(res => {
+      console.log("usao sam u metodu")
+      console.log(res)
+      this.scheduledExams = res;
 
-        this.scheduledExams.forEach(exam => {
-          this.patientService.getPatientByLbp(exam.lbp).subscribe(patient => {
 
-            const examForPatient: ExamForPatient = {
-              id: exam.id,
-              lbp: exam.lbp,
-              name: patient.name,
-              surname: patient.surname,
-              dateOfBirth: patient.dateOfBirth,
-              gender: patient.gender,
-              patientArrival: exam.patientArrival,
-              examDate: exam.dateAndTime
-            };
+      const patientObservables = this.scheduledExams.map(exam => {
+        return this.patientService.getPatientByLbp(exam.lbp);
+      });
 
-            console.log("exam")
+      forkJoin(patientObservables).subscribe(patients => {
+        patients.forEach((patient, i) => {
+          const examForPatient: ExamForPatient = {
 
+            id: this.scheduledExams[i].id,
+            lbp: this.scheduledExams[i].lbp,
+            name: patient.name,
+            surname: patient.surname,
+            dateOfBirth: patient.dateOfBirth,
+            gender: patient.gender,
+            patientArrival: this.scheduledExams[i].patientArrival,
+            examDate: this.scheduledExams[i].dateAndTime
+          };
+
+          console.log(examForPatient.patientArrival)
+          console.log()
+          console.log("radim fork join")
+
+          const today = new Date();
+          const examDate = new Date(examForPatient.examDate);
+
+          if (
+            examDate.getDate() === today.getDate() &&
+            examDate.getMonth() === today.getMonth() &&
+            examDate.getFullYear() === today.getFullYear()
+          ) {
             this.patients2.push(examForPatient);
+            // examDate is today
+          }
 
-            });
-          });
+
+
         });
-    }
+
+        // sort patients array by examDate
+        this.patients2.sort((a, b) => {
+          return new Date(a.examDate).getTime() - new Date(b.examDate).getTime();
+        });
 
 
-    // startExam(patient: Patient) {
-    //   if (confirm(`Da li ste sigurni da zelite da započnete pregled pacijenta ${patient.name + ' ' +  patient.surname}?`)){
-    //     this.router.navigate(['doctor-workspace-one', patient.lbp]);
-    //   }
-    // }
+        /* this.scheduledExams.forEach(exam => {
+           this.patientService.getPatientByLbp(exam.lbp).subscribe(patient => {
+
+             const examForPatient: ExamForPatient = {
+               id: exam.id,
+               lbp: exam.lbp,
+               name: patient.name,
+               surname: patient.surname,
+               dateOfBirth: patient.dateOfBirth,
+               gender: patient.gender,
+               patientArrival: exam.patientArrival,
+               examDate: exam.dateAndTime
+             };
+
+             console.log("exam")
+
+
+             const today = new Date();
+             const examDate = new Date(exam.dateAndTime);
+
+             if (
+               examDate.getDate() === today.getDate() &&
+               examDate.getMonth() === today.getMonth() &&
+               examDate.getFullYear() === today.getFullYear()
+             ) {
+               this.patients2.push(examForPatient);
+               // examDate is today
+             }
+
+             });
+
+           });*/
+      });
+    });
+  }
+
+
+
+  // startExam(patient: Patient) {
+  //   if (confirm(`Da li ste sigurni da zelite da započnete pregled pacijenta ${patient.name + ' ' +  patient.surname}?`)){
+  //     this.router.navigate(['doctor-workspace-one', patient.lbp]);
+  //   }
+  // }
 
   startExam(patient: ExamForPatient): void {
-    this.patientService.getPatientByLbp(patient.lbp).subscribe(res => {
-      console.log("NANANANANANANANANNANANANANA" + patient.name)
+
+    // if (!confirm('Da li ste sigurni da želite da započnete pregled?')) {
+    //   return;
+    // }
+
+    console.log("id workspace " + patient.id)
+
+
+    this.examinationService.updatePatientStatus(patient.id, PatientArrival.TRENUTNO).pipe(
+      switchMap(res => {
+        console.log(res);
+        return this.patientService.getPatientByLbp(patient.lbp);
+      })
+    ).subscribe(res => {
+      console.log("NANANANANANANANANNANANANANA" + patient.name);
       //this.router.navigate(['doctor-workspace-one', lbp])
       // const encodedUser = encodeURIComponent(JSON.stringify(patient));
+
       const url = `/doctor-workspace-one/${patient.lbp}`;
-      // this.router.navigateByUrl(url);
-      this.router.navigateByUrl(url, { state: { patient  } });
+      this.router.navigateByUrl(url, { state: { patient } });
+    });
 
-    })
   }
 
-  goToChart(patient: ExamForPatient): void{
-      this.router.navigate(['doctor-medical-chart', patient.lbp])
+  // goToChart(examForPatient: ExamForPatient): void {
+  //   const url = `/doctor-medical-chart/${examForPatient.lbp}`;
+  //   this.router.navigateByUrl(url, { state: { examForPatient } });
+  //   // this.router.navigate(['doctor-medical-chart', patient.lbp])
+  // }
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'ZAKAZANO':
+        return 'badge-primary';
+      case 'OTKAZANO':
+        return 'badge-warning';
+      case 'CEKA':
+        return 'badge-info';
+      case 'TRENUTNO':
+        return 'badge-success';
+      case 'ZAVRSENO':
+        return 'badge-danger';
+      default:
+        return 'badge-secondary';
+    }
   }
+  
+
+
+
 }

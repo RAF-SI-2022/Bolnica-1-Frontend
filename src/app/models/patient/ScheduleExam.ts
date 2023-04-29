@@ -15,7 +15,9 @@ export interface ScheduleExam{
   id: number;
   dateAndTime: Date;
   patientArrival: PatientArrival;
+  doctorLbz: string;
   lbz: string;
   lbp: string;
+
 
 }

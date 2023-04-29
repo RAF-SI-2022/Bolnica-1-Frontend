@@ -7,5 +7,4 @@ export interface PrescriptionAnalysis{
 export class PrescriptionAnalysis{
   analysisId: number = 0;
   parametersIds: number[] = [];
-
 }

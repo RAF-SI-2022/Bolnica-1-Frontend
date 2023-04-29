@@ -1,13 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {ExaminationService} from "../../../services/examination-service/examination.service";
-import {PatientService} from "../../../services/patient-service/patient.service";
-import {ExamForPatient} from "../../../models/patient/ExamForPatient";
-import {ScheduleExam} from "../../../models/patient/ScheduleExam";
-import {UserService} from "../../../services/user-service/user.service";
-import {Page} from "../../../models/models";
-import {PatientArrival} from "../../../models/laboratory-enums/PatientArrival";
-import {forkJoin} from "rxjs";
-import {DoctorDepartmentDto} from "../../../models/DoctorDepartmentDto";
+import { Component, OnInit } from '@angular/core';
+import { ExaminationService } from "../../../services/examination-service/examination.service";
+import { PatientService } from "../../../services/patient-service/patient.service";
+import { ExamForPatient } from "../../../models/patient/ExamForPatient";
+import { ScheduleExam } from "../../../models/patient/ScheduleExam";
+import { UserService } from "../../../services/user-service/user.service";
+import { Page } from "../../../models/models";
+import { PatientArrival } from "../../../models/laboratory-enums/PatientArrival";
+import { forkJoin, interval } from "rxjs";
+import { DoctorDepartmentDto } from "../../../models/DoctorDepartmentDto";
+import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 
 @Component({
   selector: 'app-nurse-workspace',
@@ -20,7 +21,7 @@ export class NurseWorkspaceComponent implements OnInit {
   selectedStatus: PatientArrival
   activeStatus: string = ''
   lbz: string = '';
-  scheduledExams : ScheduleExam[] = [];
+  scheduledExams: ScheduleExam[] = [];
   patients: ExamForPatient[] = [];
   doctorLbz: string = '';
   nurseDepartmentPbo: string = '';
@@ -28,7 +29,7 @@ export class NurseWorkspaceComponent implements OnInit {
   selectedDoctor: DoctorDepartmentDto = new DoctorDepartmentDto();
 
   page = 0
-  pageSize = 5
+  pageSize = 99999999 // infinity
   total = 0
   schedulePage: Page<ScheduleExam> = new Page<ScheduleExam>()
 
@@ -39,9 +40,10 @@ export class NurseWorkspaceComponent implements OnInit {
   ceka: PatientArrival = PatientArrival.CEKA;
 
   constructor(private examinationService: ExaminationService,
-              private patientService: PatientService,
-              private userService: UserService) {
-      this.selectedStatus = PatientArrival.ZAKAZANO;
+    private patientService: PatientService,
+    private snackBar: SnackbarServiceService,
+    private userService: UserService) {
+    this.selectedStatus = PatientArrival.ZAKAZANO;
 
 
   }
@@ -51,36 +53,45 @@ export class NurseWorkspaceComponent implements OnInit {
     this.lbz = localStorage.getItem('LBZ');
     console.log(this.lbz)
 
-    this.getNurseDepartment();
+
     // this.getDoctors();
     // this.userService.findDepartmentByLbz(this.lbz).subscribe(res=>{
     //   console.log(res)
     // })
 
     // this.getDoctors();
-
-
+    //nterval(5000).subscribe(() => {
+      this.updateData();
+//    });
   }
 
-  searchExams():void{
+  updateData(){
+    this.getNurseDepartment();
+  }
+  searchExams(): void {
     this.doctorLbz = this.selectedDoctor.lbz;
-    this.getSheduledExams();
+    console.log("izabrani doktor je " + this.doctorLbz)
+    if(this.doctorLbz.length == 0){
+      this.snackBar.openErrorSnackBar("Izaberite doktora")
+    }
+    else
+      this.getSheduledExams();
   }
 
-  getNurseDepartment(): void{
+  getNurseDepartment(): void {
 
-    this.userService.getEmployee(this.lbz).subscribe(res => {},
+    this.userService.getEmployee(this.lbz).subscribe(res => { },
       err => {
         if (err.status == 302) { // found!
           this.nurseDepartmentPbo = err.error.department.pbo;
           console.log("department " + this.nurseDepartmentPbo)
           this.getDoctors()
         }
-    })
+      })
   }
 
-  getDoctors(): void{
-    this.examinationService.getDoctorsByDepartment(this.nurseDepartmentPbo).subscribe(res=>{
+  getDoctors(): void {
+    this.examinationService.getDoctorsByDepartment(this.nurseDepartmentPbo).subscribe(res => {
       this.doctors = res
       console.log(this.doctors)
     })
@@ -101,18 +112,22 @@ export class NurseWorkspaceComponent implements OnInit {
 
   getSheduledExams(): void {
 
+    this.patients = []
+
     // this.examinationService.getScheduledExaminationsPagedNurse(this.page, this.pageSize).subscribe((response) => {
     //   this.schedulePage = response
     //   this.scheduledExams = this.schedulePage.content
     //   this.total = this.schedulePage.totalElements
-    //
-    //
+
+
+
     //   this.scheduledExams.forEach(exam => {
     //     this.patientService.getPatientByLbp(exam.lbp).subscribe(patient => {
-    //
-    //       console.log(exam)
-    //
+
+
+
     //       const examForPatient: ExamForPatient = {
+    //         id: exam.id,
     //         lbp: exam.lbp,
     //         name: patient.name,
     //         surname: patient.surname,
@@ -121,20 +136,22 @@ export class NurseWorkspaceComponent implements OnInit {
     //         patientArrival: exam.patientArrival,
     //         examDate: exam.dateAndTime
     //       };
-    //
+
     //       this.patients.push(examForPatient);
-    //
+
     //     });
     //   });
-    //
+
     // })
 
     // this.examinationService.getScheduledExaminations(this.doctorLbz, new Date())
     //   .subscribe(res =>{
     //     this.scheduledExams = res;
-    //
-    //
+
+
     //   });
+
+
 
     this.examinationService.getScheduledExaminationsPagedNurse(this.page, this.pageSize).subscribe((response) => {
       this.schedulePage = response
@@ -142,55 +159,89 @@ export class NurseWorkspaceComponent implements OnInit {
       this.total = this.schedulePage.totalElements
 
 
+
       const patientObservables = this.scheduledExams.map(exam => {
         return this.patientService.getPatientByLbp(exam.lbp);
       });
-
+      console.log("Usaoo " + response.content)
       forkJoin(patientObservables).subscribe(patients => {
         patients.forEach((patient, i) => {
-          const examForPatient: ExamForPatient = {
+          // Svi pacijenti su kod E0006 a nemamo tog doktora
+          console.log("moj " + this.scheduledExams[i].doctorLbz + " I " + this.doctorLbz)
+          if (this.scheduledExams[i].doctorLbz.toString() == this.doctorLbz.toString()) {
+            if(this.scheduledExams[i].patientArrival.toString() == PatientArrival.ZAKAZANO.toString()){
 
-            id: patient.id,
-            lbp: this.scheduledExams[i].lbp,
-            name: patient.name,
-            surname: patient.surname,
-            dateOfBirth: patient.dateOfBirth,
-            gender: patient.gender,
-            patientArrival: this.scheduledExams[i].patientArrival,
-            examDate: this.scheduledExams[i].dateAndTime
-          };
+              const examForPatient: ExamForPatient = {
+                id: this.scheduledExams[i].id,
+                lbp: this.scheduledExams[i].lbp,
+                name: patient.name,
+                surname: patient.surname,
+                dateOfBirth: patient.dateOfBirth,
+                gender: patient.gender,
+                patientArrival: this.scheduledExams[i].patientArrival,
+                examDate: this.scheduledExams[i].dateAndTime
+              };
 
-          console.log(examForPatient.patientArrival)
-          this.patients.push(examForPatient);
+              console.log(examForPatient.patientArrival)
+              console.log()
+              console.log("radim fork join " + examForPatient.lbp)
+              this.patients.push(examForPatient);
+
+            }
+          }
         });
+        if(this.patients.length == 0){
+          this.snackBar.openWarningSnackBar("Nema pacijenata")
+        }
+        // sort patients array by examDate
+        this.patients.sort((a, b) => {
+          return new Date(a.examDate).getTime() - new Date(b.examDate).getTime();
+        });
+
       });
     });
 
   }
 
-  changeStatus(patient : ExamForPatient){
-    if(this.selectedStatus ==0 ){
-      this.examinationService.updatePatientStatus(patient.id, PatientArrival.ZAKAZANO).subscribe({
-      })
-    }
-    if(this.selectedStatus == 1){
-      this.examinationService.updatePatientStatus(patient.id, PatientArrival.OTKAZANO).subscribe({
-      })
-    } if(this.selectedStatus == 2){
-      this.examinationService.updatePatientStatus(patient.id, PatientArrival.CEKA).subscribe({
-      })
-    }
-    if(this.selectedStatus == 3){
-      this.examinationService.updatePatientStatus(patient.id, PatientArrival.TRENUTNO).subscribe({
-      })
-    }
-    if(this.selectedStatus == 4){
-      this.examinationService.updatePatientStatus(patient.id, PatientArrival.ZAVRSENO).subscribe({
-      })
-    }
+  changeStatus(patient: ExamForPatient) {
 
-    console.log("status "+this.selectedStatus)
-    console.log("id "+patient.id)
+    console.log("arrival " + patient.patientArrival)
+    console.log(patient.id);
+
+    // if(this.selectedStatus ==0 ){
+    //   this.examinationService.updatePatientStatus(patient.id, PatientArrival.ZAKAZANO).subscribe({
+    //   })
+    // }
+    // if(this.selectedStatus == 1){
+    //   this.examinationService.updatePatientStatus(patient.id, PatientArrival.OTKAZANO).subscribe({
+    //   })
+    // } if(this.selectedStatus == 2){
+    //   this.examinationService.updatePatientStatus(patient.id, PatientArrival.CEKA).subscribe({
+    //   })
+    // }
+    // if(this.selectedStatus == 3){
+    //   this.examinationService.updatePatientStatus(patient.id, PatientArrival.TRENUTNO).subscribe({
+    //   })
+    // }
+    // if(this.selectedStatus == 4){
+    //   this.examinationService.updatePatientStatus(patient.id, PatientArrival.ZAVRSENO).subscribe({
+    //   })
+    // }
+
+    this.examinationService.updatePatientStatus(patient.id, patient.patientArrival).subscribe(res => {
+      console.log(res)
+      this.snackBar.openSuccessSnackBar("Uspesno!")
+      this.getSheduledExams();
+
+    }, err => {
+      this.snackBar.openErrorSnackBar("Greska!")
+    })
+
+    console.log("status " + this.selectedStatus)
+    console.log("id " + patient.id)
+
+
+
   }
 
 

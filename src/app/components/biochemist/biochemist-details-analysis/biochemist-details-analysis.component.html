@@ -14,9 +14,11 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 </head>
-<form  class="mb-5 needs-validation" novalidate>
+<form class="mb-5 needs-validation" novalidate>
 
   <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
 
@@ -25,87 +27,78 @@
 
       <div class="row">
         <div class="col-md-4">
-          <label class="labels">LBP: </label>
+          <label class="labels">LBP: {{lbp}} </label>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4">
-          <label class="labels">Ime pacijenta: </label>
+          <label class="labels">Ime pacijenta: {{patientName}}</label>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4">
-          <label class="labels">Prezime pacijenta: </label>
+          <label class="labels">Prezime pacijenta: {{patientSurname}} </label>
         </div>
       </div>
 
 
-      <div class="mt-4 text-center">
-        <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="verifikuj">Verifikuj</button>
+
+      <div *ngIf="obradjen==false" class="mt-4 text-center">
+        <button (click)="verifyWorkOrder()" class="btn btn-primary" type="submit" data-toggle="collapse"
+          data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+          data-cy="verifikuj">Verifikuj</button>
       </div>
 
       <div class="row py-5">
         <table class="table table-hover" data-cy="table">
           <thead>
-          <tr>
-            <th>ID analize</th>
-            <th>Skraćenica analize</th>
-            <th>ID parametra</th>
-            <th>Naziv parametra</th>
-            <th>Rezultat</th>
-            <th>Jedinica mere</th>
-            <th>Donja granica</th>
-            <th>Gornja granica</th>
-            <th>Zaposleni</th>
-            <th>Akcija <th>
-          </tr>
+            <tr>
+              <th>ID analize</th>
+              <th>Skraćenica analize</th>
+              <th>ID parametra</th>
+              <th>Naziv parametra</th>
+              <th>Rezultat</th>
+              <th>Jedinica mere</th>
+              <th>Donja granica</th>
+              <th>Gornja granica</th>
+              <th>Biohemičar</th>
+              <th *ngIf="obradjen==false">Akcija
+              <th>
+            </tr>
           </thead>
           <tbody>
 
-          <tr>
-            <td>ID analize</td>
-            <td>Skraćenica analize</td>
-            <td>ID parametra</td>
-            <td>Naziv parametra</td>
-            <td>
-                <input  name = "rezultat" type="rezultat" class="form-control"
-                        data-cy = "rezultat" >
+
+          <tr *ngFor="let p of parameterAnalysisResults; let i = index">
+            <td>{{p.labAnalysis.id}}</td>
+            <td>{{p.labAnalysis.abbreviation}}</td>
+            <td>{{p.parameter.id}}</td>
+            <td>{{p.parameter.parameterName}}</td>
+            <td *ngIf="!obradjen">
+              <input [(ngModel)]="p.result" name="rezultat{{i}}" type="text" class="form-control" data-cy="rezultat">
             </td>
-            <td>Jedinica mere</td>
-            <td>Donja granica</td>
-            <td>Gornja granica</td>
-            <td>Zaposleni</td>
-            <td>
-              <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="sacuvaj">Sacuvaj</button>
+            <td *ngIf="obradjen">
+              {{p.result}}
+            </td>
+            <td>{{p.parameter.unitOfMeasure}}</td>
+            <td>{{p.parameter.lowerLimit}}</td>
+            <td>{{p.parameter.upperLimit}}</td>
+            <td>{{p.lbzBiochemist}}</td>
+            <td *ngIf="!obradjen">
+              <button (click)="saveChanges(p.id, p.result)" class="btn btn-primary" type="submit"
+                      data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                      data-cy="sacuvaj">Sacuvaj</button>
             </td>
 
           </tr>
-          <!--          <ng-container-->
-          <!--            *ngFor="let parameter of parameterList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"  (click)="onRowClick(parameter.idParameter)">-->
-          <!--            <tr>-->
-          <!--              <td>{{workOrder.id}}</td>-->
-          <!--              <td>{{workOrder.date}}</td>-->
-          <!--              <td>{{workOrder.lbp}}</td>-->
-          <!--              <td>{{workOrder.name}} {{workOrder.surname}}</td>-->
-          <!--              <td>{{workOrder.status}}</td>-->
-          <!--              <td>{{workOrder.lbz}}</td>-->
-<!--                        <td>-->
-<!--                          <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="sacuvaj">Sacuvaj</button>-->
-<!--                        </td>-->
-          <!--            </tr>-->
 
-          <!--          </ng-container>-->
 
           </tbody>
         </table>
-        <div class="d-flex align-items-center justify-content-center h-100">
-          <pagination-controls previousLabel="Pret" nextLabel="Sled" >
-          </pagination-controls>
-        </div>
 
-        <div class="row">
+        <div *ngIf="obradjen==true && shouldShowFromPRoute == true" class="row">
           <div class="col-md-4">
-            <label class="labels">Zaposleni koji je verifikovao nalog: </label>
+            <label class="labels">Zaposleni koji je verifikovao nalog: {{biochemistName}} {{biochemistSurname}}</label>
           </div>
         </div>
 

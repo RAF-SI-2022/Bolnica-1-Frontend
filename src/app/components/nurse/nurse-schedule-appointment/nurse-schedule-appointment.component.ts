@@ -1,36 +1,28 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {
-  ActionEventArgs,
-  EventSettingsModel,
-  PopupOpenEventArgs,
-  ScheduleComponent,
-  View
-} from '@syncfusion/ej2-angular-schedule';
-import{L10n} from "@syncfusion/ej2-base";
-import {NgxPaginationModule} from "ngx-pagination";
-import {PatientService} from "../../../services/patient-service/patient.service";
-import {FormBuilder} from "@angular/forms";
-import {Router} from "@angular/router";
-import {UserService} from "../../../services/user-service/user.service";
-import {ExaminationService} from "../../../services/examination-service/examination.service";
-import {ExamForPatient} from "../../../models/patient/ExamForPatient";
-import {ScheduleExamCreate} from "../../../models/patient/ScheduleExamCreate";
-import {Patient} from "../../../models/patient/Patient";
-import {Zaposleni} from "../../../models/models";
-import {Page} from "../../../models/models";
-import {DoctorDepartmentDto} from "../../../models/DoctorDepartmentDto";
-import {ScheduleExam} from "../../../models/patient/ScheduleExam";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActionEventArgs, CellClickEventArgs, EventClickArgs, EventSettingsModel, PopupOpenEventArgs, ScheduleComponent, View } from '@syncfusion/ej2-angular-schedule';
+import { L10n } from "@syncfusion/ej2-base";
+import { PatientService } from "../../../services/patient-service/patient.service";
+import { UserService } from "../../../services/user-service/user.service";
+import { ExaminationService } from "../../../services/examination-service/examination.service";
+import { Patient } from "../../../models/patient/Patient";
+import { Page } from "../../../models/models";
+import { DoctorDepartmentDto } from "../../../models/DoctorDepartmentDto";
+import { ScheduleExam } from "../../../models/patient/ScheduleExam";
 import * as moment from 'moment';
-
+import { PatientArrival } from "../../../models/laboratory-enums/PatientArrival";
+import { event } from 'cypress/types/jquery';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { first, update } from 'cypress/types/lodash';
+import { interval } from 'rxjs';
 
 
 L10n.load({
-  'en-US':{
-    'schedule':{
-      'saveButton' :'Sacuvaj',
-      'cancelButton':'Otkazi',
-      'deleteButton':'Remove',
-      'newEvent':'Dodaj pregled',
+  'en-US': {
+    'schedule': {
+      'saveButton': 'Sacuvaj',
+      'cancelButton': 'Otkazi',
+      'deleteButton': 'Remove',
+      'newEvent': 'Pregled',
     }
   }
 });
@@ -41,11 +33,11 @@ L10n.load({
   templateUrl: './nurse-schedule-appointment.component.html',
   styleUrls: ['./nurse-schedule-appointment.component.css']
 })
-export class NurseScheduleAppointmentComponent implements OnInit{
+export class NurseScheduleAppointmentComponent implements OnInit {
 
   @ViewChild('scheduleObj', { static: false }) scheduleObj: ScheduleComponent | undefined;
 
-  public setView: View= 'Month';
+  public setView: View = 'Month';
 
   public eventSettings: EventSettingsModel = {
     dataSource: [],
@@ -75,7 +67,7 @@ export class NurseScheduleAppointmentComponent implements OnInit{
   lbp: string = '';
   doctors: DoctorDepartmentDto[] = [];
   patientList: Patient[] = []
-  nurseDepartmentPbo : string = '';
+  nurseDepartmentPbo: string = '';
   responseExams: ScheduleExam[] = [];
 
   page = 0
@@ -83,22 +75,28 @@ export class NurseScheduleAppointmentComponent implements OnInit{
   total = 0
   patientPage: Page<Patient> = new Page<Patient>()
 
-
-  constructor(private patientService: PatientService, private userService: UserService, private examinationService: ExaminationService) {
+  editMenu: boolean = false;
+  firstTimeErrorCheck = true;
+  constructor(private patientService: PatientService, private snackBar: SnackbarServiceService, private userService: UserService, private examinationService: ExaminationService) {
 
   }
 
   ngOnInit(): void {
     // @ts-ignore
     this.lbz = localStorage.getItem('LBZ').toString()
+    //nterval(5000).subscribe(() => {
+      this.updateData();
+//    });
+  }
+
+  updateData(){
     this.addEventsData();
     this.getPatientList();
     this.getNurseDepartment();
   }
+  getNurseDepartment(): void {
 
-  getNurseDepartment(): void{
-
-    this.userService.getEmployee(this.lbz).subscribe(res => {},
+    this.userService.getEmployee(this.lbz).subscribe(res => { },
       err => {
         if (err.status == 302) { // found!
           this.nurseDepartmentPbo = err.error.department.pbo;
@@ -109,15 +107,15 @@ export class NurseScheduleAppointmentComponent implements OnInit{
       })
   }
 
-  getDoctors(): void{
-    this.examinationService.getDoctorsByDepartment(this.nurseDepartmentPbo).subscribe(res=>{
+  getDoctors(): void {
+    this.examinationService.getDoctorsByDepartment(this.nurseDepartmentPbo).subscribe(res => {
       this.doctors = res
       console.log(this.doctors)
     })
   }
 
-  getPatientList(){
-    this.patientService.getAllPatients("", "", "", "" , this.page, this.pageSize).subscribe((response) => {
+  getPatientList() {
+    this.patientService.getAllPatients("", "", "", "", this.page, this.pageSize).subscribe((response) => {
       this.patientPage = response
       this.patientList = this.patientPage.content
       this.total = this.patientPage.totalElements
@@ -126,89 +124,83 @@ export class NurseScheduleAppointmentComponent implements OnInit{
 
 
   public addEventsData(): void {
-
-    let events: Record<string, any>[] = [
-      { Id: 1,
-        Subject: 'a',
-        StartTime: new Date(2023, 3, 4, 9, 0),
-        EndTime: new Date(2023, 3, 4, 9, 30) },
-      { Id: 2,
-        Subject: 'b',
-        StartTime: new Date(2023, 3, 5, 15, 0),
-        EndTime: new Date(2023, 3, 5, 15, 30) },
-      { Id: 3,
-        Subject: 'c',
-        StartTime: new Date(2023, 3, 6, 9, 30),
-        EndTime: new Date(2023, 3, 6, 10, 0) },
-      { Id: 4,
-        Subject: 'd',
-        StartTime: new Date(2023, 3, 7, 11, 0),
-        EndTime: new Date(2023, 3, 7, 13, 0) }
-    ];
-
-    // this.eventSettings.dataSource = events;
-
-    // this.eventSettings.dataSource.forEach(event => {
-    //   // this.scheduleObj?.appendTo('#schedule');
-    //   this.scheduleObj?.addEvent(event);
-    //   this.scheduleObj?.refresh();
-    //   console.log(event)
-    // });
-
-    console.log(this.selectedDoctor)
-
     this.examinationService.getScheduledExaminationByDoctor(
       this.selectedDoctor
-    ).subscribe( res =>{
+    ).subscribe(res => {
+
+      this.scheduleObj?.deleteEvent(this.scheduleObj?.eventsData)
       this.responseExams = res;
-
+      console.log("DOBIO SAM " + res.length)
+      this.doctorSearched = true;
+      if(this.responseExams.length == 0){
+        this.snackBar.openWarningSnackBar("Nema zakazanih pregleda")
+      }
       this.responseExams.forEach(event => {
+        console.log("Evo za " + event.dateAndTime + " " + event.lbp)
         // this.scheduleObj?.appendTo('#schedule');
-
-        const eventData = {
-          Id: (<Record<string, any>>this.eventSettings.dataSource)['length'] + 1,
-          Subject: this.subject,
-          StartTime: event.dateAndTime,
-          EndTime: moment(event.dateAndTime).add(30, 'minutes').toDate(),
-          Note: this.note,
-          Patient: event.lbp
-        };
+        if (event.patientArrival.toString() !== 'OTKAZANO') {
 
 
-        this.scheduleObj?.addEvent(eventData);
-        this.scheduleObj?.refresh();
-        console.log(event)
+          console.log("arrival " + event.dateAndTime)
+          console.log("enum " + PatientArrival.OTKAZANO.valueOf())
+
+
+          const eventData = {
+            Id: (<Record<string, any>>this.eventSettings.dataSource)['length'] + 1,
+            Subject: event.lbp,
+            StartTime: event.dateAndTime,
+            EndTime: moment(event.dateAndTime).add(30, 'minutes').toDate(),
+            Note: this.note,
+            Patient: event.lbp,
+            ExamId: event.id
+          };
+
+          console.log("ODODA sam " + this.note)
+          this.scheduleObj?.addEvent(eventData);
+          this.scheduleObj?.refresh();
+          console.log(event)
+
+        }
       });
+    }, err => {
+      if(!this.firstTimeErrorCheck){
+        this.snackBar.openErrorSnackBar("Greska!")
+      }
+      this.firstTimeErrorCheck = false;
     });
 
   }
 
 
-
-
   public onSave(): void {
-
     const eventData = {
       Id: (<Record<string, any>>this.eventSettings.dataSource)['length'] + 1,
-      Subject: this.subject,
+      Subject: this.lbp,
       StartTime: this.selectedDateTime,
       EndTime: new Date(this.selectedDateTime.getTime() + (30 * 60 * 1000)),
       Note: this.note,
       Patient: this.patient
     };
+    
+    console.log("selektovan datum je " + this.selectedDateTime + " " + eventData.StartTime)
 
-
-    this.examinationService.createExamination(this.selectedDateTime, this.selectedDoctor, this.patient, this.note).subscribe(res=>{
+    this.examinationService.createExamination(this.selectedDateTime, this.selectedDoctor, this.patient, this.note).subscribe(res => {
       console.log(res)
+      // this.scheduleObj?.addEvent(eventData);
+      //  this.scheduleObj?.refresh();
+
+      this.scheduleObj?.closeEditor();
+      this.snackBar.openSuccessSnackBar("Uspesno!")
+      this.addEventsData()
+
+    }, err => {
+      this.snackBar.openErrorSnackBar("Greska!")
     })
 
     // console.log(eventData.StartTime)
     // console.log(eventData.EndTime)
     // console.log(eventData.Id)
 
-    this.scheduleObj?.addEvent(eventData);
-    this.scheduleObj?.refresh();
-    this.scheduleObj?.closeEditor();
 
   }
 
@@ -217,17 +209,84 @@ export class NurseScheduleAppointmentComponent implements OnInit{
   }
 
   public onPopupOpen(args: PopupOpenEventArgs): void {
-
+    if (args.type === 'QuickInfo') {
+      args.cancel = true;
+      if(this.selectedDoctor.length == 0 || !this.doctorSearched){
+        this.snackBar.openWarningSnackBar("Izaberite doktora")
+        return;
+      }
+      if(this.selectedDateTime < new Date()){
+        this.snackBar.openWarningSnackBar("Izaberite skoriji datum i vreme")
+        return;
+      }
+      let data = args.data as { [key: string]: Object };
+      if (!this.updateEJSView()) {
+        this.scheduleObj?.openEditor(data, 'Add');
+        this.editMenu = false;
+      }
+      else {
+        this.scheduleObj?.openEditor(this.eventsOnCellClick[0], 'Add');
+        this.editMenu = true;
+      }
+    }
     if (args.type === 'Editor') {
-      console.log("jeste editor")
+      setTimeout(() => {
+        const saveButton = args.element.querySelector('.e-event-save') as HTMLElement;
+        const cancelButton = args.element.querySelector('.e-event-cancel') as HTMLElement;
 
-      // const moreDetailsBtn: HTMLElement = args.element.querySelector('.e-more-details') as HTMLElement;
-      // if (moreDetailsBtn) {
-      //   moreDetailsBtn.click();
-      //   args.cancel = true;
-      // }
+        if (saveButton) {
+          saveButton.style.display = 'none';
+        }
+        if (cancelButton) {
+          cancelButton.style.display = 'none';
+        }
+      });
+
     }
   }
+  eventsOnCellClick: Record<string, any>[] = [];
+  onCellClick(args: CellClickEventArgs): void {
+    this.selectedDateTime = args.startTime;
+    this.eventsOnCellClick = this.scheduleObj!.getEvents(args.startTime, args.endTime);
+  }
 
+  updateEJSView(): boolean {
+    if (this.eventsOnCellClick.length == 0) {
+      return false;
+    } else {
+      const eventData = this.eventsOnCellClick[0];
+      this.patient = eventData['Patient']
+      this.note = eventData['Note']
+      this.selectedDateTime = eventData['StartTime']
+      return true;
+    }
 
+  }
+  onDelete(): void {
+
+    const eventData = this.eventsOnCellClick[0];
+    const id = eventData['ExamId']
+    console.log("id za brisanje " + id);
+
+    this.examinationService.deleteExamination(id).subscribe(
+      res => {
+        this.addEventsData();
+        this.snackBar.openSuccessSnackBar("Uspesno obrisan pregled!")
+      },
+      err => {
+        this.snackBar.openErrorSnackBar("Greska prilikom brisanja!")
+      }
+    );
+
+  }
+
+  public onEventClick(args: EventClickArgs): void {
+    this.eventsOnCellClick[0] = args.event
+    this.editMenu = true;
+  }
+
+  doctorSearched = false;
+  doctorChange(){
+    this.doctorSearched = false;
+  }
 }

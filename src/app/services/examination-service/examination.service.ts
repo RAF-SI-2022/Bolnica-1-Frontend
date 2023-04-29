@@ -134,9 +134,11 @@ export class ExaminationService {
    * Brisanje zakazanog pregleda
    * */
   public deleteExamination(id: number) {
-    return this.http.delete<HttpStatusCode>(`${environmentPatient.apiURL}/examination${id}`,
+
+    return this.http.delete<HttpStatusCode>(`${environmentPatient.apiURL}/examination/${id}`,
       {headers: this.getHeaders()})
   }
+
 
   /**
    * Pretraga lekara po odeljenju
@@ -159,6 +161,8 @@ export class ExaminationService {
     id: number,
     pa: PatientArrival
   ): Observable<HttpStatusCode>{
+
+    console.log("menja status")
 
     let httpParams = new HttpParams()
       .append("pa",pa)

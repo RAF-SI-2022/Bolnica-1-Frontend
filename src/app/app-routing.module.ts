@@ -75,9 +75,7 @@ import {
 import {
   TechnicianIssuingResultsDetailsComponent
 } from "./components/technician/technician-issuing-results-details/technician-issuing-results-details.component";
-import {
-  NurseScheduleAppointmentNewComponent
-} from "./components/nurse/nurse-schedule-appointment-new/nurse-schedule-appointment-new.component";
+
 import {
   BiochemistSearchWorkOrdersComponent
 } from "./components/biochemist/biochemist-search-work-orders/biochemist-search-work-orders.component";
@@ -156,7 +154,7 @@ const routes: Routes = [
     canActivate: [AuthGuard, BiochemistGuard]
   },
   {
-    path: "biochemist-details",
+    path: "biochemist-details/:id",
     component: BiochemistDetailsAnalysisComponent,
     canActivate: [AuthGuard, BiochemistGuard]
   },
@@ -208,11 +206,6 @@ const routes: Routes = [
   {
     path: "nurse-schedule-appointment",
     component: NurseScheduleAppointmentComponent,
-    canActivate: [AuthGuard, NurseGuard]
-  },
-  {
-    path: "nurse-schedule-appointment-new",
-    component: NurseScheduleAppointmentNewComponent,
     canActivate: [AuthGuard, NurseGuard]
   },
   {

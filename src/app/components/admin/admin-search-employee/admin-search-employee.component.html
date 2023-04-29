@@ -53,8 +53,8 @@
               <div> <br>
                 <div class="d-inline-block me-1">Aktivni</div> &nbsp;
                 <div class="form-check form-switch d-inline-block"> &nbsp;
-                  <input [(ngModel)]="deleted" [ngModelOptions]="{standalone: true}" name=" gender" type="checkbox" class="form-check-input"
-                    id="site_state" style="cursor: pointer;">
+                  <input [(ngModel)]="deleted" [ngModelOptions]="{standalone: true}" name=" gender" type="checkbox"
+                    class="form-check-input" id="site_state" style="cursor: pointer;">
 
                   <label for="site_state" class="form-check-label"> Obrisani</label>
                 </div>
@@ -70,14 +70,54 @@
           <table class="table table-hover">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Ime</th>
-                <th>Prezime</th>
-                <th>Datum rodjenja</th>
-                <th>Titula</th>
-                <th>Zanimanje</th>
-                <th>Broj telefona</th>
-                <th>Email</th>
+                <th (click)="sortColumn('id')">ID
+                  <i *ngIf="sortState.column === 'id' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'id' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th (click)="sortColumn('name')">Ime
+                  <i *ngIf="sortState.column === 'name' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'name' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th (click)="sortColumn('surname')">Prezime
+                  <i *ngIf="sortState.column === 'surname' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'surname' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th (click)="sortColumn('dateOfBirth')">Datum rodjenja 
+                  <i *ngIf="sortState.column === 'dateOfBirth' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'dateOfBirth' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th (click)="sortColumn('title')">Titula 
+                  <i *ngIf="sortState.column === 'title' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'title' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th (click)="sortColumn('profession')">Zanimanje 
+                  <i *ngIf="sortState.column === 'profession' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'profession' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th (click)="sortColumn('phone')">Broj telefona 
+                  <i *ngIf="sortState.column === 'phone' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'phone' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th (click)="sortColumn('email')">Email 
+                  <i *ngIf="sortState.column === 'email' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'email' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
                 <th>Akcija</th>
               </tr>
             </thead>

@@ -1,19 +1,22 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {UserService} from "../../../services/user-service/user.service";
-import {ActivatedRoute} from "@angular/router";
-import {AdminPromeniZaposlenog, UlogeZaposlenog} from "../../../models/models";
-import {PatientService} from "../../../services/patient-service/patient.service";
-import {PatientUpdateClass} from "../../../models/patient/PatientUpdate";
-import {CountryCode} from "../../../models/patient-enums/CountryCode";
-import {FamilyStatus} from "../../../models/patient-enums/FamilyStatus";
-import {MaritalStatus} from "../../../models/patient-enums/MaritalStatus";
-import {ExpertiseDegree} from "../../../models/patient-enums/ExpertiseDegree";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UserService } from "../../../services/user-service/user.service";
+import { ActivatedRoute } from "@angular/router";
+import { AdminPromeniZaposlenog, UlogeZaposlenog } from "../../../models/models";
+import { PatientService } from "../../../services/patient-service/patient.service";
+import { PatientUpdateClass } from "../../../models/patient/PatientUpdate";
+import { CountryCode } from "../../../models/patient-enums/CountryCode";
+import { FamilyStatus } from "../../../models/patient-enums/FamilyStatus";
+import { MaritalStatus } from "../../../models/patient-enums/MaritalStatus";
+import { ExpertiseDegree } from "../../../models/patient-enums/ExpertiseDegree";
+import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { update } from 'cypress/types/lodash';
+import { interval } from 'rxjs';
 
 @Component({
-  selector: 'app-nurse-edit-patient',
-  templateUrl: './nurse-edit-patient.component.html',
-  styleUrls: ['./nurse-edit-patient.component.css']
+    selector: 'app-nurse-edit-patient',
+    templateUrl: './nurse-edit-patient.component.html',
+    styleUrls: ['./nurse-edit-patient.component.css']
 })
 export class NurseEditPatientComponent implements OnInit {
 
@@ -30,16 +33,21 @@ export class NurseEditPatientComponent implements OnInit {
 
     lbp = '';
 
-    constructor(private formBuilder: FormBuilder, private patientService: PatientService, private route: ActivatedRoute) {
+    constructor(private formBuilder: FormBuilder, private snackBar: SnackbarServiceService,private patientService: PatientService, private route: ActivatedRoute) {
         this.editGroup = this.createFormGroup();
         this.patientUpdate = new PatientUpdateClass();
     }
 
     ngOnInit(): void {
         this.lbp = this.route.snapshot.paramMap.get('lbp') || '';
-        this.getPatient(this.lbp);
+       // interval(5000).subscribe(() => {
+            this.updateData();
+         // });
     }
 
+    updateData(){
+        this.getPatient(this.lbp);
+    }
     filterEnum(enumObject: any): string[] {
         return Object.values(enumObject).filter((value) => typeof value === 'string') as string[];
     }
@@ -83,10 +91,10 @@ export class NurseEditPatientComponent implements OnInit {
     }
 
     editPatient(): void {
-      if (this.editGroup.invalid) return;
+        if (this.editGroup.invalid) return;
 
 
-      const updatedPatient = { ...this.editGroup.value, deleted: this.deleted };
+        const updatedPatient = { ...this.editGroup.value, deleted: this.deleted };
         this.patientService.updatePatient(
             this.lbp,
             updatedPatient.jmbg,
@@ -111,10 +119,11 @@ export class NurseEditPatientComponent implements OnInit {
             updatedPatient.deleted
         ).subscribe(
             response => {
-                this.showSuccessMessage('Uspesno sacuvan pacijent!');
+                // this.showSuccessMessage('Uspesno sacuvan pacijent!');
+                this.snackBar.openSuccessSnackBar("Uspesno sacuvan pacijent!")
             },
             error => {
-                this.errorMessage = '';
+                this.snackBar.openErrorSnackBar("Pacijent nije sacuvan!")
             }
         );
     }

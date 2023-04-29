@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app/app.component';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {DropDownListModule} from "@syncfusion/ej2-angular-dropdowns";
 import {DateTimePickerModule} from "@syncfusion/ej2-angular-calendars";
 import {ScheduleModule,RecurrenceEditorModule, DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService} from '@syncfusion/ej2-angular-schedule';
@@ -55,11 +55,16 @@ import {NurseWorkspaceComponent} from "./components/nurse/nurse-workspace/nurse-
 // import { BiochemistSearchComponent } from './components/biochemist/biochemist-search/biochemist-search.component';
 import { TechnicianScheduleLabExaminationComponent } from './components/technician/technician-schedule-lab-examination/technician-schedule-lab-examination.component';
 import { TechnicianIssuingResultsDetailsComponent } from './components/technician/technician-issuing-results-details/technician-issuing-results-details.component';
-import { NurseScheduleAppointmentNewComponent } from './components/nurse/nurse-schedule-appointment-new/nurse-schedule-appointment-new.component';
+// import { NurseScheduleAppointmentNewComponent } from './components/nurse/nurse-schedule-appointment-new/nurse-schedule-appointment-new.component';
 import { BiochemistSearchWorkOrdersComponent } from './components/biochemist/biochemist-search-work-orders/biochemist-search-work-orders.component';
 import { BiochemistDetailsAnalysisComponent } from './components/biochemist/biochemist-details-analysis/biochemist-details-analysis.component';
 import { BiochemistDailyWorkOrdersComponent } from './components/biochemist/biochemist-daily-work-orders/biochemist-daily-work-orders.component';
+
+// import { DoctorCreateReferralNewComponent } from './components/doctor/doctor-create-referral-new/doctor-create-referral-new.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 import { DoctorPatientsInfirmaryComponent } from './components/doctor/doctor-patients-infirmary/doctor-patients-infirmary.component';
+
 
 
 @NgModule({
@@ -97,7 +102,7 @@ import { DoctorPatientsInfirmaryComponent } from './components/doctor/doctor-pat
     DoctorCreateReferralComponent,
     TechnicianScheduleLabExaminationComponent,
     TechnicianIssuingResultsDetailsComponent,
-    NurseScheduleAppointmentNewComponent,
+    // NurseScheduleAppointmentNewComponent,
     BiochemistSearchWorkOrdersComponent,
     BiochemistDetailsAnalysisComponent,
     BiochemistDailyWorkOrdersComponent,
@@ -111,8 +116,9 @@ import { DoctorPatientsInfirmaryComponent } from './components/doctor/doctor-pat
     ReactiveFormsModule,
     NgxPaginationModule,
     BrowserAnimationsModule,
-
-    ScheduleModule,RecurrenceEditorModule,DropDownListModule,DateTimePickerModule
+    NgSelectModule,
+    ScheduleModule,RecurrenceEditorModule,DropDownListModule,DateTimePickerModule,
+    MatSnackBarModule
   ],
   providers: [DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService],
   //providers[],

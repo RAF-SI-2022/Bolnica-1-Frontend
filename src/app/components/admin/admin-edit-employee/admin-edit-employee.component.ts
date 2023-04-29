@@ -3,6 +3,8 @@
     import { AdminPromeniZaposlenog, DeparmentShort, Uloga, UlogeZaposlenog, Zaposleni } from "../../../models/models";
     import { FormBuilder, FormGroup, Validators } from "@angular/forms";
     import { ActivatedRoute } from "@angular/router";
+import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
+import { interval } from 'rxjs';
 
     @Component({
     selector: 'app-admin-edit-employee',
@@ -36,7 +38,7 @@
     lbz: string = ''
     department: string = '';
 
-    constructor(private formBuilder: FormBuilder, private userService: UserService, private route: ActivatedRoute) {
+    constructor(private formBuilder: FormBuilder, private userService: UserService, private snackBar: SnackbarServiceService ,private route: ActivatedRoute) {
         this.editGroup = this.formBuilder.group({
         name: ['', [Validators.required]],
         lastName: ['', [Validators.required]],
@@ -75,7 +77,9 @@
         this.lbz = <string>this.route.snapshot.paramMap.get('lbz');
         this.getUser(this.lbz);
         this.getUserPermissions(this.lbz);
-        this.getDepartments();
+        //interval(5000).subscribe(() => {
+            this.getDepartments();
+          //});
     }
 
     getDepartments(): void {
@@ -145,9 +149,11 @@
             this.editGroup.get('city')?.value, this.editGroup.get('phoneNumber')?.value, this.editGroup.get('email')?.value,
             this.editGroup.get('username')?.value, this.editGroup.get('password')?.value, this.editGroup.get('deleted')?.value , this.editGroup.get('title')?.value,
             this.editGroup.get('profession')?.value, this.department, this.permissions).subscribe((response) => {
-            this.showSuccessMessage("Uspesno sacuvan korisnik!")
+            // this.showSuccessMessage("Uspesno sacuvan korisnik!")
+            this.snackBar.openSuccessSnackBar("Uspesno sacuvan korisnik");
         }, error => {
-            this.errorMessage = 'Mejl mora biti unikat sadrzati bar 5 slova i biti na domenu @ibis.rs';
+            // this.errorMessage = 'Mejl mora biti unikat sadrzati bar 5 slova i biti na domenu @ibis.rs';
+            this.snackBar.openErrorSnackBar("Mejl mora biti unikat i duzine makar 5 karaktera")
         })
     }
 
