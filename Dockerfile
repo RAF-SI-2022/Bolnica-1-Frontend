@@ -1,4 +1,4 @@
-FROM node:18-alpine3.16
+FROM harbor.k8s.elab.rs/docker-hub/library/node:18-alpine3.16
 WORKDIR /app
 
 RUN npm install -g @angular/cli@15.0.2
