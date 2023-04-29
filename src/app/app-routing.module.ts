@@ -27,19 +27,19 @@ import {
   DoctorWorkspaceOnePatientComponent
 } from "./components/doctor/doctor-workspace-one-patient/doctor-workspace-one-patient.component";
 import {NurseAddPatientComponent} from "./components/nurse/nurse-add-patient/nurse-add-patient.component";
-import {
-  NursePatientAdmissionComponent
-} from "./components/nurse/nurse-patient-admission/nurse-patient-admission.component";
-import {
-  NurseScheduleAdmissionComponent
-} from "./components/nurse/nurse-schedule-admission/nurse-schedule-admission.component";
+// import {
+//   NursePatientAdmissionComponent
+// } from "./components/nurse/nurse-patient-admission/nurse-patient-admission.component";
+// import {
+//   NurseScheduleAdmissionComponent
+// } from "./components/nurse/nurse-schedule-admission/nurse-schedule-admission.component";
 import {
   NurseScheduleAppointmentComponent
 } from "./components/nurse/nurse-schedule-appointment/nurse-schedule-appointment.component";
 import {NurseSearchPatientsComponent} from "./components/nurse/nurse-search-patients/nurse-search-patients.component";
-import {
-  NurseSearchPatientsDepartmentsComponent
-} from "./components/nurse/nurse-search-patients-departments/nurse-search-patients-departments.component";
+// import {
+//   NurseSearchPatientsDepartmentsComponent
+// } from "./components/nurse/nurse-search-patients-departments/nurse-search-patients-departments.component";
 import {
   ReceptionistAddPatientComponent
 } from "./components/receptionist/receptionist-add-patient/receptionist-add-patient.component";
@@ -85,6 +85,46 @@ import {
 import {
   BiochemistDetailsAnalysisComponent
 } from "./components/biochemist/biochemist-details-analysis/biochemist-details-analysis.component";
+import {
+  DoctorInfirmaryDischargeListComponent
+} from "./components/doctor/doctor-infirmary-discharge-list/doctor-infirmary-discharge-list.component";
+import {
+  DoctorInfirmaryMedicalChartComponent
+} from "./components/doctor/doctor-infirmary-medical-chart/doctor-infirmary-medical-chart.component";
+import {
+  DoctorInfirmaryMedicalRecordComponent
+} from "./components/doctor/doctor-infirmary-medical-record/doctor-infirmary-medical-record.component";
+import {
+  DoctorInfirmaryStateHistoryComponent
+} from "./components/doctor/doctor-infirmary-state-history/doctor-infirmary-state-history.component";
+import {
+  DoctorInfirmaryWorkspaceComponent
+} from "./components/doctor/doctor-infirmary-workspace/doctor-infirmary-workspace.component";
+import {
+  NurseInfirmaryPatientAdmissionComponent
+} from "./components/nurse/nurse-infirmary-patient-admission/nurse-infirmary-patient-admission.component";
+import {
+  NurseInfirmaryRegisterStateComponent
+} from "./components/nurse/nurse-infirmary-register-state/nurse-infirmary-register-state.component";
+import {
+  NurseInfirmaryScheduleAdmissionComponent
+} from "./components/nurse/nurse-infirmary-schedule-admission/nurse-infirmary-schedule-admission.component";
+import {
+  NurseInfirmaryScheduledPatientsComponent
+} from "./components/nurse/nurse-infirmary-scheduled-patients/nurse-infirmary-scheduled-patients.component";
+import {
+  NurseInfirmaryWorkspaceComponent
+} from "./components/nurse/nurse-infirmary-workspace/nurse-infirmary-workspace.component";
+import {
+  NurseInfirmaryWorkspaceOneComponent
+} from "./components/nurse/nurse-infirmary-workspace-one/nurse-infirmary-workspace-one.component";
+import {ReceptionistVisitsComponent} from "./components/receptionist/receptionist-visits/receptionist-visits.component";
+import {
+  ReceptionistRegisterVisitComponent
+} from "./components/receptionist/receptionist-register-visit/receptionist-register-visit.component";
+import {
+  DoctorPatientsInfirmaryComponent
+} from "./components/doctor/doctor-patients-infirmary/doctor-patients-infirmary.component";
 
 
 const routes: Routes = [
@@ -184,6 +224,36 @@ const routes: Routes = [
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
+    path: "doctor-patients-infirmary",
+    component: DoctorPatientsInfirmaryComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-infirmary-discharge-list",
+    component: DoctorInfirmaryDischargeListComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-infirmary-medical-chart",
+    component: DoctorInfirmaryMedicalChartComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-infirmary-medical-record",
+    component: DoctorInfirmaryMedicalRecordComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-infirmary-state-history",
+    component: DoctorInfirmaryStateHistoryComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-infirmary-workspace",
+    component: DoctorInfirmaryWorkspaceComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
     path: "nurse-add-patient",
     component: NurseAddPatientComponent,
     canActivate: [AuthGuard, NurseGuard]
@@ -193,16 +263,7 @@ const routes: Routes = [
     component: NurseEditPatientComponent,
     canActivate: [AuthGuard, NurseGuard]
   },
-  {
-    path: "nurse-patient-admission",
-    component: NursePatientAdmissionComponent,
-    canActivate: [AuthGuard, NurseGuard]
-  },
-  {
-    path: "nurse-schedule-admission",
-    component: NurseScheduleAdmissionComponent,
-    canActivate: [AuthGuard, NurseGuard]
-  },
+
   {
     path: "nurse-schedule-appointment",
     component: NurseScheduleAppointmentComponent,
@@ -213,14 +274,40 @@ const routes: Routes = [
     component: NurseSearchPatientsComponent,
     canActivate: [AuthGuard, NurseGuard]
   },
-  {
-    path: "nurse-search-patients-dep",
-    component: NurseSearchPatientsDepartmentsComponent,
-    canActivate: [AuthGuard, NurseGuard]
-  },
+
   {
     path: "nurse-workspace",
     component: NurseWorkspaceComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-infirmary-patient-admission",
+    component: NurseInfirmaryPatientAdmissionComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-infirmary-register-state",
+    component: NurseInfirmaryRegisterStateComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-infirmary-schedule-admission",
+    component: NurseInfirmaryScheduleAdmissionComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-infirmary-scheduled-patients",
+    component: NurseInfirmaryScheduledPatientsComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-infirmary-workspace",
+    component: NurseInfirmaryWorkspaceComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-infirmary-workspace-one",
+    component: NurseInfirmaryWorkspaceOneComponent,
     canActivate: [AuthGuard, NurseGuard]
   },
   {
@@ -241,6 +328,16 @@ const routes: Routes = [
   {
     path: "receptionist-workspace",
     component: ReceptionistWorkspaceComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "receptionist-visits",
+    component: ReceptionistVisitsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "receptionist-register-visit",
+    component: ReceptionistRegisterVisitComponent,
     canActivate: [AuthGuard]
   },
   {

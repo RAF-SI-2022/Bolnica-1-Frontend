@@ -17,7 +17,7 @@
     <span>{{ message }}</span>
     <button mat-button (click)="action()">{{ action }}</button>
   </ng-template>
-  
+
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -137,6 +137,13 @@
         </a>
       </li>
 
+      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../doctor-patients-infirmary">
+          <i class="bi bi-book"></i>
+          <span>Stacionar</span>
+        </a>
+      </li>
+
 <!--      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">-->
 <!--        <a class="nav-link collapsed" routerLink="../doctor-create-referral">-->
 <!--          <i class="bi bi-journal-text"></i>-->
@@ -146,8 +153,37 @@
 
       <li *ngIf="nurse || nurseVisa" class="nav-item">
         <a class="nav-link collapsed" routerLink="../nurse-workspace">
-          <i class="bi bi-calendar-check"></i>
-          <span>Zakazani pacijenti</span>
+          <i class="bi bi-calendar-week"></i>
+          <span>Zakazani pregledi</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-schedule-appointment">
+          <i class="bi bi-calendar-plus"></i>
+          <span>Zakazivanje pregleda</span>
+        </a>
+      </li>
+
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-infirmary-schedule-admission">
+          <i class="bi bi-file-earmark-medical"></i>
+          <span>Zakazivanje prijema</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-infirmary-patient-admission">
+          <i class="bi bi-file-medical"></i>
+          <span>Prijem na stacionar</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-infirmary-workspace">
+          <i class="bi bi-book"></i>
+          <span>Pacijenti na odeljenju</span>
         </a>
       </li>
 
@@ -165,12 +201,7 @@
         </a>
       </li>
 
-      <li *ngIf="nurse || nurseVisa" class="nav-item">
-        <a class="nav-link collapsed" routerLink="../nurse-schedule-appointment">
-          <i class="bi bi-calendar-plus"></i>
-          <span>Zakazivanje pregleda</span>
-        </a>
-      </li>
+
 
 <!--      <li *ngIf="nurse || nurseVisa" class="nav-item">-->
 <!--        <a class="nav-link collapsed" routerLink="../nurse-schedule-appointment-new">-->
