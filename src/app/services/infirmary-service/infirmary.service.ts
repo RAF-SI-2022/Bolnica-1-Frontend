@@ -27,6 +27,11 @@ import {MedicalRecord} from "../../models/patient/MedicalRecord";
 import {ExaminationHistoryCreateDto} from "../../models/patient/ExaminationHistoryCreate";
 import {DiagnosisCodeDto} from "../../models/patient/DiagnosisCode";
 import {AnamnesisDto} from "../../models/patient/Anamnesis";
+import {
+  ExaminationHistoryCreateDtoInfirmary
+} from "../../models/infirmary/externalPatient/ExaminationHistoryCreateDtoInfirmary";
+import {Message} from "../../models/Message";
+import {PrescriptionCreateDtoInfirmary} from "../../models/infirmary/externalPatient/PrescriptionCreateDtoInfirmary";
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +61,7 @@ export class InfirmaryService {
     dischargeDateAndTime: Date, // ovo je timestamp
     prescriptionId: string,
     note: string
-  ): Observable<HttpStatusCode> {
+  ): Observable<HospitalizationDto> {
 
     const hospitalizationCreateDto : HospitalizationCreateDto = {
       lbzDoctor: lbzDoctor,
@@ -67,7 +72,7 @@ export class InfirmaryService {
       note: note
     }
 
-    return this.http.post<HttpStatusCode>(`${environmentInfirmary.apiURL}/admission/createHospitalizaion`,
+    return this.http.post<HospitalizationDto>(`${environmentInfirmary.apiURL}/admission/createHospitalizaion`,
       hospitalizationCreateDto, { headers: this.getHeaders() } );
   }
 
@@ -78,7 +83,7 @@ export class InfirmaryService {
     patientAdmission: Date, // ovo je Timestamp
     note: string,
     prescriptionId: number
-  ): Observable<HttpStatusCode> {
+  ): Observable<ScheduledAppointmentDto> {
 
     const scheduledAppointmentCreateDto : ScheduledAppointmentCreateDto = {
       patientAdmission: patientAdmission,
@@ -86,7 +91,7 @@ export class InfirmaryService {
       prescriptionId: prescriptionId
     }
 
-    return this.http.post<HttpStatusCode>(`${environmentInfirmary.apiURL}/admission/createSCheduledAppointment`,
+    return this.http.post<ScheduledAppointmentDto>(`${environmentInfirmary.apiURL}/admission/createSCheduledAppointment`,
       scheduledAppointmentCreateDto, { headers: this.getHeaders() } );
   }
 
@@ -173,15 +178,15 @@ export class InfirmaryService {
   public setScheduledAppointmentStatus(
     scheduledAppointmentId: number,
     admissionStatus: AdmissionStatus
-  ): Observable<HttpStatusCode>  {
+  ): Observable<Message>  {
 
     let httpParams = new HttpParams()
       .append("scheduledAppointmentId",scheduledAppointmentId)
       .append("admissionStatus", admissionStatus)
 
-    return this.http.put<HttpStatusCode>(
+    return this.http.put<Message>(
       `${environmentInfirmary.apiURL}/admission/setScheduledAppointmentStatus`,
-      {params: httpParams, headers:this.getHeaders()}
+      {}, {params: httpParams, headers:this.getHeaders()}
     );
   }
 
@@ -202,7 +207,7 @@ export class InfirmaryService {
     lbzDepartment:string,
     creation: Date, // ovo je timestamp
     hospitalizationId:number
-  ): Observable<HttpStatusCode> {
+  ): Observable<DischargeListDto> {
 
     // sta ce ovde id?
 
@@ -220,7 +225,7 @@ export class InfirmaryService {
       hospitalizationId:hospitalizationId
     }
 
-    return this.http.post<HttpStatusCode>(`${environmentInfirmary.apiURL}/dischargeList/createDischargeList`,
+    return this.http.post<DischargeListDto>(`${environmentInfirmary.apiURL}/dischargeList/createDischargeList`,
       dischargeListDto, { headers: this.getHeaders() } );
   }
 
@@ -337,7 +342,7 @@ export class InfirmaryService {
     name: string,
     capacity: number,
     description:string
-  ): Observable<HttpStatusCode> {
+  ): Observable<HospitalRoomDto> {
 
     const hospitalRoomCreateDto : HospitalRoomCreateDto = {
       idDepartment: idDepartment,
@@ -347,7 +352,7 @@ export class InfirmaryService {
       description: description
     }
 
-    return this.http.post<HttpStatusCode>(`${environmentInfirmary.apiURL}/hospitalRoom/createHospitalRoom`,
+    return this.http.post<HospitalRoomDto>(`${environmentInfirmary.apiURL}/hospitalRoom/createHospitalRoom`,
       hospitalRoomCreateDto, { headers: this.getHeaders() } );
   }
 
@@ -356,13 +361,13 @@ export class InfirmaryService {
    * */
   public deleteHospitalRoom(
     hospitalRoomId: number
-  ): Observable<HttpStatusCode>{
+  ): Observable<Message>{
 
     let httpParams = new HttpParams()
       .append("hospitalRoomId", hospitalRoomId)
 
-    return this.http.put<HttpStatusCode>(
-      `${environmentInfirmary.apiURL}/hospitalRoom/deleteHospitalRoom`,
+    return this.http.put<Message>(
+      `${environmentInfirmary.apiURL}/hospitalRoom/deleteHospitalRoom`,{},
       {params: httpParams, headers: this.getHeaders() });
 
   }
@@ -427,6 +432,7 @@ export class InfirmaryService {
    * Kreiranje izvestaja pregleda
    * */
   public createExaminationHistory(
+    lbp: string,
     examDate: Date,
     lbz: string,
     confidential: boolean,
@@ -435,9 +441,10 @@ export class InfirmaryService {
     therapy: string,
     diagnosisCodeDto: DiagnosisCodeDto,
     anamnesisDto: AnamnesisDto
-  ): Observable<HttpStatusCode> {
+  ): Observable<Message> {
 
-    const examinationHistoryCreateDto : ExaminationHistoryCreateDto = {
+    const ExaminationHistoryCreateDtoInfirmary : ExaminationHistoryCreateDtoInfirmary = {
+      lbp:lbp,
       examDate: examDate,
       lbz: lbz,
       confidential: confidential,
@@ -448,8 +455,8 @@ export class InfirmaryService {
       anamnesisDto: anamnesisDto
     }
 
-    return this.http.post<HttpStatusCode>(`${environmentInfirmary.apiURL}/medicalRecord/createExaminationHistory`,
-      examinationHistoryCreateDto, { headers: this.getHeaders() } );
+    return this.http.post<Message>(`${environmentInfirmary.apiURL}/medicalRecord/createExaminationHistory`,
+      ExaminationHistoryCreateDtoInfirmary, { headers: this.getHeaders() } );
   }
 
 
@@ -471,7 +478,7 @@ export class InfirmaryService {
     description: string,
     hospitalizationId: number
 
-  ): Observable<HttpStatusCode> {
+  ): Observable<PatientStateDto> {
 
     const patientStateCreateDto : PatientStateCreateDto = {
       dateExamState: dateExamState, //ovo je Date
@@ -485,7 +492,7 @@ export class InfirmaryService {
       hospitalizationId: hospitalizationId
     }
 
-    return this.http.post<HttpStatusCode>(`${environmentInfirmary.apiURL}/patientState/createPatientState`,
+    return this.http.post<PatientStateDto>(`${environmentInfirmary.apiURL}/patientState/createPatientState`,
       patientStateCreateDto, { headers: this.getHeaders() } );
   }
 
@@ -525,7 +532,7 @@ export class InfirmaryService {
    * */
   public sendPrescriptionToLab(
     type: PrescriptionType,
-    doctorId: number,
+    doctorLbz: string,
     departmentFromId: number,
     departmentToId: number,
     lbp: string,
@@ -536,23 +543,21 @@ export class InfirmaryService {
     referralReason: string,
     prescriptionAnalysisDtos: PrescriptionAnalysis[]
 
-): Observable<HttpStatusCode> {
+): Observable<Message> {
 
-    const prescriptionCreateDto : PrescriptionCreateDto = {
+    const prescriptionCreateDto : PrescriptionCreateDtoInfirmary = {
       type: type,
-      doctorId: doctorId,
+      doctorLbz: doctorLbz,
       departmentFromId: departmentFromId,
       departmentToId: departmentToId,
       lbp: lbp,
       creationDateTime: creationDateTime,
       status: status,
       comment: comment,
-      referralDiagnosis: referralDiagnosis,
-      referralReason: referralReason,
       prescriptionAnalysisDtos: prescriptionAnalysisDtos
     }
 
-    return this.http.put<HttpStatusCode>(`${environmentInfirmary.apiURL}/prescriptionSend/sendPrescriptionToLab`,
+    return this.http.put<Message>(`${environmentInfirmary.apiURL}/prescriptionSend/sendPrescriptionToLab`,
       prescriptionCreateDto, { headers: this.getHeaders() } );
   }
 
@@ -570,7 +575,7 @@ export class InfirmaryService {
     note: string,
     hospitalizationId: number
 
-  ): Observable<HttpStatusCode> {
+  ): Observable<VisitDto> {
 
     const visitCreateDto : VisitCreateDto = {
       visitorName: visitorName,
@@ -581,7 +586,7 @@ export class InfirmaryService {
       hospitalizationId: hospitalizationId
     }
 
-    return this.http.post<HttpStatusCode>(`${environmentInfirmary.apiURL}/visit/createVisit`,
+    return this.http.post<VisitDto>(`${environmentInfirmary.apiURL}/visit/createVisit`,
       visitCreateDto, { headers: this.getHeaders() } );
   }
 

@@ -29,10 +29,10 @@ import { NurseAddPatientComponent } from './components/nurse/nurse-add-patient/n
 import { ReceptionistAddPatientComponent } from './components/receptionist/receptionist-add-patient/receptionist-add-patient.component';
 import { NurseScheduleAppointmentComponent } from './components/nurse/nurse-schedule-appointment/nurse-schedule-appointment.component';
 import { ReceptionistScheduleAppointmentComponent } from './components/receptionist/receptionist-schedule-appointment/receptionist-schedule-appointment.component';
-import { NursePatientAdmissionComponent } from './components/nurse/nurse-patient-admission/nurse-patient-admission.component';
+// import { NursePatientAdmissionComponent } from './components/nurse/nurse-patient-admission/nurse-patient-admission.component';
 import { TechnicianPatientAdmissionComponent } from './components/technician/technician-patient-admission/technician-patient-admission.component';
-import { NurseScheduleAdmissionComponent } from './components/nurse/nurse-schedule-admission/nurse-schedule-admission.component';
-import { NurseSearchPatientsDepartmentsComponent } from './components/nurse/nurse-search-patients-departments/nurse-search-patients-departments.component';
+// import { NurseScheduleAdmissionComponent } from './components/nurse/nurse-schedule-admission/nurse-schedule-admission.component';
+// import { NurseSearchPatientsDepartmentsComponent } from './components/nurse/nurse-search-patients-departments/nurse-search-patients-departments.component';
 import { TechnicianIssuingResultsComponent } from './components/technician/technician-issuing-results/technician-issuing-results.component';
 //import { TechnicianScheduleVisitComponent } from './components/technician/technician-schedule-visit/technician-schedule-visit.component';
 import { TechnicianWorkspaceComponent } from './components/technician/technician-workspace/technician-workspace.component';
@@ -64,6 +64,19 @@ import { BiochemistDailyWorkOrdersComponent } from './components/biochemist/bioc
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { DoctorPatientsInfirmaryComponent } from './components/doctor/doctor-patients-infirmary/doctor-patients-infirmary.component';
+import { ReceptionistVisitsComponent } from './components/receptionist/receptionist-visits/receptionist-visits.component';
+import { ReceptionistRegisterVisitComponent } from './components/receptionist/receptionist-register-visit/receptionist-register-visit.component';
+import { DoctorInfirmaryWorkspaceComponent } from './components/doctor/doctor-infirmary-workspace/doctor-infirmary-workspace.component';
+import { DoctorInfirmaryStateHistoryComponent } from './components/doctor/doctor-infirmary-state-history/doctor-infirmary-state-history.component';
+import { DoctorInfirmaryDischargeListComponent } from './components/doctor/doctor-infirmary-discharge-list/doctor-infirmary-discharge-list.component';
+import { DoctorInfirmaryMedicalRecordComponent } from './components/doctor/doctor-infirmary-medical-record/doctor-infirmary-medical-record.component';
+import { NurseInfirmaryScheduleAdmissionComponent } from './components/nurse/nurse-infirmary-schedule-admission/nurse-infirmary-schedule-admission.component';
+import { NurseInfirmaryScheduledPatientsComponent } from './components/nurse/nurse-infirmary-scheduled-patients/nurse-infirmary-scheduled-patients.component';
+import { NurseInfirmaryPatientAdmissionComponent } from './components/nurse/nurse-infirmary-patient-admission/nurse-infirmary-patient-admission.component';
+import { NurseInfirmaryWorkspaceComponent } from './components/nurse/nurse-infirmary-workspace/nurse-infirmary-workspace.component';
+import { NurseInfirmaryWorkspaceOneComponent } from './components/nurse/nurse-infirmary-workspace-one/nurse-infirmary-workspace-one.component';
+import { NurseInfirmaryRegisterStateComponent } from './components/nurse/nurse-infirmary-register-state/nurse-infirmary-register-state.component';
+import { DoctorInfirmaryMedicalChartComponent } from './components/doctor/doctor-infirmary-medical-chart/doctor-infirmary-medical-chart.component';
 
 
 
@@ -80,10 +93,10 @@ import { DoctorPatientsInfirmaryComponent } from './components/doctor/doctor-pat
     ReceptionistAddPatientComponent,
     NurseScheduleAppointmentComponent,
     ReceptionistScheduleAppointmentComponent,
-    NursePatientAdmissionComponent,
+    // NursePatientAdmissionComponent,
     TechnicianPatientAdmissionComponent,
-    NurseScheduleAdmissionComponent,
-    NurseSearchPatientsDepartmentsComponent,
+    // NurseScheduleAdmissionComponent,
+    // NurseSearchPatientsDepartmentsComponent,
     NurseWorkspaceComponent,
     TechnicianIssuingResultsComponent,
     TechnicianWorkspaceComponent,
@@ -106,7 +119,20 @@ import { DoctorPatientsInfirmaryComponent } from './components/doctor/doctor-pat
     BiochemistSearchWorkOrdersComponent,
     BiochemistDetailsAnalysisComponent,
     BiochemistDailyWorkOrdersComponent,
-    DoctorPatientsInfirmaryComponent
+    DoctorPatientsInfirmaryComponent,
+    ReceptionistVisitsComponent,
+    ReceptionistRegisterVisitComponent,
+    DoctorInfirmaryWorkspaceComponent,
+    DoctorInfirmaryStateHistoryComponent,
+    DoctorInfirmaryDischargeListComponent,
+    DoctorInfirmaryMedicalRecordComponent,
+    NurseInfirmaryScheduleAdmissionComponent,
+    NurseInfirmaryScheduledPatientsComponent,
+    NurseInfirmaryPatientAdmissionComponent,
+    NurseInfirmaryWorkspaceComponent,
+    NurseInfirmaryWorkspaceOneComponent,
+    NurseInfirmaryRegisterStateComponent,
+    DoctorInfirmaryMedicalChartComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 export enum AdmissionStatus {
-  ZAKAZAN,
-  OTKAZAN,
-  REALIZOVAN
+  ZAKAZAN="ZAKAZAN",
+  OTKAZAN="OTKAZAN",
+  REALIZOVAN="REALIZOVAN"
 }
 
