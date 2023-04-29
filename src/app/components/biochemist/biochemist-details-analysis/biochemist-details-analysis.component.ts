@@ -73,6 +73,7 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
       else{
         this.shouldShowFromPRoute = true;
       }
+      console.log("HOHO " + this.shouldShowFromPRoute)
     });
     this.workOrderId = parseInt(<string>this.route.snapshot.paramMap.get('id'));
     // @ts-ignore
@@ -172,7 +173,7 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
       if(par.result == null || par.result.length == 0){
         this.snackBar.openErrorSnackBar("Popunite sva polja")
         return;
-      } 
+      }
     }
     this.laboratoryService.verifyResult(this.workOrderId).subscribe(res => {
       console.log("usao ")
