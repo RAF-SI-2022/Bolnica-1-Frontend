@@ -1,1 +1,78 @@
-<p>doctor-infirmary-discharge-list works!</p>
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+
+<div class="container rounded bg-white mt-5 mb-5">
+  <form [formGroup]="addGroup" (submit)="addPatient()" class="mb-5 needs-validation" novalidate>
+    <div class="row justify-content-center">
+      <div class="col-md-8 border-right">
+        <div class="p-3 py-5">
+
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-right">Otpusna lista: LBP</h4>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12"><label class="labels">Prateće dijagnoze</label>
+              <input type="text" name="firstName" class="form-control" data-cy="firstName" required [formControlName]="'name'">
+              <div class="invalid-feedback">Unesite vase ime!</div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-12"><label class="labels">Anamneza</label>
+              <input type="text" name="firstName" class="form-control" data-cy="firstName" required [formControlName]="'name'">
+              <div class="invalid-feedback">Unesite vase ime!</div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-12"><label class="labels">Analize</label>
+              <input type="text" name="firstName" class="form-control" data-cy="firstName" required [formControlName]="'name'">
+              <div class="invalid-feedback">Unesite vase ime!</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12"><label class="labels">Tok bolesti</label>
+              <input type="text" name="firstName" class="form-control" data-cy="firstName" required [formControlName]="'name'">
+              <div class="invalid-feedback">Unesite vase ime!</div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-12"><label class="labels">Zaključak</label>
+              <input type="text" name="firstName" class="form-control" data-cy="firstName" required [formControlName]="'name'">
+              <div class="invalid-feedback">Unesite vase ime!</div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-12"><label class="labels">Terapija</label>
+              <input type="text" name="firstName" class="form-control" data-cy="firstName" required [formControlName]="'name'">
+              <div class="invalid-feedback">Unesite vase ime!</div>
+            </div>
+          </div>
+
+
+          <div class="mt-4 text-center">
+            <button type="submit" class="btn btn-primary" data-cy="button"><i class="bi bi-save me-1"></i> Napravi</button>
+          </div>
+
+          <br>
+          <div *ngIf="errorMessage.length != 0" class="mt-4 text-center">
+            <label style="color: red"> Neuspeh: {{ errorMessage }} </label>
+          </div>
+
+          <div *ngIf="successMessage.length != 0" class="mt-4 text-center">
+            <label style="color: green" > {{ successMessage }} </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

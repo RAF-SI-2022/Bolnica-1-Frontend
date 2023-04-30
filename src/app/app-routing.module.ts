@@ -229,22 +229,22 @@ const routes: Routes = [
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
-    path: "doctor-infirmary-discharge-list",
+    path: "doctor-infirmary-discharge-list/:lbp",
     component: DoctorInfirmaryDischargeListComponent,
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
-    path: "doctor-infirmary-medical-chart",
+    path: "doctor-infirmary-medical-chart/:lbp",
     component: DoctorInfirmaryMedicalChartComponent,
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
-    path: "doctor-infirmary-medical-record",
+    path: "doctor-infirmary-medical-record/:lbp",
     component: DoctorInfirmaryMedicalRecordComponent,
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
-    path: "doctor-infirmary-state-history",
+    path: "doctor-infirmary-state-history/:lbp",
     component: DoctorInfirmaryStateHistoryComponent,
     canActivate: [AuthGuard, DoctorGuard]
   },
