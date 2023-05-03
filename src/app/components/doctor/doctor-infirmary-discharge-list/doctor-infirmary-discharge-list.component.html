@@ -11,66 +11,57 @@
 </head>
 
 <div class="container rounded bg-white mt-5 mb-5">
-  <form [formGroup]="addGroup" (submit)="addPatient()" class="mb-5 needs-validation" novalidate>
+  <form [formGroup]="addGroup" (submit)="addDischargeList()" class="mb-5 needs-validation" novalidate>
     <div class="row justify-content-center">
       <div class="col-md-8 border-right">
         <div class="p-3 py-5">
 
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="text-right">Otpusna lista: LBP</h4>
+            <h4 class="text-right">Otpusna lista: {{patientLbp}}</h4>
           </div>
 
           <div class="row">
             <div class="col-md-12"><label class="labels">Prateće dijagnoze</label>
-              <input type="text" name="firstName" class="form-control" data-cy="firstName" required [formControlName]="'name'">
-              <div class="invalid-feedback">Unesite vase ime!</div>
+              <input type="text" name="followingDiagnosis" class="form-control" data-cy="followingDiagnosis" [formControlName]="'followingDiagnosis'">
+<!--              <div class="invalid-feedback">Unesite vase ime!</div>-->
             </div>
           </div>
           <div class="row mt-1">
             <div class="col-md-12"><label class="labels">Anamneza</label>
-              <input type="text" name="firstName" class="form-control" data-cy="firstName" required [formControlName]="'name'">
-              <div class="invalid-feedback">Unesite vase ime!</div>
+              <input type="text" name="anamnesis" class="form-control" data-cy="anamnesis" required [formControlName]="'anamnesis'">
+              <div class="invalid-feedback">Unesite anamnezu!</div>
             </div>
           </div>
           <div class="row mt-1">
             <div class="col-md-12"><label class="labels">Analize</label>
-              <input type="text" name="firstName" class="form-control" data-cy="firstName" required [formControlName]="'name'">
-              <div class="invalid-feedback">Unesite vase ime!</div>
+              <input type="text" name="analysis" class="form-control" data-cy="analysis" [formControlName]="'analysis'">
             </div>
           </div>
 
           <div class="row">
             <div class="col-md-12"><label class="labels">Tok bolesti</label>
-              <input type="text" name="firstName" class="form-control" data-cy="firstName" required [formControlName]="'name'">
-              <div class="invalid-feedback">Unesite vase ime!</div>
+              <input type="text" name="courseOfDisease" class="form-control" data-cy="courseOfDisease" [formControlName]="'courseOfDisease'">
+
             </div>
           </div>
           <div class="row mt-1">
             <div class="col-md-12"><label class="labels">Zaključak</label>
-              <input type="text" name="firstName" class="form-control" data-cy="firstName" required [formControlName]="'name'">
-              <div class="invalid-feedback">Unesite vase ime!</div>
+              <input type="text" name="summary" class="form-control" data-cy="summary" required [formControlName]="'summary'">
+              <div class="invalid-feedback">Unesite zakljucak!</div>
             </div>
           </div>
           <div class="row mt-1">
             <div class="col-md-12"><label class="labels">Terapija</label>
-              <input type="text" name="firstName" class="form-control" data-cy="firstName" required [formControlName]="'name'">
-              <div class="invalid-feedback">Unesite vase ime!</div>
+              <input type="text" name="therapy" class="form-control" data-cy="therapy" [formControlName]="'therapy'">
             </div>
           </div>
 
 
           <div class="mt-4 text-center">
-            <button type="submit" class="btn btn-primary" data-cy="button"><i class="bi bi-save me-1"></i> Napravi</button>
+            <button type="submit" class="btn btn-primary" data-cy="button"><i class="bi bi-save me-1"></i>Kreiraj</button>
           </div>
 
-          <br>
-          <div *ngIf="errorMessage.length != 0" class="mt-4 text-center">
-            <label style="color: red"> Neuspeh: {{ errorMessage }} </label>
-          </div>
 
-          <div *ngIf="successMessage.length != 0" class="mt-4 text-center">
-            <label style="color: green" > {{ successMessage }} </label>
-          </div>
         </div>
       </div>
     </div>

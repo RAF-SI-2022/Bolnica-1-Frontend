@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
+import {HospitalizationDto} from "../../../models/infirmary/HospitalizationDto";
+import {PatientStateDto} from "../../../models/infirmary/PatientStateDto";
 import {Page} from "../../../models/models";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Patient} from "../../../models/patient/Patient";
@@ -8,24 +9,24 @@ import {AuthService} from "../../../services/auth.service";
 import {LaboratoryService} from "../../../services/laboratory-service/laboratory.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SnackbarServiceService} from "../../../services/snackbar-service.service";
-import {HospitalizationDto} from "../../../models/infirmary/HospitalizationDto";
-import {PatientStateDto} from "../../../models/infirmary/PatientStateDto";
 import {InfirmaryService} from "../../../services/infirmary-service/infirmary.service";
+import {VisitDto} from "../../../models/infirmary/VisitDto";
 
 @Component({
-  selector: 'app-doctor-infirmary-state-history',
-  templateUrl: './doctor-infirmary-state-history.component.html',
-  styleUrls: ['./doctor-infirmary-state-history.component.css']
+  selector: 'app-nurse-infirmary-visits-history',
+  templateUrl: './nurse-infirmary-visits-history.component.html',
+  styleUrls: ['./nurse-infirmary-visits-history.component.css']
 })
-export class DoctorInfirmaryStateHistoryComponent implements OnInit {
+export class NurseInfirmaryVisitsHistoryComponent implements OnInit {
 
   currentHospitalization : HospitalizationDto;
   patientLbp: string = 'lbp neki'
 
   lbz: string = ''
+  departmentId: number = 0
 
-  stateHistoryList: PatientStateDto[] = [];
-  stateHistoryPage: Page<PatientStateDto> = new Page<PatientStateDto>();
+  visitHistoryList: VisitDto[] = [];
+  visitHistoryPage: Page<VisitDto> = new Page<VisitDto>();
 
   PAGE_SIZE: number = 5;
   page: number = 0;
@@ -33,9 +34,6 @@ export class DoctorInfirmaryStateHistoryComponent implements OnInit {
 
   dateFrom: Date = new Date();
   dateTo: Date = new Date();
-
-  form: FormGroup;
-  patients: Patient[] = []
 
   constructor(private patientService: PatientService,
               private authService: AuthService,
@@ -48,34 +46,30 @@ export class DoctorInfirmaryStateHistoryComponent implements OnInit {
 
     this.currentHospitalization = history.state.hospitalization;
 
-    const now = new Date();
-    const startOfYear = new Date(now.getFullYear(), 0, 1);
-
-    this.form = this.formBuilder.group({
-      dateFrom: [startOfYear.toISOString().slice(0,10), [Validators.required]],
-      dateTo: [now.toISOString().slice(0,10), [Validators.required]]
-    });
-
   }
 
   ngOnInit(): void {
     this.patientLbp = <string>this.route.snapshot.paramMap.get('lbp');
     this.lbz = this.authService.getLBZ();
-    this.getStateHistory();
+    this.departmentId = parseInt(this.authService.getDepartmentId());
+    this.getVisitsHistory();
   }
 
+  getVisitsHistory(): void {
 
-  getStateHistory(): void {
-    const sendData = this.form.value;
+    const now = new Date();
+    const before = new Date(0);
 
-    this.infirmaryService.getPatientStateByDate(1, sendData.dateFrom, sendData.dateTo,
-      this.page, this.PAGE_SIZE)
+    // todo this.currentHospitalization.hospitalRoomId,
+    //       this.currentHospitalization.id
+
+    this.infirmaryService.getVisitsWithFilter(this.departmentId, 1,1, before, now, this.page, this.PAGE_SIZE)
       .subscribe(res => {
-        this.stateHistoryPage = res
-        this.stateHistoryList = this.stateHistoryPage.content
-        this.total = this.stateHistoryPage.totalElements
-        if(this.stateHistoryList.length == 0){
-          this.snackBar.openWarningSnackBar("Nema prethodnih stanja")
+        this.visitHistoryPage = res
+        this.visitHistoryList = this.visitHistoryPage.content
+        this.total = this.visitHistoryPage.totalElements
+        if(this.visitHistoryList.length == 0){
+          this.snackBar.openWarningSnackBar("Ovaj pacijent nema posete")
         }
       }, err => {
         this.snackBar.openErrorSnackBar("Greska")
@@ -84,8 +78,7 @@ export class DoctorInfirmaryStateHistoryComponent implements OnInit {
 
   onTableDataChange(event: any): void {
     this.page = event;
-    this.getStateHistory();
+    this.getVisitsHistory();
   }
-
 
 }

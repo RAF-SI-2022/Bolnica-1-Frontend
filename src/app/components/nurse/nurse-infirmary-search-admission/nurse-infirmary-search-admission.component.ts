@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ScheduledAppointmentDto} from "../../../models/infirmary/ScheduledAppointmentDto";
 import {Page} from "../../../models/models";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Patient} from "../../../models/patient/Patient";
@@ -9,25 +8,15 @@ import {LaboratoryService} from "../../../services/laboratory-service/laboratory
 import {Router} from "@angular/router";
 import {SnackbarServiceService} from "../../../services/snackbar-service.service";
 import {InfirmaryService} from "../../../services/infirmary-service/infirmary.service";
+import {ScheduledAppointmentDto} from "../../../models/infirmary/ScheduledAppointmentDto";
 import {AdmissionStatus} from "../../../models/infirmary-enums/AdmissionStatus";
-import {HospitalizationDto} from "../../../models/infirmary/HospitalizationDto";
-import {PrescriptionDto} from "../../../models/infirmary/PrescriptionDto";
 
 @Component({
-  selector: 'app-nurse-infirmary-patient-admission',
-  templateUrl: './nurse-infirmary-patient-admission.component.html',
-  styleUrls: ['./nurse-infirmary-patient-admission.component.css']
+  selector: 'app-nurse-infirmary-search-admission',
+  templateUrl: './nurse-infirmary-search-admission.component.html',
+  styleUrls: ['./nurse-infirmary-search-admission.component.css']
 })
-export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
-
-  currentAdmission : ScheduledAppointmentDto;
-
-  patientLbp: string = 'lbp neki'
-
-  prescriptionList:PrescriptionDto[] = [];
-
-  selectedPrescription: PrescriptionDto = new PrescriptionDto();
-  prescriptionBoolean: boolean = false;
+export class NurseInfirmarySearchAdmissionComponent implements OnInit {
 
   admissionList: ScheduledAppointmentDto[] = [];
   admissionPage: Page<ScheduledAppointmentDto> = new Page<ScheduledAppointmentDto>();
@@ -49,23 +38,22 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
               private formBuilder: FormBuilder,
               private infirmaryService:InfirmaryService) {
 
-    this.currentAdmission = history.state.admission;
+    const now = new Date();
+    const before = new Date(0);
 
     this.form = this.formBuilder.group({
+      dateFrom: [before.toISOString().slice(0,10), [Validators.required]],
+      dateTo: [now.toISOString().slice(0,10), [Validators.required]],
       lbp: ['', [Validators.required]],
     });
 
   }
 
   ngOnInit(): void {
-    // this.patientLbp = this.currentAdmission.lbp;
     this.departmentIdNumber = parseInt(this.authService.getDepartmentId());
     this.populatePatients()
   }
 
-  getReferrals(): void{
-
-  }
 
   getScheduledAdmissions(): void {
     const sendData = this.form.value;
@@ -74,17 +62,8 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     sendData.lbp = sendData.lbp.split("-")[0].toString().trim();
     console.log("sending lbp: " + sendData.lpb)
 
-
-    const today = new Date();
-
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-
     this.infirmaryService.findScheduledAppointmentWithFilter(sendData.lbp,
-      this.departmentIdNumber, yesterday, tomorrow, this.page,
+      this.departmentIdNumber,sendData.dateFrom, sendData.dateTo, this.page,
       this.PAGE_SIZE).subscribe(
       res => {
         this.admissionPage = res
@@ -150,27 +129,5 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
         }
       })
   }
-
-  registerAdmission(admission: ScheduledAppointmentDto): void {
-    this.infirmaryService.setScheduledAppointmentStatus(admission.id, AdmissionStatus.REALIZOVAN)
-      .subscribe((response) => {
-        this.snackBar.openSuccessSnackBar("Uspesno realizovan prijem!")
-
-        const url = `/nurse-infirmary-patient-admission`;
-        this.router.navigateByUrl(url, { state: { admission } });
-
-      }, error => {
-        console.log("Error " + error.status);
-        if (error.status == 409) {
-          this.snackBar.openErrorSnackBar("Greska!")
-        }
-      })
-  }
-
-  choosePrescription(prescription: PrescriptionDto): void{
-    this.selectedPrescription = prescription
-    this.prescriptionBoolean = true
-  }
-
 
 }

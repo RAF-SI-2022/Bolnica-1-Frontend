@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
+import {HospitalizationDto} from "../../../models/infirmary/HospitalizationDto";
+import {PatientStateDto} from "../../../models/infirmary/PatientStateDto";
 import {Page} from "../../../models/models";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Patient} from "../../../models/patient/Patient";
@@ -8,16 +9,14 @@ import {AuthService} from "../../../services/auth.service";
 import {LaboratoryService} from "../../../services/laboratory-service/laboratory.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SnackbarServiceService} from "../../../services/snackbar-service.service";
-import {HospitalizationDto} from "../../../models/infirmary/HospitalizationDto";
-import {PatientStateDto} from "../../../models/infirmary/PatientStateDto";
 import {InfirmaryService} from "../../../services/infirmary-service/infirmary.service";
 
 @Component({
-  selector: 'app-doctor-infirmary-state-history',
-  templateUrl: './doctor-infirmary-state-history.component.html',
-  styleUrls: ['./doctor-infirmary-state-history.component.css']
+  selector: 'app-nurse-infirmary-state-history',
+  templateUrl: './nurse-infirmary-state-history.component.html',
+  styleUrls: ['./nurse-infirmary-state-history.component.css']
 })
-export class DoctorInfirmaryStateHistoryComponent implements OnInit {
+export class NurseInfirmaryStateHistoryComponent implements OnInit {
 
   currentHospitalization : HospitalizationDto;
   patientLbp: string = 'lbp neki'
@@ -68,6 +67,8 @@ export class DoctorInfirmaryStateHistoryComponent implements OnInit {
   getStateHistory(): void {
     const sendData = this.form.value;
 
+    // todo this.currentHospitalization.id
+
     this.infirmaryService.getPatientStateByDate(1, sendData.dateFrom, sendData.dateTo,
       this.page, this.PAGE_SIZE)
       .subscribe(res => {
@@ -86,6 +87,13 @@ export class DoctorInfirmaryStateHistoryComponent implements OnInit {
     this.page = event;
     this.getStateHistory();
   }
+
+  goToRegisterState(): void {
+    const url = `/nurse-infirmary-register-state/${this.patientLbp}`;
+    const hospitalization = this.currentHospitalization
+    this.router.navigateByUrl(url, { state: { hospitalization } });
+  }
+
 
 
 }

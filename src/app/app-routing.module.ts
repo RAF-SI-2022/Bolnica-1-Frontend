@@ -125,6 +125,21 @@ import {
 import {
   DoctorPatientsInfirmaryComponent
 } from "./components/doctor/doctor-patients-infirmary/doctor-patients-infirmary.component";
+import {
+  DoctorInfirmaryCreateReferralComponent
+} from "./components/doctor/doctor-infirmary-create-referral/doctor-infirmary-create-referral.component";
+import {
+  NurseInfirmaryStateHistoryComponent
+} from "./components/nurse/nurse-infirmary-state-history/nurse-infirmary-state-history.component";
+import {
+  NurseInfirmaryVisitsHistoryComponent
+} from "./components/nurse/nurse-infirmary-visits-history/nurse-infirmary-visits-history.component";
+import {
+  NurseInfirmaryRegisterVisitComponent
+} from "./components/nurse/nurse-infirmary-register-visit/nurse-infirmary-register-visit.component";
+import {
+  NurseInfirmarySearchAdmissionComponent
+} from "./components/nurse/nurse-infirmary-search-admission/nurse-infirmary-search-admission.component";
 
 
 const routes: Routes = [
@@ -249,8 +264,13 @@ const routes: Routes = [
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
-    path: "doctor-infirmary-workspace",
+    path: "doctor-infirmary-workspace/:lbp",
     component: DoctorInfirmaryWorkspaceComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-infirmary-create-referral/:lbp",
+    component: DoctorInfirmaryCreateReferralComponent,
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
@@ -285,14 +305,15 @@ const routes: Routes = [
     component: NurseInfirmaryPatientAdmissionComponent,
     canActivate: [AuthGuard, NurseGuard]
   },
-  {
-    path: "nurse-infirmary-register-state",
-    component: NurseInfirmaryRegisterStateComponent,
-    canActivate: [AuthGuard, NurseGuard]
-  },
+
   {
     path: "nurse-infirmary-schedule-admission",
     component: NurseInfirmaryScheduleAdmissionComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-infirmary-search-admission",
+    component: NurseInfirmarySearchAdmissionComponent,
     canActivate: [AuthGuard, NurseGuard]
   },
   {
@@ -306,8 +327,28 @@ const routes: Routes = [
     canActivate: [AuthGuard, NurseGuard]
   },
   {
-    path: "nurse-infirmary-workspace-one",
+    path: "nurse-infirmary-workspace-one/:lbp",
     component: NurseInfirmaryWorkspaceOneComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-infirmary-state-history/:lbp",
+    component: NurseInfirmaryStateHistoryComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-infirmary-register-state/:lbp",
+    component: NurseInfirmaryRegisterStateComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-infirmary-visits-history/:lbp",
+    component: NurseInfirmaryVisitsHistoryComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-infirmary-register-visit/:lbp",
+    component: NurseInfirmaryRegisterVisitComponent,
     canActivate: [AuthGuard, NurseGuard]
   },
   {

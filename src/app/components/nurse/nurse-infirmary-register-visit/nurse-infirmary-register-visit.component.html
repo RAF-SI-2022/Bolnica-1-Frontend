@@ -11,33 +11,39 @@
 </head>
 
 <div class="container rounded bg-white mt-5 mb-5">
-  <form [formGroup]="addGroup" (submit)="registerState()" class="mb-5 needs-validation" novalidate>
+  <form [formGroup]="addGroup" (submit)="addVisit()" class="mb-5 needs-validation" novalidate>
     <div class="row justify-content-center">
       <div class="col-md-8 border-right">
         <div class="p-3 py-5">
 
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="text-right">Zakazivanje prijema na stacionar</h4>
+            <h4 class="text-right">Registrovanje posete za pacijenta: {{patientLbp}}</h4>
           </div>
 
           <div class="row">
-            <div class="col-md-12"><label class="labels">Lbp</label>
-              <input type="text" name="lbp" class="form-control" data-cy="lbp" [formControlName]="'lbp'">
+            <div class="col-md-12"><label class="labels">Ime posetioca</label>
+              <input type="text" name="visitorName" class="form-control" data-cy="visitorName" required [formControlName]="'visitorName'">
+
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-12"><label class="labels">Prezime posetioca</label>
+              <input type="text" name="visitorSurname" class="form-control" data-cy="visitorSurname" required [formControlName]="'visitorSurname'">
+
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-12"><label class="labels">JMBG posetioca</label>
+              <input type="text" name="visitorJmbg" class="form-control" data-cy="visitorJmbg" required [formControlName]="'visitorJmbg'">
             </div>
           </div>
 
-          <div class="row mt-1">
-            <div class="col-md-12"><label class="labels">Datum i vreme prijema</label>
-              <input type="date" name="dateExamState" class="form-control" data-cy="dateExamState" required [formControlName]="'dateExamState'">
-            </div>
-          </div>
-
-          <div class="row mt-1">
+          <div class="row">
             <div class="col-md-12"><label class="labels">Napomena</label>
-              <input type="text" name="diastolicPressure" class="form-control" data-cy="diastolicPressure" [formControlName]="'diastolicPressure'">
+              <input type="text" name="note" class="form-control" data-cy="note" [formControlName]="'note'">
+
             </div>
           </div>
-
 
           <div class="mt-4 text-center">
             <button type="submit" class="btn btn-primary" data-cy="button"><i class="bi bi-save me-1"></i>Sačuvaj</button>

@@ -77,6 +77,11 @@ import { NurseInfirmaryWorkspaceComponent } from './components/nurse/nurse-infir
 import { NurseInfirmaryWorkspaceOneComponent } from './components/nurse/nurse-infirmary-workspace-one/nurse-infirmary-workspace-one.component';
 import { NurseInfirmaryRegisterStateComponent } from './components/nurse/nurse-infirmary-register-state/nurse-infirmary-register-state.component';
 import { DoctorInfirmaryMedicalChartComponent } from './components/doctor/doctor-infirmary-medical-chart/doctor-infirmary-medical-chart.component';
+import { DoctorInfirmaryCreateReferralComponent } from './components/doctor/doctor-infirmary-create-referral/doctor-infirmary-create-referral.component';
+import { NurseInfirmaryRegisterVisitComponent } from './components/nurse/nurse-infirmary-register-visit/nurse-infirmary-register-visit.component';
+import { NurseInfirmaryStateHistoryComponent } from './components/nurse/nurse-infirmary-state-history/nurse-infirmary-state-history.component';
+import { NurseInfirmaryVisitsHistoryComponent } from './components/nurse/nurse-infirmary-visits-history/nurse-infirmary-visits-history.component';
+import { NurseInfirmarySearchAdmissionComponent } from './components/nurse/nurse-infirmary-search-admission/nurse-infirmary-search-admission.component';
 
 
 
@@ -132,7 +137,12 @@ import { DoctorInfirmaryMedicalChartComponent } from './components/doctor/doctor
     NurseInfirmaryWorkspaceComponent,
     NurseInfirmaryWorkspaceOneComponent,
     NurseInfirmaryRegisterStateComponent,
-    DoctorInfirmaryMedicalChartComponent
+    DoctorInfirmaryMedicalChartComponent,
+    DoctorInfirmaryCreateReferralComponent,
+    NurseInfirmaryRegisterVisitComponent,
+    NurseInfirmaryStateHistoryComponent,
+    NurseInfirmaryVisitsHistoryComponent,
+    NurseInfirmarySearchAdmissionComponent
   ],
   imports: [
     BrowserModule,
