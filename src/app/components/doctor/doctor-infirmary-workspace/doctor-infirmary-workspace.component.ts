@@ -44,7 +44,7 @@ export class DoctorInfirmaryWorkspaceComponent implements OnInit {
 
 
   goToUput(): void {
-    const url = `/doctor-create-referral/${this.patientLbp}`;
+    const url = `/doctor-infirmary-create-referral/${this.patientLbp}`;
     const hospitalization = this.currentHospitalization
     this.router.navigateByUrl(url, { state: { hospitalization } });
   }

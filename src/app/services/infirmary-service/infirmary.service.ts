@@ -452,6 +452,7 @@ export class InfirmaryService {
 
   }
 
+
   /**
    * Kreiranje izvestaja pregleda
    * */

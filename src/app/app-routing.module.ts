@@ -125,6 +125,9 @@ import {
 import {
   DoctorPatientsInfirmaryComponent
 } from "./components/doctor/doctor-patients-infirmary/doctor-patients-infirmary.component";
+import {
+  DoctorInfirmaryCreateReferralComponent
+} from "./components/doctor/doctor-infirmary-create-referral/doctor-infirmary-create-referral.component";
 
 
 const routes: Routes = [
@@ -251,6 +254,11 @@ const routes: Routes = [
   {
     path: "doctor-infirmary-workspace/:lbp",
     component: DoctorInfirmaryWorkspaceComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-infirmary-create-referral/:lbp",
+    component: DoctorInfirmaryCreateReferralComponent,
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
