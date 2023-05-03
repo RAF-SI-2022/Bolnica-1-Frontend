@@ -1,3 +1,5 @@
+import {HospitalRoomDto} from "./HospitalRoomDto";
+
 export interface HospitalizationDto {
   id: number;
   lbzDoctor: string;
@@ -10,4 +12,9 @@ export interface HospitalizationDto {
   surname: string;
   jmbg: string;
   note: string;
+
+  hospitalRoom: HospitalRoomDto; // new property
+
+  lbp: string;
+  dateOfBirth: Date;
 }

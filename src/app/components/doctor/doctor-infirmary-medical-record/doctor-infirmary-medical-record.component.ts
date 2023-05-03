@@ -15,6 +15,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {SharedService} from "../../../services/shared.service";
 import {ExaminationService} from "../../../services/examination-service/examination.service";
 import {PatientArrival} from "../../../models/laboratory-enums/PatientArrival";
+import {HospitalizationDto} from "../../../models/infirmary/HospitalizationDto";
+import {InfirmaryService} from "../../../services/infirmary-service/infirmary.service";
 
 @Component({
   selector: 'app-doctor-infirmary-medical-record',
@@ -22,6 +24,8 @@ import {PatientArrival} from "../../../models/laboratory-enums/PatientArrival";
   styleUrls: ['./doctor-infirmary-medical-record.component.css']
 })
 export class DoctorInfirmaryMedicalRecordComponent implements OnInit {
+
+  currentHospitalization : HospitalizationDto;
 
   show: boolean = false;
 
@@ -33,7 +37,7 @@ export class DoctorInfirmaryMedicalRecordComponent implements OnInit {
   lbz: string = '';
   lbp: string = '';
   doctorSpecPov = false;
-  currentPatient: ExamForPatient;
+  // currentPatient: ExamForPatient;
   patientName: string = 'Ime'
   patientSurname: string = 'Prezime'
   patientdateOfBirth: Date = new Date();
@@ -48,7 +52,17 @@ export class DoctorInfirmaryMedicalRecordComponent implements OnInit {
   isPopupVisible = false;
   errorMessage: string = "";
 
-  constructor(private authService: AuthService, private snackBar: SnackbarServiceService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private sharedService: SharedService, private examinationService:ExaminationService) {
+  constructor(private authService: AuthService,
+              private snackBar: SnackbarServiceService,
+              private userService: UserService,
+              private patientService: PatientService,
+              private formBuilder: FormBuilder,
+              private router: Router,
+              private route: ActivatedRoute,
+              private sharedService: SharedService,
+              private examinationService:ExaminationService,
+              private infirmaryService:InfirmaryService) {
+
     this.generalMedical = {
       id: 0,
       bloodType: '',
@@ -59,7 +73,7 @@ export class DoctorInfirmaryMedicalRecordComponent implements OnInit {
 
     // this.currentExamForPatient = history.state.examForPatient;
 
-    this.currentPatient = history.state.patient;
+    this.currentHospitalization = history.state.hospitalization;
 
     this.checkDoctorSpecPov();
     this.addReport = this.formBuilder.group({
@@ -80,21 +94,20 @@ export class DoctorInfirmaryMedicalRecordComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   /* this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
+    this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
     this.lbz = this.authService.getLBZ();
 
-    this.patientName = this.currentPatient.name
-    this.patientSurname = this.currentPatient.surname
-    this.patientdateOfBirth = this.currentPatient.dateOfBirth
+    this.patientName = this.currentHospitalization.name
+    this.patientSurname = this.currentHospitalization.surname
+    this.patientdateOfBirth = this.currentHospitalization.dateOfBirth
     //nterval(5000).subscribe(() => {
     this.updateData();
-//    });*/
+//    });
   }
 
   updateData(){
-    this.getGeneralMedicalData(this.lbp);
+    // this.getGeneralMedicalData(this.lbp);
     this.restoreFormData();
-
   }
   showPopup(event: any): void {
     console.log("IDE OP")
@@ -106,29 +119,26 @@ export class DoctorInfirmaryMedicalRecordComponent implements OnInit {
   }
 
   //cuvanje izvestaja
-  confirmSacuvaj(): void {
-    if (!this.validateFields) {
-      return;
-    }
-    const examinationHistoryCreteDto = this.addReport.value
-    this.anamneza.currDisease = examinationHistoryCreteDto.currDisease;
-    this.anamneza.patientOpinion = examinationHistoryCreteDto.patientOpinion;
-    this.anamneza.familyAnamnesis = examinationHistoryCreteDto.familyAnamnesis;
-    this.anamneza.personalAnamnesis = examinationHistoryCreteDto.personalAnamnesis;
-    this.anamneza.currDisease = examinationHistoryCreteDto.currDisease;
-
-    this.patientService.createExaminationHistory(this.lbp, new Date(), this.lbz, examinationHistoryCreteDto.confidential, examinationHistoryCreteDto.objectiveFinding,
-      examinationHistoryCreteDto.advice, examinationHistoryCreteDto.therapy, this.diagnosisCode, this.anamneza).subscribe(result => {
-
-      this.examinationService.updatePatientStatus(this.patient.id, PatientArrival.ZAVRSENO).subscribe(res => {
-        this.zavrseno = true;
-        this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
-      },err => {
-        this,this.snackBar.openErrorSnackBar("NIje sacuvano!")
-      })
-
-    })
-  }
+  // confirmSacuvaj(): void {
+  //   if (!this.validateFields) {
+  //     return;
+  //   }
+  //   const examinationHistoryCreteDto = this.addReport.value
+  //   this.anamneza.currDisease = examinationHistoryCreteDto.currDisease;
+  //   this.anamneza.patientOpinion = examinationHistoryCreteDto.patientOpinion;
+  //   this.anamneza.familyAnamnesis = examinationHistoryCreteDto.familyAnamnesis;
+  //   this.anamneza.personalAnamnesis = examinationHistoryCreteDto.personalAnamnesis;
+  //   this.anamneza.currDisease = examinationHistoryCreteDto.currDisease;
+  //
+  //   this.infirmaryService.createExaminationHistory(this.lbp, new Date(), this.lbz,
+  //     examinationHistoryCreteDto.confidential, examinationHistoryCreteDto.objectiveFinding,
+  //     examinationHistoryCreteDto.advice, examinationHistoryCreteDto.therapy, this.diagnosisCode, this.anamneza).subscribe(result => {
+  //       this.zavrseno = true;
+  //       this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
+  //     },err => {
+  //       this,this.snackBar.openErrorSnackBar("Nije sacuvano!")
+  //   })
+  // }
 
 
   //postavljanje dijagnoze - MedicalHistoryCreateDto
@@ -254,14 +264,16 @@ export class DoctorInfirmaryMedicalRecordComponent implements OnInit {
     this.anamneza.currDisease = therapy.currDisease;
 
 
-    this.patientService.createExaminationHistory(this.lbp, new Date(), this.lbz, therapy.confidential, therapy.objectiveFinding, therapy.advice, therapy.suggestedTherapies, this.diagnosisCode, this.anamneza).subscribe((response) => {
+    this.infirmaryService.createExaminationHistory(this.lbp, new Date(), this.lbz, therapy.confidential, therapy.objectiveFinding, therapy.advice, therapy.suggestedTherapies, this.diagnosisCode, this.anamneza).subscribe((response) => {
 
-      console.log("id workspace one " + this.currentPatient.id)
+      // console.log("id workspace one " + this.currentPatient.id)
+      //
+      // this.examinationService.updatePatientStatus(this.currentPatient.id, PatientArrival.ZAVRSENO).subscribe(res=>{
+      //   this.zavrseno = true;
+      //   console.log("zavrseno " + this.zavrseno)
+      // })
 
-      this.examinationService.updatePatientStatus(this.currentPatient.id, PatientArrival.ZAVRSENO).subscribe(res=>{
-        this.zavrseno = true;
-        console.log("zavrseno " + this.zavrseno)
-      })
+      console.log("infirmary")
 
       this,this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
     }, error => {
@@ -273,12 +285,6 @@ export class DoctorInfirmaryMedicalRecordComponent implements OnInit {
     });
 
     console.log("proslo")
-  }
-
-
-  goToMedicalRecord(): void {
-    this.saveFormData();
-    this.router.navigate(['doctor-medical-chart', this.lbp]);
   }
 
 
@@ -305,27 +311,20 @@ export class DoctorInfirmaryMedicalRecordComponent implements OnInit {
     return this.doctorSpecPov;
   }
 
-  getGeneralMedicalData(lbp: string): void {
-    this.patientService.getGeneralMedicalDataByLbp(this.lbp).subscribe(result => {
-
-      if (!result) {
-        this.generalMedical.vaccinationDtos = []
-        this.generalMedical.allergyDtos = []
-
-      } else {
-        this.generalMedical = result
-        this.vaccinationsList = result.vaccinationDtos
-        this.allergiesList = result.allergyDtos
-      }
-    })
-  }
-
-  goToUput(): void {
-    console.log("usao");
-    console.log(this.lbp);
-    this.saveFormData();
-    this.router.navigate(['doctor-create-referral', this.lbp]);
-  }
+  // getGeneralMedicalData(lbp: string): void {
+  //   this.patientService.getGeneralMedicalDataByLbp(this.lbp).subscribe(result => {
+  //
+  //     if (!result) {
+  //       this.generalMedical.vaccinationDtos = []
+  //       this.generalMedical.allergyDtos = []
+  //
+  //     } else {
+  //       this.generalMedical = result
+  //       this.vaccinationsList = result.vaccinationDtos
+  //       this.allergiesList = result.allergyDtos
+  //     }
+  //   })
+  // }
 
 
   saveFormData() {

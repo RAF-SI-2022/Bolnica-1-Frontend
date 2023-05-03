@@ -8,11 +8,11 @@
 
       <div class="col-md-4 offset-2">
         <label class="labels">Ime</label>
-        <input [formControlName]="'dateFrom'" name="dateFrom" type="text" class="form-control" data-cy="dateFrom">
+        <input [formControlName]="'name'" name="dateFrom" type="text" class="form-control" data-cy="name">
       </div>
       <div class="col-md-4">
         <label class="labels">Prezime</label>
-        <input [formControlName]="'dateTo'" type="text" class="form-control" data-cy="dateTo">
+        <input [formControlName]="'surname'" type="text" class="form-control" data-cy="surname">
       </div>
 
       <div class="col-md-4 offset-2">
@@ -40,11 +40,11 @@
 
       <div class="col-md-4">
         <label class="labels">JMBG</label>
-        <input [formControlName]="'jmbg'" type="text" class="form-control" data-cy="dateTo">
+        <input [formControlName]="'jmbg'" type="text" class="form-control" data-cy="jmbg">
       </div>
 
       <div class="mt-4 text-center">
-        <button (click)="getWorkOrders()" class="btn btn-primary" type="submit" data-toggle="collapse"
+        <button (click)="getHospitalization()" class="btn btn-primary" type="submit" data-toggle="collapse"
                 data-target="#search-table" aria-expanded="false" aria-controls="search-table"
                 data-cy="pretrazi">Pretrazi</button>
       </div>
@@ -58,34 +58,29 @@
             <th>Ime</th>
             <th>Prezime</th>
             <th>Datum rođenja</th>
-            <!-- <th>LBZ tehničara</th>
-             -->
           </tr>
           </thead>
 
           <tbody>
+            <tr (click) = "goToWorkspaceEmpty()">
+              <td>27</td>
+              <td>P0002</td>
+              <td>Ema</td>
+              <td>Stojanovic</td>
+              <td>27.10.2000.</td>
+            </tr>
 
-          <tr (click)="onRowClick()">
-            <td>27</td>
-            <td>0037</td>
-            <td>Ime</td>
-            <td>Prezime</td>
-            <td>03.02.1970.</td>
 
-          </tr>
 <!--          <tr-->
-<!--            *ngFor="let workOrder of workOrdersList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"-->
+<!--            *ngFor="let hospitalizationDto of hospitalizationList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"-->
+<!--            (click)="goToWorkspace(hospitalizationDto)"-->
 <!--          >-->
-<!--            <td>{{workOrder.id}}</td>-->
-<!--            <td>{{workOrder.creationDateTime |date:'dd-MM-Y'}}</td>-->
-<!--            <td>{{workOrder.lbp}}</td>-->
-<!--            <td>{{workOrder.status}}</td>-->
-<!--            <td>{{workOrder.technicianLbz}}</td>-->
-<!--            <td *ngIf="workOrder.status.toString() == 'OBRADJEN'">-->
-<!--              <button (click)="showDetails(workOrder)" class="btn btn-primary" type="submit"-->
-<!--                      data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table"-->
-<!--                      data-cy="sacuvaj">Prikazi</button>-->
-<!--            </td>-->
+<!--            <td>{{hospitalizationDto.hospitalRoom.roomNumber}}</td>-->
+<!--            <td>{{hospitalizationDto.lbp}}</td>-->
+<!--            <td>{{hospitalizationDto.name}}</td>-->
+<!--            <td>{{hospitalizationDto.surname}}</td>-->
+<!--            <td>{{hospitalizationDto.dateOfBirth}}</td>-->
+
 <!--          </tr>-->
           </tbody>
 

@@ -225,6 +225,9 @@ export class InfirmaryService {
       hospitalizationId:hospitalizationId
     }
 
+    console.log("usao u servis ema")
+    console.log(dischargeListDto)
+
     return this.http.post<DischargeListDto>(`${environmentInfirmary.apiURL}/dischargeList/createDischargeList`,
       dischargeListDto, { headers: this.getHeaders() } );
   }
@@ -297,10 +300,10 @@ export class InfirmaryService {
     surname: string,
     jmbg: string,
     departmentId: number,
-    hospitalRoomId: number,
+    // hospitalRoomId: number,
     lbp: string,
-    startDate: Date,
-    endDate: Date,
+    // startDate: Date,
+    // endDate: Date,
     page: number,
     size: number
   ): Observable<Page<HospitalizationDto>> {
@@ -316,10 +319,32 @@ export class InfirmaryService {
       .append("surname", surname)
       .append("jmbg", jmbg)
       .append("departmentId", departmentId)
-      .append("hospitalRoomId", hospitalRoomId)
+      // .append("hospitalRoomId", hospitalRoomId)
       .append("lbp", lbp)
-      .append("startDate", startDate.getDate())
-      .append("endDate", endDate.getDate())
+      // .append("startDate", startDate.getDate())
+      // .append("endDate", endDate.getDate())
+      .append("page", page)
+      .append("size",size)
+
+
+    return this.http.get<Page<HospitalizationDto>>(
+      `${environmentInfirmary.apiURL}/hospitalization/getHospitalizationsWithFilter`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
+
+
+  /**
+   * Pretraga hospitalizacija po filteru
+   * */
+  public getHospitalizationsWithFilterAll(
+    departmentId: number,
+    page: number,
+    size: number
+  ): Observable<Page<HospitalizationDto>> {
+
+    let httpParams = new HttpParams()
+      .append("departmentId", departmentId)
       .append("page", page)
       .append("size",size)
 
@@ -427,7 +452,6 @@ export class InfirmaryService {
 
   }
 
-
   /**
    * Kreiranje izvestaja pregleda
    * */
@@ -513,10 +537,13 @@ export class InfirmaryService {
 
     let httpParams = new HttpParams()
       .append("hospitalizationId", hospitalizationId)
-      .append("startDate", startDatee.getDate())
-      .append("endDate", endDatee.getDate())
+      .append("startDate", startDatee.toString())
+      .append("endDate", endDatee.toString())
       .append("page", page)
       .append("size",size)
+
+    console.log(startDatee)
+    console.log(endDatee)
 
     return this.http.get<Page<PatientStateDto>>(
       `${environmentInfirmary.apiURL}/patientState/getPatientStateByDate`,

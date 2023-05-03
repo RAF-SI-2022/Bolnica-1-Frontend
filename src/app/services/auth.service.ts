@@ -30,9 +30,17 @@ export class AuthService {
     }
 
     /**
-     * 
-     * @param oldPassword 
-     * @param newPassword 
+     * Get PBO from local storage
+     * @returns PBO
+     */
+    getPBO(): string {
+      return localStorage.getItem("lbzDepartment")!;
+    }
+
+    /**
+     *
+     * @param oldPassword
+     * @param newPassword
      * @returns EmployeeMessageDTO that holds string message about operation
      */
     resetPassword(oldPassword: string, newPassword: string): Observable<EmployeeMessageDTO> {
@@ -49,7 +57,7 @@ export class AuthService {
     resetPasswordConfirmed(url: string) {
         return this.http.get(url, { headers: this.getHeaders() });
     }
-    
+
     getHeaders(): HttpHeaders {
         return new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('token')}` });
     }

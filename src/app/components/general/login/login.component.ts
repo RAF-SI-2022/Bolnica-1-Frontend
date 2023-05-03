@@ -66,8 +66,10 @@ export class LoginComponent implements OnInit {
                     err => {
                         if (err.status == 302) { // found!
                             localStorage.setItem('ID', err.error.id);
-
-
+                            localStorage.setItem('departmentId', err.error.department.id);
+                            localStorage.setItem('lbzDepartment', err.error.department.pbo);
+                            console.log("department id "+ err.error.department.id);
+                            console.log("department pbo "+ err.error.department.pbo);
                         }
                     })
 

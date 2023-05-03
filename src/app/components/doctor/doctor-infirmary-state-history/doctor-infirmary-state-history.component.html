@@ -3,7 +3,7 @@
 
   <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
 
-    <h2 class="text-center"><b>Istorija stanja: LBP </b></h2>
+    <h2 class="text-center"><b>Istorija stanja: {{patientLbp}} </b></h2>
     <div class="row">
 
       <div class="col-md-4 offset-2">
@@ -17,7 +17,7 @@
 
 
       <div class="mt-4 text-center">
-        <button (click)="getWorkOrders()" class="btn btn-primary" type="submit" data-toggle="collapse"
+        <button (click)="getStateHistory()" class="btn btn-primary" type="submit" data-toggle="collapse"
                 data-target="#search-table" aria-expanded="false" aria-controls="search-table"
                 data-cy="pretrazi">Pretrazi</button>
       </div>
@@ -34,42 +34,24 @@
             <th>Terapija</th>
             <th>Opis</th>
             <th>Lbz</th>
-            <!-- <th>LBZ tehničara</th>
-             -->
           </tr>
           </thead>
 
           <tbody>
-          <tr>
 
+          <tr
+            *ngFor="let state of stateHistoryList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
+          >
+            <td>{{state.dateExamState |date:'dd-MM-Y'}} {{state.timeExamState |date:'HH:mm'}}</td>
+            <td>{{state.temperature}}</td>
+            <td>{{state.systolicPressure}}</td>
+            <td>{{state.diastolicPressure}}</td>
+            <td>{{state.pulse}}</td>
+            <td>{{state.therapy}}</td>
+            <td>{{state.description}}</td>
+            <td>{{state.lbz}}</td>
 
           </tr>
-          <tr>
-            <td>Datum i vreme merenja</td>
-            <td>Temperatura</td>
-            <td>Sistolički pritisak</td>
-            <td>Dijastolički pritisak</td>
-            <td>Puls</td>
-            <td>Terapija</td>
-            <td>Opis</td>
-            <td>Lbz</td>
-          </tr>
-
-
-<!--          <tr-->
-<!--            *ngFor="let workOrder of workOrdersList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"-->
-<!--          >-->
-<!--            <td>{{workOrder.id}}</td>-->
-<!--            <td>{{workOrder.creationDateTime |date:'dd-MM-Y'}}</td>-->
-<!--            <td>{{workOrder.lbp}}</td>-->
-<!--            <td>{{workOrder.status}}</td>-->
-<!--            <td>{{workOrder.technicianLbz}}</td>-->
-<!--            <td *ngIf="workOrder.status.toString() == 'OBRADJEN'">-->
-<!--              <button (click)="showDetails(workOrder)" class="btn btn-primary" type="submit"-->
-<!--                      data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table"-->
-<!--                      data-cy="sacuvaj">Prikazi</button>-->
-<!--            </td>-->
-<!--          </tr>-->
           </tbody>
 
         </table>
