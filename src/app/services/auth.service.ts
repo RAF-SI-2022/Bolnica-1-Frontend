@@ -38,6 +38,14 @@ export class AuthService {
     }
 
     /**
+     * Get departmentId from local storage
+     * @returns departmentId
+     */
+    getDepartmentId(): string {
+      return localStorage.getItem("departmentId")!;
+    }
+
+    /**
      *
      * @param oldPassword
      * @param newPassword

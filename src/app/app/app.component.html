@@ -166,10 +166,18 @@
       </li>
 
 
+
       <li *ngIf="nurse || nurseVisa" class="nav-item">
         <a class="nav-link collapsed" routerLink="../nurse-infirmary-schedule-admission">
           <i class="bi bi-file-earmark-medical"></i>
           <span>Zakazivanje prijema</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-infirmary-search-admission">
+          <i class="bi bi-search"></i>
+          <span>Pretraga prijema</span>
         </a>
       </li>
 

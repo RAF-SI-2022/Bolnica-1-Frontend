@@ -1,0 +1,95 @@
+
+<form [formGroup]="form" class="mb-5 needs-validation" novalidate>
+
+  <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+
+    <h2 class="text-center"><b>Pretraga zakazanih prijema</b></h2>
+    <div class="row">
+
+      <div class="col-md-4 offset-2">
+        <label class="labels">Od datuma</label>
+        <input [formControlName]="'dateFrom'" name="dateFrom" type="date" class="form-control" data-cy="dateFrom">
+      </div>
+      <div class="col-md-4">
+        <label class="labels">Do datuma</label>
+        <input [formControlName]="'dateTo'" type="date" class="form-control" data-cy="dateTo">
+      </div>
+
+      <div class="col-md-4 offset-2">
+        <label class="labels">LBP</label>
+
+        <input
+          [formControlName]="'lbp'"
+          [(ngModel)]="form.value.lbp"
+          (input)="filterPatientLbp(form.value.lbp)"
+          type="text"
+          class="form-control"
+
+          data-cy="lbp"
+        />
+        <div *ngIf="filteredPatients.length > 0" class="suggestions">
+          <div
+            *ngFor="let fPatient of filteredPatients"
+            (click)="selectSuggestion(fPatient)"
+            class="suggestion"
+          >
+            {{ fPatient.lbp }} - {{ fPatient.name }} {{ fPatient.surname }}
+          </div>
+        </div>
+      </div>
+
+
+      <div class="mt-4 text-center">
+        <button (click)="getScheduledAdmissions()" class="btn btn-primary" type="submit" data-toggle="collapse"
+                data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                data-cy="pretrazi">Pretrazi</button>
+      </div>
+
+      <div class="row py-5">
+        <table class="table table-hover" data-cy="table">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th> ID uputa</th>
+<!--            <th>LBP</th>-->
+            <th>Datum prijema</th>
+            <th>Napomena</th>
+            <th>Lbz radnika</th>
+            <th>Status</th>
+            <th>Akcija</th>
+          </tr>
+          </thead>
+
+          <tbody>
+
+          <tr
+            *ngFor="let admission of admissionList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
+          >
+            <td>{{admission.id}}</td>
+            <td>{{admission.prescriptionId}}</td>
+<!--            <td>{{admission.lbp}}</td>-->
+            <td>{{admission.patientAdmission|date:'dd-MM-Y'}}</td>
+            <td>{{admission.note}}</td>
+            <td>{{admission.lbzScheduler}}</td>
+            <td>{{admission.admissionStatus}}</td>
+
+            <td *ngIf="admission.admissionStatus.toString() == 'ZAKAZAN'">
+              <button (click)="cancelAdmission(admission)" class="btn btn-primary" type="submit"
+                      data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                      data-cy="sacuvaj">Otkazi</button>
+            </td>
+
+          </tr>
+          </tbody>
+
+        </table>
+
+        <div class="d-flex align-items-center justify-content-center h-100">
+          <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
+          </pagination-controls>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

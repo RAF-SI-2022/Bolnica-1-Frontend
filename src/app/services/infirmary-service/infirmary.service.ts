@@ -32,6 +32,7 @@ import {
 } from "../../models/infirmary/externalPatient/ExaminationHistoryCreateDtoInfirmary";
 import {Message} from "../../models/Message";
 import {PrescriptionCreateDtoInfirmary} from "../../models/infirmary/externalPatient/PrescriptionCreateDtoInfirmary";
+import {Time} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -104,7 +105,7 @@ export class InfirmaryService {
     departmentId: number,
     startDatee: Date,
     endDatee: Date,
-    admissionStatus: AdmissionStatus,
+    // admissionStatus: AdmissionStatus,
     page: number,
     size: number
   ): Observable<Page<ScheduledAppointmentDto>> {
@@ -116,9 +117,9 @@ export class InfirmaryService {
     let httpParams = new HttpParams()
       .append("lbp",lbp)
       .append("departmentId", departmentId)
-      .append("startDate", startDatee.getDate())
-      .append("endDate",endDatee.getDate())
-      .append("admissionStatus", admissionStatus)
+      .append("startDate", startDatee.toString())
+      .append("endDate",endDatee.toString())
+      // .append("admissionStatus", admissionStatus)
       .append("page", page)
       .append("size",size)
 
@@ -333,29 +334,6 @@ export class InfirmaryService {
     );
   }
 
-
-  /**
-   * Pretraga hospitalizacija po filteru
-   * */
-  public getHospitalizationsWithFilterAll(
-    departmentId: number,
-    page: number,
-    size: number
-  ): Observable<Page<HospitalizationDto>> {
-
-    let httpParams = new HttpParams()
-      .append("departmentId", departmentId)
-      .append("page", page)
-      .append("size",size)
-
-
-    return this.http.get<Page<HospitalizationDto>>(
-      `${environmentInfirmary.apiURL}/hospitalization/getHospitalizationsWithFilter`,
-      {params: httpParams, headers:this.getHeaders()}
-    );
-  }
-
-
   // HOSPITAL ROOM CONTROLLER
 
   /**
@@ -494,7 +472,7 @@ export class InfirmaryService {
    * */
   public createPatientState(
     dateExamState: Date, //ovo je Date
-    timeExamState: Date, //ovo je Time
+    timeExamState: Time, //ovo je Time
     temperature: number,
     systolicPressure: number,
     diastolicPressure: number,
@@ -504,6 +482,9 @@ export class InfirmaryService {
     hospitalizationId: number
 
   ): Observable<PatientStateDto> {
+
+    console.log(dateExamState)
+    console.log(timeExamState)
 
     const patientStateCreateDto : PatientStateCreateDto = {
       dateExamState: dateExamState, //ovo je Date
@@ -641,10 +622,13 @@ export class InfirmaryService {
       .append("departmentId", departmentId)
       .append("hospitalRoomId", hospitalRoomId)
       .append("hospitalizationId", hospitalizationId)
-      .append("startDate", startDate.getDate())
-      .append("endDate", endDate.getDate())
+      .append("startDate", startDate.toISOString().slice(0,10))
+      .append("endDate", endDate.toISOString().slice(0,10))
       .append("page", page)
       .append("size",size)
+
+    console.log(startDate)
+    console.log(startDate.toISOString().slice(0,10))
 
 
     return this.http.get<Page<VisitDto>>(

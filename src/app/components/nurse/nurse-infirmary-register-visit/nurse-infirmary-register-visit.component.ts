@@ -7,11 +7,11 @@ import {InfirmaryService} from "../../../services/infirmary-service/infirmary.se
 import {AuthService} from "../../../services/auth.service";
 
 @Component({
-  selector: 'app-nurse-infirmary-schedule-admission',
-  templateUrl: './nurse-infirmary-schedule-admission.component.html',
-  styleUrls: ['./nurse-infirmary-schedule-admission.component.css']
+  selector: 'app-nurse-infirmary-register-visit',
+  templateUrl: './nurse-infirmary-register-visit.component.html',
+  styleUrls: ['./nurse-infirmary-register-visit.component.css']
 })
-export class NurseInfirmaryScheduleAdmissionComponent implements OnInit {
+export class NurseInfirmaryRegisterVisitComponent implements OnInit {
 
   addGroup: FormGroup;
   currentHospitalization : HospitalizationDto;
@@ -29,17 +29,11 @@ export class NurseInfirmaryScheduleAdmissionComponent implements OnInit {
 
     this.currentHospitalization = history.state.hospitalization;
 
-    const now = new Date();
-
     this.addGroup = this.formBuilder.group({
-      temperature: ['', [Validators.required]],
-      systolicPressure: ['', [Validators.required]],
-      diastolicPressure: ['', [Validators.required]],
-      pulse: ['', [Validators.required]],
-      therapy: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      dateExamState: [now.toISOString().slice(0,10), [Validators.required]],
-      timeExamState: [now.toLocaleTimeString(), [Validators.required]],
+      visitorName: ['', [Validators.required]],
+      visitorSurname: ['', [Validators.required]],
+      visitorJmbg: ['', [Validators.required]],
+      note: ['', [Validators.required]],
     });
 
   }
@@ -50,9 +44,9 @@ export class NurseInfirmaryScheduleAdmissionComponent implements OnInit {
     this.pbo = this.authService.getPBO();
   }
 
-  registerState() {
+  addVisit() {
 
-    const registerState = this.addGroup.value
+    const visit = this.addGroup.value
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
 
     form.classList.add('was-validated');
@@ -60,28 +54,16 @@ export class NurseInfirmaryScheduleAdmissionComponent implements OnInit {
       return;
     }
 
-    const isEmpty = Object.keys(registerState)
-      .filter(key => key !== 'dateExamState' && key !== 'timeExamState')
-      .every(key => !registerState[key]);
-
-    if (isEmpty) {
-      this.snackBar.openErrorSnackBar("Unesite vrednost u barem jedno polje!");
-      return;
-    }
-
-
-    this.infirmaryService.createPatientState(registerState.dateExamState, registerState.timeExamState,
-      registerState.temperature, registerState.systolicPressure, registerState.diastolicPressure,
-      registerState.pulse, registerState.therapy, registerState.description, this.currentHospitalization.id)
+    this.infirmaryService.createVisit(visit.visitorName, visit.visitorSurname,
+      visit.visitorJmbg, new Date(), visit.note, this.currentHospitalization.id)
       .subscribe((response) => {
-        this.snackBar.openSuccessSnackBar("Uspesno registrovano stanje!")
+        this.snackBar.openSuccessSnackBar("Uspesno registrovana poseta!")
       }, error => {
         console.log("Error " + error.status);
         if (error.status == 409) {
-          this.snackBar.openErrorSnackBar("Stanje pacijenta nije registrovano!")
+          this.snackBar.openErrorSnackBar("Poseta pacijentu nije registrovano!")
         }
       })
-
   }
 
 }
