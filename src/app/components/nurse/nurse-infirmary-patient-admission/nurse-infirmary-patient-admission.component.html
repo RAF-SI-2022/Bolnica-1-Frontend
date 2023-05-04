@@ -1,12 +1,12 @@
 
-<form [formGroup]="form" class="mb-5 needs-validation" novalidate>
+<form [formGroup]="form" (submit)="addHospitalization()" class="mb-5 needs-validation" novalidate>
 
   <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
 
-    <h2 class="text-center"><b>Prijem pacijenta: {{patientLbp}}</b></h2>
+    <h2 class="text-center"><b>Prijem pacijenta {{patientLbp}}</b></h2>
     <div class="row">
 
-      <div class="col-md-4 offset-2">
+      <div class="col-md-4" *ngIf="!lbpBoolean">
         <label class="labels">LBP</label>
 
         <input
@@ -30,8 +30,8 @@
       </div>
 
 
-      <div class="mt-4 text-center">
-        <button (click)="getReferrals()" class="btn btn-primary" type="submit" data-toggle="collapse"
+      <div class="mt-4 " *ngIf="!lbpBoolean">
+        <button (click)="getPrescription()" class="btn btn-primary" type="submit" data-toggle="collapse"
                 data-target="#search-table" aria-expanded="false" aria-controls="search-table"
                 data-cy="pretrazi">Pretraga uputa</button>
       </div>
@@ -77,39 +77,39 @@
           </pagination-controls>
         </div>
 
-
-
-
       </div>
 
 
-      <div class="row py-5">
+      <div class="row py-5" *ngIf="prescriptionBoolean">
+        <h3 class="text-center"><b>Odabir bolničke sobe</b></h3>
+
         <table class="table table-hover" data-cy="table">
           <thead>
           <tr>
             <th>ID</th>
-            <th>Ime i prezime lekara</th>
-            <th>Datum i vreme kreiranja</th>
-            <th>Naziv odeljenja iz kog je upucen</th>
-            <th>Uputna dijagnoza</th>
+            <th>Broj sobe</th>
+            <th>Naziv</th>
+            <th>Kapacitet</th>
+            <th>Zauzeto</th>
+            <th>Opis</th>
             <th>Akcija</th>
           </tr>
           </thead>
 
-
           <tbody>
 
           <tr
-            *ngFor="let room of prescriptionList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
+            *ngFor="let room of roomsList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
           >
             <td>{{room.id}}</td>
-            <td>{{room.doctorLbz}}</td>
-            <td>{{room.creationDateTime|date:'dd-MM-Y'}}</td>
-            <td>{{room.departmentFromId}}</td>
-            <td>{{room.referralDiagnosis}}</td>
+            <td>{{room.roomNumber}}</td>
+            <td>{{room.name}}</td>
+            <td>{{room.capacity}}</td>
+            <td>{{room.occupancy}}</td>
+            <td>{{room.description}}</td>
 
-            <td >
-              <button (click)="choosePrescription(room)" class="btn btn-primary" type="submit"
+            <td *ngIf="room.occupancy < room.capacity">
+              <button (click)="chooseRoom(room)" class="btn btn-primary" type="submit"
                       data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table"
                       data-cy="sacuvaj">Odabir sobe</button>
             </td>
@@ -126,31 +126,21 @@
 
       </div>
 
+      <div class="col-md-4" *ngIf="roomBoolean">
+        <p class="text-center"><b>Odabrana soba: {{selectedRoomNumber}}</b></p>
+      </div>
 
-      <div class="row py-5">
 
+<!--   by ems   <div class="row py-5" *ngIf="roomBoolean">-->
+      <div class="row py-5" >
 
-        <div class="col-md-4 offset-2">
-          <label class="labels">LBP</label>
+        <div class="col-md-4">
+          <label for="doctor">Doktor</label>
 
-          <input
-            [formControlName]="'lbp'"
-            [(ngModel)]="form.value.lbp"
-            (input)="filterPatientLbp(form.value.lbp)"
-            type="text"
-            class="form-control"
-
-            data-cy="lbp"
-          />
-          <div *ngIf="filteredPatients.length > 0" class="suggestions">
-            <div
-              *ngFor="let fPatient of filteredPatients"
-              (click)="selectSuggestion(fPatient)"
-              class="suggestion"
-            >
-              {{ fPatient.lbp }} - {{ fPatient.name }} {{ fPatient.surname }}
-            </div>
-          </div>
+          <ng-select class="custom" [formControlName]="selectedDoctor" [(ngModel)]="selectedDoctor" id="doctor" name="doctor" required [searchable]="true"
+                      data-cy="doctorSelect">
+            <ng-option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
+          </ng-select>
         </div>
 
 

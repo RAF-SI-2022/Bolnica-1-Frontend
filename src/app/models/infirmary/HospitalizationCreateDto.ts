@@ -3,6 +3,6 @@ export interface HospitalizationCreateDto {
   patientAdmission: Date; // ovo je timestamp
   hospitalRoomId: number;
   dischargeDateAndTime: Date; // ovo je timestamp
-  prescriptionId: string;
+  prescriptionId: number;
   note: string;
 }

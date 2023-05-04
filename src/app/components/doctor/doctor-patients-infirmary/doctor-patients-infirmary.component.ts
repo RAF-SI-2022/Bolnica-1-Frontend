@@ -33,8 +33,11 @@ export class DoctorPatientsInfirmaryComponent implements OnInit {
   form: FormGroup;
   patients: Patient[] = []
 
-  constructor(private patientService: PatientService, private authService: AuthService,
-              private laboratoryService: LaboratoryService, private router: Router, private snackBar: SnackbarServiceService,
+  constructor(private patientService: PatientService,
+              private authService: AuthService,
+              private laboratoryService: LaboratoryService,
+              private router: Router,
+              private snackBar: SnackbarServiceService,
               private formBuilder: FormBuilder,
               private infirmaryService:InfirmaryService) {
 

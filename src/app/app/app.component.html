@@ -181,6 +181,14 @@
         </a>
       </li>
 
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-infirmary-scheduled-patients">
+          <i class="bi bi-alarm"></i>
+          <span>Danasnji prijemi</span>
+        </a>
+      </li>
+
       <li *ngIf="nurse || nurseVisa" class="nav-item">
         <a class="nav-link collapsed" routerLink="../nurse-infirmary-patient-admission">
           <i class="bi bi-file-medical"></i>
