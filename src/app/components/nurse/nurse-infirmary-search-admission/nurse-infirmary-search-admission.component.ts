@@ -60,7 +60,8 @@ export class NurseInfirmarySearchAdmissionComponent implements OnInit {
     console.log(sendData)
 
     sendData.lbp = sendData.lbp.split("-")[0].toString().trim();
-    console.log("sending lbp: " + sendData.lpb)
+
+    console.log("sending lbp: " + sendData.lbp)
 
     this.infirmaryService.findScheduledAppointmentWithFilter(sendData.lbp,
       this.departmentIdNumber,sendData.dateFrom, sendData.dateTo, this.page,

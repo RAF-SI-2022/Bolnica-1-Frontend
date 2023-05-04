@@ -181,7 +181,7 @@ export class NurseScheduleAppointmentComponent implements OnInit {
       Note: this.note,
       Patient: this.patient
     };
-    
+
     console.log("selektovan datum je " + this.selectedDateTime + " " + eventData.StartTime)
 
     this.examinationService.createExamination(this.selectedDateTime, this.selectedDoctor, this.patient, this.note).subscribe(res => {

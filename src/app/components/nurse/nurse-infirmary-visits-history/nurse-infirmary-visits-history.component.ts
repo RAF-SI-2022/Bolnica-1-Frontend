@@ -60,10 +60,8 @@ export class NurseInfirmaryVisitsHistoryComponent implements OnInit {
     const now = new Date();
     const before = new Date(0);
 
-    // todo this.currentHospitalization.hospitalRoomId,
-    //       this.currentHospitalization.id
-
-    this.infirmaryService.getVisitsWithFilter(this.departmentId, 1,1, before, now, this.page, this.PAGE_SIZE)
+    this.infirmaryService.getVisitsWithFilter(this.departmentId, this.currentHospitalization.hospitalRoomId,
+      this.currentHospitalization.id, before, now, this.page, this.PAGE_SIZE)
       .subscribe(res => {
         this.visitHistoryPage = res
         this.visitHistoryList = this.visitHistoryPage.content

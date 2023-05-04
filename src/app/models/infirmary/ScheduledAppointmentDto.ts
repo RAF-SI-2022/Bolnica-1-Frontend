@@ -7,4 +7,6 @@ export interface ScheduledAppointmentDto{
   note: string;
   lbzScheduler: string;
   prescriptionId: number;
+
+  lbp: string;
 }

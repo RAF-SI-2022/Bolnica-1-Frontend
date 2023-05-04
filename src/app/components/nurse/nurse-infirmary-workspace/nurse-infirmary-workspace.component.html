@@ -71,17 +71,17 @@
           </tr>
 
 
-          <!--          <tr-->
-          <!--            *ngFor="let hospitalizationDto of hospitalizationList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"-->
-          <!--            (click)="goToWorkspace(hospitalizationDto)"-->
-          <!--          >-->
-          <!--            <td>{{hospitalizationDto.hospitalRoom.roomNumber}}</td>-->
-          <!--            <td>{{hospitalizationDto.lbp}}</td>-->
-          <!--            <td>{{hospitalizationDto.name}}</td>-->
-          <!--            <td>{{hospitalizationDto.surname}}</td>-->
-          <!--            <td>{{hospitalizationDto.dateOfBirth}}</td>-->
+          <tr
+            *ngFor="let hospitalizationDto of hospitalizationList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
+            (click)="goToWorkspace(hospitalizationDto)"
+          >
+            <td>{{hospitalizationDto.hospitalRoom.roomNumber}}</td>
+            <td>{{hospitalizationDto.lbp}}</td>
+            <td>{{hospitalizationDto.name}}</td>
+            <td>{{hospitalizationDto.surname}}</td>
+            <td>{{hospitalizationDto.dateOfBirth}}</td>
 
-          <!--          </tr>-->
+          </tr>
           </tbody>
 
         </table>

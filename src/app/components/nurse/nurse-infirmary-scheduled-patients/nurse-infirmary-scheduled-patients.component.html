@@ -6,7 +6,7 @@
     <h2 class="text-center"><b>Danasnji prijemi</b></h2>
     <div class="row">
 
-      <div class="col-md-4 offset-2">
+      <div class="col-md-4 ">
         <label class="labels">LBP</label>
 
         <input
@@ -30,7 +30,7 @@
       </div>
 
 
-      <div class="mt-4 text-center">
+      <div class="mt-4 ">
         <button (click)="getScheduledAdmissions()" class="btn btn-primary" type="submit" data-toggle="collapse"
                 data-target="#search-table" aria-expanded="false" aria-controls="search-table"
                 data-cy="pretrazi">Pretrazi</button>
@@ -42,7 +42,7 @@
           <tr>
             <th>ID</th>
             <th> ID uputa</th>
-            <!--            <th>LBP</th>-->
+            <th>LBP</th>
             <th>Datum prijema</th>
             <th>Napomena</th>
             <th>Lbz radnika</th>
@@ -58,7 +58,7 @@
           >
             <td>{{admission.id}}</td>
             <td>{{admission.prescriptionId}}</td>
-            <!--            <td>{{admission.lbp}}</td>-->
+            <td>{{admission.lbp}}</td>
             <td>{{admission.patientAdmission|date:'dd-MM-Y'}}</td>
             <td>{{admission.note}}</td>
             <td>{{admission.lbzScheduler}}</td>

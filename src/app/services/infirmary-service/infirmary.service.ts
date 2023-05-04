@@ -60,7 +60,7 @@ export class InfirmaryService {
     patientAdmission: Date, // ovo je timestamp
     hospitalRoomId: number,
     dischargeDateAndTime: Date, // ovo je timestamp
-    prescriptionId: string,
+    prescriptionId: number,
     note: string
   ): Observable<HospitalizationDto> {
 
@@ -110,6 +110,8 @@ export class InfirmaryService {
     size: number
   ): Observable<Page<ScheduledAppointmentDto>> {
 
+    //2023-05-04
+
     // na beku je date u infirmaty, nije Long
     // const startDate = new Date(startDatee)
     // const endDate = new Date(endDatee)
@@ -122,6 +124,10 @@ export class InfirmaryService {
       // .append("admissionStatus", admissionStatus)
       .append("page", page)
       .append("size",size)
+
+    console.log('saljem emica')
+    console.log(startDatee.toString())
+    console.log(endDatee.toString())
 
     return this.http.get<Page<ScheduledAppointmentDto>>(
       `${environmentInfirmary.apiURL}/admission/findScheduledAppointmentWithFilter`,

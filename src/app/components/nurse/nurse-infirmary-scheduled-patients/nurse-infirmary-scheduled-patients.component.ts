@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 import {SnackbarServiceService} from "../../../services/snackbar-service.service";
 import {InfirmaryService} from "../../../services/infirmary-service/infirmary.service";
 import {AdmissionStatus} from "../../../models/infirmary-enums/AdmissionStatus";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-nurse-infirmary-scheduled-patients',
@@ -62,12 +63,17 @@ export class NurseInfirmaryScheduledPatientsComponent implements OnInit {
 
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
-
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
 
+
+    const formattedYesterday = yesterday.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const formattedToday = today.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const formattedTomorrow = tomorrow.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
     this.infirmaryService.findScheduledAppointmentWithFilter(sendData.lbp,
-      this.departmentIdNumber, yesterday, tomorrow, this.page,
+      this.departmentIdNumber, new Date(formattedYesterday),
+      new Date(formattedTomorrow), this.page,
       this.PAGE_SIZE).subscribe(
       res => {
         this.admissionPage = res
@@ -135,7 +141,11 @@ export class NurseInfirmaryScheduledPatientsComponent implements OnInit {
   }
 
   registerAdmission(admission: ScheduledAppointmentDto): void {
-    this.infirmaryService.setScheduledAppointmentStatus(admission.id, AdmissionStatus.REALIZOVAN)
+
+    const url = `/nurse-infirmary-patient-admission`;
+    this.router.navigateByUrl(url, { state: { admission } });
+
+    /*this.infirmaryService.setScheduledAppointmentStatus(admission.id, AdmissionStatus.REALIZOVAN)
       .subscribe((response) => {
         this.snackBar.openSuccessSnackBar("Uspesno realizovan prijem!")
 
@@ -147,7 +157,8 @@ export class NurseInfirmaryScheduledPatientsComponent implements OnInit {
         if (error.status == 409) {
           this.snackBar.openErrorSnackBar("Greska!")
         }
-      })
+      })*/
+
   }
 
 }

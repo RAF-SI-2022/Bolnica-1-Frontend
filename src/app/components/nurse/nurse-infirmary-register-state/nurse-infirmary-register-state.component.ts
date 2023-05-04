@@ -66,7 +66,7 @@ export class NurseInfirmaryRegisterStateComponent implements OnInit {
       .every(key => !registerState[key]);
 
     if (isEmpty) {
-      this.snackBar.openErrorSnackBar("Unesite vrednost u barem jedno polje!");
+      this.snackBar.openWarningSnackBar("Unesite vrednost u barem jedno polje!");
       return;
     }
 

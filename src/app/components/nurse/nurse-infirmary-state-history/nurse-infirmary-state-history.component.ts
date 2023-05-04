@@ -67,9 +67,8 @@ export class NurseInfirmaryStateHistoryComponent implements OnInit {
   getStateHistory(): void {
     const sendData = this.form.value;
 
-    // todo this.currentHospitalization.id
-
-    this.infirmaryService.getPatientStateByDate(1, sendData.dateFrom, sendData.dateTo,
+    this.infirmaryService.getPatientStateByDate(this.currentHospitalization.id,
+      sendData.dateFrom, sendData.dateTo,
       this.page, this.PAGE_SIZE)
       .subscribe(res => {
         this.stateHistoryPage = res
