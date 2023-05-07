@@ -1,4 +1,4 @@
 export enum PrescriptionStatus {
-  NEREALIZOVAN,
-  REALIZOVAN
+  NEREALIZOVAN = 'NEREALIZOVAN',
+  REALIZOVAN = 'REALIZOVAN'
 }

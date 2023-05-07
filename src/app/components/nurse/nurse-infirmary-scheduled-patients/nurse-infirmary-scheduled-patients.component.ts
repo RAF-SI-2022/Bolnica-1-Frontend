@@ -52,6 +52,7 @@ export class NurseInfirmaryScheduledPatientsComponent implements OnInit {
 
 
   getScheduledAdmissions(): void {
+
     const sendData = this.form.value;
     console.log(sendData)
 
@@ -71,9 +72,12 @@ export class NurseInfirmaryScheduledPatientsComponent implements OnInit {
     const formattedToday = today.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
     const formattedTomorrow = tomorrow.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
+
+    // TODO AKO SE TRAZI DANASNJI ONDA SLATI dva ista datuma
+
     this.infirmaryService.findScheduledAppointmentWithFilter(sendData.lbp,
-      this.departmentIdNumber, new Date(formattedYesterday),
-      new Date(formattedTomorrow), this.page,
+      this.departmentIdNumber, new Date(formattedToday),
+      new Date(formattedToday), this.page,
       this.PAGE_SIZE).subscribe(
       res => {
         this.admissionPage = res

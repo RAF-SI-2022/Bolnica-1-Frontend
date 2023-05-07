@@ -11,7 +11,7 @@
 </head>
 
 <div class="container rounded bg-white mt-5 mb-5">
-  <form [formGroup]="addGroup" (submit)="registerState()" class="mb-5 needs-validation" novalidate>
+  <form [formGroup]="form" class="mb-5 needs-validation" novalidate>
     <div class="row justify-content-center">
       <div class="col-md-8 border-right">
         <div class="p-3 py-5">
@@ -20,11 +20,97 @@
             <h4 class="text-right">Zakazivanje prijema na stacionar</h4>
           </div>
 
-          <div class="row">
-            <div class="col-md-12"><label class="labels">Lbp</label>
-              <input type="text" name="lbp" class="form-control" data-cy="lbp" [formControlName]="'lbp'">
+<!--          <div class="row">-->
+<!--            <div class="col-md-12"><label class="labels">Lbp</label>-->
+<!--              <input type="text" name="lbp" class="form-control" data-cy="lbp" [formControlName]="'lbp'">-->
+<!--            </div>-->
+<!--          </div>-->
+
+
+          <div class="col-md-4">
+            <label class="labels">LBP</label>
+
+            <input
+              [formControlName]="'lbp'"
+              [(ngModel)]="form.value.lbp"
+              (input)="filterPatientLbp(form.value.lbp)"
+              type="text"
+              class="form-control"
+
+              data-cy="lbp"
+            />
+            <div *ngIf="filteredPatients.length > 0" class="suggestions">
+              <div
+                *ngFor="let fPatient of filteredPatients"
+                (click)="selectSuggestion(fPatient)"
+                class="suggestion"
+              >
+                {{ fPatient.lbp }} - {{ fPatient.name }} {{ fPatient.surname }}
+              </div>
             </div>
           </div>
+
+
+          <div class="mt-4 ">
+            <button (click)="getPrescription()" class="btn btn-primary" type="submit" data-toggle="collapse"
+                    data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                    data-cy="pretrazi">Pretraga uputa</button>
+          </div>
+
+          <div class="row py-5">
+            <table class="table table-hover" data-cy="table">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>Ime i prezime lekara</th>
+                <th>Datum i vreme kreiranja</th>
+                <th>Naziv odeljenja iz kog je upucen</th>
+                <th>Uputna dijagnoza</th>
+                <th>Akcija</th>
+              </tr>
+              </thead>
+
+
+              <tbody>
+
+              <tr
+                *ngFor="let prescription of prescriptionList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
+              >
+                <td>{{prescription.id}}</td>
+                <td>{{prescription.doctorLbz}}</td>
+                <td>{{prescription.creationDateTime|date:'dd-MM-Y'}}</td>
+                <td>{{prescription.departmentFromId}}</td>
+                <td>{{prescription.referralDiagnosis}}</td>
+
+                <td >
+                  <button (click)="choosePrescription(prescription)" class="btn btn-primary" type="submit"
+                          data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                          data-cy="sacuvaj">Odabir uputa</button>
+                </td>
+
+              </tr>
+              </tbody>
+
+            </table>
+
+            <div class="d-flex align-items-center justify-content-center h-100">
+              <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
+              </pagination-controls>
+            </div>
+
+          </div>
+
+
+
+          <div class="row mt-1">
+            <div class="col-md-12" *ngIf="prescriptionBoolean">
+              <p class="text-center"><b>Odabran uput: {{selectedPrescription.id}}</b></p>
+            </div>
+          </div>
+
+
+
+
 
           <div class="row mt-1">
             <div class="col-md-12"><label class="labels">Datum i vreme prijema</label>
@@ -34,13 +120,13 @@
 
           <div class="row mt-1">
             <div class="col-md-12"><label class="labels">Napomena</label>
-              <input type="text" name="diastolicPressure" class="form-control" data-cy="diastolicPressure" [formControlName]="'diastolicPressure'">
+              <input type="text" name="note" class="form-control" data-cy="note" [formControlName]="'note'">
             </div>
           </div>
 
 
           <div class="mt-4 text-center">
-            <button type="submit" class="btn btn-primary" data-cy="button"><i class="bi bi-save me-1"></i>Sačuvaj</button>
+            <button (click)="scheduleAppointment()" type="submit" class="btn btn-primary" data-cy="button"><i class="bi bi-save me-1"></i>Sačuvaj</button>
           </div>
 
 

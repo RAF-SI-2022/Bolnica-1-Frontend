@@ -10,11 +10,11 @@ import {Router} from "@angular/router";
 import {SnackbarServiceService} from "../../../services/snackbar-service.service";
 import {InfirmaryService} from "../../../services/infirmary-service/infirmary.service";
 import {AdmissionStatus} from "../../../models/infirmary-enums/AdmissionStatus";
-import {HospitalizationDto} from "../../../models/infirmary/HospitalizationDto";
 import {PrescriptionDto} from "../../../models/infirmary/PrescriptionDto";
 import {HospitalRoomDto} from "../../../models/infirmary/HospitalRoomDto";
 import {DoctorDepartmentDto} from "../../../models/DoctorDepartmentDto";
 import {ExaminationService} from "../../../services/examination-service/examination.service";
+import {PrescriptionStatus} from "../../../models/laboratory-enums/PrescriptionStatus";
 
 @Component({
   selector: 'app-nurse-infirmary-patient-admission',
@@ -28,7 +28,8 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
   patientLbp: string = ''
   lbpBoolean: boolean = false;
 
-  selectedPrescription: PrescriptionDto = new PrescriptionDto();
+  // selectedPrescription: PrescriptionDto = new PrescriptionDto();
+  selectedPrescriptionId: number = 0;
   prescriptionBoolean: boolean = false;
 
   selectedRoomId: number = 0;
@@ -36,6 +37,7 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
   roomBoolean: boolean = false;
 
   prescriptionList: PrescriptionDto[] = [];
+  prescriptionPage: Page<PrescriptionDto> = new Page<PrescriptionDto>();
 
   roomsList: HospitalRoomDto[] = [];
   roomsPage: Page<HospitalRoomDto> = new Page<HospitalRoomDto>();
@@ -70,11 +72,15 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     if (history.state.admission != null) {
       this.patientLbp = this.currentAdmission.lbp
       this.lbpBoolean = true
+      this.selectedPrescriptionId = this.currentAdmission.prescriptionId;
+      this.prescriptionBoolean = true
     }
 
     this.form = this.formBuilder.group({
       lbp: [this.patientLbp, [Validators.required]],
-      note: ['', [Validators.required]]
+      note: ['', [Validators.required]],
+      dischargeDateAndTime: ['', [Validators.required]]
+
     });
 
   }
@@ -85,13 +91,16 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
 
     console.log("pbo " + this.departmentPbo)
     this.populatePatients()
-    this.getPrescription()
+    // this.getPrescription()
     this.getRooms()
     this.getDoctors()
   }
 
 
   getPrescription(): void {
+
+    this.prescriptionBoolean = false
+    this.roomBoolean = false
 
     const sendData = this.form.value;
 
@@ -110,19 +119,16 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
 
-
-    // TODO GADJATI DRUGU RUTU, onu koja je za upute
-
-    this.infirmaryService.findScheduledAppointmentWithFilter(sendData.lbp,
-      this.departmentIdNumber, yesterday, tomorrow, this.page,
+    this.infirmaryService.findPrescriptionsWithFilter(sendData.lbp, this.departmentIdNumber,
+      PrescriptionStatus.NEREALIZOVAN, this.page,
       this.PAGE_SIZE).subscribe(
       res => {
-        this.admissionPage = res
-        this.admissionList = this.admissionPage.content
+        this.prescriptionPage = res
+        this.prescriptionList = this.prescriptionPage.content
 
-        this.total = this.admissionPage.totalElements
-        if (this.admissionList.length == 0) {
-          this.snackBar.openWarningSnackBar("Nema zakazanih prijema!")
+        this.total = this.prescriptionPage.totalElements
+        if (this.prescriptionList.length == 0) {
+          this.snackBar.openWarningSnackBar("Nema uputa!")
         }
       }, err => {
         this.snackBar.openErrorSnackBar("Greska")
@@ -150,16 +156,22 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
 
   addHospitalization(): void{
 
+    const sendData = this.form.value;
+    console.log("discharge list date:"+ sendData.dischargeDateAndTime);
+
     if(this.selectedDoctor.length == 0){
       this.snackBar.openWarningSnackBar("Izaberite doktora")
       return;
     }
 
-    // TODO DISCHARGE DATE AND TIME??? DA LI DODATI DA MOZE DA SE IZABERE NA FRONTU
+    if (!this.prescriptionBoolean) {
+      this.snackBar.openErrorSnackBar("Izaberite uput!");
+      return;
+    }
 
     console.log("doctor lbz:" + this.selectedDoctor)
 
-    const sendData = this.form.value;
+
 
     if (this.patientLbp == '') {
       console.log(sendData)
@@ -167,10 +179,17 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
       sendData.lbp = sendData.lbp.split("-")[0].toString().trim();
       console.log("sending lbp: " + sendData.lpb)
     }
+
+    // TODO DISCHARGE DATE AND TIME??? DA LI ostaviti DA MOZE DA SE IZABERE NA FRONTU
+    //  ili obrisati sa beka
+
     this.infirmaryService.createHospitalization(this.selectedDoctor, new Date(),
-      this.selectedRoomId, new Date(), this.selectedPrescription.id, sendData.note)
+      this.selectedRoomId, sendData.dischargeDateAndTime, this.selectedPrescriptionId, sendData.note)
       .subscribe((response) => {
         this.snackBar.openSuccessSnackBar("Uspesno registrovan prijem!")
+
+        // TODO AKO JE IZABRAN UPUT, ONDA AZURIRATI DA JE REALIZOVAN?
+
         this.registerAdmission(this.currentAdmission)
       }, error => {
         console.log("Error " + error.status);
@@ -233,7 +252,9 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
   }
 
   choosePrescription(prescription: PrescriptionDto): void{
-    this.selectedPrescription = prescription
+    this.selectedPrescriptionId = prescription.id
+    console.log("izabran uput:"+ this.selectedPrescriptionId)
+    // this.selectedPrescription = prescription
     this.prescriptionBoolean = true
   }
 

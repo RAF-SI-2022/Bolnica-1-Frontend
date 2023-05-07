@@ -56,6 +56,7 @@ export class NurseInfirmarySearchAdmissionComponent implements OnInit {
 
 
   getScheduledAdmissions(): void {
+
     const sendData = this.form.value;
     console.log(sendData)
 
