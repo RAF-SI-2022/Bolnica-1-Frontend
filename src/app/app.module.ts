@@ -82,6 +82,9 @@ import { NurseInfirmaryRegisterVisitComponent } from './components/nurse/nurse-i
 import { NurseInfirmaryStateHistoryComponent } from './components/nurse/nurse-infirmary-state-history/nurse-infirmary-state-history.component';
 import { NurseInfirmaryVisitsHistoryComponent } from './components/nurse/nurse-infirmary-visits-history/nurse-infirmary-visits-history.component';
 import { NurseInfirmarySearchAdmissionComponent } from './components/nurse/nurse-infirmary-search-admission/nurse-infirmary-search-admission.component';
+import {
+  ReceptionistWorkspaceComponent
+} from "./components/receptionist/receptionist-workspace/receptionist-workspace.component";
 
 
 
@@ -127,6 +130,7 @@ import { NurseInfirmarySearchAdmissionComponent } from './components/nurse/nurse
     DoctorPatientsInfirmaryComponent,
     ReceptionistVisitsComponent,
     ReceptionistRegisterVisitComponent,
+    ReceptionistWorkspaceComponent,
     DoctorInfirmaryWorkspaceComponent,
     DoctorInfirmaryStateHistoryComponent,
     DoctorInfirmaryDischargeListComponent,
