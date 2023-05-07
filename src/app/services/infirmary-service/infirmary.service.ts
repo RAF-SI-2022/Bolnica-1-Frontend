@@ -33,6 +33,7 @@ import {
 import {Message} from "../../models/Message";
 import {PrescriptionCreateDtoInfirmary} from "../../models/infirmary/externalPatient/PrescriptionCreateDtoInfirmary";
 import {Time} from "@angular/common";
+import {CreateDischargeListDto} from "../../models/infirmary/CreateDischargeListDto";
 
 @Injectable({
   providedIn: 'root'
@@ -203,7 +204,6 @@ export class InfirmaryService {
    * Kreiranje otpusne liste
    * */
   public createDischargeList(
-    id: number,
     followingDiagnosis: string,
     anamnesis: string,
     analysis: string,
@@ -218,8 +218,7 @@ export class InfirmaryService {
 
     // sta ce ovde id?
 
-    const dischargeListDto : DischargeListDto = {
-      id: id,
+    const dischargeListDto : CreateDischargeListDto = {
       followingDiagnosis: followingDiagnosis,
       anamnesis: anamnesis,
       analysis: analysis,

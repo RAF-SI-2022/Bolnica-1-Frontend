@@ -61,9 +61,7 @@ export class DoctorInfirmaryDischargeListComponent implements OnInit {
       return;
     }
 
-    // todo ukloniti ID
-
-    this.infirmaryService.createDischargeList(0,dischargeList.followingDiagnosis,
+    this.infirmaryService.createDischargeList(dischargeList.followingDiagnosis,
       dischargeList.anamnesis, dischargeList.analysis, dischargeList.courseOfDisease,
       dischargeList.summary, dischargeList.therapy, this.lbz, this.pbo, new Date(),
       this.currentHospitalization.id).subscribe((response) => {

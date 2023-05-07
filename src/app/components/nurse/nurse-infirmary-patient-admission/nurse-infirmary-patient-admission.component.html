@@ -1,5 +1,5 @@
 
-<form [formGroup]="form" (submit)="addHospitalization()" class="mb-5 needs-validation" novalidate>
+<form [formGroup]="form"  class="mb-5 needs-validation" novalidate>
 
   <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
 
@@ -36,7 +36,7 @@
                 data-cy="pretrazi">Pretraga uputa</button>
       </div>
 
-      <div class="row py-5">
+      <div class="row py-5" *ngIf="!lbpBoolean">
         <table class="table table-hover" data-cy="table">
           <thead>
           <tr>
@@ -77,6 +77,13 @@
           </pagination-controls>
         </div>
 
+      </div>
+
+
+      <div class="row mt-1">
+        <div class="col-md-4" *ngIf="prescriptionBoolean">
+          <p class="text-center"><b>Odabran uput: {{selectedPrescriptionId}}</b></p>
+        </div>
       </div>
 
 
@@ -151,8 +158,14 @@
           </div>
         </div>
 
+        <div class="row mt-1">
+          <div class="col-md-12"><label class="labels">Datum i vreme otpusta</label>
+            <input type="date" name="dischargeDateAndTime" class="form-control" data-cy="dischargeDateAndTime" required [formControlName]="'dischargeDateAndTime'">
+          </div>
+        </div>
+
         <div class="mt-4 text-center">
-          <button type="submit" class="btn btn-primary" data-cy="button"><i class="bi bi-save me-1"></i>Sačuvaj</button>
+          <button (click)="addHospitalization()" type="submit" class="btn btn-primary" data-cy="button"><i class="bi bi-save me-1"></i>Sačuvaj</button>
         </div>
 
 

@@ -6,7 +6,6 @@ export interface ScheduledAppointmentDto{
   admissionStatus: AdmissionStatus;
   note: string;
   lbzScheduler: string;
-  prescriptionId: number;
-
   lbp: string;
+  prescriptionId: number;
 }
