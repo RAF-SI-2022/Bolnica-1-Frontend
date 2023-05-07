@@ -24,6 +24,7 @@ export class AppComponent {
     technicianVisi = false;
     biochemist = false;
     biochemistSpec = false;
+    receptionist = false;
 
     constructor(private userService: UserService, private authService: AuthService, private router: Router) {
       this.router.events.subscribe(event => {
@@ -38,6 +39,7 @@ export class AppComponent {
           this.checkLabTehnicar();
           this.checkMedBiohemicar();
           this.checkSpecMedBiohemije();
+          this.checkReceptionist();
         }
       });
     }
@@ -149,6 +151,17 @@ export class AppComponent {
         else this.biochemistSpec = false;
       });
       return this.biochemistSpec;
+    }
+
+    checkReceptionist(): boolean {
+      console.log("receptioner lol");
+      this.userService.checkRole('ROLE_RECEPCIONER').subscribe(hasRole => {
+        if (hasRole) {
+          this.receptionist = true;
+        }
+        else this.receptionist = false;
+      });
+      return this.receptionist;
     }
 
 

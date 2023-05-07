@@ -140,6 +140,7 @@ import {
 import {
   NurseInfirmarySearchAdmissionComponent
 } from "./components/nurse/nurse-infirmary-search-admission/nurse-infirmary-search-admission.component";
+import {ReceptionistGuard} from "./guards/role/general/receptionist.guard";
 
 
 const routes: Routes = [
@@ -354,32 +355,32 @@ const routes: Routes = [
   {
     path: "receptionist-add-patient",
     component: ReceptionistAddPatientComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, ReceptionistGuard]
   },
   {
     path: "receptionist-schedule-appointment",
     component: ReceptionistScheduleAppointmentComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, ReceptionistGuard]
   },
   {
     path: "receptionist-search-patients",
     component: ReceptionistSearchPatientsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, ReceptionistGuard]
   },
   {
     path: "receptionist-workspace",
     component: ReceptionistWorkspaceComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, ReceptionistGuard]
   },
   {
     path: "receptionist-visits",
     component: ReceptionistVisitsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, ReceptionistGuard]
   },
   {
     path: "receptionist-register-visit",
     component: ReceptionistRegisterVisitComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, ReceptionistGuard]
   },
   {
     path: "technician-issuing-results",

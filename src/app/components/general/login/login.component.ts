@@ -93,6 +93,7 @@ export class LoginComponent implements OnInit {
             { role: 'ROLE_LAB_TEHNICAR', path: '/technician-workspace' },
             { role: 'ROLE_MED_BIOHEMICAR', path: '/biochemist-workspace' },
             { role: 'ROLE_SPEC_MED_BIOHEMIJE', path: '/biochemist-daily' },
+            { role: 'ROLE_RECEPCIONER', path: '/receptionist-workspace' },
         ];
 
         this.checkRolesAndNavigate(roles);
