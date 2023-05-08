@@ -98,28 +98,52 @@
           </div>
 
           <div *ngIf="show" class="list-container">
-            <div class="dropdown">
-              <select [formControlName]="'selectedCode'" required>
-<!--                <option value="" disabled selected>Sifra</option>-->
-                <option value="A15.3">A15.3</option>
-                <option value="D50">D50</option>
-                <option value="I10">I10</option>
-                <option value="I35.0">I35.0</option>
-                <option value="J11">J11</option>
-                <option value="J12.9">J12.9</option>
-                <option value="K35">K35</option>
-                <option value="K70.3">K70.3</option>
-                <option value="K71.0">K71.0</option>
-              </select>
-            </div>
-            <div *ngIf="show" class="dropdown">
-              <select [formControlName]="'treatmentResult'" required>
-                <option value="U_TOKU" selected>U_TOKU</option>
-                <option value="OPORAVLJEN">OPORAVLJEN</option>
-                <option value="PREMINUO">PREMINUO</option>
-                <option value="STALNE_POSLEDICE">STALNE_POSLEDICE</option>
-              </select>
-            </div>
+
+            <table>
+              <tr>
+                <td><label class="label" for="sifraDropdown">Sifra</label></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="dropdown" id="sifraDropdown">
+                    <select [formControlName]="'selectedCode'" required>
+      <!--                <option value="" disabled selected>Sifra</option>-->
+                      <option value="A15.3">A15.3</option>
+                      <option value="D50">D50</option>
+                      <option value="I10">I10</option>
+                      <option value="I35.0">I35.0</option>
+                      <option value="J11">J11</option>
+                      <option value="J12.9">J12.9</option>
+                      <option value="K35">K35</option>
+                      <option value="K70.3">K70.3</option>
+                      <option value="K71.0">K71.0</option>
+                    </select>
+                  </div>
+                </td>
+              </tr>
+
+            </table>
+
+
+            <table>
+
+              <tr>
+
+              <td><label class="label" for="rezultatDropdown">Rezultat</label></td>
+              </tr>
+              <tr>
+                <div *ngIf="show" class="dropdown" id="rezultatDropdown">
+                  <select [formControlName]="'treatmentResult'" required>
+                    <option value="U_TOKU" selected>U_TOKU</option>
+                    <option value="OPORAVLJEN">OPORAVLJEN</option>
+                    <option value="PREMINUO">PREMINUO</option>
+                    <option value="STALNE_POSLEDICE">STALNE_POSLEDICE</option>
+                  </select>
+                </div>
+              </tr>
+
+            </table>
+
             <textarea *ngIf="show" required class="bi-textarea" placeholder="Opis tekuceg stanja" [formControlName]="'currStateDesc'" ></textarea>
           </div>
           <div *ngIf="show" data-toggle="buttons" class="btn-group bizmoduleselect">
