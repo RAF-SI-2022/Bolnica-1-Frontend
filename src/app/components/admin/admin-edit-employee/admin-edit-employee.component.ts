@@ -162,25 +162,42 @@ import { interval } from 'rxjs';
     * @returns true if user has chosen one or more permissions
     */
     prepareAndValidatePermissionOutputString(): boolean {
+
         if (this.editGroup.get('ADMIN')?.value) {
-            this.permissions.push('ADMIN')
+            this.permissions.push('ROLE_ADMIN')
+        }
+        if (this.editGroup.get('DR_SPEC_ODELJENJA')?.value) {
+            this.permissions.push('ROLE_DR_SPEC_ODELJENJA')
         }
         if (this.editGroup.get('DR_SPEC')?.value) {
-            this.permissions.push('DR_SPEC')
+            this.permissions.push('ROLE_DR_SPEC')
         }
         if (this.editGroup.get('DR_SPEC_POV')?.value) {
-            this.permissions.push('DR_SPEC_POV')
+            this.permissions.push('ROLE_DR_SPEC_POV')
         }
-        if (this.editGroup.get('NURSE')?.value) {
-            this.permissions.push('MED_SESTRA')
+        if (this.editGroup.get('MED_SESTRA')?.value) {
+             this.permissions.push('ROLE_MED_SESTRA')
         }
-        if (this.editGroup.get('SENIOR_NURSE')?.value) {
-             this.permissions.push('SENIOR_NURSE')
+        if (this.editGroup.get('VISA_MED_SESTRA')?.value) {
+          this.permissions.push('ROLE_VISA_MED_SESTRA')
+        }
+        if (this.editGroup.get('VISI_LAB_TEHNICAR')?.value) {
+          this.permissions.push('ROLE_VISI_LAB_TEHNICAR')
+        }
+        if (this.editGroup.get('LAB_TEHNICAR')?.value) {
+          this.permissions.push('ROLE_LAB_TEHNICAR')
+        }
+        if (this.editGroup.get('MED_BIOHEMICAR')?.value) {
+          this.permissions.push('ROLE_MED_BIOHEMICAR')
+        }
+        if (this.editGroup.get('SPEC_MED_BIOHEMIJE')?.value) {
+          this.permissions.push('ROLE_SPEC_MED_BIOHEMIJE')
         }
         if (this.permissions.length == 0) {
             this.errorMessage = 'Izaberi barem jednu privilegiju!';
             return false;
         }
+
         return true;
     }
 

@@ -59,8 +59,8 @@ export class AdminAddEmployeeComponent implements OnInit {
     }
 
     addEmployee(): void {
-        if (!this.validateEntries())
-            return;
+        // if (!this.validateEntries())
+        //     return;
         if (!this.populateAndValidatePermissions())
             return;
 
@@ -77,6 +77,9 @@ export class AdminAddEmployeeComponent implements OnInit {
                 console.log("Error " + error.status);
                 if (error.status == 409) {
                     this.errorMessage = 'Email je zauzet!';
+                  this.snackBar.openWarningSnackBar("Email je zauzet!")
+                }else{
+                  this.snackBar.openErrorSnackBar("Popunite polja ispravno!")
                 }
             })
     }
@@ -87,7 +90,7 @@ export class AdminAddEmployeeComponent implements OnInit {
     checkEmailError(): void {
             // this.emailErrorMessage = "Email greska";
             this.snackBar.openErrorSnackBar("Pogresan format maila")
-        
+
     }
 
     /**
@@ -96,8 +99,8 @@ export class AdminAddEmployeeComponent implements OnInit {
      */
 
     validateEntries() : boolean {
-        var form = document.getElementsByClassName('needs-validation-1')[0] as HTMLFormElement;
-        this.checkEmailError();
+        var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+        // this.checkEmailError();
         form.classList.add('was-validated');
         console.log("LALALALLA " + form.checkValidity().valueOf())
         if(form.checkValidity() === false){
@@ -106,6 +109,8 @@ export class AdminAddEmployeeComponent implements OnInit {
 
         return true;
     }
+
+
 
     /**
      * Populates addGroup and validates it.

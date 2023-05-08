@@ -59,12 +59,12 @@ export class AdminSearchEmployeeComponent implements OnInit {
               this.userService.getDepartments().subscribe((response) => {
                 this.departments = response
             })
-    
+
             // Populate hospitals
             this.userService.getHospitals().subscribe((response) => {
                 this.hospitals = response
             })
-    
+
             // Get all users
             this.userService.getAllUsers(this.ime, this.prezime, this.selektovanaOrdinacija, this.selektovanaBolnica, this.deleted, this.page, this.PAGE_SIZE).subscribe((response) => {
                 this.userPage = response;
@@ -95,7 +95,7 @@ export class AdminSearchEmployeeComponent implements OnInit {
         if (this.selektovanaOrdinacija == "Odaberite odeljenje")
             this.selektovanaOrdinacija = ""
         else{
-          this.selektovanaOrdinacija = this.departments[Number(this.selektovanaOrdinacija)-1].name
+          //this.selektovanaOrdinacija = this.departments[Number(this.selektovanaOrdinacija)-1].name
         }
         if (this.selektovanaBolnica == "Odaberite bolnicu")
             this.selektovanaBolnica = ""
@@ -121,7 +121,7 @@ export class AdminSearchEmployeeComponent implements OnInit {
         clicks: 0
       };
       sortOrder: { [key: string]: number } = {};
-    
+
       sortColumn(column: string): void {
         if (this.sortState.column === column) {
           this.sortState.clicks++;
@@ -138,9 +138,9 @@ export class AdminSearchEmployeeComponent implements OnInit {
         }
         this.sortOrder[column] = this.sortOrder[column] || 0;
         this.sortOrder[column] = (this.sortOrder[column] + 1) % 3;
-    
+
         if (this.sortOrder[column] === 0) {
-    
+
           this.getUserList();
         } else {
             console.log("SORTIRAJ")
@@ -152,11 +152,11 @@ export class AdminSearchEmployeeComponent implements OnInit {
             if (aValue instanceof Date && bValue instanceof Date) {
               return (aValue.getTime() - bValue.getTime()) * factor;
             }
-    
+
             if (typeof aValue === 'string' && typeof bValue === 'string') {
               return aValue.localeCompare(bValue) * factor;
             }
-    
+
             if (aValue < bValue) {
               return -1 * factor;
             }
@@ -170,5 +170,5 @@ export class AdminSearchEmployeeComponent implements OnInit {
           })
         }
       }
-    
+
 }
