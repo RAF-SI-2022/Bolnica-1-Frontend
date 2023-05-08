@@ -36,7 +36,7 @@
               <select name="selektovanaOrdinacija" [(ngModel)]="selektovanaOrdinacija" class="form-select"
                 aria-label="Default select example" [ngModelOptions]="{standalone: true}">
                 <option selected>Odaberite odeljenje</option>
-                <option *ngFor="let department of departments" [value]="department.id">{{ department.name }}</option>
+                <option *ngFor="let department of departments" [value]="department.name">{{ department.name }}</option>
               </select>
               <div class="invalid-feedback">Izaberite odeljenje!</div>
             </div>
@@ -88,31 +88,31 @@
                 <i *ngIf="sortState.column === 'surname' && sortState.direction === 'desc'"
                   class="bi bi-caret-down-fill"></i>
                 </th>
-                <th (click)="sortColumn('dateOfBirth')">Datum rodjenja 
+                <th (click)="sortColumn('dateOfBirth')">Datum rodjenja
                   <i *ngIf="sortState.column === 'dateOfBirth' && sortState.direction === 'asc'"
                   class="bi bi-caret-up-fill"></i>
                 <i *ngIf="sortState.column === 'dateOfBirth' && sortState.direction === 'desc'"
                   class="bi bi-caret-down-fill"></i>
                 </th>
-                <th (click)="sortColumn('title')">Titula 
+                <th (click)="sortColumn('title')">Titula
                   <i *ngIf="sortState.column === 'title' && sortState.direction === 'asc'"
                   class="bi bi-caret-up-fill"></i>
                 <i *ngIf="sortState.column === 'title' && sortState.direction === 'desc'"
                   class="bi bi-caret-down-fill"></i>
                 </th>
-                <th (click)="sortColumn('profession')">Zanimanje 
+                <th (click)="sortColumn('profession')">Zanimanje
                   <i *ngIf="sortState.column === 'profession' && sortState.direction === 'asc'"
                   class="bi bi-caret-up-fill"></i>
                 <i *ngIf="sortState.column === 'profession' && sortState.direction === 'desc'"
                   class="bi bi-caret-down-fill"></i>
                 </th>
-                <th (click)="sortColumn('phone')">Broj telefona 
+                <th (click)="sortColumn('phone')">Broj telefona
                   <i *ngIf="sortState.column === 'phone' && sortState.direction === 'asc'"
                   class="bi bi-caret-up-fill"></i>
                 <i *ngIf="sortState.column === 'phone' && sortState.direction === 'desc'"
                   class="bi bi-caret-down-fill"></i>
                 </th>
-                <th (click)="sortColumn('email')">Email 
+                <th (click)="sortColumn('email')">Email
                   <i *ngIf="sortState.column === 'email' && sortState.direction === 'asc'"
                   class="bi bi-caret-up-fill"></i>
                 <i *ngIf="sortState.column === 'email' && sortState.direction === 'desc'"

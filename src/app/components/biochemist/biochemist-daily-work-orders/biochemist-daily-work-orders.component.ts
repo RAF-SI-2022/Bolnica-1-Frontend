@@ -22,7 +22,7 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
   labWorkOrderPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>()
 
   pageLaboratory: number = 0;
-  pageSize:number = 10;
+  pageSize:number = 999999999; // infinity
   totalLaboratory: number = 0;
 
   constructor(private laboratoryService: LaboratoryService, private router: Router,
