@@ -28,10 +28,13 @@ export class TechnicianIssuingResultsComponent implements OnInit {
   obradjen: OrderStatus = OrderStatus.OBRADJEN;
 
   constructor(private laboratoryServis: LaboratoryService, private snackBar: SnackbarServiceService, private authService: AuthService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
+    const now = new Date();
+    const before = new Date(0);
+
     this.form = this.formBuilder.group({
       lbp: ['', [Validators.required]],
-      from: ['', [Validators.required]],
-      to: ['', [Validators.required]],
+      from: [now.toISOString().slice(0,10), [Validators.required]],
+      to: [now.toISOString().slice(0,10), [Validators.required]],
     });
   }
 
@@ -41,17 +44,23 @@ export class TechnicianIssuingResultsComponent implements OnInit {
 
   findWorkOrders() {
     const workOrder = this.form.value;
-    workOrder.lbp = workOrder.lbp.split("-")[0];
+    console.log(workOrder.lbp+":before trimming")
+    // workOrder.lbp = workOrder.lbp.split("-")[0];
+    // workOrder.lbp = workOrder.lbp.trim().split("-")[0];
+    workOrder.lbp = workOrder.lbp.replace(/ /g, "_").split("-")[0];
+    workOrder.lbp = workOrder.lbp.split("_")[0];
     if (!this.validateFields) {
       return;
     }
-    console.log("usao u findWorkOrders u tsu")
+
+
+    console.log("usao u findWorkOrders u tsu:"+ workOrder.lbp)
     this.laboratoryServis.findWorkOrders(workOrder.lbp, workOrder.from, workOrder.to, '', this.page, this.pageSize).subscribe((response) => {
       this.labWorkOrderPage = response;
       this.labWorkOrderList = this.labWorkOrderPage.content;
       this.total = this.labWorkOrderPage.totalElements
       if(this.labWorkOrderList.length == 0){
-        this.snackBar.openWarningSnackBar("Nema uputa")
+        this.snackBar.openWarningSnackBar("Nema radnih naloga")
       }
     }, err => {
       this.snackBar.openErrorSnackBar("Greska")

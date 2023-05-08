@@ -66,7 +66,7 @@ export class DoctorMedicalChartComponent implements OnInit {
   public dateToPrescription: Date = new Date()
   public dateFromPrescription: Date = new Date()
   public dateToLabaratory: Date = new Date()
-  public dateFromLabaratory: Date = new Date()
+  public dateFromLabaratory: Date = new Date(0)
   medicalHistories: MedicalHistory[] = []
   examinationHistories: ExaminationHistory[] = []
   prescriptionHistories: PrescriptionDoneDto[] = []
@@ -136,6 +136,7 @@ export class DoctorMedicalChartComponent implements OnInit {
       dateToPrescription: '',
       deleteButton: '',
     })
+    
     this.labaratoryForm = this.formBuilder.group({
       dateFrom: '',
       dateTo: '',
@@ -393,8 +394,11 @@ export class DoctorMedicalChartComponent implements OnInit {
     if(this.pagePrescription == 0)
       this.pagePrescription = 1;
 
+    console.log("emica bebica")
+
     this.prescriptionService.getPrescriptions(this.lbz, this.dateFromPrescription, this.dateToPrescription, this.lbp, this.pagePrescription-1, this.pageSize).subscribe(
       response => {
+        console.log("emica uput")
         this.prescriptionPage = response
         this.prescriptionHistories = this.prescriptionPage.content
         this.totalPrescription = this.prescriptionPage.totalElements
@@ -402,6 +406,7 @@ export class DoctorMedicalChartComponent implements OnInit {
 
       })
   }
+
 
   getLabaratory(): void {
     if (this.pageLaboratory == 0)

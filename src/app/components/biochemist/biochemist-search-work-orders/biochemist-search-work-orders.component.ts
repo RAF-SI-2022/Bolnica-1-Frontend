@@ -63,7 +63,7 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit {
     this.dateTo.setHours(23, 59, 59, 999)
     sendData.lbp = sendData.lbp.split("-")[0].toString().trim();
     console.log("SALJEMM " + sendData.lpb)
-    this.laboratoryService.findWorkOrders(sendData.lbp, this.dateFrom, this.dateTo,
+    this.laboratoryService.findWorkOrders(sendData.lbp, sendData.dateFrom, sendData.dateTo,
       sendData.selectedStatus.toString(), this.page, this.PAGE_SIZE)
       .subscribe(res => {
         this.workOrdersPage = res

@@ -329,18 +329,18 @@
         <div class="container rounded bg-white mt-0 mb-5 p-3 py-5">
           <form [formGroup]="prescriptionForm" (submit)="getPrescriptions()" class="mb-5 needs-validation" novalidate>
             <div class="row">
-              <div class="col-md-4 offset-2">
-                <label class="labels">Od datuma</label>
-                <input [(ngModel)]="dateFromPrescription" name = "dateFrom" type="date" class="form-control" [ngModelOptions]="{standalone: true}" data-cy = "dateFrom" >
-              </div>
-              <div class="col-md-4">
-                <label class="labels">Do datuma</label>
-                <input [(ngModel)]="dateToPrescription" name = "dateTo" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">
-              </div>
+<!--              <div class="col-md-4 offset-2">-->
+<!--                <label class="labels">Od datuma</label>-->
+<!--                <input [(ngModel)]="dateFromPrescription" name = "dateFrom" type="date" class="form-control" [ngModelOptions]="{standalone: true}" data-cy = "dateFrom" >-->
+<!--              </div>-->
+<!--              <div class="col-md-4">-->
+<!--                <label class="labels">Do datuma</label>-->
+<!--                <input [(ngModel)]="dateToPrescription" name = "dateTo" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">-->
+<!--              </div>-->
 
-              <div class="mt-4 text-center">
-                <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
-              </div>
+<!--              <div class="mt-4 text-center">-->
+<!--                <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>-->
+<!--              </div>-->
 
               <div class="row py-5">
                 <table class="table table-hover" data-cy="table1">
@@ -398,7 +398,7 @@
 <!--&lt;!&ndash;                </div>&ndash;&gt;-->
 <!--              </div>-->
 <!--            </div>-->
-            <div *ngIf="idPrescription && !deleted">
+            <div *ngIf="idPrescription">
               <div class="row py-5">
                 <h2>Detalji uputa <b>{{idPrescription}}</b></h2>
                 <table class="table table-hover" data-cy="table1">
