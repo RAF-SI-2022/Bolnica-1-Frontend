@@ -46,7 +46,10 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
 
 
-  constructor(private formBuilder: FormBuilder, private labaratoryService: LaboratoryService, private snackBar: SnackbarServiceService) {
+  constructor(private formBuilder: FormBuilder,
+              private labaratoryService: LaboratoryService,
+              private snackBar: SnackbarServiceService,
+              private patientService: PatientService) {
     this.searchForm = this.formBuilder.group({
       name: ['', [Validators.required]]
     });
@@ -60,9 +63,11 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
       note: ''
     });
 
+    const now = new Date()
+
     this.searchVisitForm = this.formBuilder.group({
       name: '',
-      date: ' '
+      date: now.toISOString().slice(0,10)
     });
   }
 
@@ -79,11 +84,18 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
   }
 
   getPatientList() {
-    this.labaratoryService.getPatients(this.page, this.pageSize)
-      .subscribe((response) => {
-        this.patientPage = response
-        this.patientList = this.patientPage.content
-      })
+    // this.labaratoryService.getPatients(this.page, this.pageSize)
+    //   .subscribe((response) => {
+    //     this.patientPage = response
+    //     this.patientList = this.patientPage.content
+    //   })
+
+    this.patientService.getAllPatients("", "","", "", 0, 100).subscribe(res => {
+      this.patientList = res.content;
+      console.log("IMA NAS " + res.content.length)
+    }, err => {
+      console.log("GRESKA " + err.message)
+    })
   }
 
   countPatientByDay() {

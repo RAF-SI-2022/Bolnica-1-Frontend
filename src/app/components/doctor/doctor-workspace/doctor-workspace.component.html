@@ -19,7 +19,7 @@
   <div class="table-responsive">
     <div class="table-wrapper">
       <div class="table-title">
-        <h2><b>Zakazani termini</b></h2>
+        <h2><b>Danasnji zakazani termini</b></h2>
 
       </div>
 
@@ -69,7 +69,7 @@
 
             <!--*ngIf="patient.patientArrival.toString() === ceka.toString()"-->
 
-            
+
             <td ><button *ngIf="patient.patientArrival.toString() === 'CEKA' || patient.patientArrival.toString() === 'TRENUTNO'" (click)="startExam(patient)" class="btn btn-primary" >Pregled</button></td>
           </tr>
           </tbody>

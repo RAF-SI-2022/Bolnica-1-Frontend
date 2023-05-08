@@ -28,10 +28,13 @@ export class TechnicianIssuingResultsComponent implements OnInit {
   obradjen: OrderStatus = OrderStatus.OBRADJEN;
 
   constructor(private laboratoryServis: LaboratoryService, private snackBar: SnackbarServiceService, private authService: AuthService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
+    const now = new Date();
+    const before = new Date(0);
+
     this.form = this.formBuilder.group({
       lbp: ['', [Validators.required]],
-      from: ['', [Validators.required]],
-      to: ['', [Validators.required]],
+      from: [before.toISOString().slice(0,10), [Validators.required]],
+      to: [now.toISOString().slice(0,10), [Validators.required]],
     });
   }
 
