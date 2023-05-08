@@ -270,7 +270,7 @@ export class LaboratoryService {
     console.log(lbp)
     console.log(dateFrom.getTime())
     console.log(dateTo.getTime())
-    console.log(status)
+    console.log("status:"+ status)
 
     let httpParams = new HttpParams().append("lbp",lbp)
       .append("fromDate", dateFrom.getTime().toString())
@@ -280,6 +280,7 @@ export class LaboratoryService {
       .append("size",size)
 
     console.log("usao u servis!!!!!!!!!!!!!!!!!!")
+    console.log(httpParams.toString())
 
     return this.http.get<Page<LabWorkOrderNew>>(
       `${environmentLaboratory.apiURL}/work-orders/find_work_orders`,

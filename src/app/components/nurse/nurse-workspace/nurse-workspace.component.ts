@@ -171,22 +171,28 @@ export class NurseWorkspaceComponent implements OnInit {
           if (this.scheduledExams[i].doctorLbz.toString() == this.doctorLbz.toString()) {
             if(this.scheduledExams[i].patientArrival.toString() == PatientArrival.ZAKAZANO.toString()){
 
-              const examForPatient: ExamForPatient = {
-                id: this.scheduledExams[i].id,
-                lbp: this.scheduledExams[i].lbp,
-                name: patient.name,
-                surname: patient.surname,
-                dateOfBirth: patient.dateOfBirth,
-                gender: patient.gender,
-                patientArrival: this.scheduledExams[i].patientArrival,
-                examDate: this.scheduledExams[i].dateAndTime
-              };
+              const today = new Date();
+              const scheduledDate = new Date(this.scheduledExams[i].dateAndTime);
+              today.setHours(scheduledDate.getHours(), scheduledDate.getMinutes(), scheduledDate.getSeconds(), scheduledDate.getMilliseconds());
 
-              console.log(examForPatient.patientArrival)
-              console.log()
-              console.log("radim fork join " + examForPatient.lbp)
-              this.patients.push(examForPatient);
+              if (scheduledDate.getTime() === today.getTime()) {
 
+                const examForPatient: ExamForPatient = {
+                  id: this.scheduledExams[i].id,
+                  lbp: this.scheduledExams[i].lbp,
+                  name: patient.name,
+                  surname: patient.surname,
+                  dateOfBirth: patient.dateOfBirth,
+                  gender: patient.gender,
+                  patientArrival: this.scheduledExams[i].patientArrival,
+                  examDate: this.scheduledExams[i].dateAndTime
+                };
+
+                console.log(examForPatient.patientArrival)
+                console.log()
+                console.log("radim fork join " + examForPatient.lbp)
+                this.patients.push(examForPatient);
+              }
             }
           }
         });
