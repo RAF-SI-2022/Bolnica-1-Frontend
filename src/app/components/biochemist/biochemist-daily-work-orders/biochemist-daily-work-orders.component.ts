@@ -7,7 +7,7 @@ import {Page} from "../../../models/models";
 import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
 import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
 import {PatientService} from "../../../services/patient-service/patient.service";
-import {forkJoin, switchMap} from "rxjs";
+import {forkJoin, of, switchMap} from "rxjs";
 import {PatientGeneralDto} from "../../../models/patient/PatientGeneralDto";
 import {map} from "rxjs/operators";
 
@@ -49,44 +49,12 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
      if (this.pageLaboratory == 0)
        this.pageLaboratory = 1;
 
-     // samo neobradjeni
-    /* this.laboratoryService.getDailyWorkOrders( startOfDAY, endOfDay, OrderStatus.NEOBRADJEN.toString(),
-    this.pageLaboratory - 1, this.pageSize)
-      .pipe(
-        switchMap((res: Page<LabWorkOrderNew>) => {
-          const observables = res.content.map((labWorkOrder: LabWorkOrderNew) => {
-            return this.patientService.getPatientByLbp(labWorkOrder.lbp).pipe(
-              map((patient: PatientGeneralDto) => {
-                labWorkOrder.patient = patient;
-                return labWorkOrder;
-              })
-            );
-          });
-
-          return forkJoin(observables).pipe(
-            map((labWorkOrders: LabWorkOrderNew[]) => {
-              res.content = labWorkOrders;
-              return res;
-            })
-          );
-        })
-      )
-      .subscribe(
-        (res: Page<LabWorkOrderNew>) => {
-          this.labWorkOrderPage = res;
-          this.labWorkOrders = this.labWorkOrderPage.content;
-          this.totalLaboratory = this.labWorkOrderPage.totalElements;
-        },
-        (error: any) => {
-          console.error('Error fetching lab work orders:', error);
-        }
-      );*/
-
-     // i neobradjeni i u obradi
-
-     const neobradjenObs = this.laboratoryService.getDailyWorkOrders(startOfDAY, endOfDay, OrderStatus.NEOBRADJEN.toString(), this.pageLaboratory - 1, this.pageSize)
+       const neobradjenObs = this.laboratoryService.getDailyWorkOrders(startOfDAY, endOfDay, OrderStatus.NEOBRADJEN.toString(), this.pageLaboratory - 1, this.pageSize)
        .pipe(
          switchMap((res: Page<LabWorkOrderNew>) => {
+           if (res.content.length === 0) {
+             return of(res);
+           }
            const observables = res.content.map((labWorkOrder: LabWorkOrderNew) => {
              return this.patientService.getPatientByLbp(labWorkOrder.lbp).pipe(
                map((patient: PatientGeneralDto) => {
@@ -107,6 +75,9 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
      const uObradiObs = this.laboratoryService.getDailyWorkOrders(startOfDAY, endOfDay, OrderStatus.U_OBRADI.toString(), this.pageLaboratory - 1, this.pageSize)
        .pipe(
          switchMap((res: Page<LabWorkOrderNew>) => {
+           if (res.content.length === 0) {
+             return of(res);
+           }
            const observables = res.content.map((labWorkOrder: LabWorkOrderNew) => {
              return this.patientService.getPatientByLbp(labWorkOrder.lbp).pipe(
                map((patient: PatientGeneralDto) => {
@@ -133,7 +104,7 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
          this.totalLaboratory = this.labWorkOrders.length;
        }, (error: any) => {
          console.error('Error fetching lab work orders:', error);
-       });
+       });
 
   }
 

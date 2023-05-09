@@ -187,14 +187,14 @@
                   </thead>
                   <tbody>
                   <tr
-                    *ngFor="let examination of examinationHistories | paginate: {itemsPerPage: pageSize, currentPage: pageExamination, totalItems: totalExamination}; let i = index" (click)="onRowClickExamination(examination)">
+                    *ngFor="let examination of examinationHistories | paginate: {id: 'firstP', itemsPerPage: pageSize, currentPage: pageExamination, totalItems: totalExamination}; let i = index" (click)="onRowClickExamination(examination)">
                     <td>{{examination.examDate}}</td>
                     <td>{{examination.objectiveFinding}}</td>
                   </tr>
                   </tbody>
                 </table>
                 <div class="d-flex align-items-center justify-content-center h-100">
-                  <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeExamination($event)">
+                  <pagination-controls id="firstP" previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeExamination($event)">
                   </pagination-controls>
                 </div>
               </div>
@@ -305,7 +305,7 @@
                   </thead>
                   <tbody>
                   <tr
-                    *ngFor="let medical of medicalHistories | paginate: {itemsPerPage: pageSize, currentPage: pageMedical, totalItems: totalMedicalHistory}; let i = index">
+                    *ngFor="let medical of medicalHistories | paginate: {id: 'secondP', itemsPerPage: pageSize, currentPage: pageMedical, totalItems: totalMedicalHistory}; let i = index">
                     <td>{{medical.diagnosisCodeDto.code}}</td>
                     <td>{{medical.startDate}}</td>
                     <td>{{medical.endDate}}</td>
@@ -316,7 +316,7 @@
                   </tbody>
                 </table>
                 <div class="d-flex align-items-center justify-content-center h-100">
-                  <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeMedicalHistory($event)">
+                  <pagination-controls id="secondP" previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeMedicalHistory($event)">
                   </pagination-controls>
                 </div>
               </div>
@@ -358,7 +358,7 @@
                   </thead>
                   <tbody>
                   <tr
-                    *ngFor="let prescription of prescriptionHistories | paginate: {itemsPerPage: pageSize, currentPage: pagePrescription, totalItems: totalPrescription}; let i = index" (click)="onRowClick(prescription)">
+                    *ngFor="let prescription of prescriptionHistories | paginate: {id: 'thirdP', itemsPerPage: pageSize, currentPage: pagePrescription, totalItems: totalPrescription}; let i = index" (click)="onRowClick(prescription)">
                     <td>{{prescription.id}}</td>
                     <td>{{prescription.type}}</td>
                     <td>{{prescription.doctorLbz}}</td>
@@ -371,7 +371,7 @@
                 </table>
                 <div class="d-flex align-items-center justify-content-center h-100">
 
-                  <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangePrescription($event)">
+                  <pagination-controls id="thirdP" previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangePrescription($event)">
                   </pagination-controls>
                 </div>
               </div>
@@ -478,7 +478,7 @@
                     </thead>
                     <tbody>
                     <tr
-                      *ngFor="let lab of labWorkOrders | paginate: {itemsPerPage: pageSize, currentPage: pageLaboratory, totalItems: totalLaboratory}; let i = index">
+                      *ngFor="let lab of labWorkOrders | paginate: {id:'forthP', itemsPerPage: pageSize, currentPage: pageLaboratory, totalItems: totalLaboratory}; let i = index">
                     <!--sta je ID RADNOG NALOGA???  -->
                     <td>{{lab.id}}</td>
                     <td>{{lab.prescription.id}}</td>
@@ -493,7 +493,7 @@
                     </tbody>
                   </table>
                   <div class="d-flex align-items-center justify-content-center h-100">
-                    <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeLab($event)">
+                    <pagination-controls id="forthP" previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeLab($event)">
                     </pagination-controls>
                   </div>
                 </div>

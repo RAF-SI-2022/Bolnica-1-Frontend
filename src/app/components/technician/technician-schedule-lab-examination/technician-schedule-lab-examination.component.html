@@ -74,9 +74,8 @@
                           </thead>
 
                           <tbody>
-                          <tr
-                            *ngFor="let prescription of rawLabararatoryPrescriptions | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: totalSchedule}; let i = index" >
-                            <td>{{prescription.id}}</td>
+                            <tr *ngFor="let prescription of rawLabararatoryPrescriptions | paginate: {id: 'first-pagination', itemsPerPage: pageSize, currentPage: page, totalItems: totalSchedule}; let i = index">
+                           <td>{{prescription.id}}</td>
                             <td>{{prescription.type}}</td>
                             <td>{{prescription.doctorId}}</td>
                             <td>{{prescription.departmentToId}}</td>
@@ -95,7 +94,7 @@
                           </tbody>
                         </table>
                         <div class="d-flex align-items-center justify-content-center h-100">
-                          <pagination-controls previousLabel="Pret" nextLabel="Sled" >
+                          <pagination-controls id="first-pagination" previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
                           </pagination-controls>
                         </div>
                       </div>
@@ -216,9 +215,8 @@
                   </thead>
 
                   <tbody>
-                  <tr
-                    *ngFor="let exam of scheduledLabExaminations | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: totalView}; let i = index">
-                    <td>{{exam.id}}</td>
+                <tr *ngFor="let exam of scheduledLabExaminations | paginate: {id: 'second-pagination', itemsPerPage: pageSizeS, currentPage: pageS, totalItems: totalViewS}; let i = index">
+                  <td>{{exam.id}}</td>
                     <td>{{exam.departmentId}}</td>
                     <td>{{exam.lbp}}</td>
                     <td>{{exam.scheduledDate}}</td>
@@ -235,7 +233,7 @@
                 </table>
 
                 <div class="d-flex align-items-center justify-content-center h-100">
-                  <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeSecond($event)" >
+                  <pagination-controls  id="second-pagination" previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeSecond($event)" >
                   </pagination-controls>
                 </div>
 
