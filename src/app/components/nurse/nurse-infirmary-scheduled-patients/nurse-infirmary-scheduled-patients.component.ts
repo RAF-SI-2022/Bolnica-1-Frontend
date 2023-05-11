@@ -39,8 +39,12 @@ export class NurseInfirmaryScheduledPatientsComponent implements OnInit {
               private formBuilder: FormBuilder,
               private infirmaryService:InfirmaryService) {
 
+    const now = new Date();
+
     this.form = this.formBuilder.group({
       lbp: ['', [Validators.required]],
+      dateFrom: [now.toISOString().slice(0,10), [Validators.required]],
+      dateTo: [now.toISOString().slice(0,10), [Validators.required]],
     });
 
   }
@@ -60,24 +64,24 @@ export class NurseInfirmaryScheduledPatientsComponent implements OnInit {
     console.log("sending lbp: " + sendData.lpb)
 
 
-    const today = new Date();
-
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-
-
-    const formattedYesterday = yesterday.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    const formattedToday = today.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    const formattedTomorrow = tomorrow.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    // const today = new Date();
+    //
+    // const yesterday = new Date(today);
+    // yesterday.setDate(today.getDate() - 1);
+    // const tomorrow = new Date(today);
+    // tomorrow.setDate(today.getDate() + 1);
+    //
+    //
+    // const formattedYesterday = yesterday.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    // const formattedToday = today.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    // const formattedTomorrow = tomorrow.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
 
     // TODO AKO SE TRAZI DANASNJI ONDA SLATI dva ista datuma
 
     this.infirmaryService.findScheduledAppointmentWithFilter(sendData.lbp,
-      this.departmentIdNumber, new Date(formattedToday),
-      new Date(formattedToday), this.page,
+      this.departmentIdNumber, sendData.dateFrom,
+      sendData.dateTo, this.page,
       this.PAGE_SIZE).subscribe(
       res => {
         this.admissionPage = res

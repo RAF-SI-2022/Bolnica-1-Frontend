@@ -1,7 +1,7 @@
 export interface PatientStateDto{
   id: number;
   dateExamState: Date; // ovo je Date
-  timeExamState: Date; // ovo je Time
+  timeExamState: string; // ovo je Time
   temperature: number;
   systolicPressure: number;
   diastolicPressure: number;
