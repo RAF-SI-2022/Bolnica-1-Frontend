@@ -32,6 +32,8 @@ export class NurseInfirmaryRegisterStateComponent implements OnInit {
 
     const now = new Date();
 
+    //now.toISOString().slice(11,19)
+
     this.addGroup = this.formBuilder.group({
       temperature: ['', [Validators.required]],
       systolicPressure: ['', [Validators.required]],
@@ -71,6 +73,8 @@ export class NurseInfirmaryRegisterStateComponent implements OnInit {
     }
 
 
+    console.log("izmenjeno vreme+" + registerState.timeExamState)
+
     this.infirmaryService.createPatientState(registerState.dateExamState, registerState.timeExamState,
       registerState.temperature, registerState.systolicPressure, registerState.diastolicPressure,
       registerState.pulse, registerState.therapy, registerState.description, this.currentHospitalization.id)
@@ -80,6 +84,8 @@ export class NurseInfirmaryRegisterStateComponent implements OnInit {
       console.log("Error " + error.status);
       if (error.status == 409) {
         this.snackBar.openErrorSnackBar("Stanje pacijenta nije registrovano!")
+      } else{
+        this.snackBar.openErrorSnackBar("Greska!")
       }
     })
 

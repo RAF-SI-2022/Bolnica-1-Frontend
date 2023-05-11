@@ -477,7 +477,7 @@ export class InfirmaryService {
    * */
   public createPatientState(
     dateExamState: Date, //ovo je Date
-    timeExamState: Time, //ovo je Time
+    timeExamState: string, //ovo je Time
     temperature: number,
     systolicPressure: number,
     diastolicPressure: number,
@@ -491,9 +491,11 @@ export class InfirmaryService {
     console.log(dateExamState)
     console.log(timeExamState)
 
+    const timeExamStateWithSeconds = `${timeExamState}:00`;
+
     const patientStateCreateDto : PatientStateCreateDto = {
       dateExamState: dateExamState, //ovo je Date
-      timeExamState: timeExamState, //ovo je Time
+      timeExamState: timeExamStateWithSeconds, //ovo je Time
       temperature: temperature,
       systolicPressure: systolicPressure,
       diastolicPressure: diastolicPressure,

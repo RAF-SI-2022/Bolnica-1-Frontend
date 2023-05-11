@@ -50,7 +50,7 @@
           <tr
             *ngFor="let state of stateHistoryList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
           >
-            <td>{{state.dateExamState |date:'dd-MM-Y'}} {{state.timeExamState |date:'HH:mm'}}</td>
+            <td>{{state.dateExamState |date:'dd-MM-Y'}} {{state.timeExamState}}</td>
             <td>{{state.temperature}}</td>
             <td>{{state.systolicPressure}}</td>
             <td>{{state.diastolicPressure}}</td>
