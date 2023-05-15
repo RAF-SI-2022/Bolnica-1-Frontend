@@ -22,6 +22,12 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
   pageSize = 5
   totalSchedule = 0
   totalView = 0
+
+  pageS = 0;
+  pageSizeS = 5;
+  totalScheduleS = 0;
+  totalViewS = 0;
+
   patientPage: Page<Patient> = new Page<Patient>()
   rawLabaratoryPage: Page<Prescription> = new Page<Prescription>()
   scheduledLabExaminationPage: Page<ScheduledLabExamination> = new Page<ScheduledLabExamination>()
@@ -46,7 +52,10 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
 
 
-  constructor(private formBuilder: FormBuilder, private labaratoryService: LaboratoryService, private snackBar: SnackbarServiceService) {
+  constructor(private formBuilder: FormBuilder,
+              private labaratoryService: LaboratoryService,
+              private snackBar: SnackbarServiceService,
+              private patientService: PatientService) {
     this.searchForm = this.formBuilder.group({
       name: ['', [Validators.required]]
     });
@@ -60,9 +69,11 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
       note: ''
     });
 
+    const now = new Date()
+
     this.searchVisitForm = this.formBuilder.group({
       name: '',
-      date: ' '
+      date: now.toISOString().slice(0,10)
     });
   }
 
@@ -79,11 +90,18 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
   }
 
   getPatientList() {
-    this.labaratoryService.getPatients(this.page, this.pageSize)
-      .subscribe((response) => {
-        this.patientPage = response
-        this.patientList = this.patientPage.content
-      })
+    // this.labaratoryService.getPatients(this.page, this.pageSize)
+    //   .subscribe((response) => {
+    //     this.patientPage = response
+    //     this.patientList = this.patientPage.content
+    //   })
+
+    this.patientService.getAllPatients("", "","", "", 0, 100).subscribe(res => {
+      this.patientList = res.content;
+      console.log("IMA NAS " + res.content.length)
+    }, err => {
+      console.log("GRESKA " + err.message)
+    })
   }
 
   countPatientByDay() {
@@ -130,6 +148,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
   }
   //nerealizovani uputi
   findExaminations() {
+    console.log("Page " + this.page + " - " + this.pageS)
     this.lbp = this.searchForm.get('name')?.value
 
     if (this.page == 0)
@@ -151,10 +170,10 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
   //todo da dodaju na beku @RequestParam za datum i pacijenta
   listScheduledExaminations() {
-    if (this.page == 0) {
-      this.page = 1
+    if (this.pageS == 0) {
+      this.pageS = 1
     }
-
+    console.log(this.page + " " + this.pageSize + " - " + this.pageS + " " + this.pageSizeS)
 
 /*        this.lbp = this.searchVisitForm.get('name')?.value
         this.dateSearch = this.searchVisitForm.get('date')?.value
@@ -189,10 +208,10 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
       return;
     }
 
-    this.labaratoryService.listScheduledExaminationsByLbp(this.lbp, this.dateSearch, this.page - 1, this.pageSize).subscribe((response) => {
+    this.labaratoryService.listScheduledExaminationsByLbp(this.lbp, this.dateSearch, this.pageS - 1, this.pageSizeS).subscribe((response) => {
       this.scheduledLabExaminationPage = response
       this.scheduledLabExaminations = this.scheduledLabExaminationPage.content
-      this.totalView = this.scheduledLabExaminationPage.totalElements
+      this.totalViewS = this.scheduledLabExaminationPage.totalElements
       if(this.scheduledLabExaminations.length == 0){
         this.snackBar.openWarningSnackBar("Nema pregleda")
       }
@@ -234,12 +253,14 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
 
     onTableDataChange(event: any): void {
+        console.log("Classic called")
         this.page = event;
         this.findExaminations();
     }
 
   onTableDataChangeSecond(event: any): void {
-    this.page = event;
+    console.log("Classic called 2nd")
+    this.pageS = event;
     this.listScheduledExaminations();
   }
 

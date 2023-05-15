@@ -44,7 +44,7 @@
 
                       <div class="col-md-3"><label  class="labels">Krvna grupa</label>
                         <select [(ngModel)]="generalMedical.bloodType" name = "bloodType" class="form-select" id="krvnaGrupa" required
-                                aria-label="Default select example" [formControlName]="'bloodGroup'" data-cy = "bloodType">
+                                aria-label="Default select example" [formControlName]="'bloodGroup'" data-cy = "KrvnaGrupa">
                           <option value="A">A</option>
                           <option value="B">B</option>
                           <option value="0">0</option>
@@ -56,7 +56,7 @@
 
                       <div class="col-md-3"><label class="labels">Rh faktor</label>
                         <select [(ngModel)]="generalMedical.rh" name = "rh" class="form-select" id="rH" required
-                                aria-label="Default select example" [formControlName]="'rhFactor'" data-cy = "rhFactor">
+                                aria-label="Default select example" [formControlName]="'rhFactor'" data-cy = "RhFaktor">
                           <option value="+">+</option>
                           <option value="-">-</option>
 
@@ -65,10 +65,10 @@
 
                       <div class="mt-4 text-center">
 
-                        <button type="button" class="btn btn-primary" (click)="updateGeneral()"><i
+                        <button type="button" class="btn btn-primary" (click)="updateGeneral()" data-cy="btnIzmeni"><i
                           class="bi bi-pencil-square me-1"></i> Izmeni</button>
 
-                        <button type="submit" class="btn btn-primary ms-4" data-cy = "updateGeneral" ><i class="bi bi-save me-1"></i>Sacuvaj</button>
+                        <button type="submit" class="btn btn-primary ms-4" data-cy="btnSacuvaj" ><i class="bi bi-save me-1"></i>Sacuvaj</button>
 
                       </div>
                     </div>
@@ -98,13 +98,13 @@
                           <div class="mb-3">
                             <label for="alergen" class="form-label">Izaberi alergen:</label>
                             <select class="form-select" name="profession"  id="alergen" required
-                                    aria-label="Default select example" [formControlName]="'allergen'" data-cy = "allergen" >
+                                    aria-label="Default select example" [formControlName]="'allergen'" data-cy = "IzaberiAlergen" >
                               <!-- mozda ovde enum? -->
                               <option *ngFor="let item of allergies" [attr.data-id]="item.name" [value]="item.name">{{item.name}}
                               </option>
                             </select>
                           </div>
-                          <button type="submit" class="btn btn-primary" data-cy = "addAllergen" >Dodaj alergiju</button>
+                          <button type="submit" class="btn btn-primary" data-cy = "dodajAlergiju" >Dodaj alergiju</button>
                         </div>
                       </div>
                     </div>
@@ -132,16 +132,16 @@
                           <div class="mb-3">
                             <label for="vakcina" class="form-label">Izaberi vakcinu:</label>
                             <select class="form-select" name="profession"  id="vakcina" required
-                                    aria-label="Default select example" [formControlName]="'vaccine'" data-cy = "vaccine">
+                                    aria-label="Default select example" [formControlName]="'vaccine'" data-cy = "IzaberiVakcinu">
                               <option *ngFor="let item of vaccines" [attr.data-id]="item.name" [value]="item.name">{{item.name}}
                               </option>
                             </select>
                           </div>
                           <div class="mb-3">
                             <label for="datum" class="form-label">Datum primanja:</label>
-                            <input type="date" class="form-control" id="datum"[formControlName]="'dateOfReceiving'" >
+                            <input type="date" class="form-control" id="datum"[formControlName]="'dateOfReceiving'" data-cy="dateDatumPrimanja">
                           </div>
-                          <button type="submit" class="btn btn-primary" data-cy = "addVaccine" onclick="return confirm('Da li ste sigurni da želite da dodate novu vakcinu?')">Dodaj vakcinu</button>
+                          <button type="submit" class="btn btn-primary" data-cy = "brnDodajVakcinu" onclick="return confirm('Da li ste sigurni da želite da dodate novu vakcinu?')">Dodaj vakcinu</button>
                         </div>
                       </div>
                     </div>
@@ -187,14 +187,14 @@
                   </thead>
                   <tbody>
                   <tr
-                    *ngFor="let examination of examinationHistories | paginate: {itemsPerPage: pageSize, currentPage: pageExamination, totalItems: totalExamination}; let i = index" (click)="onRowClickExamination(examination)">
+                    *ngFor="let examination of examinationHistories | paginate: {id: 'firstP', itemsPerPage: pageSize, currentPage: pageExamination, totalItems: totalExamination}; let i = index" (click)="onRowClickExamination(examination)">
                     <td>{{examination.examDate}}</td>
                     <td>{{examination.objectiveFinding}}</td>
                   </tr>
                   </tbody>
                 </table>
                 <div class="d-flex align-items-center justify-content-center h-100">
-                  <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeExamination($event)">
+                  <pagination-controls id="firstP" previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeExamination($event)">
                   </pagination-controls>
                 </div>
               </div>
@@ -218,7 +218,7 @@
             <!--            </div>-->
             <div *ngIf="idExaminationHistory">
               <div class="row py-5">
-                <h2>Detalji uputa <b>{{idExaminationHistory}}</b></h2>
+                <h2>Detalji pregleda <b>{{idExaminationHistory}}</b></h2>
                 <table class="table table-hover" data-cy="table1">
                   <thead>
                   <tr>
@@ -305,7 +305,7 @@
                   </thead>
                   <tbody>
                   <tr
-                    *ngFor="let medical of medicalHistories | paginate: {itemsPerPage: pageSize, currentPage: pageMedical, totalItems: totalMedicalHistory}; let i = index">
+                    *ngFor="let medical of medicalHistories | paginate: {id: 'secondP', itemsPerPage: pageSize, currentPage: pageMedical, totalItems: totalMedicalHistory}; let i = index">
                     <td>{{medical.diagnosisCodeDto.code}}</td>
                     <td>{{medical.startDate}}</td>
                     <td>{{medical.endDate}}</td>
@@ -316,7 +316,7 @@
                   </tbody>
                 </table>
                 <div class="d-flex align-items-center justify-content-center h-100">
-                  <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeMedicalHistory($event)">
+                  <pagination-controls id="secondP" previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeMedicalHistory($event)">
                   </pagination-controls>
                 </div>
               </div>
@@ -329,18 +329,18 @@
         <div class="container rounded bg-white mt-0 mb-5 p-3 py-5">
           <form [formGroup]="prescriptionForm" (submit)="getPrescriptions()" class="mb-5 needs-validation" novalidate>
             <div class="row">
-              <div class="col-md-4 offset-2">
-                <label class="labels">Od datuma</label>
-                <input [(ngModel)]="dateFromPrescription" name = "dateFrom" type="date" class="form-control" [ngModelOptions]="{standalone: true}" data-cy = "dateFrom" >
-              </div>
-              <div class="col-md-4">
-                <label class="labels">Do datuma</label>
-                <input [(ngModel)]="dateToPrescription" name = "dateTo" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">
-              </div>
+<!--              <div class="col-md-4 offset-2">-->
+<!--                <label class="labels">Od datuma</label>-->
+<!--                <input [(ngModel)]="dateFromPrescription" name = "dateFrom" type="date" class="form-control" [ngModelOptions]="{standalone: true}" data-cy = "dateFrom" >-->
+<!--              </div>-->
+<!--              <div class="col-md-4">-->
+<!--                <label class="labels">Do datuma</label>-->
+<!--                <input [(ngModel)]="dateToPrescription" name = "dateTo" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">-->
+<!--              </div>-->
 
-              <div class="mt-4 text-center">
-                <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
-              </div>
+<!--              <div class="mt-4 text-center">-->
+<!--                <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>-->
+<!--              </div>-->
 
               <div class="row py-5">
                 <table class="table table-hover" data-cy="table1">
@@ -358,7 +358,7 @@
                   </thead>
                   <tbody>
                   <tr
-                    *ngFor="let prescription of prescriptionHistories | paginate: {itemsPerPage: pageSize, currentPage: pagePrescription, totalItems: totalPrescription}; let i = index" (click)="onRowClick(prescription)">
+                    *ngFor="let prescription of prescriptionHistories | paginate: {id: 'thirdP', itemsPerPage: pageSize, currentPage: pagePrescription, totalItems: totalPrescription}; let i = index" (click)="onRowClick(prescription)">
                     <td>{{prescription.id}}</td>
                     <td>{{prescription.type}}</td>
                     <td>{{prescription.doctorLbz}}</td>
@@ -371,7 +371,7 @@
                 </table>
                 <div class="d-flex align-items-center justify-content-center h-100">
 
-                  <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangePrescription($event)">
+                  <pagination-controls id="thirdP" previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangePrescription($event)">
                   </pagination-controls>
                 </div>
               </div>
@@ -398,7 +398,7 @@
 <!--&lt;!&ndash;                </div>&ndash;&gt;-->
 <!--              </div>-->
 <!--            </div>-->
-            <div *ngIf="idPrescription && !deleted">
+            <div *ngIf="idPrescription">
               <div class="row py-5">
                 <h2>Detalji uputa <b>{{idPrescription}}</b></h2>
                 <table class="table table-hover" data-cy="table1">
@@ -478,7 +478,7 @@
                     </thead>
                     <tbody>
                     <tr
-                      *ngFor="let lab of labWorkOrders | paginate: {itemsPerPage: pageSize, currentPage: pageLaboratory, totalItems: totalLaboratory}; let i = index">
+                      *ngFor="let lab of labWorkOrders | paginate: {id:'forthP', itemsPerPage: pageSize, currentPage: pageLaboratory, totalItems: totalLaboratory}; let i = index">
                     <!--sta je ID RADNOG NALOGA???  -->
                     <td>{{lab.id}}</td>
                     <td>{{lab.prescription.id}}</td>
@@ -493,7 +493,7 @@
                     </tbody>
                   </table>
                   <div class="d-flex align-items-center justify-content-center h-100">
-                    <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeLab($event)">
+                    <pagination-controls id="forthP" previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeLab($event)">
                     </pagination-controls>
                   </div>
                 </div>

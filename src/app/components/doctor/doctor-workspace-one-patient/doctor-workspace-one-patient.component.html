@@ -22,7 +22,7 @@
       <div class="col-md-10 border-right">
         <div class="p-3 py-5">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="text-right" style="font-weight: bold;">Pacijent</h3>
+            <h3 class="text-right" style="font-weight: bold;">Pregled pacijenta</h3>
           </div>
 
           <div class="row mt-2">
@@ -50,11 +50,11 @@
           </div>
           <div class="row mt-2">
             <div class="col-md-6">
-              <button class="btn btn-primary" (click)="goToUput()"><i class="bi bi-info-circle"></i> Uput</button>
+              <button class="btn btn-primary" (click)="goToUput()" data-cy="btnUput"><i class="bi bi-info-circle"></i> Uput</button>
 
             </div>
             <div class="col-md-6">
-              <button class="btn btn-primary" (click)="goToMedicalRecord()"><i class="bi bi-info-circle"></i> Karton</button>
+              <button class="btn btn-primary" (click)="goToMedicalRecord()" data-cy="btnKarton"><i class="bi bi-info-circle"></i> Karton</button>
             </div>
           </div>
           <div style="padding-top: 20px">
@@ -66,19 +66,19 @@
               <td><label class="label">Anamneza</label></td>
             </tr>
             <tr>
-              <td><textarea class="bi-textarea" placeholder="Tegobe" [formControlName]="'mainProblems'">Tegobe</textarea></td>
+              <td><textarea class="bi-textarea" placeholder="Tegobe" [formControlName]="'mainProblems'" data-cy="Tegobe">Tegobe</textarea></td>
             </tr>
             <tr>
-              <td><textarea class="bi-textarea" placeholder="Bolest" [formControlName]="'currDisease'">Bolest</textarea></td>
+              <td><textarea class="bi-textarea" placeholder="Bolest" [formControlName]="'currDisease'"  data-cy="Bolest">Bolest</textarea></td>
             </tr>
             <tr>
-              <td><textarea class="bi-textarea" placeholder="Licna anamneza" [formControlName]="'personalAnamnesis'">Licna amneza</textarea></td>
+              <td><textarea class="bi-textarea" placeholder="Licna anamneza" [formControlName]="'personalAnamnesis'" data-cy="LicnaAnamneza">Licna amneza</textarea></td>
             </tr>
             <tr>
-              <td><textarea class="bi-textarea" placeholder="Porodicna anamneza" [formControlName]="'familyAnamnesis'">Porodicna anamneza</textarea></td>
+              <td><textarea class="bi-textarea" placeholder="Porodicna anamneza" [formControlName]="'familyAnamnesis'" data-cy="PorodicnaAnamneza">Porodicna anamneza</textarea></td>
             </tr>
             <tr>
-              <td><textarea class="bi-textarea" placeholder="Misljenje pacijenta" [formControlName]="'patientOpinion'">Misljenje pacijenta</textarea></td>
+              <td><textarea class="bi-textarea" placeholder="Misljenje pacijenta" [formControlName]="'patientOpinion'" data-cy="MisljenjePacijenta">Misljenje pacijenta</textarea></td>
             </tr>
           </table>
 
@@ -88,44 +88,68 @@
               <td><label class="label" for="dijagnoza">Dijagnoza</label></td>
             </tr>
             <tr>
-              <td><textarea class="bi-textarea" placeholder="Objektivni nalaz" [formControlName]="'objectiveFinding'" required id="dijagnoza" name="dijagnoza" required >Objektivni nalaz</textarea>
+              <td><textarea class="bi-textarea" placeholder="Objektivni nalaz" [formControlName]="'objectiveFinding'" required id="dijagnoza" name="dijagnoza" required data-cy="ObjektivniNalaz">Objektivni nalaz</textarea>
             </tr>
           </table>
 
           <div *ngIf="!zavrseno">
             <button class="btn btn-primary" (click)="showElements()"> <i
-              class="bi bi-pencil-square me-1"></i>Dodati dijagnozu</button>
+              class="bi bi-pencil-square me-1"  data-cy="btnDijagnoza"></i>Dodati dijagnozu</button>
           </div>
 
           <div *ngIf="show" class="list-container">
-            <div class="dropdown">
-              <select [formControlName]="'selectedCode'" required>
-                <option value="" disabled selected>Sifra</option>
-                <option value="A15.3">A15.3</option>
-                <option value="D50">D50</option>
-                <option value="I10">I10</option>
-                <option value="I35.0">I35.0</option>
-                <option value="J11">J11</option>
-                <option value="J12.9">J12.9</option>
-                <option value="K35">K35</option>
-                <option value="K70.3">K70.3</option>
-                <option value="K71.0">K71.0</option>
-              </select>
-            </div>
-            <div *ngIf="show" class="dropdown">
-              <select [formControlName]="'treatmentResult'" required>
-                <option value="U_TOKU" selected>U_TOKU</option>
-                <option value="OPORAVLJEN">OPORAVLJEN</option>
-                <option value="PREMINUO">PREMINUO</option>
-                <option value="STALNE_POSLEDICE">STALNE_POSLEDICE</option>
-              </select>
-            </div>
-            <textarea *ngIf="show" required class="bi-textarea" placeholder="Opis tekuceg stanja" [formControlName]="'currStateDesc'" ></textarea>
+
+            <table>
+              <tr>
+                <td><label class="label" for="sifraDropdown">Sifra</label></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="dropdown" id="sifraDropdown">
+                    <select [formControlName]="'selectedCode'" required data-cy="Sifra">
+      <!--                <option value="" disabled selected>Sifra</option>-->
+                      <option value="A15.3">A15.3</option>
+                      <option value="D50">D50</option>
+                      <option value="I10">I10</option>
+                      <option value="I35.0">I35.0</option>
+                      <option value="J11">J11</option>
+                      <option value="J12.9">J12.9</option>
+                      <option value="K35">K35</option>
+                      <option value="K70.3">K70.3</option>
+                      <option value="K71.0">K71.0</option>
+                    </select>
+                  </div>
+                </td>
+              </tr>
+
+            </table>
+
+
+            <table>
+
+              <tr>
+
+              <td><label class="label" for="rezultatDropdown">Rezultat</label></td>
+              </tr>
+              <tr>
+                <div *ngIf="show" class="dropdown" id="rezultatDropdown">
+                  <select [formControlName]="'treatmentResult'" required data-cy="Rezultat">
+                    <option value="U_TOKU" selected>U_TOKU</option>
+                    <option value="OPORAVLJEN">OPORAVLJEN</option>
+                    <option value="PREMINUO">PREMINUO</option>
+                    <option value="STALNE_POSLEDICE">STALNE_POSLEDICE</option>
+                  </select>
+                </div>
+              </tr>
+
+            </table>
+
+            <textarea *ngIf="show" required class="bi-textarea" placeholder="Opis tekuceg stanja" [formControlName]="'currStateDesc'" data-cy="OpisStanja"></textarea>
           </div>
           <div *ngIf="show" data-toggle="buttons" class="btn-group bizmoduleselect">
             <label class="btn btn-outline-primary col-12 m-2">
               <div class="itemcontent ms-auto text-start ps-2">
-                <input type="checkbox" name="checkbox" id="checkbox" [formControlName]="'exists'">
+                <input type="checkbox" name="checkbox" id="checkbox" [formControlName]="'exists'" data-cy="cbDijagnoza">
                 <span class="m-0 p-2">Postojeca dijagnoza</span>
               </div>
             </label>
@@ -137,10 +161,10 @@
               <br>
             </tr>
             <tr>
-              <td><textarea class="bi-textarea" placeholder="Predlagane terapije" [formControlName]="'suggestedTherapies'">Predlagane</textarea></td>
+              <td><textarea class="bi-textarea" placeholder="Predlagane terapije" [formControlName]="'suggestedTherapies'" data-cy="PredlaganjeTerapije">Predlagane</textarea></td>
             </tr>
             <tr>
-              <td><textarea class="bi-textarea" placeholder="Savet" [formControlName]="'advice'">Savet</textarea></td>
+              <td><textarea class="bi-textarea" placeholder="Savet" [formControlName]="'advice'" data-cy="Savet">Savet</textarea></td>
             </tr>
           </table>
           <div class="checkbox" *ngIf="doctorSpecPov">
@@ -148,7 +172,7 @@
             <label for="checkbox">Poverljivo</label>
           </div>
           <div *ngIf="!zavrseno" class="mt-4 text-center">
-              <button class="btn btn-primary" (click)="showPopup($event)"><i
+              <button class="btn btn-primary" (click)="showPopup($event)" data-cy="btnSacuvaj"><i
                 class="bi bi-save me-1"></i> Sacuvaj</button>
           </div>
 
@@ -157,7 +181,7 @@
             <div class="popup">
               <p>Zelite da sacuvate izvestaj?</p>
               <div class="popup-buttons">
-                <button (click)="addReportt();hidePopup();">OK</button>
+                <button (click)="addReportt();hidePopup();" data-cy="btnOk">OK</button>
 
                 <button (click)="hidePopup()">Cancel</button>
               </div>

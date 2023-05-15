@@ -7,7 +7,7 @@ import {Page} from "../../../models/models";
 import {LabWorkOrderNew} from "../../../models/laboratory/LabWorkOrderNew";
 import {OrderStatus} from "../../../models/laboratory-enums/OrderStatus";
 import {PatientService} from "../../../services/patient-service/patient.service";
-import {forkJoin, switchMap} from "rxjs";
+import {forkJoin, of, switchMap} from "rxjs";
 import {PatientGeneralDto} from "../../../models/patient/PatientGeneralDto";
 import {map} from "rxjs/operators";
 
@@ -22,7 +22,7 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
   labWorkOrderPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>()
 
   pageLaboratory: number = 0;
-  pageSize:number = 5;
+  pageSize:number = 999999999; // infinity
   totalLaboratory: number = 0;
 
   constructor(private laboratoryService: LaboratoryService, private router: Router,
@@ -38,25 +38,6 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
   }
 
 
-  /*getWorkOrders(): void{
-
-    const startOfDAY = new Date()
-    startOfDAY.setHours(0, 0, 0, 0)
-
-    const endOfDay = new Date()
-    endOfDay.setHours(23, 59, 59, 999)
-
-
-    this.laboratoryService.getDailyWorkOrders(startOfDAY, endOfDay,
-      OrderStatus.NEOBRADJEN.toString(), this.pageLaboratory, this.pageSize)
-      .subscribe(res=>{
-        this.labWorkOrderPage = res
-        this.labWorkOrders = this.labWorkOrderPage.content
-        this.totalLaboratory = this.labWorkOrderPage.totalElements
-      })
-  }*/
-
-
    getWorkOrders(): void {
 
     const startOfDAY = new Date()
@@ -68,37 +49,63 @@ export class BiochemistDailyWorkOrdersComponent implements OnInit{
      if (this.pageLaboratory == 0)
        this.pageLaboratory = 1;
 
-    this.laboratoryService.getDailyWorkOrders( startOfDAY, endOfDay, OrderStatus.NEOBRADJEN.toString(),
-    this.pageLaboratory - 1, this.pageSize)
-      .pipe(
-        switchMap((res: Page<LabWorkOrderNew>) => {
-          const observables = res.content.map((labWorkOrder: LabWorkOrderNew) => {
-            return this.patientService.getPatientByLbp(labWorkOrder.lbp).pipe(
-              map((patient: PatientGeneralDto) => {
-                labWorkOrder.patient = patient;
-                return labWorkOrder;
-              })
-            );
-          });
+       const neobradjenObs = this.laboratoryService.getDailyWorkOrders(startOfDAY, endOfDay, OrderStatus.NEOBRADJEN.toString(), this.pageLaboratory - 1, this.pageSize)
+       .pipe(
+         switchMap((res: Page<LabWorkOrderNew>) => {
+           if (res.content.length === 0) {
+             return of(res);
+           }
+           const observables = res.content.map((labWorkOrder: LabWorkOrderNew) => {
+             return this.patientService.getPatientByLbp(labWorkOrder.lbp).pipe(
+               map((patient: PatientGeneralDto) => {
+                 labWorkOrder.patient = patient;
+                 return labWorkOrder;
+               })
+             );
+           });
+           return forkJoin(observables).pipe(
+             map((labWorkOrders: LabWorkOrderNew[]) => {
+               res.content = labWorkOrders;
+               return res;
+             })
+           );
+         })
+       );
 
-          return forkJoin(observables).pipe(
-            map((labWorkOrders: LabWorkOrderNew[]) => {
-              res.content = labWorkOrders;
-              return res;
-            })
-          );
-        })
-      )
-      .subscribe(
-        (res: Page<LabWorkOrderNew>) => {
-          this.labWorkOrderPage = res;
-          this.labWorkOrders = this.labWorkOrderPage.content;
-          this.totalLaboratory = this.labWorkOrderPage.totalElements;
-        },
-        (error: any) => {
-          console.error('Error fetching lab work orders:', error);
-        }
-      );
+     const uObradiObs = this.laboratoryService.getDailyWorkOrders(startOfDAY, endOfDay, OrderStatus.U_OBRADI.toString(), this.pageLaboratory - 1, this.pageSize)
+       .pipe(
+         switchMap((res: Page<LabWorkOrderNew>) => {
+           if (res.content.length === 0) {
+             return of(res);
+           }
+           const observables = res.content.map((labWorkOrder: LabWorkOrderNew) => {
+             return this.patientService.getPatientByLbp(labWorkOrder.lbp).pipe(
+               map((patient: PatientGeneralDto) => {
+                 labWorkOrder.patient = patient;
+                 return labWorkOrder;
+               })
+             );
+           });
+           return forkJoin(observables).pipe(
+             map((labWorkOrders: LabWorkOrderNew[]) => {
+               res.content = labWorkOrders;
+               return res;
+             })
+           );
+         })
+       );
+
+     forkJoin([neobradjenObs, uObradiObs])
+       .subscribe(([neobradjenRes, uObradiRes]) => {
+
+         const labWorkOrders = [...neobradjenRes.content, ...uObradiRes.content];
+         this.labWorkOrderPage = { ...neobradjenRes, content: labWorkOrders };
+         this.labWorkOrders = labWorkOrders;
+         this.totalLaboratory = this.labWorkOrders.length;
+       }, (error: any) => {
+         console.error('Error fetching lab work orders:', error);
+       });
+
   }
 
 
