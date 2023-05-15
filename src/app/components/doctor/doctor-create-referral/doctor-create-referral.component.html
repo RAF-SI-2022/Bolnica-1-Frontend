@@ -130,27 +130,23 @@
       <div class="tab-pane fade" id="bordered-justified-infirmary" role="tabpanel" aria-labelledby="contact-tab">
         <div class="container rounded bg-white mt-0 mb-4 p-3 py-5">
 
-          <form [formGroup]="referralForm" class="mb-5 needs-validation" novalidate>
+          <form [formGroup]="referralInfirmaryForm" class="mb-5 needs-validation" novalidate>
             <div class="card basic">
               <div class="card-body">
                 <div class="container">
-                  <div class="row">
-                    <div class="col-md-6">
                       <div class="row">
                         <div class="col-6">
-                          <label>Odaberite laboratorijske analize:</label>
-                          <select [(ngModel)]="selectedAnalysis" [formControlName]="'analysis'" id="analysisInfirmary" required
-                                  name="analysis" class="form-select" aria-label="Default select example" data-cy="AnalizeStacionar">
+                          <label>Odaberite uputnu dijagnozu:</label>
+                          <select [(ngModel)]="selectedAnalysis" [formControlName]="'analysisInfirmary'" id="analysisInfirmary" required
+                                  name="analysisInfirmary" class="form-select" aria-label="Default select example" data-cy="AnalizeStacionar">
                             <option *ngFor="let item of analysisSaBeka" [value]="item.id">{{item.analysisName}}</option>
                           </select>
                         </div>
+
                         <div class="col-12 mt-3">
-                          <button class="btn btn-outline-primary" (click)="getParams()" data-cy="btnDodajParametre">Dodaj parametre</button>
-                        </div>
-                        <div class="col-12 mt-3">
-                          <label class="labels">Komentar</label>
-                          <input name="comment" [formControlName]="'comment'" type="text" class="form-control"
-                                 id="commentInfirmary" placeholder="Unesite opcioni komentar" value="" data-cy="KomentarStacionar">
+                          <label class="labels">Razlog upućivanja</label>
+                          <input name="commentInfirmary" [formControlName]="'commentInfirmary'" type="text" class="form-control"
+                                 id="commentInfirmary" placeholder="Unesite ralog uputa" value="" data-cy="KomentarStacionar" required>
                         </div>
 
 
@@ -178,33 +174,13 @@
                             </div>
                           </div>
                         </div>
-
-
                       </div>
-                    </div>
-
-                    <div class="col-md-6">
-                      <label>Odaberite parametre:</label>
-                      <div *ngFor="let params of paramsList">
-                        <div class="form-check">
-                          <input class="" type="checkbox" id="{{ params.id }}"
-                                 name="{{ params.parameterName }}" (change)="onCheckboxChange($event, params.id)" data-cy="cbParametarStacionar"> &nbsp;
-                          <label class="form-check-label" for="{{ params }}"> {{ params.parameterName }}</label>
-                        </div>
-                      </div>
-                    </div>
-
-
-
-                  </div>
-
 
                   <div class="d-flex justify-content-center align-items-center">
                     <div class="row mt-3">
                       <div class="col-md-4">
                         <button type="submit" (click)="confirmInfirmaryUput()" class="btn btn-primary" data-cy="btnDodajStacionar"
                         >Dodaj</button>
-
                       </div>
                     </div>
                   </div>

@@ -80,10 +80,6 @@ export class DoctorCreateReferralComponent implements OnInit {
 
     }
 
-    // onOptionSelected(value: string) {
-    //     this.selectedOption = value;
-    // }
-
     isPopupVisible = false;
 
     ngOnInit(): void {
@@ -94,41 +90,14 @@ export class DoctorCreateReferralComponent implements OnInit {
       //});
     }
 
-    getLabDoctorDepartments(){
+
+  getLabDoctorDepartments(){
       this.getDepartments();
-      // this.getHospitals();
       this.lbz = this.authService.getLBZ();
       console.log(this.lbz);
       this.getLabAnalysis();
       this.getDoctorDepartment()
     }
-/*      ustanova: ['', [Validators.required]],
-      ustanova1: [new DeparmentShort(), [Validators.required]],
-      ustanova2: [new HospitalShort(), [Validators.required]],
-      ustanova3: [new HospitalShort(), [Validators.required]],
-      analysis: [new LabAnalysisDto(), [Validators.required]],
-      comment: ['', [Validators.required]],
-      refferalDiagnosis: ['', [Validators.required]],
-      referralReason: ['', [Validators.required]],
-      prescriptionAnalysisDtos: ['', [Validators.required]]
-    });
-  }
-  // onOptionSelected(value: string) {
-  //     this.selectedOption = value;
-  // }
-
-  isPopupVisible = false;
-
-  ngOnInit(): void {
-    this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
-    console.log(this.lbp);
-    this.getDepartments();
-    // this.getHospitals();
-    this.lbz = this.authService.getLBZ();
-    console.log(this.lbz);
-    this.getLabAnalysis();
-    this.getDoctorDepartment()
-  }*/
 
 
   getDoctorDepartment(): void {
@@ -146,12 +115,6 @@ export class DoctorCreateReferralComponent implements OnInit {
       })
   }
 
-  //  getHospitals(): void {
-  //   this.userService.getHospitals().subscribe(res=>{
-  //      this.hospitals = res;
-  //   });
-  // }
-
     showPopup(event: any): void {
         this.isPopupVisible = true;
     }
@@ -159,8 +122,21 @@ export class DoctorCreateReferralComponent implements OnInit {
     hidePopup(): void {
         this.isPopupVisible = false;
     }
+
   validateEntries() : boolean {
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    form.classList.add('was-validated');
+
+    if(form.checkValidity() === false){
+      return false;
+    }
+
+    return true;
+  }
+
+
+  validateInfirmaryEntries() : boolean {
+    var form = document.getElementsByClassName('needs-validation')[1] as HTMLFormElement;
     form.classList.add('was-validated');
 
     if(form.checkValidity() === false){
@@ -190,8 +166,6 @@ export class DoctorCreateReferralComponent implements OnInit {
       }
 
 
-
-
     const referral = this.referralForm.value;
     console.log("uput potvrdjen");
     console.log(this.selectedAnalysis);
@@ -204,10 +178,6 @@ export class DoctorCreateReferralComponent implements OnInit {
 
     console.log(this.prescriptionAnalyses1)
 
-    // this.patientService.writePerscription(PrescriptionType.LABORATORIJA, this.doctorId,this.departmentFromId,this.departmentToId,this.lbp,
-    //   new Date(),1,referral.comment, '','',this.prescriptionArray ).subscribe(res=>{
-    //   console.log(res)
-    // });
     this.prescriptionService.writeLabPerscription(
       this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArray
     ).subscribe(res => {
@@ -222,12 +192,28 @@ export class DoctorCreateReferralComponent implements OnInit {
       this.snackBar.openErrorSnackBar("Uput nije kreiran");
     }
     );
-
   }
+
+
 
   confirmInfirmaryUput(): void {
 
-    if(!this.validateEntries()){
+      // TODO ova stranica treba da ima dropdown dijagnoza i razlog textfield:
+      //  Tekst polje Razlog upućivanja (obavezan unos).
+      //  Dropdown selektor Uputna dijagnoza šifarnika MKB10. Obavezan odabir.
+      //  Zove se metoda iz prescriptionServisa
+      /*
+
+    this.prescriptionService.writeInfirmaryPerscription(
+    doctorLbz: string,
+    departmentFromId: number,
+    departmentToId: number = 0,
+    lbp: string,
+    referralDiagnosis: string,
+    referralReason: string )
+    */
+
+    if(!this.validateInfirmaryEntries()){
       this.snackBar.openErrorSnackBar("Popunite trazena polja!")
       return;
     }
@@ -256,10 +242,6 @@ export class DoctorCreateReferralComponent implements OnInit {
 
     console.log(this.prescriptionAnalyses1)
 
-    // this.patientService.writePerscription(PrescriptionType.LABORATORIJA, this.doctorId,this.departmentFromId,this.departmentToId,this.lbp,
-    //   new Date(),1,referral.comment, '','',this.prescriptionArray ).subscribe(res=>{
-    //   console.log(res)
-    // });
     this.prescriptionService.writeLabPerscription(
       this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArray
     ).subscribe(res => {
@@ -354,7 +336,6 @@ export class DoctorCreateReferralComponent implements OnInit {
       this.departmentToId = null;
     }
   }
-
 
   onDepartmentSelected(event: any) {
     this.selectedDepartment = event.target.value; // Update the selectedDepartment property with the new value
