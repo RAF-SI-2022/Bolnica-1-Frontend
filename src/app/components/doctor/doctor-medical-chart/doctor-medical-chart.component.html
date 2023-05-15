@@ -44,7 +44,7 @@
 
                       <div class="col-md-3"><label  class="labels">Krvna grupa</label>
                         <select [(ngModel)]="generalMedical.bloodType" name = "bloodType" class="form-select" id="krvnaGrupa" required
-                                aria-label="Default select example" [formControlName]="'bloodGroup'" data-cy = "bloodType">
+                                aria-label="Default select example" [formControlName]="'bloodGroup'" data-cy = "KrvnaGrupa">
                           <option value="A">A</option>
                           <option value="B">B</option>
                           <option value="0">0</option>
@@ -56,7 +56,7 @@
 
                       <div class="col-md-3"><label class="labels">Rh faktor</label>
                         <select [(ngModel)]="generalMedical.rh" name = "rh" class="form-select" id="rH" required
-                                aria-label="Default select example" [formControlName]="'rhFactor'" data-cy = "rhFactor">
+                                aria-label="Default select example" [formControlName]="'rhFactor'" data-cy = "RhFaktor">
                           <option value="+">+</option>
                           <option value="-">-</option>
 
@@ -65,10 +65,10 @@
 
                       <div class="mt-4 text-center">
 
-                        <button type="button" class="btn btn-primary" (click)="updateGeneral()"><i
+                        <button type="button" class="btn btn-primary" (click)="updateGeneral()" data-cy="btnIzmeni"><i
                           class="bi bi-pencil-square me-1"></i> Izmeni</button>
 
-                        <button type="submit" class="btn btn-primary ms-4" data-cy = "updateGeneral" ><i class="bi bi-save me-1"></i>Sacuvaj</button>
+                        <button type="submit" class="btn btn-primary ms-4" data-cy="btnSacuvaj" ><i class="bi bi-save me-1"></i>Sacuvaj</button>
 
                       </div>
                     </div>
@@ -98,13 +98,13 @@
                           <div class="mb-3">
                             <label for="alergen" class="form-label">Izaberi alergen:</label>
                             <select class="form-select" name="profession"  id="alergen" required
-                                    aria-label="Default select example" [formControlName]="'allergen'" data-cy = "allergen" >
+                                    aria-label="Default select example" [formControlName]="'allergen'" data-cy = "IzaberiAlergen" >
                               <!-- mozda ovde enum? -->
                               <option *ngFor="let item of allergies" [attr.data-id]="item.name" [value]="item.name">{{item.name}}
                               </option>
                             </select>
                           </div>
-                          <button type="submit" class="btn btn-primary" data-cy = "addAllergen" >Dodaj alergiju</button>
+                          <button type="submit" class="btn btn-primary" data-cy = "dodajAlergiju" >Dodaj alergiju</button>
                         </div>
                       </div>
                     </div>
@@ -132,16 +132,16 @@
                           <div class="mb-3">
                             <label for="vakcina" class="form-label">Izaberi vakcinu:</label>
                             <select class="form-select" name="profession"  id="vakcina" required
-                                    aria-label="Default select example" [formControlName]="'vaccine'" data-cy = "vaccine">
+                                    aria-label="Default select example" [formControlName]="'vaccine'" data-cy = "IzaberiVakcinu">
                               <option *ngFor="let item of vaccines" [attr.data-id]="item.name" [value]="item.name">{{item.name}}
                               </option>
                             </select>
                           </div>
                           <div class="mb-3">
                             <label for="datum" class="form-label">Datum primanja:</label>
-                            <input type="date" class="form-control" id="datum"[formControlName]="'dateOfReceiving'" >
+                            <input type="date" class="form-control" id="datum"[formControlName]="'dateOfReceiving'" data-cy="dateDatumPrimanja">
                           </div>
-                          <button type="submit" class="btn btn-primary" data-cy = "addVaccine" onclick="return confirm('Da li ste sigurni da želite da dodate novu vakcinu?')">Dodaj vakcinu</button>
+                          <button type="submit" class="btn btn-primary" data-cy = "brnDodajVakcinu" onclick="return confirm('Da li ste sigurni da želite da dodate novu vakcinu?')">Dodaj vakcinu</button>
                         </div>
                       </div>
                     </div>

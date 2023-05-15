@@ -11,7 +11,7 @@
 
       <li class="nav-item flex-fill" role="presentation">
         <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
-                data-bs-target="#bordered-justified-contact" type="button" role="tab" aria-controls="contact"
+                data-bs-target="#bordered-justified-contact" type="button"  data-cy="pregledTab" role="tab" aria-controls="contact"
                 aria-selected="false" tabindex="-1">Pregled zakazanih poseta</button>
       </li>
     </ul>
@@ -50,7 +50,7 @@
                       </div>
 
                       <div class="mt-4 text-center">
-                        <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi2">Nerealizovani uputi</button>
+                        <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi1">Nerealizovani uputi</button>
                       </div>
 
                       <div class="row py-5">
@@ -121,12 +121,12 @@
 
                           <div class="col-md-4">
                             <label for="datum1" class="labels">Datum </label>
-                            <input name = "date1" [formControlName]="'date'" type="date" class="form-control" id="datum1" required>
+                            <input name = "date1" [formControlName]="'date'" type="date" data-cy="date" class="form-control" id="datum1" required>
                           </div>
                           <button type="submit" class="btn btn-primary" data-cy="btnCount">Izracunaj</button>
                           <div class="col-md-4">
                             <label class="labels">Broj zakazanih pacijenata</label>
-                           <input name="numberOfScheduled" [(ngModel)]="numberOfScheduled" type="text" class="form-control" id="numberOfScheduled" placeholder=""
+                           <input name="numberOfScheduled" [(ngModel)]="numberOfScheduled" type="text" data-cy="brojZakazanih" class="form-control" id="numberOfScheduled" placeholder=""
                                    value=""  [formControlName]="'numberOfScheduled'">
 
                           </div>
@@ -150,7 +150,7 @@
                       <div class="row justify-content-center">
                         <div class="col-md-6 ">
                           <label class="labels">Napomena</label>
-                          <input [formControlName]="'note'" name="note"  type="text" class="form-control" id="note" placeholder="" value="">
+                          <input [formControlName]="'note'" name="note"  type="text" data-cy="napomena" class="form-control" id="note" placeholder="" value="">
                         </div>
                         <div class="col-md-12 mt-2 text-center">
                           <button type="submit" class="btn btn-primary" data-cy = "btnZakazi">Zakaži</button>
@@ -184,14 +184,14 @@
                         [searchable]="true"
                         bindLabel="lbp"
                         bindValue="id"
-                        data-cy="patients1">
+                        data-cy="patients2">
                 <ng-option *ngFor="let patient of patientList" [value]="patient.lbp">{{ patient.lbp }}</ng-option>
               </ng-select>
               </div>
 
               <div class="col-md-4 offset-4">
                 <label class="labels">Tačan datum</label>
-                <input [formControlName]="'date'"   name = "correctDate" type="date" class="form-control" data-cy = "correctDate" >
+                <input [formControlName]="'date'"   name = "correctDate" type="date" data-cy="date2" class="form-control" data-cy = "correctDate" >
               </div>
 
               <div class="mt-4 text-center">

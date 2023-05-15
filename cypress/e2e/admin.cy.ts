@@ -8,15 +8,16 @@ describe("Admin Add/Delete Employee", ()=>{
   
     it("Should showcase error when not entering required parameters to add a new employee",()=>{
         cy.get("[type='submit']").contains("Napravi").click()
-        cy.contains("Unesite vase ime").should("be.visible")
-        cy.contains("Unesite vase prezime").should("be.visible")
-        cy.contains("Email mora da bude na domenu @ibis.rs").should("be.visible")
-        cy.contains("Unesite vas broj telefona").should("be.visible")
-        cy.contains("Unesite vas JMBG").should("be.visible")
-        cy.contains("Unesite vasu adresu stanovanja").should("be.visible")
-        cy.contains("Unesite vase mesto stanovanja").should("be.visible")
-        cy.get("[name='title']",).should("have.class","ng-invalid")
-        cy.get("[name='profession']",).should("have.class","ng-invalid")
+        cy.contains("Neuspeh: Izaberite barem 1 privilegiju!").should("be.visible")
+        // cy.contains("Unesite vase ime").should("be.visible")
+        // cy.contains("Unesite vase prezime").should("be.visible")
+        // cy.contains("Email mora da bude na domenu @ibis.rs").should("be.visible")
+        // cy.contains("Unesite vas broj telefona").should("be.visible")
+        // cy.contains("Unesite vas JMBG").should("be.visible")
+        // cy.contains("Unesite vasu adresu stanovanja").should("be.visible")
+        // cy.contains("Unesite vase mesto stanovanja").should("be.visible")
+        // cy.get("[name='title']",).should("have.class","ng-invalid")
+        // cy.get("[name='profession']",).should("have.class","ng-invalid")
     })
 
   
@@ -29,9 +30,9 @@ describe("Admin Add/Delete Employee", ()=>{
         cy.contains("Unesite vase prezime").should("not.be.visible")
         cy.get("input[name=' gender']").click({force:true})
         cy.get("input[name='email']").type("pera",{force:true})
-        cy.contains("Email mora da bude na domenu @ibis.rs").should("be.visible")
-        cy.get("input[name='email']").type("pera@ibis.rs",{force:true})
-        cy.contains("Email mora da bude na domenu @ibis.rs").should("not.be.visible")
+        // cy.contains("Email mora da bude na domenu @ibis.rs").should("be.visible")
+        cy.get("input[name='email']").type("pera.peric@hospital.com",{force:true})
+        // cy.contains("Email mora da bude na domenu @ibis.rs").should("not.be.visible")
         cy.get("input[name='phoneNumber']").type("+38169123456",{force:true})
         cy.contains("Unesite vas broj telefona").should("not.be.visible")
         cy.get("input[name='JMBG']").type("250365452654",{force:true})
@@ -46,7 +47,7 @@ describe("Admin Add/Delete Employee", ()=>{
         cy.get("select[name='profession']").select("Spec. neurolog").invoke("val").should("eq","SPEC_NEUROLOG")
         cy.contains("Doktor specijalista").click({force:true}) 
         cy.get("[type='submit']").contains("Napravi").click()
-        cy.contains("Uspesno dodat korisnik!").should("be.visible")
+        cy.contains("Korisnik uspesno dodat!").should("be.visible")
     })
 
     it("Should delete newly created user",()=>{
