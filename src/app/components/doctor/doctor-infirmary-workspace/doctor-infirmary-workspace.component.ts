@@ -20,11 +20,13 @@ export class DoctorInfirmaryWorkspaceComponent implements OnInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute) {
-
     this.currentHospitalization = history.state.hospitalization;
+
   }
 
   ngOnInit(): void {
+    this.currentHospitalization = history.state.hospitalization;
+
     this.patientLbp = 'ema'
 
     this.patientLbp = <string>this.route.snapshot.paramMap.get('lbp');
