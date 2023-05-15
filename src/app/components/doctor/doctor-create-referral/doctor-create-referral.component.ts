@@ -211,22 +211,8 @@ export class DoctorCreateReferralComponent implements OnInit {
 
 
 
+
   confirmInfirmaryUput(): void {
-
-      // TODO ova stranica treba da ima dropdown dijagnoza i razlog textfield:
-      //  Tekst polje Razlog upućivanja (obavezan unos).
-      //  Dropdown selektor Uputna dijagnoza šifarnika MKB10. Obavezan odabir.
-      //  Zove se metoda iz prescriptionServisa
-      /*
-
-    this.prescriptionService.writeInfirmaryPerscription(
-    doctorLbz: string,
-    departmentFromId: number,
-    departmentToId: number = 0,
-    lbp: string,
-    referralDiagnosis: string,
-    referralReason: string )
-    */
 
     if(!this.validateInfirmaryEntries()){
       this.snackBar.openErrorSnackBar("Popunite trazena polja!")
