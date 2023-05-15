@@ -58,6 +58,7 @@ export class DoctorPatientsInfirmaryComponent implements OnInit {
     // this.lbz = this.authService.getLBZ();
     // console.log("lbz: " + this.lbz);
     this.populatePatients()
+    this.getHospitalization()
   }
 
 

@@ -47,7 +47,8 @@
             <th>Napomena</th>
             <th>Lbz radnika</th>
             <th>Status</th>
-            <th>Akcija</th>
+            <th>Prijem</th>
+            <th>Otkazivanje</th>
           </tr>
           </thead>
 
@@ -69,7 +70,9 @@
               <button (click)="registerAdmission(admission)" class="btn btn-primary" type="submit"
                       data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table"
                       data-cy="sacuvaj">Prijem</button>
+            </td>
 
+            <td *ngIf="admission.admissionStatus.toString() == 'ZAKAZAN'">
               <button (click)="cancelAdmission(admission)" class="btn btn-primary" type="submit"
                       data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table"
                       data-cy="sacuvaj">Otkazi</button>
