@@ -14,6 +14,7 @@ import { PrescriptionServiceService } from "../../../services/prescription-servi
 import { Patient } from "../../../models/patient/Patient";
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 import { interval } from 'rxjs';
+import {DiagnosisCode, DiagnosisCodeDto} from "../../../models/patient/DiagnosisCode";
 
 
 @Component({
@@ -29,6 +30,8 @@ export class DoctorCreateReferralComponent implements OnInit {
   selectedOption: string = '';
   departmentFromId: number = 0;
   departmentToId: number = 0;
+  departmentToIdInfirmary: number = 0;
+
   doctorId: number = 0;
   prescriptionAnalyses: string = '';
 
@@ -45,6 +48,8 @@ export class DoctorCreateReferralComponent implements OnInit {
   lbp = '';
 
   analysisSaBeka: LabAnalysisDto[] = [];
+  diagnosisSaBeka: DiagnosisCodeDto[] = [];
+
   analysisParams: ParameterDto[] = [];
 
   selectedAnalysis: number = 0;
@@ -53,10 +58,14 @@ export class DoctorCreateReferralComponent implements OnInit {
   // selectedHospital: HospitalShort = new HospitalShort();
 
   hospitals: DeparmentShort[] = []
+  hospitalsInfirmary: DeparmentShort[] = []
+
   selectedHospital: number = 0;
   departments: DeparmentShort[] = [];
 
   selectedDepartment: string = '';
+  selectedDepartmentInfirmary: string = '';
+
 
   referralForm: FormGroup;
   referralInfirmaryForm: FormGroup;
@@ -66,6 +75,8 @@ export class DoctorCreateReferralComponent implements OnInit {
   pageSizeHospital = 99999
   totalHospital = 0
   hospitalPage: Page<DeparmentShort> = new Page<DeparmentShort>()
+  hospitalPageInfirmary: Page<DeparmentShort> = new Page<DeparmentShort>()
+
 
   constructor(private prescriptionService: PrescriptionServiceService, private snackBar: SnackbarServiceService, private laboratoryService: LaboratoryService, private authService: AuthService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
     this.referralForm = this.formBuilder.group({
@@ -74,7 +85,7 @@ export class DoctorCreateReferralComponent implements OnInit {
       });
 
       this.referralInfirmaryForm = this.formBuilder.group({
-        analysisInfirmary: ['' ,[Validators.required]],
+        diagnosis: ['' ,[Validators.required]],
         commentInfirmary: ['', [Validators.required]],
       });
 
@@ -88,6 +99,10 @@ export class DoctorCreateReferralComponent implements OnInit {
       //interval(5000).subscribe(() => {
         this.getLabDoctorDepartments();
       //});
+
+      this.patientService.getDiagnosis().subscribe(res => {
+        this.diagnosisSaBeka = res;
+      });
     }
 
 
@@ -217,10 +232,7 @@ export class DoctorCreateReferralComponent implements OnInit {
       this.snackBar.openErrorSnackBar("Popunite trazena polja!")
       return;
     }
-    if(this.totalDepartmentsChecked == 0){
-      this.snackBar.openErrorSnackBar("Izaberite parametre")
-      return;
-    }
+
     if(this.totalHopsitalChecked == 0){
       this.snackBar.openErrorSnackBar("Izaberite bolnicu")
       return;
@@ -230,20 +242,14 @@ export class DoctorCreateReferralComponent implements OnInit {
       return;
     }
 
-    const referral = this.referralForm.value;
-    console.log("uput potvrdjen");
-    console.log(this.selectedAnalysis);
-    console.log("selected params: " + this.selectedParams);
+    const referral = this.referralInfirmaryForm.value;
+    // console.log("uput potvrdjen");
+    // console.log(this.selectedAnalysis);
+    // console.log("selected params: " + this.selectedParams);
 
-    this.prescriptionAnalyses1.analysisId = this.selectedAnalysis;
-    this.prescriptionAnalyses1.parametersIds = this.selectedParams;
 
-    this.prescriptionArray.push(this.prescriptionAnalyses1);
-
-    console.log(this.prescriptionAnalyses1)
-
-    this.prescriptionService.writeLabPerscription(
-      this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArray
+    this.prescriptionService.writeInfirmaryPerscription(
+      this.lbz, this.departmentFromId, this.departmentToIdInfirmary, this.lbp, referral.diagnosis, referral.commentInfirmary
     ).subscribe(res => {
         console.log(res)
         // this.errorMessage = '';
@@ -287,7 +293,7 @@ export class DoctorCreateReferralComponent implements OnInit {
 
 
   getHospitalsByDepName() {
-    console.log("name " + this.selectedDepartment)
+    console.log("name " + this.selectedDepartmentInfirmary)
 
     this.userService.getDepartmentForRefferal(this.selectedDepartment, this.page, this.pageSize).subscribe((res) => {
 
@@ -296,6 +302,20 @@ export class DoctorCreateReferralComponent implements OnInit {
       this.totalHospital = this.paramsPage.totalElements
       console.log(this.hospitals)
       if(this.hospitals.length == 0){
+        this.snackBar.openWarningSnackBar("Izaberite ustanovu")
+      }
+    })
+  }
+
+  getHospitalsByDepNameInfirmary() {
+    console.log("name " + this.selectedDepartmentInfirmary)
+
+    this.userService.getDepartmentForRefferal(this.selectedDepartmentInfirmary, this.page, this.pageSize).subscribe((res) => {
+      this.hospitalPageInfirmary = res
+      this.hospitalsInfirmary = this.hospitalPageInfirmary.content
+      this.totalHospital = this.paramsPage.totalElements
+      console.log(this.hospitalsInfirmary)
+      if(this.hospitalsInfirmary.length == 0){
         this.snackBar.openWarningSnackBar("Izaberite ustanovu")
       }
     })
@@ -329,7 +349,7 @@ export class DoctorCreateReferralComponent implements OnInit {
       // @ts-ignore
       this.departmentToId = id;
       this.totalHopsitalChecked++;
-      console.log("departmentToId " + this.departmentToId)
+      // console.log("departmentToId " + this.departmentToId)
     } else {
       this.totalHopsitalChecked--;
       // @ts-ignore
@@ -337,8 +357,25 @@ export class DoctorCreateReferralComponent implements OnInit {
     }
   }
 
+  onCheckboxChangeForHospitalInfirmary(event: any, id: number) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      // @ts-ignore
+      this.departmentToIdInfirmary = id;
+      this.totalHopsitalChecked++;
+    } else {
+      this.totalHopsitalChecked--;
+      // @ts-ignore
+      this.departmentToIdInfirmary = null;
+    }
+  }
+
   onDepartmentSelected(event: any) {
     this.selectedDepartment = event.target.value; // Update the selectedDepartment property with the new value
+  }
+
+  onDepartmentSelectedInfirmary(event: any) {
+    this.selectedDepartmentInfirmary = event.target.value; // Update the selectedDepartment property with the new value
   }
 
 

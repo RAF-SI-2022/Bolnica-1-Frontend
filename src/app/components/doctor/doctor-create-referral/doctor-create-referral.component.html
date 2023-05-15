@@ -137,9 +137,9 @@
                       <div class="row">
                         <div class="col-6">
                           <label>Odaberite uputnu dijagnozu:</label>
-                          <select [(ngModel)]="selectedAnalysis" [formControlName]="'analysisInfirmary'" id="analysisInfirmary" required
+                          <select [formControlName]="'diagnosis'" id="analysisInfirmary" required
                                   name="analysisInfirmary" class="form-select" aria-label="Default select example" data-cy="AnalizeStacionar">
-                            <option *ngFor="let item of analysisSaBeka" [value]="item.id">{{item.analysisName}}</option>
+                            <option *ngFor="let item of diagnosisSaBeka" [value]="item.code">{{item.code}}</option>
                           </select>
                         </div>
 
@@ -151,25 +151,25 @@
 
 
                         <div class="col-6 mt-3">
-                          <label for="department">Odeljenje na koje se upucuje:</label>
-                          <select [(ngModel)]="selectedDepartment" id="departmentInfrimary" name="department" class="form-select"
+                          <label [(ngModel)]="selectedDepartmentInfirmary" for="department">Odeljenje na koje se upucuje:</label>
+                          <select   id="departmentInfrimary" name="department" class="form-select"
                                   aria-label="Default select example" data-cy="OdeljenjeStacionar" required
-                                  (change)="onDepartmentSelected($event)">
+                                  (change)="onDepartmentSelectedInfirmary($event)">
                             <option *ngFor="let item of departments" [value]="item.name">{{item.name}}</option>
                           </select>
                         </div>
 
                         <div class="col-12 mt-3">
-                          <button class="btn btn-outline-primary" (click)="getHospitalsByDepName()" data-cy="btnUstanove">Pretrazi
+                          <button class="btn btn-outline-primary" (click)="getHospitalsByDepNameInfirmary()" data-cy="btnUstanove">Pretrazi
                             ustanove</button>
                         </div>
 
                         <div class="col-md-6">
                           <label>Zdravstvena ustanova u koju se upucuje:</label>
-                          <div *ngFor="let h of hospitals">
+                          <div *ngFor="let h of hospitalsInfirmary">
                             <div class="form-check">
                               <input class="" type="checkbox" id="departmentToIdInfirmary" name="departmentToId"
-                                     (change)="onCheckboxChangeForHospital($event, h.id)" data-cy="cbHospitalStacionar"> &nbsp;
+                                     (change)="onCheckboxChangeForHospitalInfirmary($event, h.id)" data-cy="cbHospitalStacionar"> &nbsp;
                               <label class="form-check-label" for="{{ h }}"> {{ h.hospitalName }}</label>
                             </div>
                           </div>
