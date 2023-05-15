@@ -130,9 +130,7 @@ export class DoctorCreateReferralComponent implements OnInit {
       })
   }
 
-    showPopup(event: any): void {
-        this.isPopupVisible = true;
-    }
+
 
     hidePopup(): void {
         this.isPopupVisible = false;
