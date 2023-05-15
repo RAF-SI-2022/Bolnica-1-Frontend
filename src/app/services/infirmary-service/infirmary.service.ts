@@ -239,14 +239,24 @@ export class InfirmaryService {
   }
 
   /**
-   * Pretraga otpusne liste po Id-u hospitalizacije
+   * Pretraga otpusne liste po Id-u hospitalizacije, datumu i lbp-u
    * */
   public getDischargeListByHospitalizationId(
-    hospitalizationId: number
+    hospitalizationId: number,
+    startDate: Date,
+    endDate: Date,
+    lbp: string,
+    page: number,
+    size: number
   ): Observable<DischargeListDto>{
 
     let httpParams = new HttpParams()
       .append("hospitalizationId", hospitalizationId)
+      .append("startDate", startDate.toString())
+      .append("endDate",endDate.toString())
+      .append("lbp", lbp)
+      .append("page", page)
+      .append("size",size)
 
     return this.http.get<DischargeListDto>(
       `${environmentInfirmary.apiURL}/dischargeList/getDischargeListByHospitalizationId`,

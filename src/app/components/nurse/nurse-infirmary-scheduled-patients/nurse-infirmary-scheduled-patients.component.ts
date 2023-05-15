@@ -52,6 +52,7 @@ export class NurseInfirmaryScheduledPatientsComponent implements OnInit {
   ngOnInit(): void {
     this.departmentIdNumber = parseInt(this.authService.getDepartmentId());
     this.populatePatients()
+    this.getScheduledAdmissions()
   }
 
 

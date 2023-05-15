@@ -29,11 +29,6 @@
                 aria-selected="false" tabindex="-1">Istorija laboratorijskih izveštaja</button>
       </li>
 
-      <li class="nav-item flex-fill" role="presentation">
-        <button class="nav-link w-100" id="history-tab-infirmary" data-bs-toggle="tab"
-                data-bs-target="#bordered-justified-history-infirmary" type="button" role="tab" aria-controls="history"
-                aria-selected="false" tabindex="-1">Istorija izveštaja stacionara</button>
-      </li>
 
       <li class="nav-item flex-fill" role="presentation">
         <button class="nav-link w-100" id="history-tab-discharge" data-bs-toggle="tab"
@@ -613,103 +608,6 @@
           <!--                </div>-->
           <!--              </form>-->
           <!--            </div>-->
-        </div>
-      </div>
-
-      <div class="tab-pane fade" id="bordered-justified-history-infirmary" role="tabpanel" aria-labelledby="history-tab">
-        <div class="container rounded bg-white mt-0 mb-5 p-3 py-5">
-          <form [formGroup]="prescriptionForm" (submit)="getPrescriptions()" class="mb-5 needs-validation" novalidate>
-            <div class="row">
-              <div class="col-md-4 offset-2">
-                <label class="labels">Od datuma</label>
-                <input [(ngModel)]="dateFromPrescription" name = "dateFrom" type="date" class="form-control" [ngModelOptions]="{standalone: true}" data-cy = "dateFrom" >
-              </div>
-              <div class="col-md-4">
-                <label class="labels">Do datuma</label>
-                <input [(ngModel)]="dateToPrescription" name = "dateTo" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">
-              </div>
-
-              <div class="mt-4 text-center">
-                <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
-              </div>
-
-              <div class="row py-5">
-                <table class="table table-hover" data-cy="table1">
-                  <thead>
-                  <tr>
-                    <th>ID izveštaja</th>
-                    <th>Lbz lekara specijaliste</th>
-                    <th>Datum i vreme kreiranja</th>
-
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td>ID izveštaja</td>
-                    <td>Lbz lekara specijaliste</td>
-                    <td>Datum i vreme kreiranja</td>
-<!--                    *ngFor="let prescription of prescriptionHistories | paginate: {itemsPerPage: pageSize, currentPage: pagePrescription, totalItems: totalPrescription}; let i = index" (click)="onRowClick(prescription)">-->
-<!--                    <td>{{prescription.id}}</td>-->
-<!--                    <td>{{prescription.type}}</td>-->
-<!--                    <td>{{prescription.doctorLbz}}</td>-->
-<!--                    <td>{{prescription.creationDateTime |date:'dd-MM-Y'}}</td>-->
-<!--                    <td>{{prescription.departmentFromId}}</td>-->
-<!--                    <td>{{prescription.departmentToId}}</td>-->
-<!--                    <td>{{prescription.status}}</td>-->
-                  </tr>
-                  </tbody>
-                </table>
-                <div class="d-flex align-items-center justify-content-center h-100">
-
-                  <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangePrescription($event)">
-                  </pagination-controls>
-                </div>
-              </div>
-
-            </div>
-
-            <div *ngIf="idPrescription && !deleted">
-              <div class="row py-5">
-                <h2>Detalji uputa <b>{{idPrescription}}</b></h2>
-                <table class="table table-hover" data-cy="table1">
-                  <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Tip</th>
-                    <th>Iz kog departmana</th>
-                    <th>U koji departman</th>
-                    <th>Doktor LBZ</th>
-                    <th>Komentar</th>
-                    <th>Datum i vreme</th>
-                    <th>Status</th>
-                    <th>Akcija</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <ng-container *ngFor="let prescription of prescriptionHistories">
-                      <ng-container *ngIf="prescription.id === idPrescription">
-                        <td>{{prescription.id}}</td>
-                        <td>{{prescription.type}}</td>
-                        <td>{{prescription.departmentFromId}}</td>
-                        <td>{{prescription.departmentToId}}</td>
-                        <td>{{prescription.doctorLbz}}</td>
-                        <td>{{prescription.comment}}</td>
-                        <td>{{prescription.creationDateTime |date:'dd-MM-Y'}}</td>
-                        <td>{{prescription.status}}</td>
-                        <td>
-                          <a *ngIf="!check(prescription.status)" (click)="deletePrescription(prescription.id)" class="delete" title="Obrisi" data-toggle="tooltip"> <i class="bi bi-x-circle-fill"></i>
-                          </a>
-                        </td>
-                      </ng-container>
-                    </ng-container>
-                  </tr>
-
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </form>
         </div>
       </div>
 
