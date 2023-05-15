@@ -5,7 +5,7 @@ describe("Nurse Add Patient", ()=>{
         cy.login("james.williams","password","/nurse-workspace")
         cy.visit("/nurse-add-patient")
     })
-  
+
     it("Should showcase error when not entering required parameters to add a new patient",()=>{
         cy.get("[data-cy='button']").contains("Napravi").click()
         cy.contains("Unesite vase ime").should("be.visible")
@@ -18,7 +18,7 @@ describe("Nurse Add Patient", ()=>{
         cy.contains("Unesite mesto rodjenja!").should("be.visible")
     })
 
-  
+
     it("Should unmark fields after entering valid inputs and save the new patient",()=>{
         cy.get("[class='bi bi-list toggle-sidebar-btn']").click({force:true})
         cy.get("[data-cy='button']").contains("Napravi").click()
@@ -56,7 +56,7 @@ describe("Nurse Edit Patient", ()=>{
     beforeEach(()=>{
         cy.login("lisa.jones","password","/nurse-workspace")
         cy.visit("/nurse-search-patients")
-    })    
+    })
 
     it("Should edit newly created patient and then delete the user",()=>{
         cy.get("[data-cy='ime']").clear().type("Pera",{force:true})
@@ -75,25 +75,25 @@ describe("Nurse Edit Patient", ()=>{
 describe("Nurse Schedule Appointment and Status change", ()=>{
     beforeEach(()=>{
         cy.login("lisa.jones","password","/nurse-workspace")
-    })    
+    })
 
     it("Should add a patient appointment to a doctor",()=>{
         cy.visit("/nurse-schedule-appointment")
         cy.get("[data-cy='doctorSelect']").click()
-        cy.get("[ng-reflect-ng-item-label='Mike Brown']").click({force:true})
+        cy.get("[ng-reflect-ng-item-label='Jane Smith']").click({force:true})
         cy.get("[data-cy='pretraziButton']").click()
-        cy.get("[data-date='1682497800000']").click({force:true})
+        cy.get("[data-date='1684168200000']").click({force:true})
         cy.get("[data-cy='razlog']").select('Pregled')
         cy.get("[data-cy='patient']").click()
         cy.get("[ng-reflect-ng-item-label='Adam Lee']").click({force:true})
-        cy.get("[class='e-input-group-icon e-time-icon e-icons']").click()
-        cy.get("[class='e-datetimepicker e-popup e-lib e-control e-popup-open']").contains("12:00 PM").click()
+        // cy.get("[class='e-input-group-icon e-time-icon e-icons']").click()
+        // cy.get("[class='e-datetimepicker e-popup e-lib e-control e-popup-open']").contains("12:00 PM").click()
         cy.get("[data-cy='dodajBtn']").click()
     })
 
-    it("Should add a patient appointment to a doctor",()=>{
+    it("Should set the patient to waiting",()=>{
         cy.get("[data-cy='doctorSelect']").click()
-        cy.get("[ng-reflect-ng-item-label='Mike Brown']").click({force:true})
+        cy.get("[ng-reflect-ng-item-label='Jane Smith']").click({force:true})
         cy.get("[data-cy='pretraziBtn']").click()
         cy.get("[data-cy='selectStatus']").last().select('CEKA')
         cy.get("[data-cy='azurirajBtn']").last().click()
