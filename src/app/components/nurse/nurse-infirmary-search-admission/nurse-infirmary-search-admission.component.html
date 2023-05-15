@@ -42,7 +42,7 @@
       <div class="mt-4 text-center">
         <button (click)="getScheduledAdmissions()" class="btn btn-primary" type="submit" data-toggle="collapse"
                 data-target="#search-table" aria-expanded="false" aria-controls="search-table"
-                data-cy="pretrazi">Pretrazi</button>
+                data-cy="btnPretrazi">Pretrazi</button>
       </div>
 
       <div class="row py-5">
@@ -76,7 +76,7 @@
             <td *ngIf="admission.admissionStatus.toString() == 'ZAKAZAN'">
               <button (click)="cancelAdmission(admission)" class="btn btn-primary" type="submit"
                       data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table"
-                      data-cy="sacuvaj">Otkazi</button>
+                      data-cy="btnOtkazi">Otkazi</button>
             </td>
 
           </tr>

@@ -62,14 +62,6 @@
           </thead>
 
           <tbody>
-          <tr (click) = "goToWorkspaceEmpty()">
-            <td>27</td>
-            <td>P0002</td>
-            <td>Ema</td>
-            <td>Stojanovic</td>
-            <td>27.10.2000.</td>
-          </tr>
-
 
           <tr
             *ngFor="let hospitalizationDto of hospitalizationList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
