@@ -59,6 +59,7 @@ export class DoctorCreateReferralComponent implements OnInit {
   selectedDepartment: string = '';
 
   referralForm: FormGroup;
+  referralInfirmaryForm: FormGroup;
   userEdit: AdminPromeniZaposlenog = new AdminPromeniZaposlenog();
 
   pageHospital = 0
@@ -68,18 +69,17 @@ export class DoctorCreateReferralComponent implements OnInit {
 
   constructor(private prescriptionService: PrescriptionServiceService, private snackBar: SnackbarServiceService, private laboratoryService: LaboratoryService, private authService: AuthService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
     this.referralForm = this.formBuilder.group({
-
-        // ustanova: ['', [Validators.required]],
-        // ustanova1: [new DeparmentShort(), [Validators.required]],
-        // ustanova2: [new HospitalShort(), [Validators.required]],
-        // ustanova3: [new HospitalShort(), [Validators.required]],
         analysis: ['' ,[Validators.required]],
         comment: ['', [Validators.required]],
-        // refferalDiagnosis: ['', [Validators.required]],
-        // referralReason: ['', [Validators.required]],
-        // prescriptionAnalysisDtos: ['', [Validators.required]]
       });
+
+      this.referralInfirmaryForm = this.formBuilder.group({
+        analysisInfirmary: ['' ,[Validators.required]],
+        commentInfirmary: ['', [Validators.required]],
+      });
+
     }
+
     // onOptionSelected(value: string) {
     //     this.selectedOption = value;
     // }
@@ -170,7 +170,7 @@ export class DoctorCreateReferralComponent implements OnInit {
     return true;
   }
 
-    confirmUput(): void {
+  confirmUput(): void {
 
       if(!this.validateEntries()){
         this.snackBar.openErrorSnackBar("Popunite trazena polja!")
@@ -221,6 +221,58 @@ export class DoctorCreateReferralComponent implements OnInit {
       // this.errorMessage = 'ERROR: Uput nije kreiran!';
       this.snackBar.openErrorSnackBar("Uput nije kreiran");
     }
+    );
+
+  }
+
+  confirmInfirmaryUput(): void {
+
+    if(!this.validateEntries()){
+      this.snackBar.openErrorSnackBar("Popunite trazena polja!")
+      return;
+    }
+    if(this.totalDepartmentsChecked == 0){
+      this.snackBar.openErrorSnackBar("Izaberite parametre")
+      return;
+    }
+    if(this.totalHopsitalChecked == 0){
+      this.snackBar.openErrorSnackBar("Izaberite bolnicu")
+      return;
+    }
+
+    if(!confirm('Da li ste sigurni da želite da napravite uput?')){
+      return;
+    }
+
+    const referral = this.referralForm.value;
+    console.log("uput potvrdjen");
+    console.log(this.selectedAnalysis);
+    console.log("selected params: " + this.selectedParams);
+
+    this.prescriptionAnalyses1.analysisId = this.selectedAnalysis;
+    this.prescriptionAnalyses1.parametersIds = this.selectedParams;
+
+    this.prescriptionArray.push(this.prescriptionAnalyses1);
+
+    console.log(this.prescriptionAnalyses1)
+
+    // this.patientService.writePerscription(PrescriptionType.LABORATORIJA, this.doctorId,this.departmentFromId,this.departmentToId,this.lbp,
+    //   new Date(),1,referral.comment, '','',this.prescriptionArray ).subscribe(res=>{
+    //   console.log(res)
+    // });
+    this.prescriptionService.writeLabPerscription(
+      this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArray
+    ).subscribe(res => {
+        console.log(res)
+        // this.errorMessage = '';
+        // this.successMessage = 'Uspesno dodat uput!';
+        this.snackBar.openSuccessSnackBar("Uspesno dodat uput!")
+      }, error => {
+        console.log("Error " + error.status);
+        // this.successMessage = '';
+        // this.errorMessage = 'ERROR: Uput nije kreiran!';
+        this.snackBar.openErrorSnackBar("Uput nije kreiran");
+      }
     );
 
   }

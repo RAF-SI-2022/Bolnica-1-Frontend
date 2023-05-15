@@ -11,6 +11,9 @@ import {AuthService} from "../../../services/auth.service";
 import {UserService} from "../../../services/user-service/user.service";
 import {PatientService} from "../../../services/patient-service/patient.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {InfirmaryService} from "../../../services/infirmary-service/infirmary.service";
+import {PrescriptionType} from "../../../models/laboratory-enums/PrescriptionType";
+import {PrescriptionStatus} from "../../../models/laboratory-enums/PrescriptionStatus";
 
 @Component({
   selector: 'app-doctor-infirmary-create-referral',
@@ -62,7 +65,16 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
   totalHospital = 0
   hospitalPage: Page<DeparmentShort> = new Page<DeparmentShort>()
 
-  constructor(private prescriptionService: PrescriptionServiceService, private snackBar: SnackbarServiceService, private laboratoryService: LaboratoryService, private authService: AuthService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
+  constructor(private prescriptionService: PrescriptionServiceService,
+              private snackBar: SnackbarServiceService,
+              private laboratoryService: LaboratoryService,
+              private authService: AuthService,
+              private userService: UserService,
+              private patientService: PatientService,
+              private formBuilder: FormBuilder,
+              private router: Router,
+              private route: ActivatedRoute,
+              private infirmaryService: InfirmaryService) {
     this.referralForm = this.formBuilder.group({
 
       // ustanova: ['', [Validators.required]],
@@ -204,8 +216,11 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
     //   new Date(),1,referral.comment, '','',this.prescriptionArray ).subscribe(res=>{
     //   console.log(res)
     // });
-    this.prescriptionService.writeLabPerscription(
-      this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArray
+
+    this.infirmaryService.sendPrescriptionToLab(
+      PrescriptionType.STACIONAR, this.lbz, this.departmentFromId, this.departmentToId, this.lbp,
+       new Date(), PrescriptionStatus.NEREALIZOVAN, referral.comment,
+      "dijagnoza", "razlog",this.prescriptionArray
     ).subscribe(res => {
         console.log(res)
         // this.errorMessage = '';
