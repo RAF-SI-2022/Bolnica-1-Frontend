@@ -137,17 +137,18 @@
         <p class="text-center"><b>Odabrana soba: {{selectedRoomNumber}}</b></p>
       </div>
 
-
-<!--   by ems   <div class="row py-5" *ngIf="roomBoolean">-->
-      <div class="row py-5" >
+      <div class="row py-5" *ngIf="roomBoolean">
+<!--      <div class="row py-5" >-->
 
         <div class="col-md-4">
           <label for="doctor">Doktor</label>
 
-          <ng-select class="custom" [formControlName]="selectedDoctor" [(ngModel)]="selectedDoctor" id="doctor" name="doctor" required [searchable]="true"
-                      data-cy="doctorSelect">
+          <ng-select class="custom" [(ngModel)]="selectedDoctor" id="doctor" name="doctor" required [searchable]="true"
+                     bindLabel="name" bindValue="name" data-cy="doctorSelect"
+                     (change)="onDoctorSelected($event)">
             <ng-option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
           </ng-select>
+
         </div>
 
 

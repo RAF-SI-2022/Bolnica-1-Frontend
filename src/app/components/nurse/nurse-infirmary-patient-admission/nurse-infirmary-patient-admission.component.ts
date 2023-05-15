@@ -159,6 +159,8 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     const sendData = this.form.value;
     console.log("discharge list date:"+ sendData.dischargeDateAndTime);
 
+    console.log("doctor lbz:" + this.selectedDoctor)
+
     if(this.selectedDoctor.length == 0){
       this.snackBar.openWarningSnackBar("Izaberite doktora")
       return;
@@ -168,9 +170,6 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
       this.snackBar.openErrorSnackBar("Izaberite uput!");
       return;
     }
-
-    console.log("doctor lbz:" + this.selectedDoctor)
-
 
 
     if (this.patientLbp == '') {
@@ -268,5 +267,11 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     this.page = event;
     this.getPrescription();
   }
+
+  onDoctorSelected(selectedDoctor: string) {
+    this.selectedDoctor = selectedDoctor
+    console.log("ema:"+selectedDoctor);
+  }
+
 
 }

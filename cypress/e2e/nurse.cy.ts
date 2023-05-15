@@ -1,5 +1,26 @@
 /// <reference types="cypress" />
 
+describe("Nurse Search Infirmary Admission", ()=>{
+  beforeEach(()=>{
+    cy.login("lisa.jones","password","/nurse-workspace")
+    cy.visit("/nurse-infirmary-search-admission")
+  })
+
+  it("Should search admissions and cancel last one",()=>{
+
+    cy.get("[data-cy='dateFrom']").type("1988-05-15")
+    cy.get("[data-cy='dateTo']").type("2023-05-18")
+    cy.get("[data-cy='btnPretrazi']").contains("Pretrazi").click()
+
+    cy.contains("ZAKAZAN").should("be.visible")
+    cy.get("[data-cy='btnOtkazi']").contains("Otkazi").last().click()
+    cy.contains("Uspesno otkazan prijem!").should("be.visible")
+
+  })
+
+})
+
+
 describe("Nurse Add Patient", ()=>{
     beforeEach(()=>{
         cy.login("james.williams","password","/nurse-workspace")
@@ -100,3 +121,5 @@ describe("Nurse Schedule Appointment and Status change", ()=>{
     })
 
 })
+
+
