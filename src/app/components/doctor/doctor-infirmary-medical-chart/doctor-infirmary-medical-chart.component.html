@@ -598,17 +598,27 @@
                 <table class="table table-hover" data-cy="table1">
                   <thead>
                   <tr>
-                    <th>ID liste</th>
-                    <th>Datum prijema</th>
+                    <th>ID otpusnog lista</th>
+                    <th>ID hospitalizacije</th>
                     <th>Datum otpustanja</th>
+                    <th>Akcija</th>
+
                   </tr>
                   </thead>
                   <tbody>
                   <tr
                     *ngFor="let history of dischargeListHistories | paginate: {itemsPerPage: pageSize, currentPage: pageExamination, totalItems: totalExamination}; let i = index" (click)="onRowClickDischarge(history)">
                     <td>{{history.id}}</td>
-                    <td>{{currentHospitalization.patientAdmission}}</td>
-                    <td>{{history.creation}}</td>
+<!--                    <td>{{currentHospitalization.patientAdmission|date:'dd-MM-Y'}}</td>-->
+                    <td>{{history.hospitalizationId}}</td>
+                    <td>{{history.creation|date:'dd-MM-Y'}}</td>
+
+                    <td>
+                      <button (click)="showDetailsDischargeList(history)"  class="btn btn-primary" type="submit"
+                              data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="sacuvaj">Detalji</button>
+                    </td>
+
+
                   </tr>
                   </tbody>
                 </table>
@@ -619,40 +629,37 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="idDischargeList">
+            <div *ngIf="selectedDischargeListBoolean">
               <div class="row py-5">
-                <h2>Detalji <b>{{idDischargeList}}</b></h2>
+                <h5>Detalji otpusne liste čiji je id: <b>{{selectedDischargeList.id}}</b></h5>
                 <table class="table table-hover" data-cy="table1">
                   <thead>
                   <tr>
+<!--                    <th>ID hospitalizacije</th>-->
+<!--                    <th>Datum kreiranja</th>-->
                     <th>Prateće dijagnoze</th>
                     <th>Anamneze</th>
                     <th>Analize</th>
                     <th>Bolesti</th>
                     <th>Rezime</th>
-                    <th>ID recepta</th>
-                    <th>ID departmana</th>
-                    <th>Kreirano</th>
-                    <th>ID hospitalizacije</th>
+                    <th>Odeljenje</th>
+                    <th>Zaposleni</th>
 
                   </tr>
                   </thead>
                   <tbody>
                   <tr>
-                    <ng-container *ngFor="let history of dischargeListHistories">
-                      <ng-container *ngIf="history.id === idDischargeList">
-                        <td>{{history.followingDiagnosis}}</td>
-                        <td>{{history.anamnesis}}</td>
-                        <td>{{history.analysis}}</td>
-                        <td>{{history.courseOfDisease}}</td>
-                        <td>{{history.summary}}</td>
-                        <td>{{history.lbzPrescribing}}</td>
-                        <td>{{history.lbzDepartment}}</td>
-                        <td>{{history.creation}}</td>
-                        <td>{{history.hospitalizationId}}</td>
 
-                      </ng-container>
-                    </ng-container>
+<!--                    <td>{{selectedDischargeList.hospitalizationId}}</td>-->
+<!--                    <td>{{selectedDischargeList.creation|date:'dd-MM-Y'}}</td>-->
+                    <td>{{selectedDischargeList.followingDiagnosis}}</td>
+                    <td>{{selectedDischargeList.anamnesis}}</td>
+                    <td>{{selectedDischargeList.analysis}}</td>
+                    <td>{{selectedDischargeList.courseOfDisease}}</td>
+                    <td>{{selectedDischargeList.summary}}</td>
+                    <td>{{selectedDischargeList.lbzDepartment}}</td>
+                    <td>{{selectedDischargeList.lbzPrescribing}}</td>
+
                   </tr>
 
                   </tbody>

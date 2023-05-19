@@ -136,12 +136,32 @@
                 <div class="container">
                       <div class="row">
                         <div class="col-6">
-                          <label>Odaberite uputnu dijagnozu:</label>
-                          <select [formControlName]="'diagnosis'" id="analysisInfirmary" required
-                                  name="analysisInfirmary" class="form-select" aria-label="Default select example" data-cy="AnalizeStacionar">
-                            <option *ngFor="let item of diagnosisSaBeka" [value]="item.code">{{item.code}}</option>
-                          </select>
+
+                          <label class="labels">Odaberite uputnu dijagnozu:</label>
+
+                          <input
+                            [(ngModel)]="diagnosis"
+                            (input)="filterDiagnosisCodes(diagnosis)"
+                            name="diagnosis"
+                            type="text"
+                            class="form-control"
+                            [ngModelOptions]="{ standalone: true }"
+                            data-cy="diagnosis"
+                            required
+                          />
+                          <div *ngIf="filteredDiagnosisCodes.length > 0" class="suggestions">
+                            <div
+                              *ngFor="let suggestion of filteredDiagnosisCodes"
+                              (click)="selectSuggestion(suggestion)"
+                              class="suggestion"
+                            >
+                              {{ suggestion.code }} - {{ suggestion.description }} ({{ suggestion.latinDescription }})
+                            </div>
+                          </div>
+
                         </div>
+
+
 
                         <div class="col-12 mt-3">
                           <label class="labels">Razlog upućivanja</label>
@@ -151,13 +171,14 @@
 
 
                         <div class="col-6 mt-3">
-                          <label [(ngModel)]="selectedDepartmentInfirmary" for="department">Odeljenje na koje se upucuje:</label>
-                          <select   id="departmentInfrimary" name="department" class="form-select"
+                          <label  for="department">Odeljenje na koje se upucuje:</label>
+                          <select  [(ngModel)]="selectedDepartmentInfirmary" id="departmentInfrimary" name="department" class="form-select"
                                   aria-label="Default select example" data-cy="OdeljenjeStacionar" required
                                   (change)="onDepartmentSelectedInfirmary($event)">
                             <option *ngFor="let item of departments" [value]="item.name">{{item.name}}</option>
                           </select>
                         </div>
+
 
                         <div class="col-12 mt-3">
                           <button class="btn btn-outline-primary" (click)="getHospitalsByDepNameInfirmary()" data-cy="btnUstanove">Pretrazi

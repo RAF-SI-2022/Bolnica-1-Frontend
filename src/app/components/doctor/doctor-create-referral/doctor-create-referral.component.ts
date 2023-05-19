@@ -78,6 +78,10 @@ export class DoctorCreateReferralComponent implements OnInit {
   hospitalPageInfirmary: Page<DeparmentShort> = new Page<DeparmentShort>()
 
 
+  allDiagnosis: DiagnosisCodeDto[] = []
+  diagnosis: string = ''
+
+
   constructor(private prescriptionService: PrescriptionServiceService, private snackBar: SnackbarServiceService, private laboratoryService: LaboratoryService, private authService: AuthService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
     this.referralForm = this.formBuilder.group({
         analysis: ['' ,[Validators.required]],
@@ -103,6 +107,8 @@ export class DoctorCreateReferralComponent implements OnInit {
       this.patientService.getDiagnosis().subscribe(res => {
         this.diagnosisSaBeka = res;
       });
+
+      this.getDiagnosis()
     }
 
 
@@ -114,6 +120,14 @@ export class DoctorCreateReferralComponent implements OnInit {
       this.getDoctorDepartment()
     }
 
+
+  getDiagnosis(): void {
+    this.patientService.getDiagnosis().subscribe(result => {
+      console.log("ema")
+      this.allDiagnosis = result;
+      console.log(this.allDiagnosis)
+    })
+  }
 
   getDoctorDepartment(): void {
     this.userService.getEmployee(this.lbz).subscribe(result => { },
@@ -232,20 +246,29 @@ export class DoctorCreateReferralComponent implements OnInit {
     // console.log("selected params: " + this.selectedParams);
 
 
-    this.prescriptionService.writeInfirmaryPerscription(
-      this.lbz, this.departmentFromId, this.departmentToIdInfirmary, this.lbp, referral.diagnosis, referral.commentInfirmary
-    ).subscribe(res => {
-        console.log(res)
-        // this.errorMessage = '';
-        // this.successMessage = 'Uspesno dodat uput!';
-        this.snackBar.openSuccessSnackBar("Uspesno dodat uput!")
-      }, error => {
-        console.log("Error " + error.status);
-        // this.successMessage = '';
-        // this.errorMessage = 'ERROR: Uput nije kreiran!';
-        this.snackBar.openErrorSnackBar("Uput nije kreiran");
-      }
-    );
+    if (this.diagnosis != '') {
+      let tmpdiagnosis = this.diagnosis.split("-")[0].trim();
+
+      this.prescriptionService.writeInfirmaryPerscription(
+        this.lbz, this.departmentFromId, this.departmentToIdInfirmary, this.lbp, tmpdiagnosis,
+        referral.commentInfirmary
+      ).subscribe(res => {
+          console.log(res)
+          // this.errorMessage = '';
+          // this.successMessage = 'Uspesno dodat uput!';
+          this.snackBar.openSuccessSnackBar("Uspesno dodat uput!")
+        }, error => {
+          console.log("Error " + error.status);
+          // this.successMessage = '';
+          // this.errorMessage = 'ERROR: Uput nije kreiran!';
+          this.snackBar.openErrorSnackBar("Uput nije kreiran");
+        }
+      );
+
+    }else{
+      this.snackBar.openWarningSnackBar("Popunite dijagnozu!")
+    }
+
 
   }
 
@@ -360,6 +383,28 @@ export class DoctorCreateReferralComponent implements OnInit {
 
   onDepartmentSelectedInfirmary(event: any) {
     this.selectedDepartmentInfirmary = event.target.value; // Update the selectedDepartment property with the new value
+  }
+
+
+  filteredDiagnosisCodes: DiagnosisCodeDto[] = [];
+
+  filterDiagnosisCodes(searchText: string): void {
+    if (this.allDiagnosis && this.allDiagnosis.length > 0 && searchText.length > 0) {
+      this.filteredDiagnosisCodes = this.allDiagnosis.filter(
+        (diagnosiss) =>
+          (diagnosiss.code?.toString().toLowerCase().includes(searchText.toLowerCase()) || '') ||
+          (diagnosiss.description?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+          (diagnosiss.latinDescription?.toLowerCase().includes(searchText.toLowerCase()) || '')
+      );
+    } else {
+      this.filteredDiagnosisCodes = [];
+    }
+    console.log("Imam nas " + this.filterDiagnosisCodes.length)
+  }
+
+  selectSuggestion(suggestion: DiagnosisCodeDto): void {
+    this.diagnosis = `${suggestion.code} - ${suggestion.description} (${suggestion.latinDescription})`;
+    this.filteredDiagnosisCodes = [];
   }
 
 

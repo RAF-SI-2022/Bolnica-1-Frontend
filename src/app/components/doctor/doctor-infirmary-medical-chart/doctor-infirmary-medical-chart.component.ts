@@ -104,6 +104,8 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
   generalMedical: GeneralMedicalData
   currentHospitalization: HospitalizationDto;
 
+  selectedDischargeList: DischargeListDto = new DischargeListDto();
+  selectedDischargeListBoolean: boolean = false;
 
   constructor(private changeDetectorRef: ChangeDetectorRef, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder, private patientService: PatientService, private prescriptionService: PrescriptionServiceService,
               private route: ActivatedRoute, private labaratoryService: LaboratoryService, private infirmaryService: InfirmaryService) {
@@ -117,7 +119,6 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
       vaccinationDtos: [],
       allergyDtos: []
     };
-
 
     this.generalForm = this.formBuilder.group({
       bloodGroup: ['', [Validators.required]],
@@ -225,7 +226,7 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
     this.getVaccine()
     this.getDiagnosis()
 
-    this.infirmaryService.getDischargeListByHospitalizationId(this.currentHospitalization.id, new Date(0), new Date(), this.lbp, this.pageHistory, this.pageSize).subscribe(
+    this.infirmaryService.getDischargeListWithoutHospitalizationId( new Date(0), new Date(), this.lbp, this.pageHistory, this.pageSize).subscribe(
       response => {
         this.historyPage = response
         this.dischargeListHistories = this.historyPage.content
@@ -460,7 +461,7 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
     if(this.pageHistory == 0)
       this.pageHistory = 1;
 
-    this.infirmaryService.getDischargeListByHospitalizationId(this.currentHospitalization.id, this.dateFromHistory, this.dateToHistory, this.lbp, this.pageHistory-1, this.pageSize).subscribe(
+    this.infirmaryService.getDischargeListWithoutHospitalizationId( this.dateFromHistory, this.dateToHistory, this.lbp, this.pageHistory-1, this.pageSize).subscribe(
       response => {
         this.historyPage = response
         this.dischargeListHistories = this.historyPage.content
@@ -539,6 +540,12 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
   showDetails(lab: LabWorkOrderNew) {
     this.showDetailsBoolean = true;
     this.getLabWorkOrderWithAnalysis(lab.id);
+  }
+
+  showDetailsDischargeList(dischargeListDto: DischargeListDto){
+    this.idDischargeList = dischargeListDto.id
+    this.selectedDischargeListBoolean = true
+    this.selectedDischargeList = dischargeListDto
   }
 
   closeDetails(): void {

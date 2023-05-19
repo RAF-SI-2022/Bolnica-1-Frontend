@@ -38,10 +38,22 @@
             <div class="col-md-6"><h4 style="font-weight: bold;">LBP</h4>
               <label class="label"> {{patientLbp}} </label>
             </div>
+            <div class="col-md-6"><h4 style="font-weight: bold;">Datum prijema</h4>
+              <label class="label"> {{patientDateAdmission | date: 'dd-MM-yyyy'}} </label>
+            </div>
+
+          </div>
+
+          <div class="row mt-2">
             <div class="col-md-6"><h4 style="font-weight: bold;">Broj sobe</h4>
               <label class="label"> {{patientRoomNumber}}</label>
             </div>
+            <div class="col-md-6"><h4 style="font-weight: bold;">Datum otpustanja</h4>
+              <label class="label"> {{patientDischargeDate | date: 'dd-MM-yyyy'}}</label>
+            </div>
           </div>
+
+
           <div class="row mt-2">
             <div class="col-md-6">
               <button class="btn btn-primary" (click)="goToMedicalRecord()"><i class="bi bi-info-circle"></i> Zdravstveni izveštaj</button>

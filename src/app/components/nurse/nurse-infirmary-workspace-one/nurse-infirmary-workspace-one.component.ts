@@ -14,6 +14,8 @@ export class NurseInfirmaryWorkspaceOneComponent implements OnInit {
   patientDateOfBirth: Date = new Date();
   patientLbp: string = 'LBP';
   patientRoomNumber: number = 0;
+  patientDateAdmission: Date = new Date();
+  patientDischargeDate: Date = new Date();
 
   currentHospitalization: HospitalizationDto;
 
@@ -33,6 +35,8 @@ export class NurseInfirmaryWorkspaceOneComponent implements OnInit {
     this.patientSurname = this.currentHospitalization.surname
     this.patientDateOfBirth = this.currentHospitalization.dateOfBirth
     this.patientRoomNumber = this.currentHospitalization.hospitalRoom.roomNumber
+    this.patientDateAdmission = this.currentHospitalization.patientAdmission
+    this.patientDischargeDate = this.currentHospitalization.dischargeDateAndTime
 
   }
 
