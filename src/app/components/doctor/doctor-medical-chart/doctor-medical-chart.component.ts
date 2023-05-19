@@ -136,7 +136,7 @@ export class DoctorMedicalChartComponent implements OnInit {
       dateToPrescription: '',
       deleteButton: '',
     })
-    
+
     this.labaratoryForm = this.formBuilder.group({
       dateFrom: '',
       dateTo: '',
@@ -439,7 +439,6 @@ export class DoctorMedicalChartComponent implements OnInit {
 
   }
 
-  //todo sta ovdde, koja ruta sa bekenda??
   getLabaratoryObradjeni(): void {
 
   }

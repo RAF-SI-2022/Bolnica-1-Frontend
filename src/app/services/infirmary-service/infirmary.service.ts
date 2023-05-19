@@ -248,7 +248,7 @@ export class InfirmaryService {
     lbp: string,
     page: number,
     size: number
-  ): Observable<DischargeListDto>{
+  ): Observable<Page<DischargeListDto>>{
 
     let httpParams = new HttpParams()
       .append("hospitalizationId", hospitalizationId)
@@ -258,7 +258,7 @@ export class InfirmaryService {
       .append("page", page)
       .append("size",size)
 
-    return this.http.get<DischargeListDto>(
+    return this.http.get<Page<DischargeListDto>>(
       `${environmentInfirmary.apiURL}/dischargeList/getDischargeListByHospitalizationId`,
       {params: httpParams, headers: this.getHeaders() });
 

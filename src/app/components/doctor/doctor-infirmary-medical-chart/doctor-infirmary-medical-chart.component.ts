@@ -25,6 +25,9 @@ import { DiagnosisCodeDto } from 'src/app/models/patient/DiagnosisCode';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 import { interval } from 'rxjs';
 import {PrescriptionNewDto} from "../../../models/prescription/PrescriptionNewDto";
+import {InfirmaryService} from "../../../services/infirmary-service/infirmary.service";
+import {DischargeListDto} from "../../../models/infirmary/DischargeListDto";
+import {HospitalizationDto} from "../../../models/infirmary/HospitalizationDto";
 
 
 
@@ -43,6 +46,7 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
   generalForm: FormGroup
   allergyForm: FormGroup
   vaccineForm: FormGroup
+  historyForm: FormGroup
   examinationForm: FormGroup
   medicalForm: FormGroup
   prescriptionForm: FormGroup
@@ -57,36 +61,31 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
   idStr: string = ''
   public idPrescription: number = 0
   public idExaminationHistory: number = 0
+  public idDischargeList: number = 0
   public dateFrom: string = ''
   public dateTo: string = ''
   public correctDate: string = ''
-  public correctDateLabaratory: string = ''
-
   public diagnosis: string = ''
   public dateToPrescription: Date = new Date()
   public dateFromPrescription: Date = new Date()
+  public dateFromHistory: Date = new Date()
+  public dateToHistory: Date = new Date()
   public dateToLabaratory: Date = new Date()
   public dateFromLabaratory: Date = new Date()
   medicalHistories: MedicalHistory[] = []
   examinationHistories: ExaminationHistory[] = []
   prescriptionHistories: PrescriptionDoneDto[] = []
-  labaratoryHistories: LabAnalysis[] = []
+  dischargeListHistories: DischargeListDto[] = []
   labWorkOrders: LabWorkOrderNew[] = []
   allergies: Allergy[] = []
   vaccines: Vaccination[] = []
   allDiagnosis: DiagnosisCodeDto[] = []
   public checkStatus: OrderStatus = OrderStatus.OBRADJEN;
-  public checkStatusPrescription: PrescriptionStatus = PrescriptionStatus.NEREALIZOVAN;
-
   public showDetailsBoolean: boolean = false;
-
-  // detailsLabWorkOrders: LabWorkOrderWithAnalysis = new LabWorkOrderWithAnalysis();
-
   medicalPage: Page<MedicalHistory> = new Page<MedicalHistory>()
   prescriptionPage: Page<PrescriptionDoneDto> = new Page<PrescriptionDoneDto>()
+  historyPage: Page<DischargeListDto> = new Page<DischargeListDto>()
   labWorkOrderPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>()
-  detailsLabWorkOrderPage: Page<LabWorkOrderWithAnalysis> = new Page<LabWorkOrderWithAnalysis>()
-
   examinationPage: Page<ExaminationHistory> = new Page<ExaminationHistory>()
   vaccinationsList: Vaccination[] = []
   allergiesList: Allergy[] = []
@@ -95,14 +94,22 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
   pageMedical = 0;
   pagePrescription = 0;
   pageLaboratory = 0;
+  pageHistory = 0;
   pageSize = 5
   totalExamination: number = 0
   totalMedicalHistory: number = 0;
   totalPrescription: number = 0
   totalLaboratory: number = 0
+  totalHistory: number = 0
   generalMedical: GeneralMedicalData
+  currentHospitalization: HospitalizationDto;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder, private patientService: PatientService, private prescriptionService: PrescriptionServiceService, private route: ActivatedRoute, private labaratoryService: LaboratoryService) {
+
+  constructor(private changeDetectorRef: ChangeDetectorRef, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder, private patientService: PatientService, private prescriptionService: PrescriptionServiceService,
+              private route: ActivatedRoute, private labaratoryService: LaboratoryService, private infirmaryService: InfirmaryService) {
+
+    this.currentHospitalization = history.state.hospitalization;
+
     this.generalMedical = {
       id: 0,
       bloodType: '',
@@ -136,9 +143,16 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
       dateToPrescription: '',
       deleteButton: '',
     })
+    this.historyForm = this.formBuilder.group({
+      dateFromHistory: '',
+      dateToHistory: '',
+    })
+    const now = new Date();
+    const before = new Date(0);
+
     this.labaratoryForm = this.formBuilder.group({
-      dateFrom: '',
-      dateTo: '',
+      dateFrom: [before.toISOString().slice(0,10), [Validators.required]],
+      dateTo: [now.toISOString().slice(0,10), [Validators.required]]
     })
   }
 
@@ -210,6 +224,15 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
     this.getAllergy()
     this.getVaccine()
     this.getDiagnosis()
+
+    this.infirmaryService.getDischargeListByHospitalizationId(this.currentHospitalization.id, new Date(0), new Date(), this.lbp, this.pageHistory, this.pageSize).subscribe(
+      response => {
+        this.historyPage = response
+        this.dischargeListHistories = this.historyPage.content
+        this.totalHistory = this.historyPage.totalElements
+        this.changeDetectorRef.detectChanges();
+
+      })
   }
 
   updateGeneral(): void {
@@ -433,8 +456,20 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
       })
 
   }
+  getInfirmaryHistory(): void {
+    if(this.pageHistory == 0)
+      this.pageHistory = 1;
 
-  //todo sta ovdde, koja ruta sa bekenda??
+    this.infirmaryService.getDischargeListByHospitalizationId(this.currentHospitalization.id, this.dateFromHistory, this.dateToHistory, this.lbp, this.pageHistory-1, this.pageSize).subscribe(
+      response => {
+        this.historyPage = response
+        this.dischargeListHistories = this.historyPage.content
+        this.totalHistory = this.historyPage.totalElements
+        this.changeDetectorRef.detectChanges();
+
+      })
+  }
+
   getLabaratoryObradjeni(): void {
 
   }
@@ -457,7 +492,6 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
 
   getNeobradjeni(): void {
     this.obradjeni = false
-    //todo i da se popuni lista
   }
 
 
@@ -477,6 +511,11 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
   onTableDataChangePrescription(event: any): void {
     this.pagePrescription = event;
     this.getPrescriptions();
+  }
+
+  onTableDataChangeDischarge(event: any): void {
+    this.pageHistory = event;
+    this.getInfirmaryHistory();
   }
 
   onTableDataChangeLab(event: any): void {
@@ -511,8 +550,12 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
     this.idExaminationHistory = examinationHistory.id
   }
 
+  onRowClickDischarge(dischargeHistory: DischargeListDto): void {
+    this.idDischargeList = 0
+    this.id = dischargeHistory.id
+  }
+
   check(status: PrescriptionStatus): boolean {
-    console.log("LALALALALALLALA " + status)
     if (status == PrescriptionStatus.NEREALIZOVAN) {
       console.log("USOOO")
       return true
