@@ -141,6 +141,7 @@ import {
   NurseInfirmarySearchAdmissionComponent
 } from "./components/nurse/nurse-infirmary-search-admission/nurse-infirmary-search-admission.component";
 import {ReceptionistGuard} from "./guards/role/general/receptionist.guard";
+import {DoctorScheduleExamComponent} from "./components/doctor/doctor-schedule-exam/doctor-schedule-exam.component";
 
 
 const routes: Routes = [
@@ -247,6 +248,11 @@ const routes: Routes = [
   {
     path: "doctor-infirmary-discharge-list/:lbp",
     component: DoctorInfirmaryDischargeListComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-schedule-exam/:lbp",
+    component: DoctorScheduleExamComponent,
     canActivate: [AuthGuard, DoctorGuard]
   },
   {

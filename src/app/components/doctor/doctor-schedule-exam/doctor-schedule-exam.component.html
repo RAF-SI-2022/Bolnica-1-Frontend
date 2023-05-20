@@ -3,19 +3,35 @@
   <div class="form-group">
 
     <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
-      <h4 class="text-right">Zakazivanje pregleda</h4>
+      <h4 class="text-right">Zakazivanje pregleda: {{patientLbp}}</h4>
     </div>
 
     <div class="row mt-2 mb-4">
-      <div class="col-md-4">
-        <label for="doctor">Doktor</label>
+
+      <div class="col-6 mt-3">
+        <label for="department">Odeljenje na koje se upucuje:</label>
+        <select [(ngModel)]="selectedDepartment" id="department" name="department" class="form-select"
+                aria-label="Default select example" data-cy="Odeljenje" required
+                (change)="onDepartmentSelected($event)">
+          <option *ngFor="let item of departments" [value]="item.pbo">{{item.name}}</option>
+        </select>
+      </div>
+
+      <div class="col-12 mt-3">
+        <button class="btn btn-outline-primary" (click)="getDoctors()" data-cy="btnUstanove">Pretrazi doktore
+        </button>
+      </div>
+
+
+      <div class="col-md-4" *ngIf="departmentSelectedBoolean">
+        <label for="doctor">Izaberite doktora</label>
 
         <ng-select class="custom" [(ngModel)]="selectedDoctor" id="doctor" name="doctor" required [searchable]="true"
-          bindLabel="name" bindValue="name" (change)="doctorChange()" data-cy="doctorSelect">
+                   bindLabel="name" bindValue="name" (change)="doctorChange()" data-cy="doctorSelect">
           <ng-option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
         </ng-select>
       </div>
-      <div class="row mt-1">
+      <div class="row mt-1" *ngIf="departmentSelectedBoolean">
         <div class="col-md-4">
           <button (click)="addEventsData()" class="btn btn-primary" data-cy="pretraziButton">Pretrazi</button>
         </div>
@@ -25,9 +41,10 @@
 
   </div>
 
-  <ejs-schedule #scheduleObj dateFormat="M/d/yyyy h:mm a" [eventSettings]="eventSettings"
-    (popupOpen)="onPopupOpen($event)" (cellClick)="onCellClick($event)" [editorTemplate]="editorTemplate"
-    startHour="07:00" endHour="22:00" (eventClick)="onEventClick($event)">
+  <ejs-schedule *ngIf="departmentSelectedBoolean"
+    #scheduleObj dateFormat="M/d/yyyy h:mm a" [eventSettings]="eventSettings"
+                (popupOpen)="onPopupOpen($event)" (cellClick)="onCellClick($event)" [editorTemplate]="editorTemplate"
+                startHour="07:00" endHour="22:00" (eventClick)="onEventClick($event)">
     <ng-template #editorTemplate let-data>
       <div class="custom-event-editor">
 
@@ -55,30 +72,30 @@
           </div>
         </div>
 
-        <div class="card basic">
-          <div class="card-body">
-            <div class="container">
-              <div class="form-group">
+<!--        <div class="card basic">-->
+<!--          <div class="card-body">-->
+<!--            <div class="container">-->
+<!--              <div class="form-group">-->
 
-                <div class="form-group">
+<!--                <div class="form-group">-->
 
-                  <div class="row justify-content-center mt-1 mt-1">
+<!--                  <div class="row justify-content-center mt-1 mt-1">-->
 
-                    <div class="col-md-6">
-                      <label for="patient">Pacijent</label>
-                      <ng-select name="patient" [(ngModel)]="patient" class="custom" id="patient"
-                        aria-label="Default select example" data-cy="patient" required [searchable]="true"
-                        bindLabel="name" bindValue="name">
-                        <ng-option *ngFor="let patient of patientList" [value]="patient.lbp">{{patient.name }}
-                          {{patient.surname}}</ng-option>
-                      </ng-select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+<!--                    <div class="col-md-6">-->
+<!--                      <label for="patient">Pacijent</label>-->
+<!--                      <ng-select name="patient" [(ngModel)]="patient" class="custom" id="patient"-->
+<!--                                 aria-label="Default select example" data-cy="patient" required [searchable]="true"-->
+<!--                                 bindLabel="name" bindValue="name">-->
+<!--                        <ng-option *ngFor="let patient of patientList" [value]="patient.lbp">{{patient.name }}-->
+<!--                          {{patient.surname}}</ng-option>-->
+<!--                      </ng-select>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
 
         <div class="card basic">
           <div class="card-body">
