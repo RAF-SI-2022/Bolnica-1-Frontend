@@ -75,4 +75,9 @@ export class DoctorInfirmaryWorkspaceComponent implements OnInit {
     this.router.navigateByUrl(url, { state: { hospitalization } });
   }
 
+  goToScheduleExam(): void {
+    const url = `/doctor-schedule-exam/${this.patientLbp}`;
+    this.router.navigateByUrl(url);
+  }
+
 }

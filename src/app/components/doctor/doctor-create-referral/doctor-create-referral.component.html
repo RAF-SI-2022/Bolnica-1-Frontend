@@ -135,7 +135,7 @@
               <div class="card-body">
                 <div class="container">
                       <div class="row">
-                        <div class="col-6">
+                        <div class="col-8">
 
                           <label class="labels">Odaberite uputnu dijagnozu:</label>
 
@@ -170,8 +170,8 @@
                         </div>
 
 
-                        <div class="col-6 mt-3">
-                          <label  for="department">Odeljenje na koje se upucuje:</label>
+                        <div class="col-4 mt-3">
+                          <label  for="departmentInfrimary">Odeljenje na koje se upucuje:</label>
                           <select  [(ngModel)]="selectedDepartmentInfirmary" id="departmentInfrimary" name="department" class="form-select"
                                   aria-label="Default select example" data-cy="OdeljenjeStacionar" required
                                   (change)="onDepartmentSelectedInfirmary($event)">
