@@ -1,0 +1,145 @@
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <link rel="stylesheet" href="/path/to/bootstrap.min.css">
+    <script src="/path/to/jquery.min.js"></script>
+    <script src="/path/to/bootstrap.bundle.min.js"></script>
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  </head>
+
+  <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+    <div class="row">
+
+        <div class="mb-3">
+            <button (click)="navigateBack()" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="nazad">Nazad</button>
+        </div>
+
+      <div class="row py-5">
+        <table class="table table-hover" data-cy="table">
+          <thead>
+          <tr>
+            <th>ID analize</th>
+            <th>Skraćenica analize</th>
+            <th>ID parametra</th>
+            <th>Naziv parametra</th>
+            <th>Rezultat</th>
+            <th>Jedinica mere</th>
+            <th>Donja granica</th>
+            <th>Gornja granica</th>
+            <th>Datum i vreme upisa rezultata</th>
+            <th>Biohemičar</th>
+
+          </tr>
+          </thead>
+          <tbody>
+
+          <tr *ngFor="let p of parameterAnalysisResults">
+            <td>{{p.labAnalysis.id}}</td>
+            <td>{{p.labAnalysis.abbreviation}}</td>
+            <td>{{p.parameter.id}}</td>
+            <td>{{p.parameter.parameterName}}</td>
+            <td >{{p.result}}</td>
+            <td>{{p.parameter.unitOfMeasure}}</td>
+            <td>{{p.parameter.lowerLimit}}</td>
+            <td>{{p.parameter.upperLimit}}</td>
+            <td>{{p.dateTime|date:'dd-MM-Y'}}</td>
+            <td>{{p.lbzBiochemist}}</td>
+
+          </tr>
+
+          </tbody>
+        </table>
+
+
+      </div>
+
+    </div>
+  </div>
+
+
+
+<!--
+
+<div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+    <div class="row">
+
+        <div class="mb-3" >
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="nazad">Nazad</button>
+        </div>
+
+
+        <table class="table table-striped" data-cy="table">
+          <thead>
+          <tr>
+            <th>Opis polja</th>
+            <th>Vrednost polja</th>
+
+          </tr>
+
+          </thead>
+
+            <tbody>
+                <tr>
+                  <th>ID laboratorijske analize</th>
+                  <td>vrednost</td>
+                </tr>
+
+                <tr>
+                  <th>Skraćenica laboratorijske analize</th>
+                  <td>vrednost</td>
+                </tr>
+                <tr>
+                  <th>ID parametra</th>
+                  <td>vrednost</td>
+                </tr>
+
+                <tr>
+                  <th>Naziv parametra</th>
+                  <td>vrednost</td>
+                </tr>
+                <tr>
+                  <th>Rezultat</th>
+                  <td>vrednost</td>
+                </tr>
+
+                <tr>
+                  <th>Jedinica mere</th>
+                  <td>vrednost</td>
+                </tr>
+
+                <tr>
+                  <th>Donja granica</th>
+                  <td>vrednost</td>
+                </tr>
+
+                <tr>
+                  <th>Gornja granica</th>
+                  <td>vrednost</td>
+                </tr>
+                <tr>
+                  <th>Datum</th>
+                  <td>vrednost</td>
+                </tr>
+                <tr>
+                  <th>Ime i Prezime Zaposlenog</th>
+                  <td>vrednost</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+  </div>
+
+  -->

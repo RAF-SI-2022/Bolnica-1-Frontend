@@ -1,0 +1,163 @@
+<div class="card">
+    <div style="margin-top: 25px;" class="card-body">
+        <h5 class="card-title">Prijem pacijenata</h5>
+
+        <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+            <li class="nav-item flex-fill" role="presentation">
+                <button class="nav-link w-100 active" id="patient-tab" data-bs-toggle="tab"
+                    data-bs-target="#bordered-justified-patient" type="button" role="tab" aria-controls="patient"
+                    aria-selected="true" data-cy="patient-tab">Zakazani danasnji pregledi</button>
+            </li>
+<!--            <li class="nav-item flex-fill" role="presentation">-->
+<!--                <button class="nav-link w-100" id="work-tab" data-bs-toggle="tab"-->
+<!--                    data-bs-target="#bordered-justified-work" type="button" role="tab" aria-controls="work"-->
+<!--                    aria-selected="false" tabindex="-1" data-cy="work-tab">Kreiranje radnog naloga</button>-->
+<!--            </li>-->
+        </ul>
+        <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+            <div class="tab-pane active show" id="bordered-justified-patient" role="tabpanel" aria-labelledby="patient-tab">
+                <div class="row">
+                  <form [formGroup]="searchForm" (submit)="getListScheduledEexaminations()" class="mb-5 needs-validation" novalidate>
+
+                  <div class="col-md-4">
+                    <label class="labels">LBP</label>
+
+<!--                     
+                        MOJE -->
+                        <input
+                        [(ngModel)]="lbp"
+                        (input)="filterPatientLbp(lbp)"
+                        type="text"
+                        class="form-control"
+                        [ngModelOptions]="{ standalone: true }"
+                        data-cy="lbp_patient"
+                      />
+                          <div *ngIf="filteredPatients.length > 0" class="suggestions">
+                            <div
+                              *ngFor="let fPatient of filteredPatients"
+                              (click)="selectSuggestion(fPatient)"
+                              class="suggestion"
+                            >
+                              {{ fPatient.lbp }} - {{ fPatient.name }} {{ fPatient.surname }}
+                            </div>
+                          </div>
+<!-- 
+                          MOJE -->
+                      </div>
+                    <div class="col-md-8 mt-4">
+                        <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi_patient">Pretrazi</button>
+                    </div>
+                    <div class="row py-5">
+
+                    <table class="table table-hover" data-cy="table_patient">
+                        <thead>
+                            <tr>
+                                <th>ID lab pregleda</th>
+                                <th>ID odeljenja</th>
+                                <th>LBP</th>
+                                <th>Zakazan datum</th>
+                                <th>Status pregleda</th>
+                                <th>Napomena</th>
+                                <th>LBZ</th>
+                                <th>Brisanje</th>
+                                <th>Zavrsi pregled</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr
+                          *ngFor="let scheduled of scheduledLabExaminationList  | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total};  let i = index">
+
+                            <td>{{scheduled.id}}</td>
+                            <td>{{scheduled.departmentId}}</td>
+                            <td>{{scheduled.lbp}}</td>
+                            <td>{{scheduled.scheduledDate}}</td>
+                            <td>{{scheduled.examinationStatus}}</td>
+                            <td>{{scheduled.note}}</td>
+                            <td>{{scheduled.lbz}}</td>
+                          <td>
+                            <button *ngIf="scheduled.examinationStatus.toString()=='ZAKAZANO'" (click)="cancellation(scheduled.id)" class="btn btn-primary" >Otkaži</button>
+                          </td>
+
+                          <td>
+                            <button *ngIf="scheduled.examinationStatus.toString()=='ZAKAZANO'" (click)="done(scheduled.id, scheduled.lbp)" class="btn btn-primary" >Završi</button>
+                          </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex align-items-center justify-content-center" >
+                        <pagination-controls previousLabel="Pret" nextLabel="Sled" data-cy="pagination_patient" (pageChange)="onTableDataChange($event)">
+                        </pagination-controls>
+                    </div>
+                    </div>
+                  </form>
+                </div>
+        </div>
+
+<!--        <div class="tab-pane" id="bordered-justified-work" role="tabpanel" aria-labelledby="work-tab">-->
+<!--            <div class="row">-->
+<!--                <div class="col-md-4">-->
+<!--                    <label class="labels">LBP</label>-->
+<!--                    <input type="text" class="form-control" data-cy = "lbp_work">-->
+<!--                </div>-->
+<!--                <div class="col-md-8 mt-4">-->
+<!--                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi_work">Pretrazi</button>-->
+<!--                </div>-->
+<!--                <table class="table table-hover" data-cy="table_work">-->
+<!--                    <thead>-->
+<!--                        <tr>-->
+<!--                            <th>ID uputa</th>-->
+<!--                            <th>Lekar</th>-->
+<!--                            <th>Datum kreiranja uputa</th>-->
+<!--                            <th>Naziv odeljenja</th>-->
+<!--                            <th>Spisak lab analiza</th>-->
+<!--                            <th>Komentar</th>-->
+<!--                            <th>Akcija</th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                        <tr>-->
+<!--                            <td>12512431</td>-->
+<!--                            <td>paul.davis</td>-->
+<!--                            <td>12/08/2017</td>-->
+<!--                            <td>Teh</td>-->
+<!--                            <td>spisak</td>-->
+<!--                            <td>Hitno</td>-->
+<!--                            <td>-->
+<!--                                <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td>12512431</td>-->
+<!--                            <td>paul.davis</td>-->
+<!--                            <td>12/08/2017</td>-->
+<!--                            <td>Teh</td>-->
+<!--                            <td>spisak</td>-->
+<!--                            <td>Hitno</td>-->
+<!--                            <td>-->
+<!--                                <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td>12512431</td>-->
+<!--                            <td>paul.davis</td>-->
+<!--                            <td>12/08/2017</td>-->
+<!--                            <td>Teh</td>-->
+<!--                            <td>spisak</td>-->
+<!--                            <td>Hitno</td>-->
+<!--                            <td>-->
+<!--                                <a href="#" class="settings" title="Podesavanja" data-toggle="tooltip"><i class="bi bi-gear-fill"></i></a>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+
+<!--                <div class="d-flex align-items-center justify-content-center" >-->
+<!--                    <pagination-controls previousLabel="Pret" nextLabel="Sled" data-cy="pagination_work">-->
+<!--                    </pagination-controls>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+</div>
+</div>

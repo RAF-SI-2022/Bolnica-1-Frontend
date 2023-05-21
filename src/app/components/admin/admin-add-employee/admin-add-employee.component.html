@@ -1,0 +1,271 @@
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+</head>
+
+<div class="container rounded bg-white mt-5 mb-5">
+  <form [formGroup]="addGroup" (submit)="addEmployee()" class="mb-5 needs-validation" novalidate>
+    <div class="row">
+      <div class="col-md-3 border-right">
+        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
+            width="150px"
+            src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
+            class="font-weight-bold">{{addGroup.get('name')?.value}} {{addGroup.get('lastName')?.value}}</span><span
+            class="text-black-50">{{addGroup.get('email')?.value}}</span><span> </span>
+        </div>
+      </div>
+      <div class="col-md-5 border-right">
+        <div class="p-3 py-5">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-right">Kreiranje novog zaposlenog</h4>
+
+          </div>
+
+
+          <div class="row mt-2">
+            <div class="col-md-6"><label class="labels">Ime</label>
+              <input name="ime" type="text" name="name" class="form-control" placeholder="" value="" required
+                [formControlName]="'name'">
+              <div class="invalid-feedback">Unesite vase ime</div>
+            </div>
+            <div class="col-md-6"><label class="labels">Prezime</label><input type="text" name="lastName"
+                class="form-control" value="" placeholder="" required [formControlName]="'lastName'">
+              <div class="invalid-feedback">Unesite vase prezime</div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <label class="labels">Pol</label>
+
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <div class="d-inline-block me-1">Musko</div> &nbsp;
+                  <div class="form-check form-switch d-inline-block"> &nbsp;
+                    <input [formControlName]="'gender'" name=" gender" type="checkbox" class="form-check-input"
+                      id="site_state" style="cursor: pointer;">
+
+                    <label for="site_state" class="form-check-label"> Zensko</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12"><label class="labels">Email</label><input type="email" name="email"
+                class="form-control" placeholder="" value="" required [formControlName]="'email'">
+              <div class="invalid-feedback">{{emailErrorMessage}}</div>
+            </div>
+
+            <div class="col-md-12"><label class="labels">Broj telefona</label><input type="text" name="phoneNumber"
+                class="form-control" placeholder="" value="" required [formControlName]="'phoneNumber'">
+              <div class="invalid-feedback">Unesite vas broj telefona</div>
+            </div>
+            <div class="col-md-12"><label class="labels">JMBG</label><input type="text" name="JMBG" class="form-control"
+                placeholder="" value="" required [formControlName]="'JMBG'">
+              <div class="invalid-feedback">Unesite vas JMBG</div>
+            </div>
+            <div class="col-md-12"><label class="labels">Adresa</label><input type="text" name="adress"
+                class="form-control" placeholder="" value="" required [formControlName]="'adress'">
+              <div class="invalid-feedback">Unesite vasu adresu stanovanja</div>
+            </div>
+            <div class="col-md-12"><label class="labels">Mesto</label><input type="text" name="city"
+                class="form-control" placeholder="" value="" required [formControlName]="'city'">
+              <div class="invalid-feedback">Unesite vase mesto stanovanja</div>
+            </div>
+            <div class="col-md-12"><label class="labels">
+                Datum</label><input type="date" class="form-control" name="date" [formControlName]="'date'" required>
+              <div class="invalid-feedback">Izaberite datum!</div>
+            </div>
+            <div class="col-md-12"><label class="labels">Titula</label>
+              <select name="title" [formControlName]="'title'" required class="form-select"
+                aria-label="Default select example">
+<!--                <option selected>Odaberite titulu</option>-->
+                <option value="PROF_DR_MED">Prof. dr. med</option>
+                <option value="DR_MED_SPEC">Dr med. spec.</option>
+                <option value="DR_SCI_ME">Dr sci. med.</option>
+                <option value="DIPL_FARM">Dipl. farm.</option>
+                <option value="MAG_FARM">Mag. farm.</option>
+                <option value="MR">Mr</option>
+              </select>
+              <div class="invalid-feedback">Izaberite titulu!</div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6"><label class="labels">Odeljenje</label>
+              <select name="odeljenje" [(ngModel)]="selectedDepartment" [formControlName]="'department'" id="department"
+                class="form-select" aria-label="Default select example" required>
+                <option *ngFor="let item of departments" [value]="item.pbo">{{item.name}}</option>
+              </select>
+              <div class="invalid-feedback">Izaberite odeljenje!</div>
+            </div>
+            <div class="col-md-6"><label class="labels">Zanimanje</label>
+              <select name="profession" [formControlName]="'profession'" required class="form-select"
+                aria-label="Default select example" required>
+<!--                <option selected>Odaberite zanimanje</option>-->
+                <option value="MED_SESTRA">Med. sestra</option>
+                <option value="SPEC_BIOHEMICAR">Spec. biohemicar</option>
+                <option value="SPEC_GASTROENTEROLOG">Spec. gastroenterolog</option>
+                <option value="SPEC_GINEKOLOG">Spec. ginekolog</option>
+                <option value="SPEC_ENDOKRINOLOG">Spec. endrokrinolog</option>
+                <option value="SPEC_KARDIOLOG">Spec. kardiolog</option>
+                <option value="SPEC_NEUROLOG">Spec. neurolog</option>
+                <option value="SPEC_NEFROLOG">Spec. nefrolog</option>
+                <option value="SPEC_PSIHIJATAR">Spec. psihijatar</option>
+                <option value="SPEC_PULMOLOG">Spec. pulmolog</option>
+                <option value="SPEC_UROLOG">Spec. urolog</option>
+                <option value="SPEC_HEMATOLOG">Spec. hematolog</option>
+                <option value="SPEC_HIRURG">Spec. hirurg</option>
+              </select>
+              <div class="invalid-feedback">Izaberite zanimanje!</div>
+            </div>
+          </div>
+          <div class="mt-4 text-center">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i>
+              Napravi</button>
+          </div>
+          <br>
+          <div *ngIf="errorMessage.length != 0" class="mt-4 text-center">
+            <label style="color: red"> Neuspeh: {{ errorMessage }} </label>
+          </div>
+
+          <div *ngIf="successMessage.length != 0" class="mt-4 text-center">
+            <label style="color: green"> {{ successMessage }} </label>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-4">
+        <div class="p-3 py-5">
+          <div class="d-flex justify-content-between align-items-center experience">
+            <h4>Privilegije</h4>
+          </div>
+          <div class="items-collection">
+            <div class="items col-xs-6 col-sm-3 col-md-3 col-lg-12">
+              <div class="info-block block-info clearfix">
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" name="ADMIN" autocomplete="off" value="" [formControlName]="'ADMIN'">
+                      <span class="m-0 p-2">Admin</span>
+                    </div>
+                  </label>
+                </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" name="DR_SPEC_odeljenja" autocomplete="off" value=""
+                        [formControlName]="'DR_SPEC_ODELJENJA'">
+                      <span class="m-0 p-2">Doktor specijalista odeljenja</span>
+                    </div>
+                  </label>
+                </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" name="DR_SPEC" autocomplete="off" value="" [formControlName]="'DR_SPEC'">
+                      <span class="m-0 p-2">Doktor specijalista</span>
+                    </div>
+                  </label>
+                </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" name="DR_SPEC_POV" autocomplete="off" value=""
+                        [formControlName]="'DR_SPEC_POV'">
+                      <span class="m-0 p-2">Doktor specijalista - poverljiv pristup</span>
+                    </div>
+                  </label>
+                </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+                    <div class="itemcontent ms-auto text-start ps-2">
+
+                      <input type="checkbox" name="VISA_MEDICINSKA_SESTRA" autocomplete="off" value=""
+                        [formControlName]="'VISA_MED_SESTRA'">
+                      <span class="m-0 p-2">Visa medicinska sestra</span>
+                    </div>
+                  </label>
+                </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" name="MEDICINKA_SESTRA" autocomplete="off" value=""
+                        [formControlName]="'MED_SESTRA'">
+                      <span class="m-0 p-2">Medicinska sestra</span>
+                    </div>
+                  </label>
+                </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" name="VISI_LABARATORIJSKI_TEHNICAR" autocomplete="off" value=""
+                        [formControlName]="'VISI_LAB_TEHNICAR'">
+                      <span class="m-0 p-2">Visi laboratorijski tehnicar</span>
+                    </div>
+                  </label>
+                </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" name="LAB_TEHNICAR" autocomplete="off" value=""
+                        [formControlName]="'LAB_TEHNICAR'">
+                      <span class="m-0 p-2">Laboratorijski tehnicar</span>
+                    </div>
+                  </label>
+                </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" name="MED_BIOHEMICAR" autocomplete="off" value=""
+                        [formControlName]="'MED_BIOHEMICAR'">
+                      <span class="m-0 p-2">Medicinski biohemicar</span>
+                    </div>
+                  </label>
+                </div>
+                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                  <label class="btn btn-outline-primary col-12 m-2">
+                    <div class="itemcontent ms-auto text-start ps-2">
+                      <input type="checkbox" name="SPEC_MED_BIOHEMIJE" autocomplete="off" value=""
+                        [formControlName]="'SPEC_MED_BIOHEMIJE'">
+                      <span class="m-0 p-2">Specijalista medicinske biohemije</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="successModalLabel">Success!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Your request has been submitted successfully.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="popup" id="successPopup">
+    <div class="popup-content">
+      <h2>Uspeh!</h2>
+      <p>Uspesno napravljen korisnik!</p>
+    </div>
+  </div>
+</div>

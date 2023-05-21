@@ -1,0 +1,151 @@
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+</head>
+
+<body>
+  <div class="container">
+    <div class="table-responsive">
+      <div class="table-wrapper">
+        <div class="table-title">
+          <h2><b>Pretraga zaposlenih</b></h2>
+        </div>
+        <form [formGroup]="searchForm" (submit)="search()" class="mb-5 needs-validation" novalidate>
+
+          <div class="row mt-2">
+            <div class="col-md-3"><label class="labels">Ime</label><input [(ngModel)]="ime" type="text"
+                class="form-control" id="ime" name="ime" placeholder="" value="" [ngModelOptions]="{standalone: true}">
+              <div class="invalid-feedback">Unesite vase ime</div>
+            </div>
+            <div class="col-md-3"><label class="labels">Prezime</label><input [(ngModel)]="prezime" type="text"
+                class="form-control" value="" id="prezime" name="prezime" placeholder=""
+                [ngModelOptions]="{standalone: true}">
+              <div class="invalid-feedback">Unesite vase prezime</div>
+            </div>
+            <div class="col-md-3"><label class="labels">Odeljenje</label>
+
+              <select name="selektovanaOrdinacija" [(ngModel)]="selektovanaOrdinacija" class="form-select"
+                aria-label="Default select example" [ngModelOptions]="{standalone: true}">
+                <option selected>Odaberite odeljenje</option>
+                <option *ngFor="let department of departments" [value]="department.name">{{ department.name }}</option>
+              </select>
+              <div class="invalid-feedback">Izaberite odeljenje!</div>
+            </div>
+
+            <div class="col-md-3"><label class="labels">Bolnica</label>
+              <select name="selektovanaOrdinacija" [(ngModel)]="selektovanaBolnica" class="form-select"
+                aria-label="Default select example" [ngModelOptions]="{standalone: true}">
+                <option selected>Odaberite bolnicu</option>
+                <option *ngFor="let hospital of hospitals" [value]="hospital.id">{{ hospital.name }}</option>
+              </select>
+              <div class="invalid-feedback">Izaberite bolnicu!</div>
+            </div>
+            <div class="col-md-3">
+              <div> <br>
+                <div class="d-inline-block me-1">Aktivni</div> &nbsp;
+                <div class="form-check form-switch d-inline-block"> &nbsp;
+                  <input [(ngModel)]="deleted" [ngModelOptions]="{standalone: true}" name=" gender" type="checkbox"
+                    class="form-check-input" id="site_state" style="cursor: pointer;">
+
+                  <label for="site_state" class="form-check-label"> Obrisani</label>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="me-auto float-end text-end mt-3 mb-3">
+            <button type="submit" class="btn btn-primary">Pretrazi</button>
+          </div>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th (click)="sortColumn('id')">ID
+                  <i *ngIf="sortState.column === 'id' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'id' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th (click)="sortColumn('name')">Ime
+                  <i *ngIf="sortState.column === 'name' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'name' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th (click)="sortColumn('surname')">Prezime
+                  <i *ngIf="sortState.column === 'surname' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'surname' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th (click)="sortColumn('dateOfBirth')">Datum rodjenja
+                  <i *ngIf="sortState.column === 'dateOfBirth' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'dateOfBirth' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th (click)="sortColumn('title')">Titula
+                  <i *ngIf="sortState.column === 'title' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'title' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th (click)="sortColumn('profession')">Zanimanje
+                  <i *ngIf="sortState.column === 'profession' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'profession' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th (click)="sortColumn('phone')">Broj telefona
+                  <i *ngIf="sortState.column === 'phone' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'phone' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th (click)="sortColumn('email')">Email
+                  <i *ngIf="sortState.column === 'email' && sortState.direction === 'asc'"
+                  class="bi bi-caret-up-fill"></i>
+                <i *ngIf="sortState.column === 'email' && sortState.direction === 'desc'"
+                  class="bi bi-caret-down-fill"></i>
+                </th>
+                <th>Akcija</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let user of userList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index">
+                <td>{{user.id}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.surname}}</td>
+                <td>{{user.dateOfBirth}}</td>
+                <td>{{user.title}}</td>
+                <td>{{user.profession}}</td>
+                <td>{{user.phone}}</td>
+                <td>{{user.email}}</td>
+                <td>
+                  <a (click)="goToEditPage(user)" class="settings" title="Podesavanja" data-toggle="tooltip"><i
+                      class="bi bi-gear-fill"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex align-items-center justify-content-center h-100">
+            <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
+            </pagination-controls>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>

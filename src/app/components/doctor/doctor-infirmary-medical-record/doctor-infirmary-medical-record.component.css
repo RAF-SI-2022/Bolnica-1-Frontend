@@ -1,0 +1,133 @@
+.popup-overlay {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 3px solid #888;
+  width: 300px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.popup p {
+  margin: 0;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+
+}
+
+.popup-buttons button {
+  padding: 5px;
+  /*color: #012970;*/
+  background-color: #f6f9ff;
+  box-shadow: none;
+  color: #4154f1;
+  border: 1px solid rgba(1, 41, 112, 0.3);
+}
+
+
+.table-responsive {
+  margin: 30px 0;
+}
+.table-wrapper {
+  min-width: 1000px;
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+.label{
+  color: #2c384e;
+  font-size: 18px;
+  padding-bottom: 10px;
+}
+
+.activite-label{
+  padding-top: 10px;
+  color: white;
+  background-color: #0f5581;
+  font-size: 20px;
+  width: 1000px;
+}
+
+
+.table tr{
+  padding-top: 10px;
+  padding-left: 5px;
+}
+
+.bi-textarea{
+  width:1000px;
+}
+
+.p-0{
+  color:  #0f5581;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 1000px;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  padding-top: 20px;
+  width: 1000px;
+}
+
+.dropdown {
+  width: 150px;
+  margin-right: 10px;
+}
+
+select {
+  width: 100%;
+  height: 40px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+label {
+  font-size: 14px;
+}
+
+
+.patient-info-table td:first-child {
+  width: 50%;
+}
+
+.patient-info-table td:nth-child(2) {
+  width: 30%;
+}

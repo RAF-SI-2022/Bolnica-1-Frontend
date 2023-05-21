@@ -1,0 +1,75 @@
+
+<form [formGroup]="form" class="mb-5 needs-validation" novalidate>
+
+  <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+
+    <h2 class="text-center"><b>Istorija stanja: {{patientLbp}} </b></h2>
+    <div class="row">
+
+      <div class="col-md-4 offset-2">
+        <label class="labels">Od datuma</label>
+        <input [formControlName]="'dateFrom'" name="dateFrom" type="date" class="form-control" data-cy="dateFrom">
+      </div>
+      <div class="col-md-4">
+        <label class="labels">Do datuma</label>
+        <input [formControlName]="'dateTo'" type="date" class="form-control" data-cy="dateTo">
+      </div>
+
+
+      <div class="row mt-2 text-center">
+        <div class="col-md-6">
+          <button (click)="getStateHistory()" class="btn btn-primary" type="submit" data-toggle="collapse"
+                  data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                  data-cy="pretrazi">Pretrazi</button>
+        </div>
+        <div class="col-md-6">
+          <button (click)="goToRegisterState()" class="btn btn-primary" type="submit" data-toggle="collapse"
+                  data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                  data-cy="pretrazi">Registruj stanje</button>
+        </div>
+      </div>
+
+
+      <div class="row py-5">
+        <table class="table table-hover" data-cy="table">
+          <thead>
+          <tr>
+            <th>Datum i vreme merenja</th>
+            <th>Temperatura</th>
+            <th>Sistolički pritisak</th>
+            <th>Dijastolički pritisak</th>
+            <th>Puls</th>
+            <th>Terapija</th>
+            <th>Opis</th>
+            <th>Lbz</th>
+          </tr>
+          </thead>
+
+          <tbody>
+
+          <tr
+            *ngFor="let state of stateHistoryList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
+          >
+            <td>{{state.dateExamState |date:'dd-MM-Y'}} {{state.timeExamState}}</td>
+            <td>{{state.temperature}}</td>
+            <td>{{state.systolicPressure}}</td>
+            <td>{{state.diastolicPressure}}</td>
+            <td>{{state.pulse}}</td>
+            <td>{{state.therapy}}</td>
+            <td>{{state.description}}</td>
+            <td>{{state.lbz}}</td>
+
+          </tr>
+          </tbody>
+
+        </table>
+
+        <div class="d-flex align-items-center justify-content-center h-100">
+          <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
+          </pagination-controls>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

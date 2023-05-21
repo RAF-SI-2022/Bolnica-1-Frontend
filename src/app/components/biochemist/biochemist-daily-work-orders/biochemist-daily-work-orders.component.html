@@ -1,0 +1,58 @@
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <script src="/path/to/jquery.min.js"></script>
+  <script src="/path/to/bootstrap.bundle.min.js"></script>
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+</head>
+<form class="mb-5 needs-validation" novalidate>
+
+  <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+
+    <h2 class="text-center"><b>Pregled neobradjenih dnevnih radnih naloga</b></h2>
+    <div class="row">
+
+
+      <div class="row py-5">
+        <table class="table table-hover" data-cy="table">
+          <thead>
+            <tr>
+              <th>ID radnog naloga</th>
+              <th>LBP pacijenta</th>
+              <th>Ime i prezime pacijenta</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr
+              *ngFor="let lab of labWorkOrders | paginate: {itemsPerPage: pageSize, currentPage: pageLaboratory, totalItems: totalLaboratory}; let i = index"
+              (click)="onRowClick(lab)">
+              <td>{{lab.id}}</td>
+              <td>{{lab.lbp}}</td>
+              <td>{{lab.patient ? lab.patient.name : ''}} {{lab.patient ? lab.patient.surname : ''}}</td>
+            </tr>
+          </tbody>
+
+        </table>
+<!--        <div class="d-flex align-items-center justify-content-center h-100">-->
+<!--          <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">-->
+<!--          </pagination-controls>-->
+<!--        </div>-->
+
+      </div>
+    </div>
+  </div>
+</form>

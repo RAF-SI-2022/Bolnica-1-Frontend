@@ -1,0 +1,100 @@
+
+<form [formGroup]="form" class="mb-5 needs-validation" novalidate>
+
+  <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+
+    <h2 class="text-center"><b>Pacijenti na stacionaru</b></h2>
+    <div class="row">
+
+      <div class="col-md-4 offset-2">
+        <label class="labels">Ime</label>
+        <input [formControlName]="'name'" name="dateFrom" type="text" class="form-control" data-cy="name">
+      </div>
+      <div class="col-md-4">
+        <label class="labels">Prezime</label>
+        <input [formControlName]="'surname'" type="text" class="form-control" data-cy="surname">
+      </div>
+
+      <div class="col-md-4 offset-2">
+        <label class="labels">LBP</label>
+
+        <input
+          [formControlName]="'lbp'"
+          [(ngModel)]="form.value.lbp"
+          (input)="filterPatientLbp(form.value.lbp)"
+          type="text"
+          class="form-control"
+
+          data-cy="lbp"
+        />
+        <div *ngIf="filteredPatients.length > 0" class="suggestions">
+          <div
+            *ngFor="let fPatient of filteredPatients"
+            (click)="selectSuggestion(fPatient)"
+            class="suggestion"
+          >
+            {{ fPatient.lbp }} - {{ fPatient.name }} {{ fPatient.surname }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="labels">JMBG</label>
+        <input [formControlName]="'jmbg'" type="text" class="form-control" data-cy="jmbg">
+      </div>
+
+      <div class="col-md-4 offset-2">
+        <label class="labels">Broj sobe</label>
+
+        <select class="form-select" name="profession"  id="room" required
+                aria-label="Default select example" [formControlName]="'room'" data-cy = "room">
+          <option [value]="allRooms">Sve sobe</option>
+          <option *ngFor="let item of roomsList" [attr.data-id]="item.id" [value]="item.id">{{item.roomNumber}}
+          </option>
+        </select>
+      </div>
+
+      <div class="mt-4 text-center">
+        <button (click)="getHospitalization()" class="btn btn-primary" type="submit" data-toggle="collapse"
+                data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                data-cy="pretrazi">Pretrazi</button>
+      </div>
+
+      <div class="row py-5">
+        <table class="table table-hover" data-cy="table">
+          <thead>
+          <tr>
+            <th>Broj sobe</th>
+            <th>LBP</th>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Datum rođenja</th>
+          </tr>
+          </thead>
+
+          <tbody>
+
+          <tr
+            *ngFor="let hospitalizationDto of hospitalizationList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
+            (click)="goToWorkspace(hospitalizationDto)"
+          >
+            <td>{{hospitalizationDto.hospitalRoom.roomNumber}}</td>
+            <td>{{hospitalizationDto.lbp}}</td>
+            <td>{{hospitalizationDto.name}}</td>
+            <td>{{hospitalizationDto.surname}}</td>
+            <td>{{hospitalizationDto.dateOfBirth}}</td>
+
+          </tr>
+          </tbody>
+
+        </table>
+
+        <div class="d-flex align-items-center justify-content-center h-100">
+          <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
+          </pagination-controls>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

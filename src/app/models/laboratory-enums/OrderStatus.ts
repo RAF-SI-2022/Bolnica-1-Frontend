@@ -1,0 +1,5 @@
+export enum OrderStatus {
+  NEOBRADJEN="NEOBRADJEN",
+  U_OBRADI="U_OBRADI",
+  OBRADJEN="OBRADJEN"
+}

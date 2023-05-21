@@ -1,0 +1,155 @@
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+
+<div class="container rounded bg-white mt-5 mb-5">
+  <form [formGroup]="addGroup" (submit)="addPatient()" class="mb-5 needs-validation" novalidate>
+    <div class="row justify-content-center">
+      <div class="col-md-8 border-right">
+        <div class="p-3 py-5">
+
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-right">Dodavanje pacijenta</h4>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4"><label class="labels">Ime</label>
+              <input type="text" name="firstName" class="form-control" data-cy="firstName" required [formControlName]="'name'">
+              <div class="invalid-feedback">Unesite vase ime!</div>
+            </div>
+            <div class="col-md-4"><label class="labels">Ime roditelja</label>
+              <input type="text" name ="middleName" class="form-control" data-cy="middleName" required [formControlName]="'parentName'">
+              <div class="invalid-feedback">Unesite ime roditelja!</div>
+            </div>
+            <div class="col-md-4"><label class="labels">Prezime</label>
+              <input type="text" name ="lastName" class="form-control" data-cy="lastName" required [formControlName]="'surname'">
+              <div class="invalid-feedback">Unesite vase prezime!</div>
+            </div>
+          </div>
+
+          <div class="row mt-1">
+            <div class="col-md-8"><label class="labels">JMBG</label>
+              <input type="text" name="JMBG" class="form-control" data-cy="JMBG" required [formControlName]="'jmbg'">
+              <div class="invalid-feedback">Unesite vas JMBG!</div>
+            </div>
+
+            <div class="col-md-4 ">
+              <label class="labels">Pol: </label>
+              <div class="container">
+                <div class="col">
+                  <div class="d-inline-block mt-1">Musko</div> &nbsp;
+                  <div class="form-check form-switch d-inline-block"> &nbsp;
+                    <input [formControlName]="'gender'" name=" gender" type="checkbox" class="form-check-input" data-cy="genderSlider" id="site_state" style="cursor: pointer;">
+                    <label for="site_state" class="form-check-label"> Zensko</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-1">
+            <div class="col-md-4"><label class="labels">Datum rodjenja</label>
+              <input type="date" name="dateOfBirth" class="form-control" data-cy="dateOfBirth" required [formControlName]="'dateOfBirth'">
+              <div class="invalid-feedback">Unesite datum rodjenja!</div>
+            </div>
+            <div class="col-md-4"><label class="labels">Mesto rodjenja</label>
+              <input type="text" name ="placeOfBirth" class="form-control" data-cy="placeOfBirth" required [formControlName]="'birthPlace'" >
+              <div class="invalid-feedback">Unesite mesto rodjenja!</div>
+            </div>
+            <div class="col-md-4"><label class="labels">Zemlja drzavljanstva</label>
+
+              <!--                          <select id="country" [(ngModel)]="selectedCountry">-->
+              <!--                            <option *ngFor="let countryCode of countryCodes" [value]="countryCode" required [formControlName]="'selectedCountry'">{{ countryCode }}</option>-->
+              <!--                          </select>-->
+              <select class="form-select" name="countryOfBirth" data-cy="countryOfBirth"  [formControlName]="'selectedCountry'" required>
+                <option *ngFor="let countryCode of countryCodes" [value]="countryCode">{{ countryCode }}</option>
+              </select>
+              <!--                            <input type="text" name ="countryOfBirth" class="form-control" data-cy="countryOfBirth" required [formControlName]="'citizenship'">-->
+              <div class="invalid-feedback">Unesite zemlju drzavljanstva!</div>
+            </div>
+          </div>
+
+          <div class="row mt-1">
+
+            <div class="col-md-4"><label class="labels">Mesto stanovanja</label>
+              <input type="text" name ="city" class="form-control" data-cy="city" required [formControlName]="'placeOfLiving'">
+            </div>
+            <div class="col-md-4"><label class="labels"></label>
+              <input type="datetime-local" name="dateAndTimeOfDeath" hidden class="form-control" data-cy="dateAndTimeOfDeath" [formControlName]="'dateAndTimeOfDeath'">
+              <div class="invalid-feedback"></div>
+            </div>
+
+
+          </div>
+
+          <div class="row mt-1">
+            <div class="col-md-6"><label class="labels">Kontakt telefon</label>
+              <input type="text" name="phone" class="form-control" data-cy="phone" required [formControlName]="'phone'">
+            </div>
+            <div class="col-md-6"><label class="labels">Email</label>
+              <input type="text" name ="email" class="form-control" data-cy="email" required [formControlName]="'email'">
+            </div>
+          </div>
+
+          <div class="row mt-1">
+            <div class="col-md-6"><label class="labels">Ime i prezime staratelja</label>
+              <input type="text" name="guardianName" class="form-control" data-cy="guardianName" required [formControlName]="'guardianNameAndSurname'">
+            </div>
+            <div class="col-md-6"><label class="labels">JMBG staratelja</label>
+              <input type="text" name ="guardianJMBG" class="form-control" data-cy="guardianJMBG" required [formControlName]="'guardianJmbg'">
+            </div>
+          </div>
+
+          <div class="row mt-1">
+            <div class="col-md-4"><label class="labels">Porodicni status</label>
+              <select class="form-select" name="familyStatus"  data-cy="familyStatus"  [formControlName]="'familyStatus'" required>
+                <option *ngFor="let familyStatus of familyStatus" [value]="familyStatus">{{ familyStatus }}</option>
+              </select>
+            </div>
+            <div class="col-md-4"><label class="labels">Bracni status</label>
+              <select class="form-select" name="maritalStatus"  data-cy="maritalStatus" [formControlName]="'maritalStatus'" required>
+                <option *ngFor="let maritalStatus of maritalStatus" [value]="maritalStatus">{{ maritalStatus }}</option>
+              </select>
+            </div>
+            <div class="col-md-4"><label class="labels">Broj Dece</label>
+              <input type="text" name ="numberOfChildren" class="form-control" data-cy="numberOfChildren" required [formControlName]="'numOfChildren'">
+            </div>
+          </div>
+
+          <div class="row mt-1">
+            <div class="col-md-6"><label class="labels">Stepen strucne spreme</label>
+              <select class="form-select" name="education"  data-cy="education" [formControlName]="'expertiseDegree'" required>
+                <option *ngFor="let expertiseDegree of expertiseDegree" [value]="expertiseDegree">{{ expertiseDegree }}</option>
+
+              </select>
+            </div>
+            <div class="col-md-6"><label class="labels">Zanimanje</label>
+              <input type="text" name ="job" class="form-control" data-cy="job" required [formControlName]="'profession'">
+            </div>
+          </div>
+
+          <div class="mt-4 text-center">
+            <button type="submit" class="btn btn-primary" data-cy="button"><i class="bi bi-save me-1"></i> Napravi</button>
+          </div>
+
+          <br>
+          <div *ngIf="errorMessage.length != 0" class="mt-4 text-center">
+            <label style="color: red"> Neuspeh: {{ errorMessage }} </label>
+          </div>
+
+          <div *ngIf="successMessage.length != 0" class="mt-4 text-center">
+            <label style="color: green" > {{ successMessage }} </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

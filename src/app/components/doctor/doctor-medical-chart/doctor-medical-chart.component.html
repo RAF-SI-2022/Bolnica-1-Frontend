@@ -1,0 +1,609 @@
+<div class="card">
+  <div style="margin-top: 25px;" class="card-body">
+    <h5 class="card-title">Doctor medical chart</h5>
+
+    <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+      <li class="nav-item flex-fill" role="presentation">
+        <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab"
+                data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home"
+                aria-selected="true">Osnovni podaci</button>
+      </li>
+      <li class="nav-item flex-fill" role="presentation">
+        <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab"
+                data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile"
+                aria-selected="false" tabindex="-1">Istorija pregleda</button>
+      </li>
+      <li class="nav-item flex-fill" role="presentation">
+        <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
+                data-bs-target="#bordered-justified-contact" type="button" role="tab" aria-controls="contact"
+                aria-selected="false" tabindex="-1">Istorija bolesti</button>
+      </li>
+      <li class="nav-item flex-fill" role="presentation">
+        <button class="nav-link w-100" id="history-tab" data-bs-toggle="tab"
+                data-bs-target="#bordered-justified-history" type="button" role="tab" aria-controls="history"
+                aria-selected="false" tabindex="-1">Istorija uputa</button>
+      </li>
+      <li class="nav-item flex-fill" role="presentation">
+        <button class="nav-link w-100" id="historyLab-tab" data-bs-toggle="tab"
+                data-bs-target="#bordered-justified-historyLab" type="button" role="tab" aria-controls="historyLab"
+                aria-selected="false" tabindex="-1">Istorija laboratorijskih izveštaja</button>
+      </li>
+    </ul>
+    <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+      <div class="tab-pane fade active show" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
+
+        <section class="section faq">
+          <div class="row">
+            <div class="col-lg-12">
+              <form [formGroup]="generalForm" (submit)="saveGeneralMedical()" class="mb-5 needs-validation" novalidate>
+                <div class="card basic">
+                  <div class="card-body">
+                    <h5 class="card-title"></h5>
+
+                    <div class="row mt-5 align-items-center">
+
+                      <div class="col-md-3"><label  class="labels">Krvna grupa</label>
+                        <select [(ngModel)]="generalMedical.bloodType" name = "bloodType" class="form-select" id="krvnaGrupa" required
+                                aria-label="Default select example" [formControlName]="'bloodGroup'" data-cy = "KrvnaGrupa">
+                          <option value="A">A</option>
+                          <option value="B">B</option>
+                          <option value="0">0</option>
+                          <option value="AB">AB</option>
+
+
+                        </select>
+                      </div>
+
+                      <div class="col-md-3"><label class="labels">Rh faktor</label>
+                        <select [(ngModel)]="generalMedical.rh" name = "rh" class="form-select" id="rH" required
+                                aria-label="Default select example" [formControlName]="'rhFactor'" data-cy = "RhFaktor">
+                          <option value="+">+</option>
+                          <option value="-">-</option>
+
+                        </select>
+                      </div>
+
+                      <div class="mt-4 text-center">
+
+                        <button type="button" class="btn btn-primary" (click)="updateGeneral()" data-cy="btnIzmeni"><i
+                          class="bi bi-pencil-square me-1"></i> Izmeni</button>
+
+                        <button type="submit" class="btn btn-primary ms-4" data-cy="btnSacuvaj" ><i class="bi bi-save me-1"></i>Sacuvaj</button>
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </form>
+            </div>
+
+            <div class="col-lg-12">
+              <form [formGroup]="allergyForm" (submit)="saveAllergy()" class="mb-5 needs-validation" novalidate>
+
+                <div class="card basic">
+                  <div class="card-body">
+                    <div class="container">
+                      <div class="row">
+                        <h5 class="card-title">Alergije</h5>
+                        <div class="col-md-6">
+                          <h4>Lista alergija</h4>
+                          <ul>
+                            <li *ngFor="let item of allergiesList">{{item.name}}</li>
+                          </ul>
+                        </div>
+                        <div class="col-md-6">
+                          <h4>Dodaj novu alergiju</h4>
+                          <div class="mb-3">
+                            <label for="alergen" class="form-label">Izaberi alergen:</label>
+                            <select class="form-select" name="profession"  id="alergen" required
+                                    aria-label="Default select example" [formControlName]="'allergen'" data-cy = "IzaberiAlergen" >
+                              <!-- mozda ovde enum? -->
+                              <option *ngFor="let item of allergies" [attr.data-id]="item.name" [value]="item.name">{{item.name}}
+                              </option>
+                            </select>
+                          </div>
+                          <button type="submit" class="btn btn-primary" data-cy = "dodajAlergiju" >Dodaj alergiju</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="col-lg-12">
+              <form [formGroup]="vaccineForm" (submit)="saveVaccine()" class="mb-5 needs-validation" novalidate>
+
+                <div class="card basic">
+                  <div class="card-body">
+                    <div class="container">
+                      <div class="row">
+                        <h5 class="card-title">Vakcine</h5>
+                        <div class="col-md-6">
+                          <h4>Lista primljenih vakcina</h4>
+                          <ul>
+                            <li *ngFor="let item of vaccinationsList">{{item.name}}</li>
+                          </ul>
+                        </div>
+                        <div class="col-md-6">
+                          <h4>Dodaj novu vakcinu</h4>
+                          <div class="mb-3">
+                            <label for="vakcina" class="form-label">Izaberi vakcinu:</label>
+                            <select class="form-select" name="profession"  id="vakcina" required
+                                    aria-label="Default select example" [formControlName]="'vaccine'" data-cy = "IzaberiVakcinu">
+                              <option *ngFor="let item of vaccines" [attr.data-id]="item.name" [value]="item.name">{{item.name}}
+                              </option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="datum" class="form-label">Datum primanja:</label>
+                            <input type="date" class="form-control" id="datum"[formControlName]="'dateOfReceiving'" data-cy="dateDatumPrimanja">
+                          </div>
+                          <button type="submit" class="btn btn-primary" data-cy = "brnDodajVakcinu" onclick="return confirm('Da li ste sigurni da želite da dodate novu vakcinu?')">Dodaj vakcinu</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="container rounded bg-white mt-0 mb-5 p-3 py-5">
+          <form [formGroup]="examinationForm" (submit)="getExaminationHistoryChoose()" class="mb-5 needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-4 offset-2">
+                <label class="labels">Od datuma</label>
+                <input [(ngModel)]="dateFrom" [formControlName]="'dateFrom'" name = "dateFrom" type="date" class="form-control"
+                       data-cy = "dateFrom" >
+              </div>
+              <div class="col-md-4">
+                <label class="labels">Do datuma</label>
+                <input [(ngModel)]="dateTo" name = "dateTo" [formControlName]="'dateTo'" type="date" class="form-control"
+                       data-cy = "dateTo">
+              </div>
+              <div class="col-md-4 offset-2">
+                <label class="labels">Tačan datum</label>
+                <input [(ngModel)]="correctDate" jmbg = "correctDate" [formControlName]="'correctDate'" type="date" class="form-control"
+                       data-cy = "correctDate" >
+              </div>
+
+
+              <div class="mt-4 text-center">
+                <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
+              </div>
+
+              <div class="row py-5">
+                <table class="table table-hover" data-cy="table1">
+                  <thead>
+                  <tr>
+                    <th>Datum pregleda</th>
+                    <th>Objektivni nalaz</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr
+                    *ngFor="let examination of examinationHistories | paginate: {id: 'firstP', itemsPerPage: pageSize, currentPage: pageExamination, totalItems: totalExamination}; let i = index" (click)="onRowClickExamination(examination)">
+                    <td>{{examination.examDate}}</td>
+                    <td>{{examination.objectiveFinding}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+                <div class="d-flex align-items-center justify-content-center h-100">
+                  <pagination-controls id="firstP" previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeExamination($event)">
+                  </pagination-controls>
+                </div>
+              </div>
+            </div>
+            <!--            <div *ngIf="idExaminationHistory">-->
+            <!--              <h2>Detalji uputa <b>{{idExaminationHistory}}</b></h2>-->
+            <!--              <div *ngFor="let examination of examinationHistories ">-->
+            <!--                <div *ngIf="examination.id === idExaminationHistory">-->
+
+            <!--                  <p><b>Datum</b>: {{examination.examDate}}</p>-->
+            <!--                  <p><b>Lbz</b>: {{examination.lbz}}</p>-->
+            <!--                  <p><b>Poverljivo</b>: {{examination.confidential}}</p>-->
+            <!--                  <p><b>Objektivni nalaz</b>: {{examination.objectiveFinding}}</p>-->
+            <!--                  <p><b>Savet</b>: {{examination.advice}}</p>-->
+            <!--                  <p><b>Terapija</b>: {{examination.therapy}}</p>-->
+            <!--                  <p><b>Dijagnoza kod</b>: {{examination.DiagnosisCodeDto}}</p>-->
+            <!--                  <p><b>Anamneza</b>: {{examination.AnamnesisDto}}</p>-->
+
+            <!--                </div>-->
+            <!--              </div>-->
+            <!--            </div>-->
+            <div *ngIf="idExaminationHistory">
+              <div class="row py-5">
+                <h2>Detalji pregleda <b>{{idExaminationHistory}}</b></h2>
+                <table class="table table-hover" data-cy="table1">
+                  <thead>
+                  <tr>
+                    <th>Datum</th>
+                    <th>LBZ</th>
+                    <th>Poverljivo</th>
+                    <th>Objektivni nalaz</th>
+                    <th>Savet</th>
+                    <th>Terapija</th>
+                    <th>Dijagnoza kod</th>
+                    <th>Anamneza</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <ng-container *ngFor="let examination of examinationHistories">
+                      <ng-container *ngIf="examination.id === idExaminationHistory">
+                        <td>{{examination.examDate}}</td>
+                        <td>{{examination.lbz}}</td>
+                        <td>{{examination.confidential}}</td>
+                        <td>{{examination.objectiveFinding}}</td>
+                        <td>{{examination.advice}}</td>
+                        <td>{{examination.therapy}}</td>
+                        <td>{{examination.diagnosisCodeDto.code}}</td>
+                        <td>{{examination.anamnesisDto.currDisease}}</td>
+                      </ng-container>
+                    </ng-container>
+                  </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="bordered-justified-contact" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="container rounded bg-white mt-0 mb-4 p-3 py-5">
+          <div class="row">
+            <form [formGroup]="medicalForm" (submit)="(getMedicalHistoryByDiagnosisCode())" class="mb-5 needs-validation" novalidate>
+
+              <!-- <div class="col-md-4 offset-4">
+                <label class="labels">Dijagnoza</label>
+                <input [(ngModel)]="diagnosis" name = "diagnosis" type="text" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "diagnosis">
+              </div> -->
+
+              <label class="labels">Unesite dijagnozu</label>
+
+              <input
+              [(ngModel)]="diagnosis"
+              (input)="filterDiagnosisCodes(diagnosis)"
+              name="diagnosis"
+              type="text"
+              class="form-control"
+              [ngModelOptions]="{ standalone: true }"
+              data-cy="diagnosis"
+            />
+                <div *ngIf="filteredDiagnosisCodes.length > 0" class="suggestions">
+                  <div
+                    *ngFor="let suggestion of filteredDiagnosisCodes"
+                    (click)="selectSuggestion(suggestion)"
+                    class="suggestion"
+                  >
+                    {{ suggestion.code }} - {{ suggestion.description }} ({{ suggestion.latinDescription }})
+                  </div>
+                </div>
+
+              <div class="mt-4 text-center">
+                <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi2">Pretrazi</button>
+              </div>
+
+              <div class="row py-5">
+                <table class="table table-hover" data-cy="table2">
+                  <thead>
+                  <tr>
+                    <th>Dijagnoza</th>
+                    <th>Datum početka bolesti</th>
+                    <th>Datum završetka bolesti</th>
+                    <th>Rezultat lečenja</th>
+                    <th>Opis tekućeg stanja</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr
+                    *ngFor="let medical of medicalHistories | paginate: {id: 'secondP', itemsPerPage: pageSize, currentPage: pageMedical, totalItems: totalMedicalHistory}; let i = index">
+                    <td>{{medical.diagnosisCodeDto.code}}</td>
+                    <td>{{medical.startDate}}</td>
+                    <td>{{medical.endDate}}</td>
+                    <td>{{medical.treatmentResult}}</td>
+                    <td>{{medical.currStateDesc}}</td>
+                  </tr>
+
+                  </tbody>
+                </table>
+                <div class="d-flex align-items-center justify-content-center h-100">
+                  <pagination-controls id="secondP" previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeMedicalHistory($event)">
+                  </pagination-controls>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="bordered-justified-history" role="tabpanel" aria-labelledby="history-tab">
+        <div class="container rounded bg-white mt-0 mb-5 p-3 py-5">
+          <form [formGroup]="prescriptionForm" (submit)="getPrescriptions()" class="mb-5 needs-validation" novalidate>
+            <div class="row">
+<!--              <div class="col-md-4 offset-2">-->
+<!--                <label class="labels">Od datuma</label>-->
+<!--                <input [(ngModel)]="dateFromPrescription" name = "dateFrom" type="date" class="form-control" [ngModelOptions]="{standalone: true}" data-cy = "dateFrom" >-->
+<!--              </div>-->
+<!--              <div class="col-md-4">-->
+<!--                <label class="labels">Do datuma</label>-->
+<!--                <input [(ngModel)]="dateToPrescription" name = "dateTo" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">-->
+<!--              </div>-->
+
+<!--              <div class="mt-4 text-center">-->
+<!--                <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>-->
+<!--              </div>-->
+
+              <div class="row py-5">
+                <table class="table table-hover" data-cy="table1">
+                  <thead>
+                  <tr>
+                    <th>ID uputa</th>
+                    <th>Tip uputa</th>
+                    <th>Ime i prezime lekara</th>
+                    <th>Datum i vreme kreiranja</th>
+                    <th>Odakle je upucen</th>
+                    <th>Gde je upucen</th>
+                    <th>Status</th>
+
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr
+                    *ngFor="let prescription of prescriptionHistories | paginate: {id: 'thirdP', itemsPerPage: pageSize, currentPage: pagePrescription, totalItems: totalPrescription}; let i = index" (click)="onRowClick(prescription)">
+                    <td>{{prescription.id}}</td>
+                    <td>{{prescription.type}}</td>
+                    <td>{{prescription.doctorLbz}}</td>
+                    <td>{{prescription.creationDateTime |date:'dd-MM-Y'}}</td>
+                    <td>{{prescription.departmentFromId}}</td>
+                    <td>{{prescription.departmentToId}}</td>
+                    <td>{{prescription.status}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+                <div class="d-flex align-items-center justify-content-center h-100">
+
+                  <pagination-controls id="thirdP" previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangePrescription($event)">
+                  </pagination-controls>
+                </div>
+              </div>
+
+            </div>
+<!--            <div *ngIf="idPrescription">-->
+<!--              <h2>Detalji uputa {{idPrescription}}</h2>-->
+<!--              <div *ngFor="let prescription of prescriptionHistories">-->
+<!--                <div *ngIf="prescription.id === idPrescription">-->
+
+<!--                  <p>{{prescription.type}}</p>-->
+<!--                  <p> {{prescription.departmentFromId}}</p>-->
+<!--                  <p>{{prescription.departmentToId}}</p>-->
+<!--                  <p>{{prescription}}</p>-->
+<!--                  <p> {{prescription}}</p>-->
+<!--                  <p>{{prescription}}</p>-->
+<!--                  <p>{{prescription}}</p>-->
+<!--                  <p> {{prescription}}</p>-->
+<!--                  <p>{{prescription}}</p>-->
+<!--                  <div class="mt-4 text-center">-->
+<!--                    <button *ngIf="delete" (click)="deletePrescription(prescription.id)" class="btn btn-primary" [formControlName]="'deleteButton'"-->
+<!--                            type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="obrisiUput">Obrisi</button>-->
+<!--                  </div>-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--              </div>-->
+<!--            </div>-->
+            <div *ngIf="idPrescription">
+              <div class="row py-5">
+                <h2>Detalji uputa <b>{{idPrescription}}</b></h2>
+                <table class="table table-hover" data-cy="table1">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tip</th>
+                    <th>Iz kog departmana</th>
+                    <th>U koji departman</th>
+                    <th>Doktor LBZ</th>
+                    <th>Komentar</th>
+                    <th>Datum i vreme</th>
+                    <th>Status</th>
+                    <th>Akcija</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <ng-container *ngFor="let prescription of prescriptionHistories">
+                      <ng-container *ngIf="prescription.id === idPrescription">
+                        <td>{{prescription.id}}</td>
+                        <td>{{prescription.type}}</td>
+                        <td>{{prescription.departmentFromId}}</td>
+                        <td>{{prescription.departmentToId}}</td>
+                        <td>{{prescription.doctorLbz}}</td>
+                        <td>{{prescription.comment}}</td>
+                        <td>{{prescription.creationDateTime |date:'dd-MM-Y'}}</td>
+                        <td>{{prescription.status}}</td>
+                        <td>
+                          <a *ngIf="!check(prescription.status)" (click)="deletePrescription(prescription.id)" class="delete" title="Obrisi" data-toggle="tooltip"> <i class="bi bi-x-circle-fill"></i>
+                          </a>
+                        </td>
+                      </ng-container>
+                    </ng-container>
+                  </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="bordered-justified-historyLab" role="tabpanel" aria-labelledby="historyLab-tab">
+        <div class="container rounded bg-white mt-0 mb-5 p-3 py-5">
+          <div *ngIf="!obradjeni">
+            <form [formGroup]="labaratoryForm" (submit)="getLabaratory()" class="mb-5 needs-validation" novalidate>
+              <div class="row">
+                <div class="col-md-4 offset-2">
+                  <label class="labels">Od datuma</label>
+                  <input [(ngModel)]="dateFromLabaratory" name = "dateFromLabaratory" type="date" class="form-control" [ngModelOptions]="{standalone: true}" data-cy = "dateFrom" >
+                </div>
+                <div class="col-md-4">
+                  <label class="labels">Do datuma</label>
+                  <input [(ngModel)]="dateToLabaratory" name = "dateToLabaratory" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">
+                </div>
+
+
+                <div class="mt-4 offset-2">
+                  <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
+                </div>
+
+                <!--              <div class="mt-4 text-center">-->
+                <!--                <button (click)="getObradjeni()" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretraziObradjene">Prikazi samo obradjene</button>-->
+                <!--              </div>-->
+
+                <div class="row py-5">
+                  <table class="table table-hover" data-cy="table1">
+                    <thead>
+                    <tr>
+                      <th>ID radnog naloga</th>
+                      <th>ID uputa</th>
+                      <th>Datum i vreme kreiranja</th>
+                      <th>Status</th>
+                      <th>Detaljan prikaz</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr
+                      *ngFor="let lab of labWorkOrders | paginate: {id:'forthP', itemsPerPage: pageSize, currentPage: pageLaboratory, totalItems: totalLaboratory}; let i = index">
+                    <!--sta je ID RADNOG NALOGA???  -->
+                    <td>{{lab.id}}</td>
+                    <td>{{lab.prescription.id}}</td>
+                    <td>{{lab.creationDateTime |date:'dd-MM-Y'}}</td>
+                    <td>{{lab.status}}</td>
+                      <td *ngIf="lab.status === checkStatus && lab.status">
+                        <button (click)="showDetails(lab)"  class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="sacuvaj">Detalji</button>
+                      </td>
+
+
+                    </tr>
+                    </tbody>
+                  </table>
+                  <div class="d-flex align-items-center justify-content-center h-100">
+                    <pagination-controls id="forthP" previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeLab($event)">
+                    </pagination-controls>
+                  </div>
+                </div>
+
+                <div *ngIf="showDetailsBoolean">
+                  <button (click)="closeDetails()"  class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="sacuvaj">Zatvori detalje</button>
+
+
+                  <div class="row py-5">
+                    <table class="table table-hover" data-cy="table1">
+                      <thead>
+                      <tr>
+                        <th>ID lab. analize</th>
+                        <th>Skracenica lab. analize</th>
+                        <th>ID parametra</th>
+                        <th>Naziv parametra</th>
+                        <th>Rezultat</th>
+                        <th>Jedinica mere</th>
+                        <th>Donja granica</th>
+                        <th>Gornja granica</th>
+                        <th>Datum i vreme upisa rezultata</th>
+                        <th>LBZ zaposlenog</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let p of parameterAnalysisResults">
+                        <td>{{p.labAnalysis.id}}</td>
+                        <td>{{p.labAnalysis.abbreviation}}</td>
+                        <td>{{p.parameter.id}}</td>
+                        <td>{{p.parameter.parameterName}}</td>
+                        <td >{{p.result}}</td>
+                        <td>{{p.parameter.unitOfMeasure}}</td>
+                        <td>{{p.parameter.lowerLimit}}</td>
+                        <td>{{p.parameter.upperLimit}}</td>
+                        <td>{{p.dateTime|date:'dd-MM-Y'}}</td>
+                        <td>{{p.lbzBiochemist}}</td>
+
+                      </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+
+            </form>
+          </div>
+          <!--            <div *ngIf="obradjeni">-->
+          <!--              <form [formGroup]="labaratoryForm" (submit)="getLabaratoryObradjeni()" class="mb-5 needs-validation" novalidate>-->
+          <!--                <div class="row">-->
+          <!--                  <div class="col-md-4 offset-2">-->
+          <!--                    <label class="labels">Od datuma</label>-->
+          <!--                    <input [(ngModel)]="dateFromLabaratory" name = "dateFrom" type="date" class="form-control" [ngModelOptions]="{standalone: true}" data-cy = "dateFrom" >-->
+          <!--                  </div>-->
+          <!--                  <div class="col-md-4">-->
+          <!--                    <label class="labels">Do datuma</label>-->
+          <!--                    <input [(ngModel)]="dateToLabaratory" name = "dateTo" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">-->
+          <!--                  </div>-->
+          <!--                  <div class="col-md-4 offset-2">-->
+          <!--                    <label class="labels">Tačan datum</label>-->
+          <!--                    <input [(ngModel)]="correctDateLabaratory" name = "correctDateLabaratory" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "correctDate" >-->
+          <!--                  </div>-->
+
+          <!--                  <div class="mt-4 offset-2">-->
+          <!--                    <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>-->
+          <!--                  </div>-->
+          <!--                  <div class="mt-4 text-center">-->
+          <!--                    <button (click)="getNeobradjeni()" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretraziObradjene">Prikazi samo neobradjene</button>-->
+          <!--                  </div>-->
+
+          <!--                  <div class="row py-5">-->
+          <!--                    <table class="table table-hover" data-cy="table1">-->
+          <!--                      <thead>-->
+          <!--                      <tr>-->
+          <!--                        <th>ID labaratorijske analize</th>-->
+          <!--                        <th>Skracenica labaratorijske analize</th>-->
+          <!--                        <th>ID parametra</th>-->
+          <!--                        <th>Naziv parametra</th>-->
+          <!--                        <th>Rezultat</th>-->
+          <!--                        <th>Jedinica mere</th>-->
+          <!--                        <th>Donja granica</th>-->
+          <!--                        <th>Gornja granica</th>-->
+          <!--                        <th>Datum upisa reazultata</th>-->
+          <!--                        <th>Vreme upisa reazultata</th>-->
+          <!--                        <th>Ime i prezime zaposlenog</th>-->
+          <!--                      </tr>-->
+          <!--                      </thead>-->
+          <!--                      <tbody>-->
+          <!--                      <tr-->
+          <!--                        *ngFor="let lab of detailsLabWorkOrders | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total}; let i = index">-->
+          <!--                        <td>{{lab.id}}</td>-->
+          <!--                        <td>{{lab}}</td>-->
+          <!--                        <td>{{lab.parameterAnalysisResults}}</td>-->
+          <!--                        <td>{{lab.parameterAnalysisResults}}</td>-->
+
+          <!--                      </tr>-->
+          <!--                      </tbody>-->
+          <!--                    </table>-->
+          <!--                    <div class="d-flex align-items-center justify-content-center h-100">-->
+          <!--                      <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">-->
+          <!--                      </pagination-controls>-->
+          <!--                    </div>-->
+          <!--                  </div>-->
+          <!--                </div>-->
+          <!--              </form>-->
+          <!--            </div>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

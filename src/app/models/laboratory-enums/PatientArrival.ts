@@ -1,0 +1,8 @@
+export enum PatientArrival{
+  ZAKAZANO="ZAKAZANO",
+  OTKAZANO="OTKAZANO",
+  CEKA="CEKA",
+  TRENUTNO="TRENUTNO",
+  ZAVRSENO="ZAVRSENO"
+
+}

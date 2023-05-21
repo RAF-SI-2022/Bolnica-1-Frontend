@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <h2><b>Danasnji zakazani termini</b></h2>
+
+      </div>
+
+<!--      <label for="date">Izaberite datum: </label>-->
+<!--      <input type="date" id="date" name="date">-->
+
+
+<!--      <div class="me-auto float-end text-end mt-3 mb-3">-->
+<!--        <button type="submit" class="btn btn-primary">Pretrazi</button>-->
+<!--      </div>-->
+
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Satnica</th>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Datum rodjenja </th>
+            <th>Pol</th>
+            <th>Status</th>
+            <th> </th>
+            <th> </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="table-row">
+          <tr *ngFor="let patient of patients2" >
+
+            <td>{{patient.examDate | date:'shortTime'}}
+
+            <td>{{patient.name}}</td>
+            <td>{{patient.surname}}</td>
+            <td>{{patient.dateOfBirth}}</td>
+            <td>{{patient.gender}}</td>
+<!--          <tr>-->
+
+<!--            <td>Pera</td>-->
+<!--            <td>Prezime</td>-->
+<!--            <td>Datum</td>-->
+<!--            <td>Pol</td>-->
+            <!--- Trenutno je za status samo napravljena lista koja je obojena, treba da se uradi logika za dobavljanje statusa da bi se
+            status namestio da se oboji koji postoji a ostali da ostanu sivi-->
+            <td>
+              <span class="badge" [ngClass]="getStatusClass(patient.patientArrival)">{{ patient.patientArrival }}</span>
+            </td>
+
+
+            <!--*ngIf="patient.patientArrival.toString() === ceka.toString()"-->
+
+
+            <td ><button *ngIf="patient.patientArrival.toString() === 'CEKA' || patient.patientArrival.toString() === 'TRENUTNO'" (click)="startExam(patient)" class="btn btn-primary" >Pregled</button></td>
+          </tr>
+          </tbody>
+        </table>
+
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
+

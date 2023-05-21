@@ -1,0 +1,95 @@
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <link rel="stylesheet" href="/path/to/bootstrap.min.css">
+    <script src="/path/to/jquery.min.js"></script>
+    <script src="/path/to/bootstrap.bundle.min.js"></script>
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  </head>
+
+  <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+    <form [formGroup]="form"  class="mb-5 needs-validation" novalidate>
+    <div class="row">
+        <div class="col-md-4">
+          <label class="labels">LBP</label>
+
+            <input
+            [formControlName]="'lbp'"
+            [(ngModel)]="form.value.lbp"
+            (input)="filterPatientLbp(form.value.lbp)"
+            type="text"
+            class="form-control"
+
+            data-cy="lbp"
+          />
+              <div *ngIf="filteredPatients.length > 0" class="suggestions">
+                <div
+                  *ngFor="let fPatient of filteredPatients"
+                  (click)="selectSuggestion(fPatient)"
+                  class="suggestion"
+                >
+                  {{ fPatient.lbp }} - {{ fPatient.name }} {{ fPatient.surname }}
+                </div>
+              </div>
+        </div>
+
+        <div class="col-md-4"><label class="labels">Od</label>
+            <input type="date" [formControlName]="'from'" name="from" class="form-control" data-cy="dateFrom">
+            <div class="invalid-feedback">Unesite datum!</div>
+        </div>
+
+        <div class="col-md-4"><label class="labels">Do</label>
+            <input type="date" [formControlName]="'to'"  name="to" class="form-control" data-cy="dateTo">
+            <div class="invalid-feedback">Unesite datum!</div>
+        </div>
+
+        <div class="mt-4 text-center">
+            <button class="btn btn-primary" type="button" (click)="findWorkOrders()" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
+        </div>
+
+    <div class="row py-5">
+        <table class="table table-hover" data-cy="table">
+            <thead>
+                <tr>
+                    <th>ID radnog naloga</th>
+                    <th>ID uputa</th>
+                    <th>Datum i vreme kreiranja</th>
+                    <th>Status obrade</th>
+                    <th>Akcija</th>
+                </tr>
+            </thead>
+            <tbody>
+               <tr
+                 *ngFor="let labWorkOrder of labWorkOrderList | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total};  let i = index" >
+                 <td>{{labWorkOrder.id}}</td>
+                 <td>{{labWorkOrder.prescription.id}}</td>
+                 <td>{{labWorkOrder.creationDateTime |date:'dd-MM-Y'}}</td>
+                 <td>{{labWorkOrder.status}}</td>
+                 <td *ngIf="labWorkOrder.status == 'OBRADJEN'">
+                   <a (click)="navigateToDetails(labWorkOrder)" class="settings" title="Podesavanja" data-toggle="tooltip"><i
+                     class="bi bi-gear-fill"></i></a>
+                 </td>
+
+               </tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex align-items-center justify-content-center h-100">
+          <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
+          </pagination-controls>
+        </div>
+      </div>
+      </div>
+    </form>
+  </div>
