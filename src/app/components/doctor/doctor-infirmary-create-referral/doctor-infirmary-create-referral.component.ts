@@ -218,7 +218,7 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
     // });
 
     this.infirmaryService.sendPrescriptionToLab(
-      PrescriptionType.STACIONAR, this.lbz, this.departmentFromId, this.departmentToId, this.lbp,
+      PrescriptionType.LABORATORIJA, this.lbz, this.departmentFromId, this.departmentToId, this.lbp,
        new Date(), PrescriptionStatus.NEREALIZOVAN, referral.comment,
       "dijagnoza", "razlog",this.prescriptionArray
     ).subscribe(res => {
