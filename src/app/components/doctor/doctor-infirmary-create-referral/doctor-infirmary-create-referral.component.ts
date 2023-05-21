@@ -262,7 +262,10 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
 
 
   getParams() {
-    this.laboratoryService.getAnalysisParams(this.selectedAnalysis, this.page, this.pageSize).subscribe((response) => {
+    if (this.page == 0)
+      this.page = 1;
+
+    this.laboratoryService.getAnalysisParams(this.selectedAnalysis, this.page - 1, this.pageSize).subscribe((response) => {
       this.paramsPage = response
       this.paramsList = this.paramsPage.content
       this.total = this.paramsPage.totalElements
@@ -276,8 +279,10 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
 
   getHospitalsByDepName() {
     console.log("name " + this.selectedDepartment)
+    if (this.page == 0)
+      this.page = 1;
 
-    this.userService.getDepartmentForRefferal(this.selectedDepartment, this.page, this.pageSize).subscribe((res) => {
+    this.userService.getDepartmentForRefferal(this.selectedDepartment, this.page - 1, this.pageSize).subscribe((res) => {
 
       this.hospitalPage = res
       this.hospitals = this.hospitalPage.content

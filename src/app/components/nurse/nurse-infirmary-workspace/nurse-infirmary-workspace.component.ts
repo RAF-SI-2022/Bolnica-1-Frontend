@@ -67,9 +67,12 @@ export class NurseInfirmaryWorkspaceComponent implements OnInit {
     sendData.lbp = sendData.lbp.split("-")[0].toString().trim();
     console.log("sending lbp: " + sendData.lpb)
 
+    if (this.page == 0)
+      this.page = 1;
+
     this.infirmaryService.getHospitalizationsWithFilter(
       sendData.name, sendData.surname, sendData.jmbg,
-      this.departmentIdNumber, sendData.lbp, this.page, this.PAGE_SIZE
+      this.departmentIdNumber, sendData.lbp, this.page - 1, this.PAGE_SIZE
     ).subscribe(
       res => {
         this.hospitalizationPage = res

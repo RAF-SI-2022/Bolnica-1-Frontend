@@ -119,14 +119,17 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
 
+    if (this.page == 0)
+      this.page = 1;
+
     this.infirmaryService.findPrescriptionsWithFilter(sendData.lbp, this.departmentIdNumber,
-      PrescriptionStatus.NEREALIZOVAN, this.page,
+      PrescriptionStatus.NEREALIZOVAN, this.page - 1,
       this.PAGE_SIZE).subscribe(
       res => {
         this.prescriptionPage = res
         this.prescriptionList = this.prescriptionPage.content
-
         this.total = this.prescriptionPage.totalElements
+
         if (this.prescriptionList.length == 0) {
           this.snackBar.openWarningSnackBar("Nema uputa!")
         }
@@ -138,11 +141,11 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
 
   getRooms(): void{
     this.infirmaryService.getHospitalRoomsByDepartmentId(this.departmentIdNumber,
-      this.page,this.PAGE_SIZE).subscribe(
+      1,100).subscribe(
       res => {
         this.roomsPage = res
         this.roomsList = this.roomsPage.content
-        this.total = this.roomsPage.totalElements
+       // this.total = this.roomsPage.totalElements
         if (this.roomsList.length == 0) {
           this.snackBar.openWarningSnackBar("Nema slobodnih soba!")
         }
