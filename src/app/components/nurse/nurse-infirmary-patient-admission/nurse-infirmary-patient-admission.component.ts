@@ -139,9 +139,12 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     )
   }
 
+
+  // bilo je pre da ide od 1 do 100 ali onda vraca prazno
+  // ako ide od 0 do 100 onda vrati ono sto je u bazi
   getRooms(): void{
     this.infirmaryService.getHospitalRoomsByDepartmentId(this.departmentIdNumber,
-      1,100).subscribe(
+      0,100).subscribe(
       res => {
         this.roomsPage = res
         this.roomsList = this.roomsPage.content
