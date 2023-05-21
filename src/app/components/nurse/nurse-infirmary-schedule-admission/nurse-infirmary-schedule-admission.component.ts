@@ -114,8 +114,11 @@ export class NurseInfirmaryScheduleAdmissionComponent implements OnInit {
     sendData.lbp = sendData.lbp.split("-")[0].toString().trim();
     console.log("sending lbp: " + sendData.lpb)
 
+    if (this.page == 0)
+      this.page = 1;
+
     this.infirmaryService.findPrescriptionsWithFilter(sendData.lbp, this.departmentIdNumber,
-      PrescriptionStatus.NEREALIZOVAN, this.page,
+      PrescriptionStatus.NEREALIZOVAN, this.page - 1,
       this.PAGE_SIZE).subscribe(
       res => {
         this.prescriptionPage = res
@@ -165,6 +168,9 @@ export class NurseInfirmaryScheduleAdmissionComponent implements OnInit {
 
 
   populatePatients() {
+    // if (this.page == 0)
+    //   this.page = 1;
+
     this.patientService.getAllPatients("", "","", "", 0, 100).subscribe(res => {
       this.patients = res.content;
       console.log("IMA NAS " + res.content.length)
