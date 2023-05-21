@@ -281,6 +281,11 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     this.router.navigate(['doctor-medical-chart', this.lbp]);
   }
 
+  goToScheduleExam(): void {
+    const url = `/doctor-schedule-exam/${this.lbp}`;
+    this.router.navigateByUrl(url);
+  }
+
 
   showElements(): void {
     this.show = true;

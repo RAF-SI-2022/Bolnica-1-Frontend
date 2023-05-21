@@ -206,23 +206,7 @@
                 </div>
               </div>
             </div>
-            <!--            <div *ngIf="idExaminationHistory">-->
-            <!--              <h2>Detalji uputa <b>{{idExaminationHistory}}</b></h2>-->
-            <!--              <div *ngFor="let examination of examinationHistories ">-->
-            <!--                <div *ngIf="examination.id === idExaminationHistory">-->
 
-            <!--                  <p><b>Datum</b>: {{examination.examDate}}</p>-->
-            <!--                  <p><b>Lbz</b>: {{examination.lbz}}</p>-->
-            <!--                  <p><b>Poverljivo</b>: {{examination.confidential}}</p>-->
-            <!--                  <p><b>Objektivni nalaz</b>: {{examination.objectiveFinding}}</p>-->
-            <!--                  <p><b>Savet</b>: {{examination.advice}}</p>-->
-            <!--                  <p><b>Terapija</b>: {{examination.therapy}}</p>-->
-            <!--                  <p><b>Dijagnoza kod</b>: {{examination.DiagnosisCodeDto}}</p>-->
-            <!--                  <p><b>Anamneza</b>: {{examination.AnamnesisDto}}</p>-->
-
-            <!--                </div>-->
-            <!--              </div>-->
-            <!--            </div>-->
             <div *ngIf="idExaminationHistory">
               <div class="row py-5">
                 <h2>Detalji pregleda <b>{{idExaminationHistory}}</b></h2>
@@ -384,27 +368,7 @@
               </div>
 
             </div>
-            <!--            <div *ngIf="idPrescription">-->
-            <!--              <h2>Detalji uputa {{idPrescription}}</h2>-->
-            <!--              <div *ngFor="let prescription of prescriptionHistories">-->
-            <!--                <div *ngIf="prescription.id === idPrescription">-->
 
-            <!--                  <p>{{prescription.type}}</p>-->
-            <!--                  <p> {{prescription.departmentFromId}}</p>-->
-            <!--                  <p>{{prescription.departmentToId}}</p>-->
-            <!--                  <p>{{prescription}}</p>-->
-            <!--                  <p> {{prescription}}</p>-->
-            <!--                  <p>{{prescription}}</p>-->
-            <!--                  <p>{{prescription}}</p>-->
-            <!--                  <p> {{prescription}}</p>-->
-            <!--                  <p>{{prescription}}</p>-->
-            <!--                  <div class="mt-4 text-center">-->
-            <!--                    <button *ngIf="delete" (click)="deletePrescription(prescription.id)" class="btn btn-primary" [formControlName]="'deleteButton'"-->
-            <!--                            type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="obrisiUput">Obrisi</button>-->
-            <!--                  </div>-->
-            <!--&lt;!&ndash;                </div>&ndash;&gt;-->
-            <!--              </div>-->
-            <!--            </div>-->
             <div *ngIf="idPrescription && !deleted">
               <div class="row py-5">
                 <h2>Detalji uputa <b>{{idPrescription}}</b></h2>
@@ -614,15 +578,16 @@
 
       <div class="tab-pane fade" id="bordered-justified-history-discharge" role="tabpanel" aria-labelledby="history-tab">
         <div class="container rounded bg-white mt-0 mb-5 p-3 py-5">
-          <form [formGroup]="prescriptionForm" (submit)="getPrescriptions()" class="mb-5 needs-validation" novalidate>
+          <form [formGroup]="historyForm" (submit)="getInfirmaryHistory()" class="mb-5 needs-validation" novalidate>
             <div class="row">
               <div class="col-md-4 offset-2">
                 <label class="labels">Od datuma</label>
-                <input [(ngModel)]="dateFromPrescription" name = "dateFrom" type="date" class="form-control" [ngModelOptions]="{standalone: true}" data-cy = "dateFrom" >
+                <input [(ngModel)]="dateFromHistory" name = "dateFromHistory" type="date" class="form-control" [ngModelOptions]="{standalone: true}" data-cy = "dateFrom" >
               </div>
               <div class="col-md-4">
                 <label class="labels">Do datuma</label>
-                <input [(ngModel)]="dateToPrescription" name = "dateTo" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">
+                <input [(ngModel)]="dateToHistory" name = "dateToHistory" type="date" class="form-control"[ngModelOptions]="{standalone: true}" data-cy = "dateTo">
+
               </div>
 
               <div class="mt-4 text-center">
@@ -633,25 +598,27 @@
                 <table class="table table-hover" data-cy="table1">
                   <thead>
                   <tr>
-                    <th>ID liste</th>
-                    <th>Datum prijema</th>
+                    <th>ID otpusnog lista</th>
+                    <th>ID hospitalizacije</th>
                     <th>Datum otpustanja</th>
+                    <th>Akcija</th>
 
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>ID liste</td>
-                    <td>Datum prijema</td>
-                    <td>Datum otpustanja</td>
-<!--                    *ngFor="let prescription of prescriptionHistories | paginate: {itemsPerPage: pageSize, currentPage: pagePrescription, totalItems: totalPrescription}; let i = index" (click)="onRowClick(prescription)">-->
-<!--                    <td>{{prescription.id}}</td>-->
-<!--                    <td>{{prescription.type}}</td>-->
-<!--                    <td>{{prescription.doctorLbz}}</td>-->
-<!--                    <td>{{prescription.creationDateTime |date:'dd-MM-Y'}}</td>-->
-<!--                    <td>{{prescription.departmentFromId}}</td>-->
-<!--                    <td>{{prescription.departmentToId}}</td>-->
-<!--                    <td>{{prescription.status}}</td>-->
+                  <tr
+                    *ngFor="let history of dischargeListHistories | paginate: {itemsPerPage: pageSize, currentPage: pageExamination, totalItems: totalExamination}; let i = index" (click)="onRowClickDischarge(history)">
+                    <td>{{history.id}}</td>
+<!--                    <td>{{currentHospitalization.patientAdmission|date:'dd-MM-Y'}}</td>-->
+                    <td>{{history.hospitalizationId}}</td>
+                    <td>{{history.creation|date:'dd-MM-Y'}}</td>
+
+                    <td>
+                      <button (click)="showDetailsDischargeList(history)"  class="btn btn-primary" type="submit"
+                              data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="sacuvaj">Detalji</button>
+                    </td>
+
+
                   </tr>
                   </tbody>
                 </table>
@@ -661,50 +628,45 @@
                   </pagination-controls>
                 </div>
               </div>
-
             </div>
-
-            <div *ngIf="idPrescription && !deleted">
+            <div *ngIf="selectedDischargeListBoolean">
               <div class="row py-5">
-                <h2>Detalji uputa <b>{{idPrescription}}</b></h2>
+                <h5>Detalji otpusne liste čiji je id: <b>{{selectedDischargeList.id}}</b></h5>
                 <table class="table table-hover" data-cy="table1">
                   <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>Tip</th>
-                    <th>Iz kog departmana</th>
-                    <th>U koji departman</th>
-                    <th>Doktor LBZ</th>
-                    <th>Komentar</th>
-                    <th>Datum i vreme</th>
-                    <th>Status</th>
-                    <th>Akcija</th>
+<!--                    <th>ID hospitalizacije</th>-->
+<!--                    <th>Datum kreiranja</th>-->
+                    <th>Prateće dijagnoze</th>
+                    <th>Anamneze</th>
+                    <th>Analize</th>
+                    <th>Bolesti</th>
+                    <th>Rezime</th>
+                    <th>Odeljenje</th>
+                    <th>Zaposleni</th>
+
                   </tr>
                   </thead>
                   <tbody>
                   <tr>
-                    <ng-container *ngFor="let prescription of prescriptionHistories">
-                      <ng-container *ngIf="prescription.id === idPrescription">
-                        <td>{{prescription.id}}</td>
-                        <td>{{prescription.type}}</td>
-                        <td>{{prescription.departmentFromId}}</td>
-                        <td>{{prescription.departmentToId}}</td>
-                        <td>{{prescription.doctorLbz}}</td>
-                        <td>{{prescription.comment}}</td>
-                        <td>{{prescription.creationDateTime |date:'dd-MM-Y'}}</td>
-                        <td>{{prescription.status}}</td>
-                        <td>
-                          <a *ngIf="!check(prescription.status)" (click)="deletePrescription(prescription.id)" class="delete" title="Obrisi" data-toggle="tooltip"> <i class="bi bi-x-circle-fill"></i>
-                          </a>
-                        </td>
-                      </ng-container>
-                    </ng-container>
+
+<!--                    <td>{{selectedDischargeList.hospitalizationId}}</td>-->
+<!--                    <td>{{selectedDischargeList.creation|date:'dd-MM-Y'}}</td>-->
+                    <td>{{selectedDischargeList.followingDiagnosis}}</td>
+                    <td>{{selectedDischargeList.anamnesis}}</td>
+                    <td>{{selectedDischargeList.analysis}}</td>
+                    <td>{{selectedDischargeList.courseOfDisease}}</td>
+                    <td>{{selectedDischargeList.summary}}</td>
+                    <td>{{selectedDischargeList.lbzDepartment}}</td>
+                    <td>{{selectedDischargeList.lbzPrescribing}}</td>
+
                   </tr>
 
                   </tbody>
                 </table>
               </div>
             </div>
+
           </form>
         </div>
       </div>

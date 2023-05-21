@@ -248,7 +248,7 @@ export class InfirmaryService {
     lbp: string,
     page: number,
     size: number
-  ): Observable<DischargeListDto>{
+  ): Observable<Page<DischargeListDto>>{
 
     let httpParams = new HttpParams()
       .append("hospitalizationId", hospitalizationId)
@@ -258,7 +258,31 @@ export class InfirmaryService {
       .append("page", page)
       .append("size",size)
 
-    return this.http.get<DischargeListDto>(
+    return this.http.get<Page<DischargeListDto>>(
+      `${environmentInfirmary.apiURL}/dischargeList/getDischargeListByHospitalizationId`,
+      {params: httpParams, headers: this.getHeaders() });
+
+  }
+
+  /**
+   * Pretraga otpusne liste po datumu i lbp-u
+   * */
+  public getDischargeListWithoutHospitalizationId(
+    startDate: Date,
+    endDate: Date,
+    lbp: string,
+    page: number,
+    size: number
+  ): Observable<Page<DischargeListDto>>{
+
+    let httpParams = new HttpParams()
+      .append("startDate", startDate.toString())
+      .append("endDate",endDate.toString())
+      .append("lbp", lbp)
+      .append("page", page)
+      .append("size",size)
+
+    return this.http.get<Page<DischargeListDto>>(
       `${environmentInfirmary.apiURL}/dischargeList/getDischargeListByHospitalizationId`,
       {params: httpParams, headers: this.getHeaders() });
 
@@ -316,7 +340,36 @@ export class InfirmaryService {
     surname: string,
     jmbg: string,
     departmentId: number,
-    // hospitalRoomId: number,
+    lbp: string,
+    page: number,
+    size: number
+  ): Observable<Page<HospitalizationDto>> {
+
+    let httpParams = new HttpParams()
+      .append("name",name)
+      .append("surname", surname)
+      .append("jmbg", jmbg)
+      .append("departmentId", departmentId)
+      .append("lbp", lbp)
+      .append("page", page)
+      .append("size",size)
+
+
+    return this.http.get<Page<HospitalizationDto>>(
+      `${environmentInfirmary.apiURL}/hospitalization/getHospitalizationsWithFilter`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
+
+  /**
+   * Pretraga hospitalizacija po filteru
+   * */
+  public getHospitalizationsWithFilterWithRoom(
+    name: string,
+    surname: string,
+    jmbg: string,
+    departmentId: number,
+    hospitalRoomId: number,
     lbp: string,
     // startDate: Date,
     // endDate: Date,
@@ -324,11 +377,42 @@ export class InfirmaryService {
     size: number
   ): Observable<Page<HospitalizationDto>> {
 
-    // na beku je date u infirmaty, nije Long
-    // const startDate = new Date(startDatee)
-    // const endDate = new Date(endDatee)
+    console.log("room", hospitalRoomId)
 
-    // DA LI CE OVO SA DATUMOM RADITI?
+    let httpParams = new HttpParams()
+      .append("name",name)
+      .append("surname", surname)
+      .append("jmbg", jmbg)
+      .append("departmentId", departmentId)
+      .append("hospitalRoomId", hospitalRoomId)
+      .append("lbp", lbp)
+      // .append("startDate", startDate.getDate())
+      // .append("endDate", endDate.getDate())
+      .append("page", page)
+      .append("size",size)
+
+
+    return this.http.get<Page<HospitalizationDto>>(
+      `${environmentInfirmary.apiURL}/hospitalization/getHospitalizationsWithFilter`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
+
+  /**
+   * Pretraga hospitalizacija po filteru
+   * */
+  public getHospitalizationsWithFilterWithDates(
+    name: string,
+    surname: string,
+    jmbg: string,
+    departmentId: number,
+    // hospitalRoomId: number,
+    lbp: string,
+    startDate: Date,
+    endDate: Date,
+    page: number,
+    size: number
+  ): Observable<Page<HospitalizationDto>> {
 
     let httpParams = new HttpParams()
       .append("name",name)
@@ -337,8 +421,8 @@ export class InfirmaryService {
       .append("departmentId", departmentId)
       // .append("hospitalRoomId", hospitalRoomId)
       .append("lbp", lbp)
-      // .append("startDate", startDate.getDate())
-      // .append("endDate", endDate.getDate())
+      .append("startDate", startDate.toString())
+      .append("endDate", endDate.toString())
       .append("page", page)
       .append("size",size)
 

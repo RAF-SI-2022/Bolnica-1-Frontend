@@ -85,6 +85,7 @@ import { NurseInfirmarySearchAdmissionComponent } from './components/nurse/nurse
 import {
   ReceptionistWorkspaceComponent
 } from "./components/receptionist/receptionist-workspace/receptionist-workspace.component";
+import { DoctorScheduleExamComponent } from './components/doctor/doctor-schedule-exam/doctor-schedule-exam.component';
 
 
 
@@ -146,7 +147,8 @@ import {
     NurseInfirmaryRegisterVisitComponent,
     NurseInfirmaryStateHistoryComponent,
     NurseInfirmaryVisitsHistoryComponent,
-    NurseInfirmarySearchAdmissionComponent
+    NurseInfirmarySearchAdmissionComponent,
+    DoctorScheduleExamComponent
   ],
   imports: [
     BrowserModule,

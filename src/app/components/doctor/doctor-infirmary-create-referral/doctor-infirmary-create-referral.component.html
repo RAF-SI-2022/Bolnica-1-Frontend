@@ -40,30 +40,30 @@
                         </div>
 
 
-                        <div class="col-6 mt-3">
-                          <label for="department">Odeljenje na koje se upucuje:</label>
-                          <select [(ngModel)]="selectedDepartment" id="department" name="department" class="form-select"
-                                  aria-label="Default select example" data-cy="department" required
-                                  (change)="onDepartmentSelected($event)">
-                            <option *ngFor="let item of departments" [value]="item.name">{{item.name}}</option>
-                          </select>
-                        </div>
+<!--                        <div class="col-6 mt-3">-->
+<!--                          <label for="department">Odeljenje na koje se upucuje:</label>-->
+<!--                          <select [(ngModel)]="selectedDepartment" id="department" name="department" class="form-select"-->
+<!--                                  aria-label="Default select example" data-cy="department" required-->
+<!--                                  (change)="onDepartmentSelected($event)">-->
+<!--                            <option *ngFor="let item of departments" [value]="item.name">{{item.name}}</option>-->
+<!--                          </select>-->
+<!--                        </div>-->
 
-                        <div class="col-12 mt-3">
-                          <button class="btn btn-outline-primary" (click)="getHospitalsByDepName()">Pretrazi
-                            ustanove</button>
-                        </div>
+<!--                        <div class="col-12 mt-3">-->
+<!--                          <button class="btn btn-outline-primary" (click)="getHospitalsByDepName()">Pretrazi-->
+<!--                            ustanove</button>-->
+<!--                        </div>-->
 
-                        <div class="col-md-6">
-                          <label>Zdravstvena ustanova u koju se upucuje:</label>
-                          <div *ngFor="let h of hospitals">
-                            <div class="form-check">
-                              <input class="" type="checkbox" id="departmentToId" name="departmentToId"
-                                     (change)="onCheckboxChangeForHospital($event, h.id)"> &nbsp;
-                              <label class="form-check-label" for="{{ h }}"> {{ h.hospitalName }}</label>
-                            </div>
-                          </div>
-                        </div>
+<!--                        <div class="col-md-6">-->
+<!--                          <label>Zdravstvena ustanova u koju se upucuje:</label>-->
+<!--                          <div *ngFor="let h of hospitals">-->
+<!--                            <div class="form-check">-->
+<!--                              <input class="" type="checkbox" id="departmentToId" name="departmentToId"-->
+<!--                                     (change)="onCheckboxChangeForHospital($event, h.id)"> &nbsp;-->
+<!--                              <label class="form-check-label" for="{{ h }}"> {{ h.hospitalName }}</label>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
 
 
                       </div>

@@ -184,14 +184,14 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
       this.snackBar.openErrorSnackBar("Popunite trazena polja!")
       return;
     }
-    if(this.totalDepartmentsChecked == 0){
-      this.snackBar.openErrorSnackBar("Izaberite parametre")
-      return;
-    }
-    if(this.totalHopsitalChecked == 0){
-      this.snackBar.openErrorSnackBar("Izaberite bolnicu")
-      return;
-    }
+    // if(this.totalDepartmentsChecked == 0){
+    //   this.snackBar.openErrorSnackBar("Izaberite parametre")
+    //   return;
+    // }
+    // if(this.totalHopsitalChecked == 0){
+    //   this.snackBar.openErrorSnackBar("Izaberite bolnicu")
+    //   return;
+    // }
 
     if(!confirm('Da li ste sigurni da želite da napravite uput?')){
       return;
@@ -239,8 +239,19 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
   getDepartments(): void {
     this.userService.getDepartments().subscribe(res => {
       this.departments = res;
+      this.getLaboratoryDepartment(res)
+    });
+
+  }
+
+  getLaboratoryDepartment(dep: DeparmentShort[]): void{
+    dep.forEach(department => {
+      if (department.name === "Laboratory") {
+        this.departmentToId = department.id;
+      }
     });
   }
+
   getLabAnalysis(): void {
     console.log("dosao do ts");
     this.laboratoryService.getAnalysis().subscribe(res => {

@@ -29,17 +29,21 @@ export class AppComponent {
     constructor(private userService: UserService, private authService: AuthService, private router: Router) {
       this.router.events.subscribe(event => {
         if(event instanceof NavigationStart){
-          this.checkAdmin();
-          this.checkDoctorSpecOdeljenja();
-          this.checkDoctorSpec();
-          this.checkDoctorSpecPov();
-          this.checkMedSestra();
-          this.checkVisaMedSestra();
-          this.checkVisiLabTehnicar();
-          this.checkLabTehnicar();
-          this.checkMedBiohemicar();
-          this.checkSpecMedBiohemije();
-          this.checkReceptionist();
+
+          if(localStorage.getItem('token')!=null){
+            this.checkAdmin();
+            this.checkDoctorSpecOdeljenja();
+            this.checkDoctorSpec();
+            this.checkDoctorSpecPov();
+            this.checkMedSestra();
+            this.checkVisaMedSestra();
+            this.checkVisiLabTehnicar();
+            this.checkLabTehnicar();
+            this.checkMedBiohemicar();
+            this.checkSpecMedBiohemije();
+            this.checkReceptionist();
+          }
+
         }
       });
     }

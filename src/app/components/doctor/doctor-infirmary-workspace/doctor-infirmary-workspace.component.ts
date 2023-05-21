@@ -14,17 +14,21 @@ export class DoctorInfirmaryWorkspaceComponent implements OnInit {
   patientDateOfBirth: Date = new Date();
   patientLbp: string = 'LBP';
   patientRoomNumber: number = 0;
+  patientDateAdmission: Date = new Date();
+  patientDischargeDate: Date = new Date();
 
   currentHospitalization: HospitalizationDto;
 
 
   constructor(private router: Router,
               private route: ActivatedRoute) {
-
     this.currentHospitalization = history.state.hospitalization;
+
   }
 
   ngOnInit(): void {
+    //this.currentHospitalization = history.state.hospitalization;
+
     this.patientLbp = 'ema'
 
     this.patientLbp = <string>this.route.snapshot.paramMap.get('lbp');
@@ -33,6 +37,8 @@ export class DoctorInfirmaryWorkspaceComponent implements OnInit {
     this.patientSurname = this.currentHospitalization.surname
     this.patientDateOfBirth = this.currentHospitalization.dateOfBirth
     this.patientRoomNumber = this.currentHospitalization.hospitalRoom.roomNumber
+    this.patientDateAdmission = this.currentHospitalization.patientAdmission
+    this.patientDischargeDate = this.currentHospitalization.dischargeDateAndTime
 
   }
 
@@ -67,6 +73,11 @@ export class DoctorInfirmaryWorkspaceComponent implements OnInit {
     const url = `/doctor-infirmary-discharge-list/${this.patientLbp}`;
     const hospitalization = this.currentHospitalization
     this.router.navigateByUrl(url, { state: { hospitalization } });
+  }
+
+  goToScheduleExam(): void {
+    const url = `/doctor-schedule-exam/${this.patientLbp}`;
+    this.router.navigateByUrl(url);
   }
 
 }
