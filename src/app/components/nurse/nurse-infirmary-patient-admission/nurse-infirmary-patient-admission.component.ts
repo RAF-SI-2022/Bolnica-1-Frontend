@@ -141,6 +141,45 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     )
   }
 
+  getPrescriptionPagination(): void {
+
+    const sendData = this.form.value;
+
+    if (this.patientLbp == '') {
+      console.log(sendData)
+
+      sendData.lbp = sendData.lbp.split("-")[0].toString().trim();
+      console.log("sending lbp: " + sendData.lpb)
+    }
+
+    const today = new Date();
+
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    if (this.page == 0)
+      this.page = 1;
+
+    this.infirmaryService.findPrescriptionsWithFilter(sendData.lbp, this.departmentIdNumber,
+      PrescriptionStatus.NEREALIZOVAN, this.page - 1,
+      this.PAGE_SIZE).subscribe(
+      res => {
+        this.prescriptionPage = res
+        this.prescriptionList = this.prescriptionPage.content
+        this.total = this.prescriptionPage.totalElements
+
+        if (this.prescriptionList.length == 0) {
+          this.snackBar.openWarningSnackBar("Nema uputa!")
+        }
+      }, err => {
+        this.snackBar.openErrorSnackBar("Greska")
+      }
+    )
+  }
+
 
   // bilo je pre da ide od 1 do 100 ali onda vraca prazno
   // ako ide od 0 do 100 onda vrati ono sto je u bazi
@@ -282,7 +321,7 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
 
   onTableDataChange(event: any): void {
     this.page = event;
-    this.getPrescription();
+    this.getPrescriptionPagination();
   }
 
   onDoctorSelected(selectedDoctor: string) {
