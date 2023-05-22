@@ -65,8 +65,11 @@ export class NurseInfirmarySearchAdmissionComponent implements OnInit {
 
     console.log("sending lbp: " + sendData.lbp)
 
+    if (this.page == 0)
+      this.page = 1;
+
     this.infirmaryService.findScheduledAppointmentWithFilter(sendData.lbp,
-      this.departmentIdNumber,sendData.dateFrom, sendData.dateTo, this.page,
+      this.departmentIdNumber,sendData.dateFrom, sendData.dateTo, this.page - 1,
       this.PAGE_SIZE).subscribe(
       res => {
         this.admissionPage = res

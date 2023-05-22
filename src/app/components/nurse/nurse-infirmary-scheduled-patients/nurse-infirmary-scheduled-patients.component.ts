@@ -79,10 +79,12 @@ export class NurseInfirmaryScheduledPatientsComponent implements OnInit {
 
 
     // TODO AKO SE TRAZI DANASNJI ONDA SLATI dva ista datuma
+    if (this.page == 0)
+      this.page = 1;
 
     this.infirmaryService.findScheduledAppointmentWithFilter(sendData.lbp,
       this.departmentIdNumber, sendData.dateFrom,
-      sendData.dateTo, this.page,
+      sendData.dateTo, this.page - 1,
       this.PAGE_SIZE).subscribe(
       res => {
         this.admissionPage = res
@@ -106,6 +108,7 @@ export class NurseInfirmaryScheduledPatientsComponent implements OnInit {
 
   filteredPatients: Patient[] = [];
   filterPatientLbp(searchText: string){
+
     if (this.patients && this.patients.length > 0 && searchText.length > 0) {
       this.filteredPatients = this.patients.filter(
         (patientt) =>

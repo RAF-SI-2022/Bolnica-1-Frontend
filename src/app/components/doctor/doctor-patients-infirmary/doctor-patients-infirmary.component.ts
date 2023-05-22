@@ -68,6 +68,8 @@ export class DoctorPatientsInfirmaryComponent implements OnInit {
 
 
   getHospitalization(): void {
+    if (this.page == 0)
+      this.page = 1;
 
     const sendData = this.form.value;
     console.log(sendData)
@@ -80,7 +82,7 @@ export class DoctorPatientsInfirmaryComponent implements OnInit {
 
       this.infirmaryService.getHospitalizationsWithFilter(
         sendData.name, sendData.surname, sendData.jmbg,
-        this.departmentIdNumber, sendData.lbp, this.page, this.PAGE_SIZE
+        this.departmentIdNumber, sendData.lbp, this.page - 1, this.PAGE_SIZE
       ).subscribe(
         res => {
           this.hospitalizationPage = res
@@ -132,7 +134,7 @@ export class DoctorPatientsInfirmaryComponent implements OnInit {
 
       this.infirmaryService.getHospitalizationsWithFilterWithRoom(
         sendData.name, sendData.surname, sendData.jmbg,
-        this.departmentIdNumber, sendData.room, sendData.lbp, this.page, this.PAGE_SIZE
+        this.departmentIdNumber, sendData.room, sendData.lbp, this.page - 1, this.PAGE_SIZE
       ).subscribe(
         res => {
           this.hospitalizationPage = res
@@ -186,9 +188,9 @@ export class DoctorPatientsInfirmaryComponent implements OnInit {
   getRooms(): void{
     this.infirmaryService.getHospitalRoomsByDepartmentId(this.departmentIdNumber,0,99999)
       .subscribe(result => {
-      this.rooms = result;
-      this.roomsList = result.content
-    })
+        this.rooms = result;
+        this.roomsList = result.content
+      })
   }
 
 
