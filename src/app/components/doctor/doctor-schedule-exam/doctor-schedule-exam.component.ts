@@ -22,6 +22,8 @@ import {ScheduleExam} from "../../../models/patient/ScheduleExam";
 import {DeparmentShort, Page} from "../../../models/models";
 import {PatientArrival} from "../../../models/laboratory-enums/PatientArrival";
 import * as moment from "moment";
+import {ExamPatientDoctorDto} from "../../../models/ExamPatientDoctorDto";
+import {ExamForPatientDto} from "../../../models/ExamForPatientDto";
 
 L10n.load({
   'en-US': {
@@ -94,6 +96,8 @@ export class DoctorScheduleExamComponent implements OnInit {
 
   departmentSelectedBoolean: boolean = false;
 
+  examsForLbp: ExamForPatientDto[] = [];
+
   constructor(private formBuilder: FormBuilder,
               private snackBar: SnackbarServiceService,
               private router: Router,
@@ -119,10 +123,22 @@ export class DoctorScheduleExamComponent implements OnInit {
   }
 
   updateData(){
+    this.getExamsByLbp();
     this.addEventsData();
     // this.getPatientList();
     this.getDepartments();
     // this.getNurseDepartment();
+  }
+
+  getExamsByLbp(): void{
+    this.examinationService.getExamsByLbp(this.patientLbp).subscribe(
+      res=>{
+        this.examsForLbp = res.exams
+        // Sort the exams by examDate in ascending order
+        this.examsForLbp.sort((a, b) => a.examDate.getTime() - b.examDate.getTime());
+
+      }
+    )
   }
 
 
