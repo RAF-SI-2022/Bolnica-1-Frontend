@@ -72,7 +72,7 @@
 
         </table>
 
-        <div class="d-flex align-items-center justify-content-center h-100">
+        <div class="d-flex align-items-center justify-content-center h-50">
           <pagination-controls id="secondP"  previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
           </pagination-controls>
         </div>
@@ -87,7 +87,7 @@
       </div>
 
 
-      <div class="row py-5 mt-1" *ngIf="prescriptionBoolean">
+      <div class="row py-5 mt-2" *ngIf="prescriptionBoolean">
         <h3 class="text-center"><b>Odabir bolničke sobe</b></h3>
 
         <table class="table table-hover" data-cy="table">
@@ -125,7 +125,7 @@
 
         </table>
 
-        <div class="d-flex align-items-center justify-content-center h-100">
+        <div class="d-flex align-items-center justify-content-center h-50">
           <pagination-controls id="firstP"  previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeRoom($event)">
           </pagination-controls>
         </div>
