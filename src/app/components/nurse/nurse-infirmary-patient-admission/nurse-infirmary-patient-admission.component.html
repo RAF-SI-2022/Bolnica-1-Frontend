@@ -53,7 +53,7 @@
           <tbody>
 
           <tr
-            *ngFor="let prescription of prescriptionList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
+            *ngFor="let prescription of prescriptionList | paginate: {id: 'secondP',  itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
           >
             <td>{{prescription.id}}</td>
             <td>{{prescription.doctorLbz}}</td>
@@ -73,7 +73,7 @@
         </table>
 
         <div class="d-flex align-items-center justify-content-center h-100">
-          <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
+          <pagination-controls id="secondP"  previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
           </pagination-controls>
         </div>
 
@@ -102,11 +102,10 @@
             <th>Akcija</th>
           </tr>
           </thead>
-
           <tbody>
 
           <tr
-            *ngFor="let room of roomsList | paginate: {itemsPerPage: PAGE_SIZE, currentPage: page, totalItems: total}; let i = index"
+            *ngFor="let room of roomsList | paginate: {id: 'firstP',itemsPerPage: PAGE_SIZE, currentPage: pageR, totalItems: totalRoom}; let i = index"
           >
             <td>{{room.id}}</td>
             <td>{{room.roomNumber}}</td>
@@ -127,7 +126,7 @@
         </table>
 
         <div class="d-flex align-items-center justify-content-center h-100">
-          <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
+          <pagination-controls id="firstP"  previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeRoom($event)">
           </pagination-controls>
         </div>
 
