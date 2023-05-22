@@ -47,7 +47,9 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
 
   PAGE_SIZE: number = 5;
   page: number = 0;
+  pageR: number = 0;
   total: number = 0;
+  totalRoom: number = 0;
 
   departmentIdNumber: number = 0;
   departmentPbo: string = '';
@@ -143,12 +145,16 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
   // bilo je pre da ide od 1 do 100 ali onda vraca prazno
   // ako ide od 0 do 100 onda vrati ono sto je u bazi
   getRooms(): void{
+    if (this.pageR == 0)
+      this.pageR = 1;
+
     this.infirmaryService.getHospitalRoomsByDepartmentId(this.departmentIdNumber,
-      0,100).subscribe(
+      this.pageR - 1,this.PAGE_SIZE).subscribe(
       res => {
         this.roomsPage = res
         this.roomsList = this.roomsPage.content
-       // this.total = this.roomsPage.totalElements
+        this.totalRoom = this.roomsPage.totalElements
+        console.log("TOTAL JE " + this.total)
         if (this.roomsList.length == 0) {
           this.snackBar.openWarningSnackBar("Nema slobodnih soba!")
         }
@@ -267,6 +273,11 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     this.selectedRoomId = room.id
     this.selectedRoomNumber = room.roomNumber
     this.roomBoolean = true
+  }
+
+  onTableDataChangeRoom(event: any): void {
+    this.pageR = event;
+    this.getRooms();
   }
 
   onTableDataChange(event: any): void {
