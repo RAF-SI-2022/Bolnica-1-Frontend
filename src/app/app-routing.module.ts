@@ -142,6 +142,51 @@ import {
 } from "./components/nurse/nurse-infirmary-search-admission/nurse-infirmary-search-admission.component";
 import {ReceptionistGuard} from "./guards/role/general/receptionist.guard";
 import {DoctorScheduleExamComponent} from "./components/doctor/doctor-schedule-exam/doctor-schedule-exam.component";
+import {
+  DoctorPatientsCovidComponent
+} from "./components/doctor/covid/doctor-patients-covid/doctor-patients-covid.component";
+import {
+  DoctorCovidDischargeListComponent
+} from "./components/doctor/covid/doctor-covid-discharge-list/doctor-covid-discharge-list.component";
+import {
+  DoctorCovidMedicalChartComponent
+} from "./components/doctor/covid/doctor-covid-medical-chart/doctor-covid-medical-chart.component";
+import {
+  DoctorCovidMedicalRecordComponent
+} from "./components/doctor/covid/doctor-covid-medical-record/doctor-covid-medical-record.component";
+import {
+  DoctorCovidStateHistoryComponent
+} from "./components/doctor/covid/doctor-covid-state-history/doctor-covid-state-history.component";
+import {
+  DoctorCovidWorkspaceComponent
+} from "./components/doctor/covid/doctor-covid-workspace/doctor-covid-workspace.component";
+import {
+  DoctorCovidCreateReferralComponent
+} from "./components/doctor/covid/doctor-covid-create-referral/doctor-covid-create-referral.component";
+import {
+  NurseCovidPatientAdmissionComponent
+} from "./components/nurse/covid/nurse-covid-patient-admission/nurse-covid-patient-admission.component";
+import {
+  NurseCovidScheduleAdmissionComponent
+} from "./components/nurse/covid/nurse-covid-schedule-admission/nurse-covid-schedule-admission.component";
+import {
+  NurseCovidSearchAdmissionComponent
+} from "./components/nurse/covid/nurse-covid-search-admission/nurse-covid-search-admission.component";
+import {
+  NurseCovidScheduledPatientsComponent
+} from "./components/nurse/covid/nurse-covid-scheduled-patients/nurse-covid-scheduled-patients.component";
+import {
+  NurseCovidWorkspaceComponent
+} from "./components/nurse/covid/nurse-covid-workspace/nurse-covid-workspace.component";
+import {
+  NurseCovidWorkspaceOneComponent
+} from "./components/nurse/covid/nurse-covid-workspace-one/nurse-covid-workspace-one.component";
+import {
+  NurseCovidStateHistoryComponent
+} from "./components/nurse/covid/nurse-covid-state-history/nurse-covid-state-history.component";
+import {
+  NurseCovidRegisterStateComponent
+} from "./components/nurse/covid/nurse-covid-register-state/nurse-covid-register-state.component";
 
 
 const routes: Routes = [
@@ -281,6 +326,41 @@ const routes: Routes = [
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
+    path: "doctor-patients-covid",
+    component: DoctorPatientsCovidComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-covid-discharge-list/:lbp",
+    component: DoctorCovidDischargeListComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-covid-medical-chart/:lbp",
+    component: DoctorCovidMedicalChartComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-covid-medical-record/:lbp",
+    component: DoctorCovidMedicalRecordComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-covid-state-history/:lbp",
+    component: DoctorCovidStateHistoryComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-covid-workspace/:lbp",
+    component: DoctorCovidWorkspaceComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-covid-create-referral/:lbp",
+    component: DoctorCovidCreateReferralComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
     path: "nurse-add-patient",
     component: NurseAddPatientComponent,
     canActivate: [AuthGuard, NurseGuard]
@@ -358,6 +438,48 @@ const routes: Routes = [
     component: NurseInfirmaryRegisterVisitComponent,
     canActivate: [AuthGuard, NurseGuard]
   },
+  {
+    path: "nurse-covid-patient-admission",
+    component: NurseCovidPatientAdmissionComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+
+  {
+    path: "nurse-covid-schedule-admission",
+    component: NurseCovidScheduleAdmissionComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-covid-search-admission",
+    component: NurseCovidSearchAdmissionComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-covid-scheduled-patients",
+    component: NurseCovidScheduledPatientsComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-covid-workspace",
+    component: NurseCovidWorkspaceComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-covid-workspace-one/:lbp",
+    component: NurseCovidWorkspaceOneComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-covid-state-history/:lbp",
+    component: NurseCovidStateHistoryComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-covid-register-state/:lbp",
+    component: NurseCovidRegisterStateComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+
   {
     path: "receptionist-add-patient",
     component: ReceptionistAddPatientComponent,
