@@ -185,7 +185,7 @@ export class ExaminationService {
     console.log("usao "+lbp)
 
     return this.http.get<ExamsForPatientDto>(
-      `${environmentPatient.apiURL}/examination/examinations/${lbp}`,
+      `${environmentPatient.apiURL}/patient/examinations/${lbp}`,
       { headers: this.getHeaders()});
   }
 
