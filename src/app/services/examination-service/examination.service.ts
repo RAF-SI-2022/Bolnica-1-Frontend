@@ -16,6 +16,8 @@ import {ScheduleExam} from "../../models/patient/ScheduleExam";
 import {Patient} from "../../models/patient/Patient";
 import {PatientArrival} from "../../models/laboratory-enums/PatientArrival";
 import {DoctorDepartmentDto} from "../../models/DoctorDepartmentDto";
+import {ExamPatientDoctorDto} from "../../models/ExamPatientDoctorDto";
+import {ExamsForPatientDto} from "../../models/ExamsForPatientDto";
 
 @Injectable({
   providedIn: 'root'
@@ -170,6 +172,21 @@ export class ExaminationService {
     return this.http.put<HttpStatusCode>(`${environmentPatient.apiURL}/examination/patient/${id}`, '',
       {params: httpParams,headers: this.getHeaders()});
 
+  }
+
+
+  /**
+   * Pretraga pregleda po lbp-u
+   */
+  public getExamsByLbp(
+    lbp: string
+  ): Observable<ExamsForPatientDto> {
+
+    console.log("usao "+lbp)
+
+    return this.http.get<ExamsForPatientDto>(
+      `${environmentPatient.apiURL}/patient/examinations/${lbp}`,
+      { headers: this.getHeaders()});
   }
 
 

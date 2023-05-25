@@ -14,6 +14,7 @@ import { event } from 'cypress/types/jquery';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 import { first, update } from 'cypress/types/lodash';
 import { interval } from 'rxjs';
+import {AuthService} from "../../../services/auth.service";
 
 
 L10n.load({
@@ -77,13 +78,18 @@ export class NurseScheduleAppointmentComponent implements OnInit {
 
   editMenu: boolean = false;
   firstTimeErrorCheck = true;
-  constructor(private patientService: PatientService, private snackBar: SnackbarServiceService, private userService: UserService, private examinationService: ExaminationService) {
+  constructor(private patientService: PatientService,
+              private snackBar: SnackbarServiceService,
+              private userService: UserService,
+              private examinationService: ExaminationService,
+              private authService: AuthService) {
 
   }
 
   ngOnInit(): void {
     // @ts-ignore
     this.lbz = localStorage.getItem('LBZ').toString()
+    this.nurseDepartmentPbo = this.authService.getPBO();
     //nterval(5000).subscribe(() => {
       this.updateData();
 //    });
@@ -96,15 +102,17 @@ export class NurseScheduleAppointmentComponent implements OnInit {
   }
   getNurseDepartment(): void {
 
-    this.userService.getEmployee(this.lbz).subscribe(res => { },
-      err => {
-        if (err.status == 302) { // found!
-          this.nurseDepartmentPbo = err.error.department.pbo;
-          console.log("department " + this.nurseDepartmentPbo)
+    // this.userService.getEmployee(this.lbz).subscribe(res => { },
+    //   err => {
+    //     if (err.status == 302) { // found!
+    //       this.nurseDepartmentPbo = err.error.department.pbo;
+    //       console.log("department " + this.nurseDepartmentPbo)
+    //
+    //       this.getDoctors()
+    //     }
+    //   })
 
-          this.getDoctors()
-        }
-      })
+    this.getDoctors();
   }
 
   getDoctors(): void {

@@ -6,6 +6,20 @@
       <h4 class="text-right">Zakazivanje pregleda: {{patientLbp}}</h4>
     </div>
 
+
+    <div class="d-flex justify-content-between align-items-center mb-3 mt-3" *ngIf="examsForLbp.length!=0">
+      <h5 class="text-right">Vec zakazani pregledi za pacijenta:</h5>
+
+      <ul>
+        <li *ngFor="let exam of examsForLbp">
+          <p>{{ exam.examDate | date:'medium' }} | kod doktora: {{ exam.doctorLbz }} | razlog: {{ exam.note }}</p>
+          <hr>
+        </li>
+      </ul>
+
+    </div>
+
+
     <div class="row mt-2 mb-4">
 
       <div class="col-6 mt-3">
