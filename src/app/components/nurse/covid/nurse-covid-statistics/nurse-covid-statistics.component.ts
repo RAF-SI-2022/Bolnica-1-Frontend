@@ -8,9 +8,24 @@ import {Router} from "@angular/router";
 })
 export class NurseCovidStatisticsComponent  implements OnInit {
 
-  constructor(private router: Router) {
-  }
+  numberOfTestedPatients : string;
+  numberOfHospitalizedPatients : string;
+  numberOfPositivePatients : string;
+  numberOfCuredPatients : string;
+  numberOfPatientsOnRespirator : string;
+  numberOfDeadPatients : string;
 
+  constructor(private router: Router) {
+    
+    this.numberOfTestedPatients = "";
+    this.numberOfHospitalizedPatients = "";
+    this.numberOfPositivePatients = "";
+    this.numberOfCuredPatients = "";
+    this.numberOfPatientsOnRespirator = "";
+    this.numberOfDeadPatients = "";
+  
+  }
+  
   ngOnInit(): void {
     console.log("radi")
   }
