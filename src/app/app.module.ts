@@ -87,22 +87,11 @@ import {
 } from "./components/receptionist/receptionist-workspace/receptionist-workspace.component";
 import { DoctorScheduleExamComponent } from './components/doctor/doctor-schedule-exam/doctor-schedule-exam.component';
 import { DoctorCovidCreateReferralComponent } from './components/doctor/covid/doctor-covid-create-referral/doctor-covid-create-referral.component';
-import { DoctorCovidDischargeListComponent } from './components/doctor/covid/doctor-covid-discharge-list/doctor-covid-discharge-list.component';
-import { DoctorCovidMedicalChartComponent } from './components/doctor/covid/doctor-covid-medical-chart/doctor-covid-medical-chart.component';
-import { DoctorCovidMedicalRecordComponent } from './components/doctor/covid/doctor-covid-medical-record/doctor-covid-medical-record.component';
-import { DoctorCovidStateHistoryComponent } from './components/doctor/covid/doctor-covid-state-history/doctor-covid-state-history.component';
-import { DoctorCovidWorkspaceComponent } from './components/doctor/covid/doctor-covid-workspace/doctor-covid-workspace.component';
-import { DoctorPatientsCovidComponent } from './components/doctor/covid/doctor-patients-covid/doctor-patients-covid.component';
-import { NurseCovidPatientAdmissionComponent } from './components/nurse/covid/nurse-covid-patient-admission/nurse-covid-patient-admission.component';
-import { NurseCovidRegisterStateComponent } from './components/nurse/covid/nurse-covid-register-state/nurse-covid-register-state.component';
-import { NurseCovidScheduleAdmissionComponent } from './components/nurse/covid/nurse-covid-schedule-admission/nurse-covid-schedule-admission.component';
-import { NurseCovidScheduledPatientsComponent } from './components/nurse/covid/nurse-covid-scheduled-patients/nurse-covid-scheduled-patients.component';
-import { NurseCovidStateHistoryComponent } from './components/nurse/covid/nurse-covid-state-history/nurse-covid-state-history.component';
-import { NurseCovidWorkspaceComponent } from './components/nurse/covid/nurse-covid-workspace/nurse-covid-workspace.component';
-import { NurseCovidWorkspaceOneComponent } from './components/nurse/covid/nurse-covid-workspace-one/nurse-covid-workspace-one.component';
-// import { NurseSearchAdmissionComponent } from './components/nurse/covid/nurse-search-admission/nurse-search-admission.component';
-import { NurseCovidSearchAdmissionComponent } from './components/nurse/covid/nurse-covid-search-admission/nurse-covid-search-admission.component';
-
+import { NurseCovidAmbulanceComponent } from './components/nurse/covid/nurse-covid-ambulance/nurse-covid-ambulance.component';
+import { NurseCovidStatisticsComponent } from './components/nurse/covid/nurse-covid-statistics/nurse-covid-statistics.component';
+import { DoctorCovidWaitingRoomComponent } from './components/doctor/covid/doctor-covid-waiting-room/doctor-covid-waiting-room.component';
+import { DoctorCovidStatisticsComponent } from './components/doctor/covid/doctor-covid-statistics/doctor-covid-statistics.component';
+import { DoctorCovidExamComponent } from './components/doctor/covid/doctor-covid-exam/doctor-covid-exam.component';
 
 
 @NgModule({
@@ -166,21 +155,11 @@ import { NurseCovidSearchAdmissionComponent } from './components/nurse/covid/nur
     NurseInfirmarySearchAdmissionComponent,
     DoctorScheduleExamComponent,
     DoctorCovidCreateReferralComponent,
-    DoctorCovidDischargeListComponent,
-    DoctorCovidMedicalChartComponent,
-    DoctorCovidMedicalRecordComponent,
-    DoctorCovidStateHistoryComponent,
-    DoctorCovidWorkspaceComponent,
-    DoctorPatientsCovidComponent,
-    NurseCovidPatientAdmissionComponent,
-    NurseCovidRegisterStateComponent,
-    NurseCovidScheduleAdmissionComponent,
-    NurseCovidScheduledPatientsComponent,
-    NurseCovidStateHistoryComponent,
-    NurseCovidWorkspaceComponent,
-    NurseCovidWorkspaceOneComponent,
-    // NurseSearchAdmissionComponent,
-    NurseCovidSearchAdmissionComponent
+    NurseCovidAmbulanceComponent,
+    NurseCovidStatisticsComponent,
+    DoctorCovidWaitingRoomComponent,
+    DoctorCovidStatisticsComponent,
+    DoctorCovidExamComponent
   ],
   imports: [
     BrowserModule,
