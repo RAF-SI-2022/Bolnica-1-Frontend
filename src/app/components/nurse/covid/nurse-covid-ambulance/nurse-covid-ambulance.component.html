@@ -17,41 +17,70 @@
 
 <body>
 
-    <form [formGroup]="form" class="mb-5 needs-validation" novalidate>
+    <form [formGroup]="form" class="mb-1 needs-validation" novalidate>
 
-        <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+        <div class="container rounded bg-white mt-5 p-3 py-5">
 
             <h2 class="text-center"><b>Kovid ambulanta</b></h2>
-            <br/>
+            <br>
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-2">
-                        <label class="lasbels">Unesite LBP</label>
-                        <input [formControlName]="'textLBP'" name="textLBP" type="text" class="form-control"
-                            data-cy="textLBP">
-                    </div>
-                    <div class="col-md-2 offset-1">
-                        <label class="labels">Izaberite tip pregleda</label>
-                        <select [formControlName]="'examinationType'" class="form-control" id="examinationType" name="examinationType" required>
-                            <option value="prvi">Prvi</option>
-                            <option value="kontrolni">Kontrolni</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2 offset-1">
-                        <label class="labels">Izaberite lekara</label>
-                        <input [formControlName]="'textDoctor'" name="textDoctor" type="text" class="form-control"
-                            data-cy="textDoctor">
-                    </div>
-                    <div class="col-md-2 offset-1">
-                        <button (click)="addExemination()" class="btn btn-primary" type="submit" [disabled]="!form.valid">Dodaj</button>
-                        <!-- <button (click)="add()" class="btn btn-primary" type="submit" data-toggle="collapse"
-                            data-target="#search-table" aria-expanded="false" aria-controls="search-table"
-                            data-cy="btnPretrazi"> Dodaj</button> -->
+<!--            <div class="container">-->
+<!--              <div class="row align-items-center">-->
+<!--                    <div class="col-md-2">-->
+<!--                        <label class="lasbels">Unesite LBP</label>-->
+<!--                        <input [formControlName]="'textLBP'" name="textLBP" type="text" class="form-control"-->
+<!--                            data-cy="textLBP">-->
+<!--                    </div>-->
+<!--                    <div class="col-md-2 offset-1">-->
+<!--                        <label class="labels">Izaberite tip pregleda</label>-->
+<!--                        <select [formControlName]="'examinationType'" class="form-control" id="examinationType" name="examinationType" required>-->
+<!--                            <option value="prvi">Prvi</option>-->
+<!--                            <option value="kontrolni">Kontrolni</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-2 offset-1">-->
+<!--                        <label class="labels">Izaberite lekara</label>-->
+<!--                        <input [formControlName]="'textDoctor'" name="textDoctor" type="text" class="form-control"-->
+<!--                            data-cy="textDoctor">-->
+<!--                    </div>-->
 
-                    </div>
-                </div>
+<!--                    <div class="col-md-2 offset-1">-->
+<!--                        <button (click)="addExemination()" class="btn btn-primary" type="submit" [disabled]="!form.valid">Dodaj</button>-->
+<!--                        &lt;!&ndash; <button (click)="add()" class="btn btn-primary" type="submit" data-toggle="collapse"-->
+<!--                            data-target="#search-table" aria-expanded="false" aria-controls="search-table"-->
+<!--                            data-cy="btnPretrazi"> Dodaj</button> &ndash;&gt;-->
+
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+          <div class="container">
+            <div class="row">
+              <div class="col-md-2">
+                <label class="labels">Unesite LBP</label>
+                <input [formControlName]="'textLBP'" name="textLBP" type="text" class="form-control" data-cy="textLBP">
+              </div>
+              <div class="col-md-2 offset-1">
+                <label class="labels">Izaberite tip pregleda</label>
+                <select [formControlName]="'examinationType'" class="form-control" id="examinationType" name="examinationType" required>
+                  <option value="prvi">Prvi</option>
+                  <option value="kontrolni">Kontrolni</option>
+                </select>
+              </div>
+              <div class="col-md-2 offset-1">
+                <label class="labels">Izaberite lekara</label>
+                <input [formControlName]="'textDoctor'" name="textDoctor" type="text" class="form-control" data-cy="textDoctor">
+              </div>
             </div>
+            <div class="row justify-content-end">
+              <div class="col-md-2">
+                <button (click)="addExamination()" class="btn btn-primary" type="submit" [disabled]="!form.valid">Dodaj novog pacijenta</button>
+                <!-- <button (click)="add()" class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table"
+                    aria-expanded="false" aria-controls="search-table" data-cy="btnPretrazi"> Dodaj</button> -->
+              </div>
+            </div>
+          </div>
+
 
         </div>
 
@@ -64,7 +93,7 @@
             <div class="table-wrapper">
 
                 <div class="table-title">
-                    <h2><b>Kovid ambulanta</b></h2>
+                    <h2><b>Danasnji pregledi</b></h2>
 
                 </div>
 

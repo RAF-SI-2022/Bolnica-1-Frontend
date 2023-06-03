@@ -26,7 +26,7 @@ export class NurseCovidAmbulanceComponent  implements OnInit {
     console.log("radi")
   }
 
-  addExemination(): void {
+  addExamination(): void {
 
     const sendData = this.form.value;
     console.log(sendData)
