@@ -22,3 +22,9 @@ export const environmentInfirmary = {
   apiURL: 'http://localhost:8084/api/infirmary'
 };
 
+export const environmentCovid = {
+  production: false,
+  title: 'Local Infirmary Environment',
+  apiURL: 'http://localhost:8085/api/covid'
+};
+
