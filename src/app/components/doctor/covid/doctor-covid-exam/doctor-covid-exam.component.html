@@ -14,9 +14,12 @@
   </head>
 
 <div class="container rounded bg-white mt-5 mb-5">
+  <form [formGroup]="examForm"  class="mb-5 needs-validation" novalidate>
+    <div class="row">
+      <div class="col-md-10 border-right">
 
     <div class="container p-3 py-5">
-        
+
         <div class="row">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h3 class="text-right" style="font-weight: bold;">Kovid pregled</h3>
@@ -26,7 +29,7 @@
         <div class="row">
 
             <div class="col-md-6">
-                
+
                 <div class="row">
                     <h4 style="font-weight: bold;">LBP:</h4>
                     <label class="label">{{patientLBP}}</label>
@@ -58,7 +61,7 @@
                 <div class="row-mt-5 p-2">
                     <button class="btn btn-primary" (click)="goToScheduleExam()" data-cy="btnZakazivanjePregleda"><i class="bi bi-info-circle"></i> Zakazivanje pregleda</button>
                 </div>
-                
+
             </div>
 
         </div>
@@ -66,8 +69,8 @@
 
     <div class="container rounded bg-white mt-5 mb-5">
 
-        <form [formGroup]="examForm"  class="mb-5 needs-validation" novalidate>
-            
+
+
             <table>
                 <tr>
                   <td><label class="label">Simptomi</label></td>
@@ -94,7 +97,7 @@
                     <td><textarea class="bi-textarea" placeholder="Temperatura" [formControlName]="'bodyTemperature'" data-cy="Temperatura"></textarea></td>
                 </tr>
             </table>
-        
+
             <table>
                 <tr>
                   <td><label class="label">Pritisak</label></td>
@@ -135,9 +138,12 @@
                 <button (click)="finishExamination()" class="btn btn-primary" type="submit" [disabled]="!examForm.valid"><i
                     class="bi bi-save me-1"></i> Završi</button>
             </div>
-            
-        </form>
-    
+
+
+
+        </div>
+      </div>
     </div>
-    
+  </form>
+
 </div>

@@ -15,15 +15,17 @@ export class DoctorCovidStatisticsComponent  implements OnInit {
   numberOfPatientsOnRespirator : string;
   numberOfDeadPatients : string;
 
+  todayDate: Date = new Date();
+
   constructor(private router: Router) {
-    
+
     this.numberOfTestedPatients = "";
     this.numberOfHospitalizedPatients = "";
     this.numberOfPositivePatients = "";
     this.numberOfCuredPatients = "";
     this.numberOfPatientsOnRespirator = "";
     this.numberOfDeadPatients = "";
-  
+
   }
 
   ngOnInit(): void {

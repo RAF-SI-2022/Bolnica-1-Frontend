@@ -1,46 +1,50 @@
-<!DOCTYPE html>
-<html>
+<div class="container rounded bg-white mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 border-right">
+      <div class="p-3 py-5">
 
-<body>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h1>Statistika</h1>
+        </div>
 
-    <div style="margin-top: 45px;" class="container">
-        <h1>Statistika</h1>
-        <h2>Dnevni izveštaj</h2>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4>Dnevni izveštaj: {{todayDate |  date: 'dd.MM.yyyy.' }}</h4>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <p>Broj testiranih: {{numberOfTestedPatients}}</p>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <p>Broj hospitalizovanih: {{numberOfHospitalizedPatients}}</p>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <p>Broj pozitivnih: {{numberOfPositivePatients}}</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <p>Broj izlečenih: {{numberOfCuredPatients}}</p>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <p>Broj na respiratoru: {{numberOfPatientsOnRespirator}} </p>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <p>Broj umrlih: {{numberOfDeadPatients}}</p>
+          </div>
+        </div>
+
+
+      </div>
     </div>
-
-
-    <div class="container">
-
-        <ul class="no-bullets">
-
-            <li>
-                <label>Broj testiranih:</label>
-                <span>{{numberOfTestedPatients}}</span>
-            </li>
-            <li>
-                <label>Broj hospitalizovanih:</label>
-                <span>{{numberOfHospitalizedPatients}}</span>
-            </li>
-            <li>
-                <label>Broj pozitivnih:</label>
-                <span>{{numberOfPositivePatients}}</span>
-            </li>
-            <li>
-                <label>Broj izlečenih:</label>
-                <span>{{numberOfCuredPatients}}</span>
-            </li>
-            <li>
-                <label>Broj na respiratoru:</label>
-                <span>{{numberOfPatientsOnRespirator}}</span>
-            </li>
-            <li><label>Broj umrlih:</label>
-                <span>{{numberOfDeadPatients}}</span>
-            </li>
-
-        </ul>
-
-    </div>
-
-</body>
-
-</html>
+  </div>
+</div>
