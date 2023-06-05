@@ -76,9 +76,12 @@ export class CovidServiceService {
     lbz: string
   ): Observable<CovidExamDto[]> {
 
+    let httpParams = new HttpParams()
+      .append("lbz", lbz)
+
     return this.http.get<CovidExamDto[]>(
-      `${environmentCovid.apiURL}/exam/find_all_for_doctor/${lbz}`,
-      { headers: this.getHeaders()}
+      `${environmentCovid.apiURL}/exam/find_all_for_doctor`,
+      { params: httpParams, headers: this.getHeaders()}
     );
   }
 
@@ -152,9 +155,10 @@ export class CovidServiceService {
   ): Observable<HttpStatusCode>{
 
     let httpParams = new HttpParams()
+      .append("examId", examId)
       .append("pa",pa)
 
-    return this.http.put<HttpStatusCode>(`${environmentCovid.apiURL}/exam/${examId}`, '',
+    return this.http.put<HttpStatusCode>(`${environmentCovid.apiURL}/exam/status`, '',
       {params: httpParams, headers: this.getHeaders()});
 
   }
