@@ -9,6 +9,9 @@ import {PatientArrival} from "../../../../models/laboratory-enums/PatientArrival
 import {CovidServiceService} from "../../../../services/covid-service/covid-service.service";
 import {AuthService} from "../../../../services/auth.service";
 import {SnackbarServiceService} from "../../../../services/snackbar-service.service";
+import {CovidExamDto} from "../../../../models/covid/CovidExamDto";
+import {Patient} from "../../../../models/patient/Patient";
+import {PatientService} from "../../../../services/patient-service/patient.service";
 
 
 @Component({
@@ -29,7 +32,7 @@ export class DoctorCovidExamComponent  implements OnInit {
   lbz: string = ""
   examId: number = 0;
 
-  currentPatient: ExamForPatient;
+  currentCovidExam: CovidExamDto;
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
@@ -37,9 +40,10 @@ export class DoctorCovidExamComponent  implements OnInit {
               private sharedService: SharedService,
               private covidService: CovidServiceService,
               private authService: AuthService,
-              private snackBar: SnackbarServiceService) {
+              private snackBar: SnackbarServiceService,
+              private patientService: PatientService) {
 
-    this.currentPatient = history.state.patient;
+    this.currentCovidExam = history.state.covidExam;
 
     this.examForm = this.formBuilder.group({
       symptoms: ['', [Validators.required]],
@@ -55,10 +59,8 @@ export class DoctorCovidExamComponent  implements OnInit {
 
   ngOnInit(): void {
     this.patientLBP = <string> this.route.snapshot.paramMap.get('lbp')
-    this.patientName = this.currentPatient.name
-    this.patientSurname = this.currentPatient.surname
-    this.patientDateOfBirth = this.currentPatient.dateOfBirth
-    this.examId = this.currentPatient.id
+    this.getPatientData();
+    this.examId = this.currentCovidExam.id
     this.lbz = this.authService.getLBZ();
     this.updateData();
   }
@@ -67,6 +69,14 @@ export class DoctorCovidExamComponent  implements OnInit {
     console.log("updateData()")
 
     this.restoreFormData();
+  }
+
+  getPatientData(): void{
+    this.patientService.getPatientByLbp(this.patientLBP).subscribe(res=>{
+      this.patientName = res.name
+      this.patientSurname = res.surname
+      this.patientDateOfBirth = res.dateOfBirth
+    })
   }
 
 

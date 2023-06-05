@@ -6,7 +6,10 @@ import {CovidServiceService} from "../../../../services/covid-service/covid-serv
 import {AuthService} from "../../../../services/auth.service";
 import {SnackbarServiceService} from "../../../../services/snackbar-service.service";
 import {Page} from "../../../../models/models";
-import {ScheduleExam} from "../../../../models/patient/ScheduleExam";
+import {DoctorDepartmentDto} from "../../../../models/DoctorDepartmentDto";
+import {ExaminationService} from "../../../../services/examination-service/examination.service";
+import {PatientArrival} from "../../../../models/laboratory-enums/PatientArrival";
+import {CovidExaminationType} from "../../../../models/covid-enums/CovidExaminationType";
 
 @Component({
   selector: 'app-nurse-covid-ambulance',
@@ -17,32 +20,45 @@ export class NurseCovidAmbulanceComponent  implements OnInit {
 
   form: FormGroup;
 
-
   page: number = 0
   size: number = 99999999 //infinity
   total: number = 0
   covidExamsPage: Page<CovidExamDto> = new Page<CovidExamDto>()
   covidExams: CovidExamDto[] = []
 
+  nurseDepartmentPbo: string = '';
+  doctors: DoctorDepartmentDto[] = [];
+
+  covidExaminationTypes = Object.values(CovidExaminationType).filter(value => typeof value === 'string');
+
   constructor(private router: Router,
               private formBuilder: FormBuilder,
               private covidService: CovidServiceService,
               private authService: AuthService,
-              private snackBar: SnackbarServiceService) {
+              private snackBar: SnackbarServiceService,
+              private examinationService: ExaminationService) {
 
     this.form = this.formBuilder.group({
       textLBP: ['', [Validators.required]],
-      examinationType: ['Prvi', [Validators.required]],
-      textDoctor: ['', [Validators.required]],
+      examType: ['', [Validators.required]],
+      doctorLbz: ['', [Validators.required]]
     });
 
   }
 
-  // TODO KREIRANJE PREGLEDA
-
   ngOnInit(): void {
-    this.getCovidExams()
+    this.nurseDepartmentPbo = this.authService.getPBO();
+
+    this.getCovidExams();
+    this.getDoctors();
   }
+
+  getDoctors(): void {
+    this.examinationService.getDoctorsByDepartment(this.nurseDepartmentPbo).subscribe(res => {
+      this.doctors = res
+    })
+  }
+
 
   getCovidExams(): void {
     this.covidService.getCovidExaminationForNurse(this.page, this.size).subscribe(
@@ -62,9 +78,23 @@ export class NurseCovidAmbulanceComponent  implements OnInit {
 
   addExamination(): void {
 
+    if (this.form.invalid) {
+      this.snackBar.openWarningSnackBar("Popunite sva polja!");
+      return;
+    }
+
     const sendData = this.form.value;
-    console.log(sendData)
-    // TODO: .
+
+    this.covidService.createCovidExam(new Date(), PatientArrival.CEKA, sendData.examType,
+      sendData.doctorLbz, sendData.textLBP).subscribe(
+      res => {
+        this.getCovidExams();
+        this.snackBar.openWarningSnackBar("Uspesno sacuvano!");
+
+      }, err => {
+        this.snackBar.openErrorSnackBar("Greska!")
+      }
+    )
   }
 
 }

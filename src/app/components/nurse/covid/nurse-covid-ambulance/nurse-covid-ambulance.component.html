@@ -58,23 +58,32 @@
             <div class="row">
               <div class="col-md-2">
                 <label class="labels">Unesite LBP</label>
-                <input [formControlName]="'textLBP'" name="textLBP" type="text" class="form-control" data-cy="textLBP">
+                <input [formControlName]="'textLBP'" name="textLBP" type="text" class="form-control" data-cy="textLBP" required>
               </div>
+
               <div class="col-md-2 offset-1">
                 <label class="labels">Izaberite tip pregleda</label>
-                <select [formControlName]="'examinationType'" class="form-control" id="examinationType" name="examinationType" required>
-                  <option value="prvi">Prvi</option>
-                  <option value="kontrolni">Kontrolni</option>
+                <select class="form-select" name="covidExaminationTypes" [formControlName]="'examType'" data-cy="selectStatus">
+                  <option *ngFor="let type of covidExaminationTypes" [value]="type">{{type}}</option>
                 </select>
+
               </div>
+
               <div class="col-md-2 offset-1">
-                <label class="labels">Izaberite lekara</label>
-                <input [formControlName]="'textDoctor'" name="textDoctor" type="text" class="form-control" data-cy="textDoctor">
+                <label for="doctor">Izaberite lekara</label>
+                <ng-select class="custom" [formControlName]="'doctorLbz'" id="doctor" name="doctor"
+                           required
+                           [searchable]="true"
+                           bindLabel="name"
+                           bindValue="name" data-cy="doctorSelect">
+                  <ng-option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
+                </ng-select>
               </div>
+
             </div>
             <div class="row justify-content-end">
               <div class="col-md-2">
-                <button (click)="addExamination()" class="btn btn-primary" type="submit" [disabled]="!form.valid">Dodaj novog pacijenta</button>
+                <button (click)="addExamination()" class="btn btn-primary" type="submit" >Dodaj novog pacijenta</button>
                 <!-- <button (click)="add()" class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table"
                     aria-expanded="false" aria-controls="search-table" data-cy="btnPretrazi"> Dodaj</button> -->
               </div>
