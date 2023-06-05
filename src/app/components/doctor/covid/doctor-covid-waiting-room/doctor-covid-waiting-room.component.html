@@ -28,9 +28,17 @@
                             <th>Započni pregled</th>
                         </tr>
                     </thead>
-                    <tbody> 
-                        <!-- TODO -->
-                    </tbody>
+                  <tbody>
+                    <tr *ngFor="let exam of covidExams" >
+                      <td>{{exam.lbp}}
+                      <td>{{exam.type}}</td>
+                      <td>
+                        <span class="badge" [ngClass]="getStatusClass(exam.patientArrival)">{{ exam.patientArrival }}</span>
+                      </td>
+                      <td ><button *ngIf="exam.patientArrival.toString() === 'CEKA' || exam.patientArrival.toString() === 'TRENUTNO'"
+                                   (click)="startExam(exam)" class="btn btn-primary">Pregled</button></td>
+                    </tr>
+                  </tbody>
                 </table>
             </div>
         </div>

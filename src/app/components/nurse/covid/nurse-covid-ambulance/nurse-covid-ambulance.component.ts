@@ -1,6 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {CovidExamDto} from "../../../../models/covid/CovidExamDto";
+import {CovidServiceService} from "../../../../services/covid-service/covid-service.service";
+import {AuthService} from "../../../../services/auth.service";
+import {SnackbarServiceService} from "../../../../services/snackbar-service.service";
+import {Page} from "../../../../models/models";
+import {ScheduleExam} from "../../../../models/patient/ScheduleExam";
 
 @Component({
   selector: 'app-nurse-covid-ambulance',
@@ -11,8 +17,18 @@ export class NurseCovidAmbulanceComponent  implements OnInit {
 
   form: FormGroup;
 
+
+  page: number = 0
+  size: number = 99999999 //infinity
+  total: number = 0
+  covidExamsPage: Page<CovidExamDto> = new Page<CovidExamDto>()
+  covidExams: CovidExamDto[] = []
+
   constructor(private router: Router,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private covidService: CovidServiceService,
+              private authService: AuthService,
+              private snackBar: SnackbarServiceService) {
 
     this.form = this.formBuilder.group({
       textLBP: ['', [Validators.required]],
@@ -22,8 +38,26 @@ export class NurseCovidAmbulanceComponent  implements OnInit {
 
   }
 
+  // TODO KREIRANJE PREGLEDA
+
   ngOnInit(): void {
-    console.log("radi")
+    this.getCovidExams()
+  }
+
+  getCovidExams(): void {
+    this.covidService.getCovidExaminationForNurse(this.page, this.size).subscribe(
+      res => {
+        this.covidExamsPage = res
+        this.covidExams = this.covidExamsPage.content
+
+        this.total = this.covidExamsPage.totalElements
+        if (this.covidExams.length == 0) {
+          this.snackBar.openWarningSnackBar("Nema pregleda!")
+        }
+      }, err => {
+        this.snackBar.openErrorSnackBar("Greska!")
+      }
+    )
   }
 
   addExamination(): void {

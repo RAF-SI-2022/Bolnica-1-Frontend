@@ -76,7 +76,7 @@
                   <td><label class="label">Simptomi</label></td>
                 </tr>
                 <tr>
-                    <td><textarea class="bi-textarea" placeholder="Simptomi" [formControlName]="'symptoms'" data-cy="Simptomi"></textarea></td>
+                    <td><textarea class="bi-textarea" placeholder="Simptomi" [formControlName]="'symptoms'" data-cy="Simptomi" required></textarea></td>
                 </tr>
             </table>
 
@@ -85,7 +85,7 @@
                   <td><label class="label">Trajanje</label></td>
                 </tr>
                 <tr>
-                    <td><textarea class="bi-textarea" placeholder="Trajanje" [formControlName]="'duration'" data-cy="Trajanje"></textarea></td>
+                    <td><textarea class="bi-textarea" placeholder="Trajanje" [formControlName]="'duration'" data-cy="Trajanje" required></textarea></td>
                 </tr>
             </table>
 
@@ -94,7 +94,7 @@
                   <td><label class="label">Temperatura</label></td>
                 </tr>
                 <tr>
-                    <td><textarea class="bi-textarea" placeholder="Temperatura" [formControlName]="'bodyTemperature'" data-cy="Temperatura"></textarea></td>
+                    <td><textarea class="bi-textarea" placeholder="Temperatura" [formControlName]="'bodyTemperature'" data-cy="Temperatura" required></textarea></td>
                 </tr>
             </table>
 
@@ -103,7 +103,7 @@
                   <td><label class="label">Pritisak</label></td>
                 </tr>
                 <tr>
-                    <td><textarea class="bi-textarea" placeholder="Pritisak" [formControlName]="'bloodPressure'" data-cy="Pritisak"></textarea></td>
+                    <td><textarea class="bi-textarea" placeholder="Pritisak" [formControlName]="'bloodPressure'" data-cy="Pritisak" required></textarea></td>
                 </tr>
             </table>
 
@@ -112,7 +112,7 @@
                   <td><label class="label">Saturacija</label></td>
                 </tr>
                 <tr>
-                    <td><textarea class="bi-textarea" placeholder="Saturacija" [formControlName]="'saturation'" data-cy="Saturacija"></textarea></td>
+                    <td><textarea class="bi-textarea" placeholder="Saturacija" [formControlName]="'saturation'" data-cy="Saturacija" required></textarea></td>
                 </tr>
             </table>
 
@@ -121,7 +121,7 @@
                   <td><label class="label">Stanje pluća</label></td>
                 </tr>
                 <tr>
-                    <td><textarea class="bi-textarea" placeholder="Stanje pluća" [formControlName]="'lungCondition'" data-cy="StanjePluca"></textarea></td>
+                    <td><textarea class="bi-textarea" placeholder="Stanje pluća" [formControlName]="'lungCondition'" data-cy="StanjePluca" required></textarea></td>
                 </tr>
             </table>
 
@@ -130,12 +130,12 @@
                   <td><label class="label">Terapija</label></td>
                 </tr>
                 <tr>
-                    <td><textarea class="bi-textarea" placeholder="Terapija" [formControlName]="'therapy'" data-cy="Terapija"></textarea></td>
+                    <td><textarea class="bi-textarea" placeholder="Terapija" [formControlName]="'therapy'" data-cy="Terapija" required></textarea></td>
                 </tr>
             </table>
 
             <div class="mt-4 text-center">
-                <button (click)="finishExamination()" class="btn btn-primary" type="submit" [disabled]="!examForm.valid"><i
+                <button (click)="finishExamination()" class="btn btn-primary" type="submit"><i
                     class="bi bi-save me-1"></i> Završi</button>
             </div>
 
