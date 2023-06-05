@@ -42,7 +42,6 @@ export class CovidServiceService {
 
 
 
-
   /**
    * Kreiranje kovid pregleda
    * */
@@ -62,6 +61,9 @@ export class CovidServiceService {
       lbp: lbp
     }
 
+    console.log("usao u kovid servis:")
+    console.log(obj)
+
     return this.http.post<HttpStatusCode>(
       `${environmentCovid.apiURL}/exam/create`,
       obj, {headers: this.getHeaders()});
@@ -78,6 +80,9 @@ export class CovidServiceService {
 
     let httpParams = new HttpParams()
       .append("lbz", lbz)
+
+    console.log("usao u kovid servis:")
+    console.log(httpParams)
 
     return this.http.get<CovidExamDto[]>(
       `${environmentCovid.apiURL}/exam/find_all_for_doctor`,
@@ -98,6 +103,9 @@ export class CovidServiceService {
     let httpParams = new HttpParams()
       .append("page", page)
       .append("size",size)
+
+    console.log("usao u kovid servis:")
+    console.log(httpParams)
 
     return this.http.get<Page<CovidExamDto>>(
       `${environmentCovid.apiURL}/exam/find_all_today`,
@@ -139,6 +147,9 @@ export class CovidServiceService {
       therapy: therapy
     }
 
+    console.log("usao u kovid servis:")
+    console.log(covidExaminationSummaryDto)
+
     return this.http.post<HttpStatusCode>(`${environmentCovid.apiURL}/exam/createExamSummary`,
       covidExaminationSummaryDto, { headers: this.getHeaders() } );
   }
@@ -157,6 +168,9 @@ export class CovidServiceService {
     let httpParams = new HttpParams()
       .append("examId", examId)
       .append("pa",pa)
+
+    console.log("usao u kovid servis:")
+    console.log(httpParams)
 
     return this.http.put<HttpStatusCode>(`${environmentCovid.apiURL}/exam/status`, '',
       {params: httpParams, headers: this.getHeaders()});
@@ -191,6 +205,7 @@ export class CovidServiceService {
       prescriptionAnalysisDtos: prescriptionAnalysisDtos
     }
 
+    console.log("usao u kovid servis:")
     console.log(obj)
 
     return this.http.post<HttpStatusCode>(`${environmentCovid.apiURL}/prescription/lab_prescription`,
@@ -226,6 +241,7 @@ export class CovidServiceService {
       referralReason: referralReason
     }
 
+    console.log("usao u kovid servis:")
     console.log(obj)
 
     return this.http.post<HttpStatusCode>(`${environmentCovid.apiURL}/prescription/infirmary_prescription`,
@@ -243,6 +259,9 @@ export class CovidServiceService {
 
     let httpParams = new HttpParams()
       .append("today", today.toString())
+
+    console.log("usao u kovid servis:")
+    console.log(httpParams)
 
     return this.http.get<StatsDto>(
       `${environmentCovid.apiURL}/stats/getAllStats`,

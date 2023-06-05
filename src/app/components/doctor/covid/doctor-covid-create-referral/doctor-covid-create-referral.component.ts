@@ -15,6 +15,7 @@ import { Patient } from "../../../../models/patient/Patient";
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 import { interval } from 'rxjs';
 import {DiagnosisCode, DiagnosisCodeDto} from "../../../../models/patient/DiagnosisCode";
+import {CovidServiceService} from "../../../../services/covid-service/covid-service.service";
 
 
 @Component({
@@ -82,7 +83,16 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
   diagnosis: string = ''
 
 
-  constructor(private prescriptionService: PrescriptionServiceService, private snackBar: SnackbarServiceService, private laboratoryService: LaboratoryService, private authService: AuthService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
+  constructor(private prescriptionService: PrescriptionServiceService,
+              private snackBar: SnackbarServiceService,
+              private laboratoryService: LaboratoryService,
+              private authService: AuthService,
+              private userService: UserService,
+              private patientService: PatientService,
+              private formBuilder: FormBuilder,
+              private router: Router,
+              private route: ActivatedRoute,
+              private covidService: CovidServiceService) {
     this.referralForm = this.formBuilder.group({
         analysis: ['' ,[Validators.required]],
         comment: ['', [Validators.required]],
@@ -205,7 +215,7 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
 
     console.log(this.prescriptionAnalyses1)
 
-    this.prescriptionService.writeLabPerscription(
+    this.covidService.writeLabPerscription(
       this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArray
     ).subscribe(res => {
       console.log(res)
@@ -249,7 +259,7 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
     if (this.diagnosis != '') {
       let tmpdiagnosis = this.diagnosis.split("-")[0].trim();
 
-      this.prescriptionService.writeInfirmaryPerscription(
+      this.covidService.writeInfirmaryPerscription(
         this.lbz, this.departmentFromId, this.departmentToIdInfirmary, this.lbp, tmpdiagnosis,
         referral.commentInfirmary
       ).subscribe(res => {
