@@ -93,7 +93,7 @@ export class CovidServiceService {
   /**
    * Vraca kovid preglede za danasnji dan ciji je status CEKA sa paginacijom
    *
-   * Prikazivanje x unetih lbp-a sa dodeljenim lekarom koji će ih pregledati sa statusom ČEKA.
+   * Prikazivanje x unetih lbp-a sa dodeljenim lekarom koji će ih pregledati sa statusom CEKA.
    * */
   public getCovidExaminationForNurse(
     page: number,

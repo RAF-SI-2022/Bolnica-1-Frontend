@@ -103,11 +103,14 @@
                             <th>LBP</th>
                             <th>Tip</th>
                             <th>Lekar</th>
-                            <th>Status </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- TODO: . -->
+                      <tr *ngFor="let exam of covidExams" >
+                        <td>{{exam.lbp}}</td>
+                        <td>{{exam.type}}</td>
+                        <td>{{exam.lbz}}</td>
+                      </tr>
                     </tbody>
 
                 </table>

@@ -45,7 +45,7 @@ export class NurseCovidStatisticsComponent  implements OnInit {
       this.numberOfPatientsOnRespirator = res.numberOfPatientsOnRespirator;
       this.numberOfDeadPatients = res.numberOfDeadPatients;
     },err => {
-      this,this.snackBar.openErrorSnackBar("Greska!")
+      this.snackBar.openErrorSnackBar("Greska!")
     })
   }
 
