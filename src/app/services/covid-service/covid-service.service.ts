@@ -65,7 +65,7 @@ export class CovidServiceService {
     console.log(obj)
 
     return this.http.post<HttpStatusCode>(
-      `${environmentCovid.apiURL}/exam/create`,
+      `${environmentCovid.apiURL}/POST/exam/create`,
       obj, {headers: this.getHeaders()});
   }
 
