@@ -47,7 +47,7 @@ export class TechnicianIssuingResultsComponent implements OnInit {
     console.log(workOrder.lbp+":before trimming")
     // workOrder.lbp = workOrder.lbp.split("-")[0];
     // workOrder.lbp = workOrder.lbp.trim().split("-")[0];
-    workOrder.lbp = workOrder.lbp.replace(/ /g, "_").split("-")[0];
+    workOrder.lbp = workOrder.lbp.replace(/ /g, "_").split(":")[0];
     workOrder.lbp = workOrder.lbp.split("_")[0];
     if (!this.validateFields) {
       return;
@@ -105,7 +105,7 @@ export class TechnicianIssuingResultsComponent implements OnInit {
   }
 
   selectSuggestion(patient: Patient){
-    this.form.value.lbp = `${patient.lbp} - ${patient.name} (${patient.surname})`;
+    this.form.value.lbp = `${patient.lbp} : ${patient.name} (${patient.surname})`;
     this.filteredPatients = [];
   }
 

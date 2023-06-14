@@ -40,10 +40,13 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit {
     private laboratoryService: LaboratoryService, private router: Router, private snackBar: SnackbarServiceService,
     private formBuilder: FormBuilder,) {
 
+    const now = new Date();
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
+
     this.form = this.formBuilder.group({
       lbp: ['', [Validators.required]],
-      dateFrom: ['', [Validators.required]],
-      dateTo: ['', [Validators.required]],
+      dateFrom: [startOfYear.toISOString().slice(0,10), [Validators.required]],
+      dateTo: [now.toISOString().slice(0,10), [Validators.required]],
       selectedStatus: ['', [Validators.required]],
     });
 

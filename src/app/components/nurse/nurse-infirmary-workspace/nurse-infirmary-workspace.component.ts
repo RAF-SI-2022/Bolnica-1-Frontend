@@ -64,7 +64,7 @@ export class NurseInfirmaryWorkspaceComponent implements OnInit {
     const sendData = this.form.value;
     console.log(sendData)
 
-    sendData.lbp = sendData.lbp.split("-")[0].toString().trim();
+    sendData.lbp = sendData.lbp.split(":")[0].toString().trim();
     console.log("sending lbp: " + sendData.lpb)
 
     if (this.page == 0)
@@ -143,7 +143,7 @@ export class NurseInfirmaryWorkspaceComponent implements OnInit {
   }
 
   selectSuggestion(patient: Patient){
-    this.form.value.lbp = `${patient.lbp} - ${patient.name} (${patient.surname})`;
+    this.form.value.lbp = `${patient.lbp} : ${patient.name} (${patient.surname})`;
     this.filteredPatients = [];
   }
 

@@ -66,7 +66,7 @@ export class DoctorMedicalChartComponent implements OnInit {
   public dateToPrescription: Date = new Date()
   public dateFromPrescription: Date = new Date()
   public dateToLabaratory: Date = new Date()
-  public dateFromLabaratory: Date = new Date(0)
+  public dateFromLabaratory: Date = new Date(this.dateToLabaratory.getFullYear(), 0, 1);
   medicalHistories: MedicalHistory[] = []
   examinationHistories: ExaminationHistory[] = []
   prescriptionHistories: PrescriptionDoneDto[] = []
@@ -137,9 +137,10 @@ export class DoctorMedicalChartComponent implements OnInit {
       deleteButton: '',
     })
 
+
     this.labaratoryForm = this.formBuilder.group({
-      dateFrom: '',
-      dateTo: '',
+      dateFrom: [this.dateFromLabaratory.toISOString().slice(0,10), [Validators.required]],
+      dateTo: [this.dateToLabaratory.toISOString().slice(0,10), [Validators.required]],
     })
   }
 
