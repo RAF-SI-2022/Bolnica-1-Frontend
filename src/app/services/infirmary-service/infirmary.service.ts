@@ -60,7 +60,7 @@ export class InfirmaryService {
     lbzDoctor: string,
     patientAdmission: Date, // ovo je timestamp
     hospitalRoomId: number,
-    dischargeDateAndTime: Date, // ovo je timestamp
+    // dischargeDateAndTime: Date, // ovo je timestamp
     prescriptionId: number,
     note: string
   ): Observable<HospitalizationDto> {
@@ -69,7 +69,7 @@ export class InfirmaryService {
       lbzDoctor: lbzDoctor,
       patientAdmission: patientAdmission, // ovo je timestamp
       hospitalRoomId: hospitalRoomId,
-      dischargeDateAndTime: dischargeDateAndTime, // ovo je timestamp
+      // dischargeDateAndTime: dischargeDateAndTime, // ovo je timestamp
       prescriptionId: prescriptionId,
       note: note
     }

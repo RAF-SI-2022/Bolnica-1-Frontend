@@ -80,9 +80,7 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       lbp: [this.patientLbp, [Validators.required]],
-      note: ['', [Validators.required]],
-      dischargeDateAndTime: ['', [Validators.required]]
-
+      note: ['', [Validators.required]]
     });
 
   }
@@ -234,7 +232,7 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     //  ili obrisati sa beka
 
     this.infirmaryService.createHospitalization(this.selectedDoctor, new Date(),
-      this.selectedRoomId, sendData.dischargeDateAndTime, this.selectedPrescriptionId, sendData.note)
+      this.selectedRoomId, this.selectedPrescriptionId, sendData.note)
       .subscribe((response) => {
         this.snackBar.openSuccessSnackBar("Uspesno registrovan prijem!")
 
