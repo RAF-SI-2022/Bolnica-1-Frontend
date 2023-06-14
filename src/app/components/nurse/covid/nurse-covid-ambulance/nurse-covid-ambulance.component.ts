@@ -88,7 +88,7 @@ export class NurseCovidAmbulanceComponent  implements OnInit {
     this.covidService.createCovidExam(new Date(), PatientArrival.CEKA, sendData.examType,
       sendData.doctorLbz, sendData.textLBP).subscribe(
       res => {
-        this.getCovidExams();
+//         this.getCovidExams();
         this.snackBar.openWarningSnackBar("Uspesno sacuvano!");
 
       }, err => {
