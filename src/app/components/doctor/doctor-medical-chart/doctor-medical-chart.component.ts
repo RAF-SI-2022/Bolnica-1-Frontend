@@ -433,6 +433,7 @@ export class DoctorMedicalChartComponent implements OnInit {
           this.parameterAnalysisResults = this.labWorkOrderWithAnalysis.parameterAnalysisResults
           console.log("popunio sam")
           console.log(this.labWorkOrderWithAnalysis)
+          this.showDetailsBoolean = true;
 
         }
       })
@@ -502,7 +503,6 @@ export class DoctorMedicalChartComponent implements OnInit {
   }
 
   showDetails(lab: LabWorkOrderNew) {
-    this.showDetailsBoolean = true;
     this.getLabWorkOrderWithAnalysis(lab.id);
   }
 

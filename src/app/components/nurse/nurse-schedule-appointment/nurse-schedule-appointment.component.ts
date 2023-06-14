@@ -63,6 +63,9 @@ export class NurseScheduleAppointmentComponent implements OnInit {
   note: string = '';
   patient: string = '';
   selectedDoctor: string = '';
+
+  selectedDoctorBoolean: boolean = false;
+
   selectedDateTime: Date = new Date();
   lbz: string = '';
   lbp: string = '';
@@ -132,6 +135,8 @@ export class NurseScheduleAppointmentComponent implements OnInit {
 
 
   public addEventsData(): void {
+
+
     this.examinationService.getScheduledExaminationByDoctor(
       this.selectedDoctor
     ).subscribe(res => {

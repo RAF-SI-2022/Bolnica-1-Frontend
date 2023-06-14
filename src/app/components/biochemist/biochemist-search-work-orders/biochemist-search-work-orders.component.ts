@@ -23,6 +23,8 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit {
   workOrdersList: LabWorkOrderNew[] = [];
   workOrdersPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>();
 
+  selectedPatientBoolean: boolean = false;
+
   PAGE_SIZE: number = 5;
   page: number = 0;
   total: number = 0;
@@ -55,13 +57,18 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit {
 
 
   getWorkOrders(): void {
+
+    if(!this.selectedPatientBoolean){
+      this.snackBar.openWarningSnackBar("Niste izabrali pacijenta");
+      return;
+    }
     const sendData = this.form.value;
     console.log(sendData)
     console.log(sendData.selectedStatus.toString())
 
     this.dateFrom.setHours(0, 0, 0, 0)
     this.dateTo.setHours(23, 59, 59, 999)
-    sendData.lbp = sendData.lbp.split("-")[0].toString().trim();
+    sendData.lbp = sendData.lbp.split(":")[0].toString().trim();
     console.log("SALJEMM " + sendData.lpb)
     this.laboratoryService.findWorkOrders(sendData.lbp, sendData.dateFrom, sendData.dateTo,
       sendData.selectedStatus.toString(), this.page, this.PAGE_SIZE)
@@ -106,8 +113,9 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit {
   }
 
   selectSuggestion(patient: Patient){
-    this.form.value.lbp = `${patient.lbp} - ${patient.name} (${patient.surname})`;
+    this.form.value.lbp = `${patient.lbp} : ${patient.name} (${patient.surname})`;
     this.filteredPatients = [];
+    this.selectedPatientBoolean = true;
   }
 
 
