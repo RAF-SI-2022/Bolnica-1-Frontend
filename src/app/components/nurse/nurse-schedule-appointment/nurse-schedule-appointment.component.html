@@ -24,6 +24,7 @@
     </div>
 
   </div>
+  <div *ngIf="doctorSearched">
 
   <ejs-schedule #scheduleObj dateFormat="M/d/yyyy h:mm a" [eventSettings]="eventSettings"
     (popupOpen)="onPopupOpen($event)" (cellClick)="onCellClick($event)" [editorTemplate]="editorTemplate"
@@ -109,6 +110,8 @@
     </ng-template>
 
   </ejs-schedule>
+
+  </div>
 </div>
 <!---
 <ejs-schedule height="700" width="1200" [currentView]="setView"></ejs-schedule>
