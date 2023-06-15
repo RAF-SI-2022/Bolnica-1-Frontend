@@ -54,6 +54,7 @@ postsubmits:
     decorate: true
     branches:
       - ^stacionar$
+      - ^kovid$
       # Matchuje grane i tagove (release-ove) koji su tipa v0.0.0
       # - ^v\d+\.\d+\.\d+.*
     spec:
