@@ -4,7 +4,7 @@ describe("Doctor Search Patient", ()=>{
     beforeEach(()=>{
         cy.login("jane.smith","password","/doctor-workspace")
         cy.visit("/doctor-workspace")
-    })    
+    })
 
     it("Should change blood type and add new alergies and vaccine",()=>{
         cy.contains("Pregled").last().click()
@@ -18,7 +18,7 @@ describe("Doctor Search Patient", ()=>{
         cy.get("[data-cy='IzaberiAlergen']").select("Tetraciklin").invoke("val").should("eq","Tetraciklin")
         cy.get("[data-cy='dodajAlergiju']").click()
         cy.get("[data-cy='IzaberiVakcinu']").select("INFLUVAC").invoke("val").should("eq","INFLUVAC")
-        cy.get("[data-cy='dateDatumPrimanja']").type("2023-05-05")
+        cy.get("[data-cy='dateDatumPrimanja']").type("2023-06-06")
         cy.get("[data-cy='brnDodajVakcinu']").click()
         cy.go('back')
         cy.contains("Riba").should("be.visible")
@@ -66,7 +66,7 @@ describe("Doctor Search Patient", ()=>{
 //     beforeEach(()=>{
 //         cy.login("jane.smith","password","/doctor-workspace")
 //         cy.visit("/doctor-search-patients")
-//     })    
+//     })
 
 //     it("Should search for a patient",()=>{
 //         cy.get("[data-cy='ime']").clear().type("Marko",{force:true})

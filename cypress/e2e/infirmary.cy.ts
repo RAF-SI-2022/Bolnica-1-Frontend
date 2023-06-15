@@ -1,14 +1,14 @@
 /// <reference types="cypress" />
 
 describe("Infirmary workflow", ()=>{
-    
+
     it("Nurse should schedule an appointment for a patient and set the status to waiting",()=>{
         cy.login("lisa.jones","password","/nurse-workspace")
         cy.visit("/nurse-schedule-appointment")
         cy.get("[data-cy='doctorSelect']").click()
         cy.get("[ng-reflect-ng-item-label='Jane Smith']").click({force:true})
         cy.get("[data-cy='pretraziButton']").click()
-        cy.get("[data-date='1684776600000']").scrollIntoView().click({force:true})
+        cy.get("[data-date='1686853800000']").scrollIntoView().click({force:true})
         cy.get("[data-cy='razlog']").select('Pregled')
         cy.get("[data-cy='patient']").click()
         cy.get("[ng-reflect-ng-item-label='Adam Lee']").click({force:true})
@@ -37,7 +37,7 @@ describe("Infirmary workflow", ()=>{
             expect(message).to.equal('Da li ste sigurni da želite da napravite uput?');
           });
         cy.go('back')
-    })    
+    })
 
     it("Nurse should admit the patient to the infirmary",()=>{
         cy.login("lisa.jones","password","/nurse-workspace")
@@ -58,7 +58,7 @@ describe("Infirmary workflow", ()=>{
         cy.get("[data-cy='doctorSelect']").scrollIntoView().type("Jane")
         cy.contains("Jane Smith").click()
         cy.get("[data-cy='note']").type("Hitno!",{force:true})
-        cy.get("[data-cy='dischargeDateAndTime']").type("2023-05-25")
+        // cy.get("[data-cy='dischargeDateAndTime']").type("2023-05-25")
         cy.get("[data-cy='button']").click()
     })
 
@@ -149,8 +149,8 @@ describe("Infirmary workflow", ()=>{
         cy.go('back')
         cy.get("[data-cy='zdravstveniKarton']").click()
         cy.get("[data-cy='istorijaOtpusnihListi']").click()
-        cy.get("[data-cy='dateOdOtpusna']").type("2023-05-22")
-        cy.get("[data-cy='dateDoOtpusna']").type("2023-05-25")
+        cy.get("[data-cy='dateOdOtpusna']").type("2023-06-01")
+        cy.get("[data-cy='dateDoOtpusna']").type("2023-06-25")
         cy.get("[data-cy='pretraziOtpusna']").click()
         cy.get("[data-cy='sacuvajOtpusna']").last().click()
         cy.contains("Lorem ipsum").should("be.visible")
