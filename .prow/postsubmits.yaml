@@ -41,7 +41,8 @@ postsubmits:
               find . -type f -exec sed -i.bak "s;__COMMIT_HASH__;$commit_hash;g" {} \;
 
               #kubectl apply -f kubernetes-front/
-              helm upgrade bolnica-1-frontend ./kubernetes-front/b-1-frontend-chart --reuse-values -n bolnica-1-prod
+              helm uninstall bolnica-1-frontend -n bolnica-1-prod
+              helm install bolnica-1-frontend ./kubernetes-front/b-1-frontend-chart -n bolnica-1-prod
           securityContext:
             privileged: true
           imagePullPolicy: Always
@@ -88,7 +89,8 @@ postsubmits:
               find . -type f -exec sed -i.bak "s;__COMMIT_HASH__;$commit_hash;g" {} \;
 
               #kubectl apply -f kubernetes-front/
-              helm upgrade bolnica-1-frontend ./kubernetes-front/b-1-frontend-chart --reuse-values -n bolnica-1-dev
+              helm uninstall bolnica-1-frontend -n bolnica-1-dev
+              helm install bolnica-1-frontend ./kubernetes-front/b-1-frontend-chart -n bolnica-1-dev
           securityContext:
             privileged: true
           imagePullPolicy: Always
