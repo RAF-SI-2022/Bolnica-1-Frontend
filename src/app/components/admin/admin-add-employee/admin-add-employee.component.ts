@@ -14,6 +14,8 @@ export class AdminAddEmployeeComponent implements OnInit {
     addGroup: FormGroup;
     permissions: string[] = [];
 
+    initialFormValues: any;
+
     successMessage: string = ''
     errorMessage: string = ''
     emailErrorMessage: string = '';
@@ -49,7 +51,10 @@ export class AdminAddEmployeeComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.getDepartments();
+      // Store initial form values
+      this.initialFormValues = this.addGroup.getRawValue();
+
+      this.getDepartments();
     }
 
     getDepartments(): void {
@@ -73,6 +78,22 @@ export class AdminAddEmployeeComponent implements OnInit {
                 // this.errorMessage = '';
                 // this.successMessage = 'Uspesno dodat korisnik!'
                 this.snackBar.openSuccessSnackBar("Korisnik uspesno dodat!")
+
+          // Reset the form
+          this.addGroup.reset();
+
+          // Update form controls with initial values
+          Object.keys(this.addGroup.controls).forEach((controlName) => {
+            const control = this.addGroup.get(controlName);
+            const initialValue = this.initialFormValues[controlName];
+            // @ts-ignore
+            control.setValue(initialValue);
+            // @ts-ignore
+            control.markAsPristine();
+          });
+
+
+
             }, error => {
                 console.log("Error " + error.status);
                 if (error.status == 409) {
