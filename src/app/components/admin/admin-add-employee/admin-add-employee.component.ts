@@ -92,6 +92,8 @@ export class AdminAddEmployeeComponent implements OnInit {
             control.markAsPristine();
           });
 
+          this.permissions = []
+
 
 
             }, error => {
