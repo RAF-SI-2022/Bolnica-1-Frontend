@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bolnica-1-ingress-frontend
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - bolnica-1.k8s.elab.rs
+      secretName: dev-bolnica-1-certs
+  rules:
+  - host: "bolnica-1.k8s.elab.rs"
+    http:
+      paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: frontend
+              port:
+                number: 4200
