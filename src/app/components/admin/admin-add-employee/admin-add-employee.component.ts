@@ -162,7 +162,7 @@ export class AdminAddEmployeeComponent implements OnInit {
         if (this.addGroup.get('VISI_LAB_TEHNICAR')?.value) {
             this.permissions.push('ROLE_VISI_LAB_TEHNICAR')
         }
-        if (this.addGroup.get('LAB_TECHNICAR')?.value) {
+        if (this.addGroup.get('LAB_TEHNICAR')?.value) {
             this.permissions.push('ROLE_LAB_TEHNICAR')
         }
         if (this.addGroup.get('MED_BIOHEMICAR')?.value) {
