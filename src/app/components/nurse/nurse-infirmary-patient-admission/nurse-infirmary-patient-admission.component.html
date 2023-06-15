@@ -24,7 +24,7 @@
             (click)="selectSuggestion(fPatient)"
             class="suggestion"
           >
-            {{ fPatient.lbp }} - {{ fPatient.name }} {{ fPatient.surname }}
+            {{ fPatient.lbp }} : {{ fPatient.name }} {{ fPatient.surname }}
           </div>
         </div>
       </div>
@@ -158,11 +158,11 @@
           </div>
         </div>
 
-        <div class="row mt-1">
-          <div class="col-md-12"><label class="labels">Datum i vreme otpusta</label>
-            <input type="date" name="dischargeDateAndTime" class="form-control" data-cy="dischargeDateAndTime" required [formControlName]="'dischargeDateAndTime'">
-          </div>
-        </div>
+<!--        <div class="row mt-1">-->
+<!--          <div class="col-md-12"><label class="labels">Datum i vreme otpusta</label>-->
+<!--            <input type="date" name="dischargeDateAndTime" class="form-control" data-cy="dischargeDateAndTime" required [formControlName]="'dischargeDateAndTime'">-->
+<!--          </div>-->
+<!--        </div>-->
 
         <div class="mt-4 text-center">
           <button (click)="addHospitalization()" type="submit" class="btn btn-primary" data-cy="button"><i class="bi bi-save me-1"></i>Sačuvaj</button>

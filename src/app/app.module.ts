@@ -86,7 +86,12 @@ import {
   ReceptionistWorkspaceComponent
 } from "./components/receptionist/receptionist-workspace/receptionist-workspace.component";
 import { DoctorScheduleExamComponent } from './components/doctor/doctor-schedule-exam/doctor-schedule-exam.component';
-
+import { DoctorCovidCreateReferralComponent } from './components/doctor/covid/doctor-covid-create-referral/doctor-covid-create-referral.component';
+import { NurseCovidAmbulanceComponent } from './components/nurse/covid/nurse-covid-ambulance/nurse-covid-ambulance.component';
+import { NurseCovidStatisticsComponent } from './components/nurse/covid/nurse-covid-statistics/nurse-covid-statistics.component';
+import { DoctorCovidWaitingRoomComponent } from './components/doctor/covid/doctor-covid-waiting-room/doctor-covid-waiting-room.component';
+import { DoctorCovidStatisticsComponent } from './components/doctor/covid/doctor-covid-statistics/doctor-covid-statistics.component';
+import { DoctorCovidExamComponent } from './components/doctor/covid/doctor-covid-exam/doctor-covid-exam.component';
 
 
 @NgModule({
@@ -148,7 +153,13 @@ import { DoctorScheduleExamComponent } from './components/doctor/doctor-schedule
     NurseInfirmaryStateHistoryComponent,
     NurseInfirmaryVisitsHistoryComponent,
     NurseInfirmarySearchAdmissionComponent,
-    DoctorScheduleExamComponent
+    DoctorScheduleExamComponent,
+    DoctorCovidCreateReferralComponent,
+    NurseCovidAmbulanceComponent,
+    NurseCovidStatisticsComponent,
+    DoctorCovidWaitingRoomComponent,
+    DoctorCovidStatisticsComponent,
+    DoctorCovidExamComponent
   ],
   imports: [
     BrowserModule,

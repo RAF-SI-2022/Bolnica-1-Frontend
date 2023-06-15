@@ -61,7 +61,7 @@ export class NurseInfirmarySearchAdmissionComponent implements OnInit {
     const sendData = this.form.value;
     console.log(sendData)
 
-    sendData.lbp = sendData.lbp.split("-")[0].toString().trim();
+    sendData.lbp = sendData.lbp.split(":")[0].toString().trim();
 
     console.log("sending lbp: " + sendData.lbp)
 
@@ -107,7 +107,7 @@ export class NurseInfirmarySearchAdmissionComponent implements OnInit {
   }
 
   selectSuggestion(patient: Patient){
-    this.form.value.lbp = `${patient.lbp} - ${patient.name} (${patient.surname})`;
+    this.form.value.lbp = `${patient.lbp} : ${patient.name} (${patient.surname})`;
     this.filteredPatients = [];
   }
 

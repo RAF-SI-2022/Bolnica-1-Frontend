@@ -29,7 +29,7 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
   rolaVisiLabTeh = false;
   rolaLabTeh = false;
   patients: Patient[] = [];
-  
+
   constructor(private patientService: PatientService ,private laboratoryService: LaboratoryService, private userService: UserService, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder) {
     this.searchForm = this.formBuilder.group({
       lbp: '',
@@ -64,7 +64,7 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
   getListScheduledEexaminations(): void {
     if (this.page == 0)
       this.page = 1;
-      const fixedLbp = this.lbp.split("-")[0].trim();
+      const fixedLbp = this.lbp.split(":")[0].trim();
     this.laboratoryService.listScheduledExaminationsByLbp(fixedLbp, new Date(), this.page - 1, this.PAGE_SIZE).subscribe((response) => {
       this.scheduledLabExaminationPage = response
       this.scheduledLabExaminationList = this.scheduledLabExaminationPage.content
@@ -140,7 +140,7 @@ export class TechnicianPatientAdmissionComponent implements OnInit {
   }
 
   selectSuggestion(patient: Patient){
-    this.lbp = `${patient.lbp} - ${patient.name} (${patient.surname})`;
+    this.lbp = `${patient.lbp} : ${patient.name} (${patient.surname})`;
     this.filteredPatients = [];
   }
 }

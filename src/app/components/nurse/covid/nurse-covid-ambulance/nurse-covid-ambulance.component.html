@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <form [formGroup]="form" class="mb-1 needs-validation" novalidate>
+
+        <div class="container rounded bg-white mt-5 p-3 py-5">
+
+            <h2 class="text-center"><b>Kovid ambulanta</b></h2>
+            <br>
+
+<!--            <div class="container">-->
+<!--              <div class="row align-items-center">-->
+<!--                    <div class="col-md-2">-->
+<!--                        <label class="lasbels">Unesite LBP</label>-->
+<!--                        <input [formControlName]="'textLBP'" name="textLBP" type="text" class="form-control"-->
+<!--                            data-cy="textLBP">-->
+<!--                    </div>-->
+<!--                    <div class="col-md-2 offset-1">-->
+<!--                        <label class="labels">Izaberite tip pregleda</label>-->
+<!--                        <select [formControlName]="'examinationType'" class="form-control" id="examinationType" name="examinationType" required>-->
+<!--                            <option value="prvi">Prvi</option>-->
+<!--                            <option value="kontrolni">Kontrolni</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-2 offset-1">-->
+<!--                        <label class="labels">Izaberite lekara</label>-->
+<!--                        <input [formControlName]="'textDoctor'" name="textDoctor" type="text" class="form-control"-->
+<!--                            data-cy="textDoctor">-->
+<!--                    </div>-->
+
+<!--                    <div class="col-md-2 offset-1">-->
+<!--                        <button (click)="addExemination()" class="btn btn-primary" type="submit" [disabled]="!form.valid">Dodaj</button>-->
+<!--                        &lt;!&ndash; <button (click)="add()" class="btn btn-primary" type="submit" data-toggle="collapse"-->
+<!--                            data-target="#search-table" aria-expanded="false" aria-controls="search-table"-->
+<!--                            data-cy="btnPretrazi"> Dodaj</button> &ndash;&gt;-->
+
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+          <div class="container">
+            <div class="row">
+              <div class="col-md-2">
+                <label class="labels">Unesite LBP</label>
+                <input [formControlName]="'textLBP'" name="textLBP" type="text" class="form-control" data-cy="textLBP" required>
+              </div>
+
+              <div class="col-md-2 offset-1">
+                <label class="labels">Izaberite tip pregleda</label>
+                <select class="form-select" name="covidExaminationTypes" [formControlName]="'examType'" data-cy="selectStatus">
+                  <option *ngFor="let type of covidExaminationTypes" [value]="type">{{type}}</option>
+                </select>
+
+              </div>
+
+              <div class="col-md-2 offset-1">
+                <label for="doctor">Izaberite lekara</label>
+                <ng-select class="custom" [formControlName]="'doctorLbz'" id="doctor" name="doctor"
+                           required
+                           [searchable]="true"
+                           bindLabel="name"
+                           bindValue="name" data-cy="doctorSelect">
+                  <ng-option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
+                </ng-select>
+              </div>
+
+            </div>
+            <div class="row justify-content-end">
+              <div class="col-md-2">
+                <button (click)="addExamination()" class="btn btn-primary" type="submit" >Dodaj novog pacijenta</button>
+                <!-- <button (click)="add()" class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table"
+                    aria-expanded="false" aria-controls="search-table" data-cy="btnPretrazi"> Dodaj</button> -->
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+    </form>
+
+
+    <div class="container">
+
+        <div class="table-responsive">
+            <div class="table-wrapper">
+
+                <div class="table-title">
+                    <h2><b>Danasnji pregledi</b></h2>
+
+                </div>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>LBP</th>
+                            <th>Tip</th>
+                            <th>Lekar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let exam of covidExams" >
+                        <td>{{exam.lbp}}</td>
+                        <td>{{exam.type}}</td>
+                        <td>{{exam.lbz}}</td>
+                      </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

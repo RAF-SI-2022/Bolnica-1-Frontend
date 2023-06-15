@@ -142,6 +142,22 @@ import {
 } from "./components/nurse/nurse-infirmary-search-admission/nurse-infirmary-search-admission.component";
 import {ReceptionistGuard} from "./guards/role/general/receptionist.guard";
 import {DoctorScheduleExamComponent} from "./components/doctor/doctor-schedule-exam/doctor-schedule-exam.component";
+import {
+  NurseCovidAmbulanceComponent
+} from "./components/nurse/covid/nurse-covid-ambulance/nurse-covid-ambulance.component";
+import {
+  NurseCovidStatisticsComponent
+} from "./components/nurse/covid/nurse-covid-statistics/nurse-covid-statistics.component";
+import {
+  DoctorCovidWaitingRoomComponent
+} from "./components/doctor/covid/doctor-covid-waiting-room/doctor-covid-waiting-room.component";
+import {DoctorCovidExamComponent} from "./components/doctor/covid/doctor-covid-exam/doctor-covid-exam.component";
+import {
+  DoctorCovidStatisticsComponent
+} from "./components/doctor/covid/doctor-covid-statistics/doctor-covid-statistics.component";
+import {
+  DoctorCovidCreateReferralComponent
+} from "./components/doctor/covid/doctor-covid-create-referral/doctor-covid-create-referral.component";
 
 
 const routes: Routes = [
@@ -281,6 +297,26 @@ const routes: Routes = [
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
+    path: "doctor-covid-waiting-room",
+    component: DoctorCovidWaitingRoomComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-covid-exam/:lbp",
+    component: DoctorCovidExamComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-covid-statistics",
+    component: DoctorCovidStatisticsComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-covid-create-referral/:lbp",
+    component: DoctorCovidCreateReferralComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
     path: "nurse-add-patient",
     component: NurseAddPatientComponent,
     canActivate: [AuthGuard, NurseGuard]
@@ -358,6 +394,18 @@ const routes: Routes = [
     component: NurseInfirmaryRegisterVisitComponent,
     canActivate: [AuthGuard, NurseGuard]
   },
+  {
+    path: "nurse-covid-ambulance",
+    component: NurseCovidAmbulanceComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+
+  {
+    path: "nurse-covid-statistics",
+    component: NurseCovidStatisticsComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+
   {
     path: "receptionist-add-patient",
     component: ReceptionistAddPatientComponent,

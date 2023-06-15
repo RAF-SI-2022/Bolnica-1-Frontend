@@ -63,6 +63,9 @@ export class NurseScheduleAppointmentComponent implements OnInit {
   note: string = '';
   patient: string = '';
   selectedDoctor: string = '';
+
+  selectedDoctorBoolean: boolean = false;
+
   selectedDateTime: Date = new Date();
   lbz: string = '';
   lbp: string = '';
@@ -132,6 +135,8 @@ export class NurseScheduleAppointmentComponent implements OnInit {
 
 
   public addEventsData(): void {
+
+
     this.examinationService.getScheduledExaminationByDoctor(
       this.selectedDoctor
     ).subscribe(res => {
@@ -139,7 +144,7 @@ export class NurseScheduleAppointmentComponent implements OnInit {
       this.scheduleObj?.deleteEvent(this.scheduleObj?.eventsData)
       this.responseExams = res;
       console.log("DOBIO SAM " + res.length)
-      this.doctorSearched = true;
+
       if(this.responseExams.length == 0){
         this.snackBar.openWarningSnackBar("Nema zakazanih pregleda")
       }
@@ -170,6 +175,8 @@ export class NurseScheduleAppointmentComponent implements OnInit {
 
         }
       });
+      this.doctorSearched = true;
+
     }, err => {
       if(!this.firstTimeErrorCheck){
         this.snackBar.openErrorSnackBar("Greska!")

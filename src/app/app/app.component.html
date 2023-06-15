@@ -151,6 +151,20 @@
         </a>
       </li>
 
+      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../doctor-covid-waiting-room">
+          <i class="bi bi-book"></i>
+          <span style="color: red;">KOVID AMBULATNA</span>
+        </a>
+      </li>
+
+      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../doctor-covid-statistics">
+          <i class="bi bi-book"></i>
+          <span style="color: red;">KOVID statistika</span>
+        </a>
+      </li>
+
 <!--      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">-->
 <!--        <a class="nav-link collapsed" routerLink="../doctor-create-referral">-->
 <!--          <i class="bi bi-journal-text"></i>-->
@@ -221,6 +235,20 @@
         <a class="nav-link collapsed" routerLink="../nurse-add-patient">
           <i class="bi bi-journal-text"></i>
           <span>Dodaj pacijenta</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-covid-ambulance">
+          <i class="bi bi-book"></i>
+          <span style="color: red;">KOVID AMBULATNA</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-covid-statistics">
+          <i class="bi bi-book"></i>
+          <span style="color: red;">KOVID statistika</span>
         </a>
       </li>
 

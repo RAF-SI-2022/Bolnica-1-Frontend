@@ -66,7 +66,7 @@ export class DoctorMedicalChartComponent implements OnInit {
   public dateToPrescription: Date = new Date()
   public dateFromPrescription: Date = new Date()
   public dateToLabaratory: Date = new Date()
-  public dateFromLabaratory: Date = new Date(0)
+  public dateFromLabaratory: Date = new Date(this.dateToLabaratory.getFullYear(), 0, 1);
   medicalHistories: MedicalHistory[] = []
   examinationHistories: ExaminationHistory[] = []
   prescriptionHistories: PrescriptionDoneDto[] = []
@@ -137,9 +137,10 @@ export class DoctorMedicalChartComponent implements OnInit {
       deleteButton: '',
     })
 
+
     this.labaratoryForm = this.formBuilder.group({
-      dateFrom: '',
-      dateTo: '',
+      dateFrom: [this.dateFromLabaratory.toISOString().slice(0,10), [Validators.required]],
+      dateTo: [this.dateToLabaratory.toISOString().slice(0,10), [Validators.required]],
     })
   }
 
@@ -433,6 +434,7 @@ export class DoctorMedicalChartComponent implements OnInit {
           this.parameterAnalysisResults = this.labWorkOrderWithAnalysis.parameterAnalysisResults
           console.log("popunio sam")
           console.log(this.labWorkOrderWithAnalysis)
+          this.showDetailsBoolean = true;
 
         }
       })
@@ -502,7 +504,6 @@ export class DoctorMedicalChartComponent implements OnInit {
   }
 
   showDetails(lab: LabWorkOrderNew) {
-    this.showDetailsBoolean = true;
     this.getLabWorkOrderWithAnalysis(lab.id);
   }
 
