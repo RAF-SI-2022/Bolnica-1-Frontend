@@ -89,7 +89,7 @@ export class NurseCovidAmbulanceComponent  implements OnInit {
       sendData.doctorLbz, sendData.textLBP).subscribe(
       res => {
 //         this.getCovidExams();
-        this.snackBar.openWarningSnackBar("Uspesno sacuvano!");
+        this.snackBar.openSuccessSnackBar("Uspesno sacuvano!");
 
       }, err => {
         this.snackBar.openErrorSnackBar("Greska!")
