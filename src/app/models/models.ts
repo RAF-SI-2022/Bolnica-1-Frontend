@@ -33,6 +33,9 @@ export class Zaposleni {
     title: Title = Title.MR;
     profession: Profession = Profession.MED_SESTRA;
     department: Department = new Department();
+
+    biochemistName: string = '';
+    biochemistSurname: string = '';
 }
 
 export class EmployeeMessageDTO{
