@@ -81,6 +81,8 @@ export class DoctorCreateReferralComponent implements OnInit {
   allDiagnosis: DiagnosisCodeDto[] = []
   diagnosis: string = ''
 
+  initialFormValues: any;
+
 
   constructor(private prescriptionService: PrescriptionServiceService, private snackBar: SnackbarServiceService, private laboratoryService: LaboratoryService, private authService: AuthService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
     this.referralForm = this.formBuilder.group({
@@ -109,6 +111,10 @@ export class DoctorCreateReferralComponent implements OnInit {
       });
 
       this.getDiagnosis()
+
+      //dodato
+      this.initialFormValues = this.referralForm.getRawValue();
+      this.initialFormValues = this.referralInfirmaryForm.getRawValue();
     }
 
 
@@ -166,6 +172,7 @@ export class DoctorCreateReferralComponent implements OnInit {
     var form = document.getElementsByClassName('needs-validation')[1] as HTMLFormElement;
     form.classList.add('was-validated');
 
+
     if(form.checkValidity() === false){
       return false;
     }
@@ -173,6 +180,7 @@ export class DoctorCreateReferralComponent implements OnInit {
     return true;
   }
 
+  //*********
   confirmUput(): void {
 
       if(!this.validateEntries()){
@@ -205,6 +213,12 @@ export class DoctorCreateReferralComponent implements OnInit {
 
     console.log(this.prescriptionAnalyses1)
 
+
+
+    //vidi sta treba sa ovim
+    //this.permissions = []
+
+
     this.prescriptionService.writeLabPerscription(
       this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArray
     ).subscribe(res => {
@@ -212,16 +226,38 @@ export class DoctorCreateReferralComponent implements OnInit {
       // this.errorMessage = '';
       // this.successMessage = 'Uspesno dodat uput!';
       this.snackBar.openSuccessSnackBar("Uspesno dodat uput!")
-    }, error => {
+
+
+      }, error => {
       console.log("Error " + error.status);
       // this.successMessage = '';
       // this.errorMessage = 'ERROR: Uput nije kreiran!';
       this.snackBar.openErrorSnackBar("Uput nije kreiran");
     }
+
     );
+
+
+    this.referralForm.reset();
+
+    this.selectedParams.length = 0;
+
+    // Update form controls with initial values
+    Object.keys(this.referralForm.controls).forEach((controlName) => {
+      const control = this.referralForm.get(controlName);
+      const initialValue = this.initialFormValues[controlName];
+      // @ts-ignore
+      control.setValue(initialValue);
+      // @ts-ignore
+      control.markAsPristine();
+
+     // control?.markAsUntouched();
+
+      //control?.updateValueAndValidity();
+    });
+
+
   }
-
-
 
 
   confirmInfirmaryUput(): void {
@@ -249,6 +285,7 @@ export class DoctorCreateReferralComponent implements OnInit {
     if (this.diagnosis != '') {
       let tmpdiagnosis = this.diagnosis.split("-")[0].trim();
 
+
       this.prescriptionService.writeInfirmaryPerscription(
         this.lbz, this.departmentFromId, this.departmentToIdInfirmary, this.lbp, tmpdiagnosis,
         referral.commentInfirmary
@@ -257,13 +294,36 @@ export class DoctorCreateReferralComponent implements OnInit {
           // this.errorMessage = '';
           // this.successMessage = 'Uspesno dodat uput!';
           this.snackBar.openSuccessSnackBar("Uspesno dodat uput!")
+
+
         }, error => {
           console.log("Error " + error.status);
           // this.successMessage = '';
           // this.errorMessage = 'ERROR: Uput nije kreiran!';
           this.snackBar.openErrorSnackBar("Uput nije kreiran");
         }
+
+
+
+
       );
+
+
+      //dodato
+      this.referralInfirmaryForm.reset();
+
+      // Update form controls with initial values
+      Object.keys(this.referralInfirmaryForm.controls).forEach((controlName) => {
+        const control = this.referralInfirmaryForm.get(controlName);
+        const initialValue = this.initialFormValues[controlName];
+        // @ts-ignore
+        control.setValue(initialValue);
+        // @ts-ignore
+        control.markAsPristine();
+      });
+
+      //vidi sta treba sa ovim
+      //this.permissions = []
 
     }else{
       this.snackBar.openWarningSnackBar("Popunite dijagnozu!")
@@ -356,6 +416,8 @@ export class DoctorCreateReferralComponent implements OnInit {
         this.selectedParams.splice(index, 1);
       }
     }
+
+
   }
 
   totalHopsitalChecked = 0;
