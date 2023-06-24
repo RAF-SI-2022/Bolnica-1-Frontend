@@ -24,6 +24,7 @@ export class DoctorInfirmaryDischargeListComponent implements OnInit {
   patientLbp: string = 'lbp neki'
   lbz: string = ''
   pbo: string = '';
+  initialFormValues: any;
 
   constructor(private formBuilder: FormBuilder,
               private snackBar: SnackbarServiceService,
@@ -49,6 +50,7 @@ export class DoctorInfirmaryDischargeListComponent implements OnInit {
     this.patientLbp = <string>this.route.snapshot.paramMap.get('lbp');
     this.lbz = this.authService.getLBZ();
     this.pbo = this.authService.getPBO();
+    this.initialFormValues = this.addGroup.getRawValue();
   }
 
   addDischargeList() {
@@ -61,11 +63,37 @@ export class DoctorInfirmaryDischargeListComponent implements OnInit {
       return;
     }
 
+    this.addGroup.reset();
+
+    // Update form controls with initial values
+    Object.keys(this.addGroup.controls).forEach((controlName) => {
+      const control = this.addGroup.get(controlName);
+      const initialValue = this.initialFormValues[controlName];
+      // @ts-ignore
+      control.setValue(initialValue);
+      // @ts-ignore
+      control.markAsPristine();
+
+      control?.markAsUntouched();
+
+      control?.updateValueAndValidity();
+    });
+
+    form.classList.remove("was-validated");
+
+    //proveri sta treba za ovo
+    //this.permissions = []
+
+
     this.infirmaryService.createDischargeList(dischargeList.followingDiagnosis,
       dischargeList.anamnesis, dischargeList.analysis, dischargeList.courseOfDisease,
       dischargeList.summary, dischargeList.therapy, this.lbz, this.pbo, new Date(),
       this.currentHospitalization.id).subscribe((response) => {
       this.snackBar.openSuccessSnackBar("Uspesno kreirana otpusna lista!")
+
+      //dodato
+
+
     }, error => {
       console.log("Error " + error.status);
       if (error.status == 409) {

@@ -64,6 +64,7 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
   pageSizeHospital = 99999
   totalHospital = 0
   hospitalPage: Page<DeparmentShort> = new Page<DeparmentShort>()
+  initialFormValues: any;
 
   constructor(private prescriptionService: PrescriptionServiceService,
               private snackBar: SnackbarServiceService,
@@ -99,6 +100,7 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
     console.log(this.lbp);
     //interval(5000).subscribe(() => {
     this.getLabDoctorDepartments();
+    this.initialFormValues = this.referralForm.getRawValue();
     //});
   }
 
@@ -217,6 +219,28 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
     //   console.log(res)
     // });
 
+    //dodato
+    this.referralForm.reset();
+
+    // Update form controls with initial values
+    Object.keys(this.referralForm.controls).forEach((controlName) => {
+      const control = this.referralForm.get(controlName);
+      const initialValue = this.initialFormValues[controlName];
+      // @ts-ignore
+      control.setValue(initialValue);
+      // @ts-ignore
+      control.markAsPristine();
+
+      control?.markAsUntouched();
+
+      control?.updateValueAndValidity();
+    });
+
+
+    //vidi sta treba sa ovim
+    //this.permissions = []
+
+
     this.infirmaryService.sendPrescriptionToLab(
       PrescriptionType.LABORATORIJA, this.lbz, this.departmentFromId, this.departmentToId, this.lbp,
        new Date(), PrescriptionStatus.NEREALIZOVAN, referral.comment,
@@ -226,6 +250,11 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
         // this.errorMessage = '';
         // this.successMessage = 'Uspesno dodat uput!';
         this.snackBar.openSuccessSnackBar("Uspesno dodat uput!")
+
+
+      //dodato
+
+
       }, error => {
         console.log("Error " + error.status);
         // this.successMessage = '';

@@ -82,6 +82,8 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
   allDiagnosis: DiagnosisCodeDto[] = []
   diagnosis: string = ''
 
+  initialFormValues: any;
+
 
   constructor(private prescriptionService: PrescriptionServiceService,
               private snackBar: SnackbarServiceService,
@@ -119,6 +121,11 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
       });
 
       this.getDiagnosis()
+
+      this.initialFormValues = this.referralForm.getRawValue();
+      //proveri
+      this.initialFormValues = this.referralInfirmaryForm.getRawValue();
+
     }
 
 
@@ -215,6 +222,23 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
 
     console.log(this.prescriptionAnalyses1)
 
+    this.referralForm.reset();
+
+    // Update form controls with initial values
+    Object.keys(this.referralForm.controls).forEach((controlName) => {
+      const control = this.referralForm.get(controlName);
+      const initialValue = this.initialFormValues[controlName];
+      // @ts-ignore
+      control.setValue(initialValue);
+      // @ts-ignore
+      control.markAsPristine();
+    });
+
+
+
+    //proveri sta treba
+    //this.permissions = []
+
     this.covidService.writeLabPerscription(
       this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArray
     ).subscribe(res => {
@@ -222,7 +246,11 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
       // this.errorMessage = '';
       // this.successMessage = 'Uspesno dodat uput!';
       this.snackBar.openSuccessSnackBar("Uspesno dodat uput!")
-    }, error => {
+
+
+      //dodato
+
+      }, error => {
       console.log("Error " + error.status);
       // this.successMessage = '';
       // this.errorMessage = 'ERROR: Uput nije kreiran!';
@@ -255,9 +283,30 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
     // console.log(this.selectedAnalysis);
     // console.log("selected params: " + this.selectedParams);
 
+    this.referralInfirmaryForm.reset();
+
+    // Update form controls with initial values
+    Object.keys(this.referralInfirmaryForm.controls).forEach((controlName) => {
+      const control = this.referralInfirmaryForm.get(controlName);
+      const initialValue = this.initialFormValues[controlName];
+      // @ts-ignore
+      control.setValue(initialValue);
+      // @ts-ignore
+      control.markAsPristine();
+
+      control?.markAsUntouched();
+
+      control?.updateValueAndValidity();
+    });
+
+
+    //proveri sta treba
+    //this.permissions = []
 
     if (this.diagnosis != '') {
       let tmpdiagnosis = this.diagnosis.split("-")[0].trim();
+
+
 
       this.covidService.writeInfirmaryPerscription(
         this.lbz, this.departmentFromId, this.departmentToIdInfirmary, this.lbp, tmpdiagnosis,
@@ -267,6 +316,10 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
           // this.errorMessage = '';
           // this.successMessage = 'Uspesno dodat uput!';
           this.snackBar.openSuccessSnackBar("Uspesno dodat uput!")
+
+
+        //dodato
+
         }, error => {
           console.log("Error " + error.status);
           // this.successMessage = '';

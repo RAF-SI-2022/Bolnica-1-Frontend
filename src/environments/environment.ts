@@ -57,4 +57,3 @@ export const environmentCovid = {
   title: 'Local Infirmary Environment',
   apiURL: 'https://bolnica-1.k8s.elab.rs/api/covid'
 };
-
