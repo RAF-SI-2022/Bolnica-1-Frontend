@@ -49,6 +49,11 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
   successMessage: string = ''
   prescriptionPage: Page<Prescription> = new Page<Prescription>()
   prescriptionList: Prescription[] = []
+  initialFormValuesSearch: any;
+  initialFormValuesCount: any;
+  initialFormValuesSNote: any;
+  initialFormValuesSearchVisit: any;
+
 
 
 
@@ -83,6 +88,12 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
       this.updateData();
 //    });
     // this.listScheduledEexaminations()
+    this.initialFormValuesSearch = this.searchForm.getRawValue();
+    this.initialFormValuesSNote = this.noteForm.getRawValue();
+    this.initialFormValuesCount = this.countForm.getRawValue();
+    this.initialFormValuesSearchVisit = this.searchVisitForm.getRawValue();
+
+
   }
 
   updateData(){
@@ -90,11 +101,6 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
   }
 
   getPatientList() {
-    // this.labaratoryService.getPatients(this.page, this.pageSize)
-    //   .subscribe((response) => {
-    //     this.patientPage = response
-    //     this.patientList = this.patientPage.content
-    //   })
 
     this.patientService.getAllPatients("", "","", "", 0, 100).subscribe(res => {
       this.patientList = res.content;
@@ -105,15 +111,40 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
   }
 
   countPatientByDay() {
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+
     this.labaratoryService.listScheduledExaminationsByDay(this.countForm.get('date')?.value).subscribe((response) => {
       this.numberOfScheduled = response
       this.snackBar.openWarningSnackBar("Izracunato")
+
+      this.countForm.reset();
+
+      // Update form controls with initial values
+      Object.keys(this.countForm.controls).forEach((controlName) => {
+        const control = this.countForm.get(controlName);
+        const initialValue = this.initialFormValuesCount[controlName];
+        // @ts-ignore
+        control.setValue(initialValue);
+        // @ts-ignore
+        control.markAsPristine();
+        // @ts-ignore
+        control.markAsUntouched(); // Dodajte ovu liniju
+        // @ts-ignore
+        control.updateValueAndValidity();
+
+      });
+
+      this.countForm.get('gender')?.reset();
+
+      form.classList.remove('was-validated');
     }, err => {
       this.snackBar.openErrorSnackBar("Greska!")
     })
   }
 
   examinationCreate() {
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+
     this.lbp = this.searchForm.get('name')?.value
     this.date = this.countForm.get('date')?.value
     this.note = this.noteForm.get('note')?.value
@@ -126,6 +157,50 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
       // this.errorMessage = '';
       // this.successMessage = 'Uspesno dodat pregled!'
       this.snackBar.openSuccessSnackBar("Uspesno dodat pregled")
+      this.searchForm.reset();
+      this.countForm.reset();
+      this.noteForm.reset();
+      Object.keys(this.searchForm.controls).forEach((controlName) => {
+        const control = this.searchForm.get(controlName);
+        const initialValue = this.initialFormValuesSearch[controlName];
+        // @ts-ignore
+        control.setValue(initialValue);
+        // @ts-ignore
+        control.markAsPristine();
+        // @ts-ignore
+        control.markAsUntouched(); // Dodajte ovu liniju
+        // @ts-ignore
+        control.updateValueAndValidity();
+
+      });
+      Object.keys(this.countForm.controls).forEach((controlName) => {
+        const control = this.countForm.get(controlName);
+        const initialValue = this.initialFormValuesCount[controlName];
+        // @ts-ignore
+        control.setValue(initialValue);
+        // @ts-ignore
+        control.markAsPristine();
+        // @ts-ignore
+        control.markAsUntouched(); // Dodajte ovu liniju
+        // @ts-ignore
+        control.updateValueAndValidity();
+
+      });
+      Object.keys(this.noteForm.controls).forEach((controlName) => {
+        const control = this.noteForm.get(controlName);
+        const initialValue = this.initialFormValuesSNote[controlName];
+        // @ts-ignore
+        control.setValue(initialValue);
+        // @ts-ignore
+        control.markAsPristine();
+        // @ts-ignore
+        control.markAsUntouched(); // Dodajte ovu liniju
+        // @ts-ignore
+        control.updateValueAndValidity();
+
+      });
+      form.classList.remove('was-validated');
+
     }, error => {
       console.log("Error " + error.status);
       if (error.status == 409) {
@@ -170,6 +245,8 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
   //todo da dodaju na beku @RequestParam za datum i pacijenta
   listScheduledExaminations() {
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+
     if (this.pageS == 0) {
       this.pageS = 1
     }
@@ -215,6 +292,22 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
       if(this.scheduledLabExaminations.length == 0){
         this.snackBar.openWarningSnackBar("Nema pregleda")
       }
+      this.searchVisitForm.reset();
+      Object.keys(this.searchVisitForm.controls).forEach((controlName) => {
+        const control = this.searchVisitForm.get(controlName);
+        const initialValue = this.initialFormValuesSearchVisit[controlName];
+        // @ts-ignore
+        control.setValue(initialValue);
+        // @ts-ignore
+        control.markAsPristine();
+        // @ts-ignore
+        control.markAsUntouched(); // Dodajte ovu liniju
+        // @ts-ignore
+        control.updateValueAndValidity();
+      });
+      this.searchVisitForm.get('date')?.reset();
+      form.classList.remove('was-validated');
+
     }, err => {
       console.log("udje")
       console.log(err.error)

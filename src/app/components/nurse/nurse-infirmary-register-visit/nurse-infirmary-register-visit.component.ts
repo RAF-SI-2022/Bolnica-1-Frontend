@@ -19,6 +19,7 @@ export class NurseInfirmaryRegisterVisitComponent implements OnInit {
   patientLbp: string = 'lbp neki'
   lbz: string = ''
   pbo: string = '';
+  initialFormValues: any;
 
   constructor(private formBuilder: FormBuilder,
               private snackBar: SnackbarServiceService,
@@ -42,6 +43,8 @@ export class NurseInfirmaryRegisterVisitComponent implements OnInit {
     this.patientLbp = <string>this.route.snapshot.paramMap.get('lbp');
     this.lbz = this.authService.getLBZ();
     this.pbo = this.authService.getPBO();
+    this.initialFormValues = this.addGroup.getRawValue();
+
   }
 
   addVisit() {
@@ -58,6 +61,25 @@ export class NurseInfirmaryRegisterVisitComponent implements OnInit {
       visit.visitorJmbg, new Date(), visit.note, this.currentHospitalization.id)
       .subscribe((response) => {
         this.snackBar.openSuccessSnackBar("Uspesno registrovana poseta!")
+        this.addGroup.reset();
+
+        // Update form controls with initial values
+        Object.keys(this.addGroup.controls).forEach((controlName) => {
+          const control = this.addGroup.get(controlName);
+          const initialValue = this.initialFormValues[controlName];
+          // @ts-ignore
+          control.setValue(initialValue);
+          // @ts-ignore
+          control.markAsPristine();
+          // @ts-ignore
+          control.markAsUntouched(); // Dodajte ovu liniju
+          // @ts-ignore
+          control.updateValueAndValidity();
+
+        });
+
+        form.classList.remove('was-validated');
+
       }, error => {
         console.log("Error " + error.status);
         if (error.status == 409) {

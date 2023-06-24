@@ -26,7 +26,7 @@ export class NurseAddPatientComponent implements OnInit {
   addGroup: FormGroup;
   errorMessage: string = ''
   successMessage: string = ''
-
+  initialFormValues: any;
   constructor(private patientService: PatientService, private formBuilder: FormBuilder, private snackBar: SnackbarServiceService) {
 
     this.addGroup = this.formBuilder.group({
@@ -56,7 +56,7 @@ export class NurseAddPatientComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.initialFormValues = this.addGroup.getRawValue();
   }
 
   addPatient() {
@@ -103,6 +103,28 @@ export class NurseAddPatientComponent implements OnInit {
         // this.errorMessage = '';
         // this.successMessage = 'Uspesno dodat pacijent!'
         this.snackBar.openSuccessSnackBar("Uspesno dodat pacijent!")
+      // Reset the form
+      this.addGroup.reset();
+
+      // Update form controls with initial values
+      Object.keys(this.addGroup.controls).forEach((controlName) => {
+        const control = this.addGroup.get(controlName);
+        const initialValue = this.initialFormValues[controlName];
+        // @ts-ignore
+        control.setValue(initialValue);
+        // @ts-ignore
+        control.markAsPristine();
+        // @ts-ignore
+        control.markAsUntouched(); // Dodajte ovu liniju
+        // @ts-ignore
+        control.updateValueAndValidity();
+
+      });
+
+      this.addGroup.get('gender')?.reset();
+
+      form.classList.remove('was-validated');
+
       }, error => {
         console.log("Error " + error.status);
         if (error.status == 409) {
