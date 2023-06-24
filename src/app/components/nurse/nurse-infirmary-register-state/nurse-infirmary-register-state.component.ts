@@ -20,6 +20,7 @@ export class NurseInfirmaryRegisterStateComponent implements OnInit {
   patientLbp: string = 'lbp neki'
   lbz: string = ''
   pbo: string = '';
+  initialFormValues: any;
 
   constructor(private formBuilder: FormBuilder,
               private snackBar: SnackbarServiceService,
@@ -51,6 +52,8 @@ export class NurseInfirmaryRegisterStateComponent implements OnInit {
     this.patientLbp = <string>this.route.snapshot.paramMap.get('lbp');
     this.lbz = this.authService.getLBZ();
     this.pbo = this.authService.getPBO();
+    this.initialFormValues = this.addGroup.getRawValue();
+
   }
 
   registerState() {
@@ -80,7 +83,29 @@ export class NurseInfirmaryRegisterStateComponent implements OnInit {
       registerState.pulse, registerState.therapy, registerState.description, this.currentHospitalization.id)
       .subscribe((response) => {
       this.snackBar.openSuccessSnackBar("Uspesno registrovano stanje!")
-    }, error => {
+
+        this.addGroup.reset();
+
+        // Update form controls with initial values
+        Object.keys(this.addGroup.controls).forEach((controlName) => {
+          const control = this.addGroup.get(controlName);
+          const initialValue = this.initialFormValues[controlName];
+          // @ts-ignore
+          control.setValue(initialValue);
+          // @ts-ignore
+          control.markAsPristine();
+          // @ts-ignore
+          control.markAsUntouched(); // Dodajte ovu liniju
+          // @ts-ignore
+          control.updateValueAndValidity();
+
+        });
+        this.addGroup.get('dateExamState')?.reset();
+
+        form.classList.remove('was-validated');
+
+
+      }, error => {
       console.log("Error " + error.status);
       if (error.status == 409) {
         this.snackBar.openErrorSnackBar("Stanje pacijenta nije registrovano!")

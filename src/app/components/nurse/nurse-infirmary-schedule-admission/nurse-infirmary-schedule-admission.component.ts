@@ -37,6 +37,8 @@ export class NurseInfirmaryScheduleAdmissionComponent implements OnInit {
 
   form: FormGroup;
   patients: Patient[] = []
+  initialFormValues: any;
+
 
   constructor(private formBuilder: FormBuilder,
               private snackBar: SnackbarServiceService,
@@ -63,7 +65,9 @@ export class NurseInfirmaryScheduleAdmissionComponent implements OnInit {
     this.departmentIdNumber = parseInt(this.authService.getDepartmentId());
     this.departmentPbo = this.authService.getPBO();
     this.lbz = this.authService.getLBZ();
-    this.populatePatients()
+    this.populatePatients();
+    this.initialFormValues = this.form.getRawValue();
+
   }
 
   scheduleAppointment() {
@@ -94,7 +98,26 @@ export class NurseInfirmaryScheduleAdmissionComponent implements OnInit {
         this.snackBar.openSuccessSnackBar("Uspesno zakan prijem!")
 
         // TODO AKO JE IZABRAN UPUT, ONDA AZURIRATI DA JE REALIZOVAN?
+        this.form.reset();
+        this.prescriptionBoolean = false;
+        this.prescriptionList = [];
+        // Update form controls with initial values
+        Object.keys(this.form.controls).forEach((controlName) => {
+          const control = this.form.get(controlName);
+          const initialValue = this.initialFormValues[controlName];
+          // @ts-ignore
+          control.setValue(initialValue);
+          // @ts-ignore
+          control.markAsPristine();
+          // @ts-ignore
+          control.markAsUntouched(); // Dodajte ovu liniju
+          // @ts-ignore
+          control.updateValueAndValidity();
 
+        });
+        this.prescriptionBoolean = false
+        this.form.get('dateExamState')?.reset();
+        form.classList.remove('was-validated');
       }, error => {
         console.log("Error " + error.status);
         if (error.status == 409) {

@@ -66,6 +66,13 @@ export class AdminAddEmployeeComponent implements OnInit {
     addEmployee(): void {
         // if (!this.validateEntries())
         //     return;
+      var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+
+      form.classList.add('was-validated');
+      if (form.checkValidity() === false) {
+        return;
+      }
+
         if (!this.populateAndValidatePermissions())
             return;
 
@@ -93,7 +100,7 @@ export class AdminAddEmployeeComponent implements OnInit {
           });
 
           this.permissions = []
-
+          form.classList.remove('was-validated');
 
 
             }, error => {

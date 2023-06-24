@@ -27,7 +27,7 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
 
   patientLbp: string = ''
   lbpBoolean: boolean = false;
-
+  initialFormValues: any;
   // selectedPrescription: PrescriptionDto = new PrescriptionDto();
   selectedPrescriptionId: number = 0;
   prescriptionBoolean: boolean = false;
@@ -88,7 +88,7 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
   ngOnInit(): void {
     this.departmentIdNumber = parseInt(this.authService.getDepartmentId());
     this.departmentPbo = this.authService.getPBO();
-
+    this.initialFormValues = this.form.getRawValue();
     console.log("pbo " + this.departmentPbo)
     this.populatePatients()
     // this.getPrescription()
@@ -235,7 +235,25 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
       this.selectedRoomId, this.selectedPrescriptionId, sendData.note)
       .subscribe((response) => {
         this.snackBar.openSuccessSnackBar("Uspesno registrovan prijem!")
+        this.form.reset();
+        this.prescriptionBoolean = false;
+        this.roomBoolean = false;
+        this.prescriptionList = []
+        // Update form controls with initial values
+        Object.keys(this.form.controls).forEach((controlName) => {
+          const control = this.form.get(controlName);
+          const initialValue = this.initialFormValues[controlName];
+          // @ts-ignore
+          control.setValue(initialValue);
+          // @ts-ignore
+          control.markAsPristine();
+          // @ts-ignore
+          control.markAsUntouched(); // Dodajte ovu liniju
+          // @ts-ignore
+          control.updateValueAndValidity();
 
+        });
+        console.log("USAOOOO *****")
         // TODO AKO JE IZABRAN UPUT, ONDA AZURIRATI DA JE REALIZOVAN?
 
         this.registerAdmission(this.currentAdmission)
