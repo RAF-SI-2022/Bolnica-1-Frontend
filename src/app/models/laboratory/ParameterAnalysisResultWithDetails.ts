@@ -10,4 +10,7 @@ export class ParameterAnalysisResultWithDetails {
   lbzBiochemist: string= '';
   labAnalysis: LabAnalysisDto = new LabAnalysisDto();
   parameter: ParameterDto = new ParameterDto();
+
+  biochemistName: string = '';
+  biochemistSurname: string = '';
 }
