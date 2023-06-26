@@ -117,26 +117,26 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
       this.numberOfScheduled = response
       this.snackBar.openWarningSnackBar("Izracunato")
 
-      this.countForm.reset();
-
-      // Update form controls with initial values
-      Object.keys(this.countForm.controls).forEach((controlName) => {
-        const control = this.countForm.get(controlName);
-        const initialValue = this.initialFormValuesCount[controlName];
-        // @ts-ignore
-        control.setValue(initialValue);
-        // @ts-ignore
-        control.markAsPristine();
-        // @ts-ignore
-        control.markAsUntouched(); // Dodajte ovu liniju
-        // @ts-ignore
-        control.updateValueAndValidity();
-
-      });
-
-      this.countForm.get('gender')?.reset();
-
-      form.classList.remove('was-validated');
+      // this.countForm.reset();
+      //
+      // // Update form controls with initial values
+      // Object.keys(this.countForm.controls).forEach((controlName) => {
+      //   const control = this.countForm.get(controlName);
+      //   const initialValue = this.initialFormValuesCount[controlName];
+      //   // @ts-ignore
+      //   control.setValue(initialValue);
+      //   // @ts-ignore
+      //   control.markAsPristine();
+      //   // @ts-ignore
+      //   control.markAsUntouched(); // Dodajte ovu liniju
+      //   // @ts-ignore
+      //   control.updateValueAndValidity();
+      //
+      // });
+      //
+      // this.countForm.get('gender')?.reset();
+      //
+      // form.classList.remove('was-validated');
     }, err => {
       this.snackBar.openErrorSnackBar("Greska!")
     })
@@ -200,6 +200,10 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
       });
       form.classList.remove('was-validated');
+
+
+      this.rawLabararatoryPrescriptions = []
+      this.totalSchedule = 0
 
     }, error => {
       console.log("Error " + error.status);

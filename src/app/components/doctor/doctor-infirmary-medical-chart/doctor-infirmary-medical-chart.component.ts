@@ -67,7 +67,7 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
   public correctDate: string = ''
   public diagnosis: string = ''
   public dateToPrescription: Date = new Date()
-  public dateFromPrescription: Date = new Date()
+  public dateFromPrescription: Date = new Date(0)
   public dateFromHistory: Date = new Date()
   public dateToHistory: Date = new Date()
   public dateToLabaratory: Date = new Date()
