@@ -19,7 +19,11 @@ export class Prescription{
 
 }
 
-
+export interface ChartData {
+    name: string;
+    value: number;
+  }
+  
 /*
 // ovaj je sa rute raf.bolnica1.laboratory.dto.lab.prescription.PrescriptionDto;
 export interface Prescription {
