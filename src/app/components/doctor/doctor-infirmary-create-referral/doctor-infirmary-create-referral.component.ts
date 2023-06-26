@@ -141,6 +141,30 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
     }*/
 
 
+    
+  resetElements(): boolean {
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    form.classList.remove('was-validated');
+
+    if(form.checkValidity() === false){
+      return false;
+    }
+
+    return true;
+  }
+
+  resetElements2(): boolean{
+    var form = document.getElementsByClassName('needs-validation')[1] as HTMLFormElement;
+    form.classList.remove('was-validated');
+
+
+    if(form.checkValidity() === false){
+      return false;
+    }
+
+    return true;
+  }
+  
   getDoctorDepartment(): void {
     this.userService.getEmployee(this.lbz).subscribe(result => { },
       err => {
@@ -221,6 +245,9 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
 
     //dodato
     this.referralForm.reset();
+    this.resetElements();
+    this.total = 0;
+    this.paramsList = [];
 
     // Update form controls with initial values
     Object.keys(this.referralForm.controls).forEach((controlName) => {

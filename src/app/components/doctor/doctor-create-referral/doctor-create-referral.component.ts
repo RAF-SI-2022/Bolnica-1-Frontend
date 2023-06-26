@@ -167,6 +167,28 @@ export class DoctorCreateReferralComponent implements OnInit {
     return true;
   }
 
+  resetElements(): boolean {
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    form.classList.remove('was-validated');
+
+    if(form.checkValidity() === false){
+      return false;
+    }
+
+    return true;
+  }
+
+  resetElements2(): boolean{
+    var form = document.getElementsByClassName('needs-validation')[1] as HTMLFormElement;
+    form.classList.remove('was-validated');
+
+
+    if(form.checkValidity() === false){
+      return false;
+    }
+
+    return true;
+  }
 
   validateInfirmaryEntries() : boolean {
     var form = document.getElementsByClassName('needs-validation')[1] as HTMLFormElement;
@@ -255,8 +277,9 @@ export class DoctorCreateReferralComponent implements OnInit {
 
       //control?.updateValueAndValidity();
     });
-
-
+    this.resetElements();
+    this.total = 0;
+    this.paramsList = [];
   }
 
 
@@ -321,6 +344,13 @@ export class DoctorCreateReferralComponent implements OnInit {
         // @ts-ignore
         control.markAsPristine();
       });
+
+      referral.commentInfirmary = "";
+      this.diagnosis = "";
+      this.selectedDepartmentInfirmary = "";
+      this.selectedDepartmentInfirmary = "";
+      this.hospitalsInfirmary = [];
+      this.resetElements2();
 
       //vidi sta treba sa ovim
       //this.permissions = []
