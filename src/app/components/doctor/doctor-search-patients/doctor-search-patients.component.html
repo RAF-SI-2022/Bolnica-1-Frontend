@@ -38,8 +38,26 @@
       </div>
       <div class="col-md-4">
         <label class="labels">LBP</label>
-        <input  [(ngModel)]="lbp" type="text" name = "lbp"class="form-control" data-cy = "lbp" [ngModelOptions]="{standalone: true}">
-      </div>
+        <!-- <input  [(ngModel)]="lbp" type="text" name = "lbp"class="form-control" data-cy = "lbp" [ngModelOptions]="{standalone: true}"> -->
+        <input
+          [(ngModel)]="lbp"
+          [ngModelOptions]="{standalone: true}"
+          (input)="filterPatientLbp(lbp)"
+          type="text"
+          name = "lbp"
+          class="form-control"
+          data-cy="lbp"
+        />
+        <div *ngIf="filteredPatients.length > 0" class="suggestions">
+          <div
+            *ngFor="let fPatient of filteredPatients"
+            (click)="selectSuggestion(fPatient)"
+            class="suggestion"
+          >
+            {{ fPatient.lbp }} : {{ fPatient.name }} {{ fPatient.surname }}
+          </div>
+        </div>
+    </div>
 
       <div class="mt-4 text-center">
         <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="pretrazi">Pretrazi</button>
