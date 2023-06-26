@@ -128,6 +128,28 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
 
     }
 
+    resetElements(): boolean {
+        var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+        form.classList.remove('was-validated');
+    
+        if(form.checkValidity() === false){
+          return false;
+        }
+    
+        return true;
+      }
+    
+      resetElements2(): boolean{
+        var form = document.getElementsByClassName('needs-validation')[1] as HTMLFormElement;
+        form.classList.remove('was-validated');
+    
+    
+        if(form.checkValidity() === false){
+          return false;
+        }
+    
+        return true;
+      }
 
   getLabDoctorDepartments(){
       this.getDepartments();
@@ -223,6 +245,8 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
     console.log(this.prescriptionAnalyses1)
 
     this.referralForm.reset();
+    this.paramsList = [];
+    this.resetElements();
 
     // Update form controls with initial values
     Object.keys(this.referralForm.controls).forEach((controlName) => {
@@ -238,6 +262,7 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
 
     //proveri sta treba
     //this.permissions = []
+
 
     this.covidService.writeLabPerscription(
       this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArray
@@ -284,7 +309,13 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
     // console.log("selected params: " + this.selectedParams);
 
     this.referralInfirmaryForm.reset();
-
+    this.resetElements2();
+    referral.commentInfirmary = "";
+    this.diagnosis = "";
+    this.selectedDepartmentInfirmary = "";
+    this.selectedDepartmentInfirmary = "";
+    this.hospitalsInfirmary = [];
+    
     // Update form controls with initial values
     Object.keys(this.referralInfirmaryForm.controls).forEach((controlName) => {
       const control = this.referralInfirmaryForm.get(controlName);
