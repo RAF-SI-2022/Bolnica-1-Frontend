@@ -10,6 +10,8 @@ import {DoctorDepartmentDto} from "../../../../models/DoctorDepartmentDto";
 import {ExaminationService} from "../../../../services/examination-service/examination.service";
 import {PatientArrival} from "../../../../models/laboratory-enums/PatientArrival";
 import {CovidExaminationType} from "../../../../models/covid-enums/CovidExaminationType";
+import { Patient } from 'src/app/models/patient/Patient';
+import { PatientService } from 'src/app/services/patient-service/patient.service';
 
 @Component({
   selector: 'app-nurse-covid-ambulance',
@@ -29,9 +31,13 @@ export class NurseCovidAmbulanceComponent  implements OnInit {
   nurseDepartmentPbo: string = '';
   doctors: DoctorDepartmentDto[] = [];
 
+  patients: Patient[] = []
+  lbp = '';
+
   covidExaminationTypes = Object.values(CovidExaminationType).filter(value => typeof value === 'string');
 
   constructor(private router: Router,
+        private patientService: PatientService,
               private formBuilder: FormBuilder,
               private covidService: CovidServiceService,
               private authService: AuthService,
@@ -51,7 +57,22 @@ export class NurseCovidAmbulanceComponent  implements OnInit {
 
     this.getCovidExams();
     this.getDoctors();
+    this.populatePatients();
   }
+
+  populatePatients() {
+    this.patientService.getAllPatients("", "","", "", 0, 100).subscribe(res => {
+    this.patients = res.content;
+    console.log("IMA NAS " + res.content.length)
+    }, err => {
+    console.log("GRESKA " + err.message)
+    })
+}
+
+selectSuggestion(patient: Patient){
+    this.lbp = `${patient.lbp} : ${patient.name} (${patient.surname})`;
+    this.filteredPatients = [];
+}
 
   getDoctors(): void {
     this.examinationService.getDoctorsByDepartment(this.nurseDepartmentPbo).subscribe(res => {
@@ -59,6 +80,20 @@ export class NurseCovidAmbulanceComponent  implements OnInit {
     })
   }
 
+  filteredPatients: Patient[] = [];
+    filterPatientLbp(searchText: string){
+      if (this.patients && this.patients.length > 0 && searchText.length > 0) {
+        this.filteredPatients = this.patients.filter(
+          (patientt) =>
+            (patientt.lbp?.toString().toLowerCase().includes(searchText.toLowerCase()) || '') ||
+            (patientt.name?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+            (patientt.surname?.toLowerCase().includes(searchText.toLowerCase()) || '')
+        );
+      } else {
+        this.filteredPatients = [];
+      }
+      console.log("Imam nas " + this.filteredPatients.length)
+    }
 
   getCovidExams(): void {
     this.covidService.getCovidExaminationForNurse(this.page, this.size).subscribe(
@@ -84,9 +119,10 @@ export class NurseCovidAmbulanceComponent  implements OnInit {
     }
 
     const sendData = this.form.value;
-
+    
+    let tmpLbp = sendData.textLBP.split(":")[0].trim();
     this.covidService.createCovidExam(new Date(), PatientArrival.CEKA, sendData.examType,
-      sendData.doctorLbz, sendData.textLBP).subscribe(
+      sendData.doctorLbz, tmpLbp).subscribe(
       res => {
 //         this.getCovidExams();
         this.snackBar.openSuccessSnackBar("Uspesno sacuvano!");

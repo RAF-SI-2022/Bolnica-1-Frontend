@@ -58,7 +58,26 @@
             <div class="row">
               <div class="col-md-2">
                 <label class="labels">Unesite LBP</label>
-                <input [formControlName]="'textLBP'" name="textLBP" type="text" class="form-control" data-cy="textLBP" required>
+                <!-- <input [formControlName]="'textLBP'" name="textLBP" type="text" class="form-control" data-cy="textLBP" required> -->
+                <input
+                [formControlName]="'textLBP'"
+                [(ngModel)]="lbp"
+                name="textLBP"
+                type="text"
+                class="form-control" 
+                data-cy="textLBP"
+                required
+                (input)="filterPatientLbp(lbp)"
+              />
+              <div *ngIf="filteredPatients.length > 0" class="suggestions">
+                <div
+                  *ngFor="let fPatient of filteredPatients"
+                  (click)="selectSuggestion(fPatient)"
+                  class="suggestion"
+                >
+                  {{ fPatient.lbp }} : {{ fPatient.name }} {{ fPatient.surname }}
+                </div>
+              </div>
               </div>
 
               <div class="col-md-2 offset-1">
