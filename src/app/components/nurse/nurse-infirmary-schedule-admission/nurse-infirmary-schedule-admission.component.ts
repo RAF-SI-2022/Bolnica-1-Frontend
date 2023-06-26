@@ -134,6 +134,15 @@ export class NurseInfirmaryScheduleAdmissionComponent implements OnInit {
   getPrescription(): void {
 
     this.prescriptionBoolean = false
+    this.prescriptionList = []
+    this.total = 0
+
+    let hasPatientWithLbp = this.patients.some(patient => patient.lbp === this.form.value.lbp.split(":")[0].trim());
+
+    if (!hasPatientWithLbp) {
+      this.snackBar.openWarningSnackBar("Pacijent je ili vec hospitalizovan ili nije u sistemu!")
+      return;
+    }
 
     const sendData = this.form.value;
 
