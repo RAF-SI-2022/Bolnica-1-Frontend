@@ -10,6 +10,8 @@ import {PatientService} from "../../../services/patient-service/patient.service"
 import {PrescriptionDto} from "../../../models/infirmary/PrescriptionDto";
 import {Page} from "../../../models/models";
 import {PrescriptionStatus} from "../../../models/laboratory-enums/PrescriptionStatus";
+import {catchError, forkJoin, Observable, of} from "rxjs";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-nurse-infirmary-schedule-admission',
@@ -115,6 +117,8 @@ export class NurseInfirmaryScheduleAdmissionComponent implements OnInit {
           control.updateValueAndValidity();
 
         });
+        this.populatePatients()
+
         this.prescriptionBoolean = false
         this.form.get('dateExamState')?.reset();
         form.classList.remove('was-validated');
@@ -134,7 +138,7 @@ export class NurseInfirmaryScheduleAdmissionComponent implements OnInit {
     const sendData = this.form.value;
 
     console.log(sendData)
-    sendData.lbp = sendData.lbp.split("-")[0].toString().trim();
+    sendData.lbp = sendData.lbp.split(":")[0].toString().trim();
     console.log("sending lbp: " + sendData.lpb)
 
     if (this.page == 0)
@@ -185,21 +189,59 @@ export class NurseInfirmaryScheduleAdmissionComponent implements OnInit {
   }
 
   selectSuggestion(patient: Patient){
-    this.form.value.lbp = `${patient.lbp} - ${patient.name} (${patient.surname})`;
+    this.form.value.lbp = `${patient.lbp} : ${patient.name} (${patient.surname})`;
     this.filteredPatients = [];
   }
 
 
-  populatePatients() {
-    // if (this.page == 0)
-    //   this.page = 1;
+  // populatePatients() {
+  //   // if (this.page == 0)
+  //   //   this.page = 1;
+  //
+  //   this.patientService.getAllPatients("", "","", "", 0, 100).subscribe(res => {
+  //     this.patients = res.content;
+  //     console.log("IMA NAS " + res.content.length)
+  //   }, err => {
+  //     console.log("GRESKA " + err.message)
+  //   })
+  // }
 
-    this.patientService.getAllPatients("", "","", "", 0, 100).subscribe(res => {
+  populatePatients() {
+    this.patientService.getAllPatients("", "", "", "", 0, 100).subscribe(res => {
       this.patients = res.content;
-      console.log("IMA NAS " + res.content.length)
+
+      this.filterHospitalization(this.patients).subscribe(filteredPatients => {
+        console.log("IMA NAS " + filteredPatients.length);
+        this.patients = filteredPatients;
+      }, err => {
+        console.log("GRESKA " + err.message);
+      });
     }, err => {
-      console.log("GRESKA " + err.message)
-    })
+      console.log("GRESKA " + err.message);
+    });
+  }
+
+  filterHospitalization(patients: Patient[]): Observable<Patient[]> {
+    const observables: Observable<boolean>[] = [];
+
+    patients.forEach(patient => {
+      const observable = this.infirmaryService.getHospitalizationsWithFilter("", "", "", this.departmentIdNumber, patient.lbp, 0, 9999)
+        .pipe(
+          map(res => res.content.length === 0),
+          catchError(err => {
+            console.log("Error: " + err.message);
+            return of(false); // Return false in case of an error
+          })
+        );
+
+      observables.push(observable);
+    });
+
+    return forkJoin(observables).pipe(
+      map((results: boolean[]) => {
+        return patients.filter((patient, index) => results[index]);
+      })
+    );
   }
 
 
