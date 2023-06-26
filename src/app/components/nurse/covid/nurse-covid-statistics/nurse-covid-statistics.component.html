@@ -42,8 +42,42 @@
             <p>Broj umrlih: {{numberOfDeadPatients}}</p>
           </div>
         </div>
-
-
+        <div class="charts-container">
+            <h2>Grafovski prikaz</h2>
+            <h4>Sva statistika - podaci</h4>
+            <ngx-charts-bar-vertical
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="single"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel">
+        </ngx-charts-bar-vertical>
+        <h4>Odnos pozitivnih i negativnih pacijenata</h4>
+        <ngx-charts-pie-chart
+            [results]="testedPieChartData"
+            [legend]="showLegend"
+            [scheme]="colorScheme"
+            [view]="pieChartDimensions"> >
+        </ngx-charts-pie-chart>
+        <h4>Hospatalizovani,na respiratoru, izleceni, umrli</h4>
+        <ngx-charts-bar-horizontal
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="barChartSingle"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            >
+        </ngx-charts-bar-horizontal>
+        </div>
+       
       </div>
     </div>
   </div>

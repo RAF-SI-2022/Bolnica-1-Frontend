@@ -29,6 +29,7 @@ export class DoctorSearchPatientsComponent implements OnInit {
   patientList: Patient[] = []
   routerUpper: Router
 
+  patients: Patient[] = []
   constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) {
     this.routerUpper = router
     this.searchForm = this.formBuilder.group({
@@ -44,6 +45,7 @@ export class DoctorSearchPatientsComponent implements OnInit {
     .subscribe((response) => {
       this.patientPage = response
       this.patientList = this.patientPage.content
+      this.patients = this.patientList;
       this.total = this.patientPage.totalElements
     })
     //nterval(5000).subscribe(() => {
@@ -62,12 +64,39 @@ export class DoctorSearchPatientsComponent implements OnInit {
     })
   }
 
+  filteredPatients: Patient[] = [];
+  filterPatientLbp(searchText: string){
+    if (this.patients && this.patients.length > 0 && searchText.length > 0) {
+      this.filteredPatients = this.patients.filter(
+        (patientt) =>
+          (patientt.lbp?.toString().toLowerCase().includes(searchText.toLowerCase()) || '') ||
+          (patientt.name?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+          (patientt.surname?.toLowerCase().includes(searchText.toLowerCase()) || '')
+      );
+    } else {
+      this.filteredPatients = [];
+    }
+}
+
+populatePatients() {
+    this.patientService.getAllPatients("", "","", "", 0, 100).subscribe(res => {
+    this.patients = res.content;
+    console.log("IMA NAS " + res.content.length)
+    }, err => {
+    console.log("GRESKA " + err.message)
+    })
+}
+selectSuggestion(patient: Patient){
+    this.lbp = `${patient.lbp} : ${patient.name} (${patient.surname})`;
+    this.filteredPatients = [];
+}
   getPatientList(): void {
     console.log("USOOO")
     if (this.page == 0)
       this.page = 1;
 
-    this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page - 1, this.PAGE_SIZE)
+    let tmpLbp = this.lbp.split(":")[0].trim();
+    this.patientService.getAllPatients(tmpLbp, this.jmbg, this.name, this.surname, this.page - 1, this.PAGE_SIZE)
       .subscribe((response) => {
         this.patientPage = response
         this.patientList = this.patientPage.content

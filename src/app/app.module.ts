@@ -92,6 +92,7 @@ import { NurseCovidStatisticsComponent } from './components/nurse/covid/nurse-co
 import { DoctorCovidWaitingRoomComponent } from './components/doctor/covid/doctor-covid-waiting-room/doctor-covid-waiting-room.component';
 import { DoctorCovidStatisticsComponent } from './components/doctor/covid/doctor-covid-statistics/doctor-covid-statistics.component';
 import { DoctorCovidExamComponent } from './components/doctor/covid/doctor-covid-exam/doctor-covid-exam.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 @NgModule({
@@ -159,7 +160,7 @@ import { DoctorCovidExamComponent } from './components/doctor/covid/doctor-covid
     NurseCovidStatisticsComponent,
     DoctorCovidWaitingRoomComponent,
     DoctorCovidStatisticsComponent,
-    DoctorCovidExamComponent
+    DoctorCovidExamComponent,
   ],
   imports: [
     BrowserModule,
@@ -171,7 +172,8 @@ import { DoctorCovidExamComponent } from './components/doctor/covid/doctor-covid
     BrowserAnimationsModule,
     NgSelectModule,
     ScheduleModule,RecurrenceEditorModule,DropDownListModule,DateTimePickerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    NgxChartsModule
   ],
   providers: [DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService],
   //providers[],
