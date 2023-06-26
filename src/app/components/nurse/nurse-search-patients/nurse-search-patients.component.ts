@@ -26,6 +26,7 @@ export class NurseSearchPatientsComponent implements OnInit {
     PAGE_SIZE = 5
     total = 0;
     rolaVisaMedSestra = false;
+    patients: Patient[] = []
 
     constructor(
         private patientService: PatientService,
@@ -45,9 +46,24 @@ export class NurseSearchPatientsComponent implements OnInit {
     ngOnInit(): void {
        // interval(5000).subscribe(() => {
             this.updateData();
+            this.populatePatients();
         //  });
     }
 
+    selectSuggestion(patient: Patient){
+        this.lbp = `${patient.lbp} : ${patient.name} (${patient.surname})`;
+        this.filteredPatients = [];
+        console.log("IZABRAVO SAM " + this.lbp);
+    }
+    
+  populatePatients() {
+        this.patientService.getAllPatients("", "","", "", 0, 100).subscribe(res => {
+        this.patients = res.content;
+        console.log("IMA NAS " + res.content.length)
+        }, err => {
+        console.log("GRESKA " + err.message)
+        })
+    }
     updateData(){
         this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page, this.PAGE_SIZE)
         .subscribe((response) => {
@@ -70,15 +86,33 @@ export class NurseSearchPatientsComponent implements OnInit {
         }
     }
 
+    filteredPatients: Patient[] = [];
+    filterPatientLbp(searchText: string){
+      if (this.patients && this.patients.length > 0 && searchText.length > 0) {
+        this.filteredPatients = this.patients.filter(
+          (patientt) =>
+            (patientt.lbp?.toString().toLowerCase().includes(searchText.toLowerCase()) || '') ||
+            (patientt.name?.toLowerCase().includes(searchText.toLowerCase()) || '') ||
+            (patientt.surname?.toLowerCase().includes(searchText.toLowerCase()) || '')
+        );
+      } else {
+        this.filteredPatients = [];
+      }
+      console.log("Imam nas " + this.filteredPatients.length)
+    }
+
     updatePatient(patient: Patient): void {
         this.router.navigate(['/nurse-edit-patient/', patient.lbp]);
     }
 
     getPatientList(): void {
+        
+        let tmpLbp = "";
+        if(this.lbp.split(":").length > 0)
+            tmpLbp = this.lbp.split(":")[0].trim();
         if (this.page == 0)
             this.page = 1;
-
-        this.patientService.getAllPatients(this.lbp, this.jmbg, this.name, this.surname, this.page - 1, this.PAGE_SIZE).subscribe((response) => {
+        this.patientService.getAllPatients(tmpLbp, this.jmbg, this.name, this.surname, this.page - 1, this.PAGE_SIZE).subscribe((response) => {
             this.patientPage = response;
             this.patientList = this.patientPage.content;
             this.total = this.patientPage.totalElements;

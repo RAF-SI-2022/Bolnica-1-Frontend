@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { GeneralMedicalData } from "../../../models/patient/GeneralMedicalData";
 import { PatientService } from "../../../services/patient-service/patient.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { MedicalHistory } from "../../../models/patient/MedicalHistory";
 import { Page } from "../../../models/models";
 import { ExaminationHistory } from "../../../models/patient/ExaminationHistory";
@@ -107,7 +107,7 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
   selectedDischargeList: DischargeListDto = new DischargeListDto();
   selectedDischargeListBoolean: boolean = false;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder, private patientService: PatientService, private prescriptionService: PrescriptionServiceService,
+  constructor(private router: Router,private changeDetectorRef: ChangeDetectorRef, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder, private patientService: PatientService, private prescriptionService: PrescriptionServiceService,
               private route: ActivatedRoute, private labaratoryService: LaboratoryService, private infirmaryService: InfirmaryService) {
 
     this.currentHospitalization = history.state.hospitalization;
@@ -163,6 +163,7 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
 //    });
 
   }
+  
 
   updateData(){
     this.prescriptionForm.get('deleteButton')?.disable()
@@ -239,6 +240,12 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
   updateGeneral(): void {
     this.generalForm.get('bloodGroup')?.enable()
     this.generalForm.get('rhFactor')?.enable()
+  }
+  
+
+  gotoone(): void {
+    const url = `/doctor-infirmary-workspace/${this.lbp}`;
+    this.router.navigateByUrl(url);
   }
 
   getGeneralMedical(lbp: string): void {

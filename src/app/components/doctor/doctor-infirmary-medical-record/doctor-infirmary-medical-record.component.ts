@@ -118,6 +118,11 @@ export class DoctorInfirmaryMedicalRecordComponent implements OnInit {
     this.isPopupVisible = false;
   }
 
+  gotoone(): void {
+    const url = `/doctor-infirmary-workspace/${this.lbp}`;
+    this.router.navigateByUrl(url);
+  }
+
   //cuvanje izvestaja
   // confirmSacuvaj(): void {
   //   if (!this.validateFields) {

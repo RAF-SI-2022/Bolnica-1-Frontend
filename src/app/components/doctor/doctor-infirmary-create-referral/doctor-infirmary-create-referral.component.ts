@@ -153,6 +153,11 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
     return true;
   }
 
+  gotoone(): void {
+    const url = `/doctor-infirmary-workspace/${this.lbp}`;
+    this.router.navigateByUrl(url);
+  }
+  
   resetElements2(): boolean{
     var form = document.getElementsByClassName('needs-validation')[1] as HTMLFormElement;
     form.classList.remove('was-validated');

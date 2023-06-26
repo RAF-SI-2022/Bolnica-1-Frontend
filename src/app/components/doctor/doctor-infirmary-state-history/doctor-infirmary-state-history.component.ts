@@ -64,6 +64,10 @@ export class DoctorInfirmaryStateHistoryComponent implements OnInit {
     this.getStateHistory();
   }
 
+  gotoone(): void {
+    const url = `/doctor-infirmary-workspace/${this.patientLbp}`;
+    this.router.navigateByUrl(url);
+  }
 
   getStateHistory(): void {
     const sendData = this.form.value;

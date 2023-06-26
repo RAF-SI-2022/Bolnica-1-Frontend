@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { GeneralMedicalData } from "../../../models/patient/GeneralMedicalData";
 import { PatientService } from "../../../services/patient-service/patient.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { MedicalHistory } from "../../../models/patient/MedicalHistory";
 import { Page } from "../../../models/models";
 import { ExaminationHistory } from "../../../models/patient/ExaminationHistory";
@@ -102,7 +102,7 @@ export class DoctorMedicalChartComponent implements OnInit {
   totalLaboratory: number = 0
   generalMedical: GeneralMedicalData
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder, private patientService: PatientService, private prescriptionService: PrescriptionServiceService, private route: ActivatedRoute, private labaratoryService: LaboratoryService) {
+  constructor(private router: Router,private changeDetectorRef: ChangeDetectorRef, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder, private patientService: PatientService, private prescriptionService: PrescriptionServiceService, private route: ActivatedRoute, private labaratoryService: LaboratoryService) {
     this.generalMedical = {
       id: 0,
       bloodType: '',
@@ -236,6 +236,11 @@ export class DoctorMedicalChartComponent implements OnInit {
       this.changeDetectorRef.detectChanges();
 
     })
+  }
+
+  gotoone(): void {
+    const url = `/doctor-workspace-one/${this.lbp}`;
+    this.router.navigateByUrl(url);
   }
 
   saveGeneralMedical(): void {
