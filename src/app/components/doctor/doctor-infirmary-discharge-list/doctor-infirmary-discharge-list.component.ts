@@ -53,6 +53,11 @@ export class DoctorInfirmaryDischargeListComponent implements OnInit {
     this.initialFormValues = this.addGroup.getRawValue();
   }
 
+  gotoone(): void {
+    const url = `/doctor-infirmary-workspace/${this.patientLbp}`;
+    this.router.navigateByUrl(url);
+  }
+
   addDischargeList() {
 
     const dischargeList = this.addGroup.value

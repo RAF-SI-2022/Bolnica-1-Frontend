@@ -3,20 +3,18 @@
   <div class="form-group">
 
     <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
-      <h4 class="text-right">Zakazivanje pregleda: {{patientLbp}}</h4>
+      <h4 class="text-right"><button (click)="gotoone()" class="btn btn-primary" data-cy = "nazadBttn">Nazad</button> Zakazivanje pregleda: {{patientLbp}}</h4>
     </div>
 
 
-    <div class="d-flex justify-content-between align-items-center mb-3 mt-3" *ngIf="examsForLbp.length!=0">
+    <div class="mb-3 mt-3" *ngIf="examsForLbp.length!=0">
       <h5 class="text-right">Vec zakazani pregledi za pacijenta:</h5>
-
       <ul>
         <li *ngFor="let exam of examsForLbp">
           <p>{{ exam.examDate | date:'medium' }} | kod doktora: {{ exam.doctorLbz }} | razlog: {{ exam.note }}</p>
           <hr>
         </li>
       </ul>
-
     </div>
 
 

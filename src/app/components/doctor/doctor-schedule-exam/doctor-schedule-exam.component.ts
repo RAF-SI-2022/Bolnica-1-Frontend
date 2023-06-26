@@ -122,6 +122,11 @@ export class DoctorScheduleExamComponent implements OnInit {
 
   }
 
+  gotoone(): void {
+    const url = `/doctor-workspace-one/${this.lbp}`;
+    this.router.navigateByUrl(url);
+  }
+
   updateData(){
     this.getExamsByLbp();
     this.addEventsData();

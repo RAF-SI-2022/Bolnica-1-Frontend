@@ -509,6 +509,9 @@ export class DoctorCreateReferralComponent implements OnInit {
     this.filteredDiagnosisCodes = [];
   }
 
-
+  gotoone(): void {
+    const url = `/doctor-workspace-one/${this.lbp}`;
+    this.router.navigateByUrl(url);
+  }
 
 }
