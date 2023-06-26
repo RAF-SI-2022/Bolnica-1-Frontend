@@ -15,6 +15,8 @@ import {HospitalRoomDto} from "../../../models/infirmary/HospitalRoomDto";
 import {DoctorDepartmentDto} from "../../../models/DoctorDepartmentDto";
 import {ExaminationService} from "../../../services/examination-service/examination.service";
 import {PrescriptionStatus} from "../../../models/laboratory-enums/PrescriptionStatus";
+import {catchError, forkJoin, Observable, of} from "rxjs";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-nurse-infirmary-patient-admission',
@@ -94,6 +96,7 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     // this.getPrescription()
     this.getRooms()
     this.getDoctors()
+
   }
 
 
@@ -235,9 +238,26 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
       this.selectedRoomId, this.selectedPrescriptionId, sendData.note)
       .subscribe((response) => {
         this.snackBar.openSuccessSnackBar("Uspesno registrovan prijem!")
-        this.form.reset();
+
         this.prescriptionBoolean = false;
         this.roomBoolean = false;
+
+
+        // Reset form values and mark them as untouched
+        this.form.reset();
+        this.form.markAsUntouched();
+        this.form.markAsPristine();
+
+        // Reset form variables
+        this.patientLbp = '';
+        this.lbpBoolean = false;
+        this.selectedPrescriptionId = 0;
+
+        // Reset history state
+        history.state.admission = null;
+
+        this.populatePatients()
+
         this.prescriptionList = []
         // Update form controls with initial values
         Object.keys(this.form.controls).forEach((controlName) => {
@@ -256,7 +276,9 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
         console.log("USAOOOO *****")
         // TODO AKO JE IZABRAN UPUT, ONDA AZURIRATI DA JE REALIZOVAN?
 
-        this.registerAdmission(this.currentAdmission)
+        if(this.currentAdmission != null) this.registerAdmission(this.currentAdmission)
+
+
       }, error => {
         console.log("Error " + error.status);
         if (error.status == 409) {
@@ -295,13 +317,51 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
   }
 
 
+  // populatePatients() {
+  //   this.patientService.getAllPatients("", "","", "", 0, 100).subscribe(res => {
+  //     this.patients = res.content;
+  //     console.log("IMA NAS " + res.content.length)
+  //   }, err => {
+  //     console.log("GRESKA " + err.message)
+  //   })
+  // }
+
   populatePatients() {
-    this.patientService.getAllPatients("", "","", "", 0, 100).subscribe(res => {
+    this.patientService.getAllPatients("", "", "", "", 0, 100).subscribe(res => {
       this.patients = res.content;
-      console.log("IMA NAS " + res.content.length)
+
+      this.filterHospitalization(this.patients).subscribe(filteredPatients => {
+        console.log("IMA NAS " + filteredPatients.length);
+        this.patients = filteredPatients;
+      }, err => {
+        console.log("GRESKA " + err.message);
+      });
     }, err => {
-      console.log("GRESKA " + err.message)
-    })
+      console.log("GRESKA " + err.message);
+    });
+  }
+
+  filterHospitalization(patients: Patient[]): Observable<Patient[]> {
+    const observables: Observable<boolean>[] = [];
+
+    patients.forEach(patient => {
+      const observable = this.infirmaryService.getHospitalizationsWithFilter("", "", "", this.departmentIdNumber, patient.lbp, 0, 9999)
+        .pipe(
+          map(res => res.content.length === 0),
+          catchError(err => {
+            console.log("Error: " + err.message);
+            return of(false); // Return false in case of an error
+          })
+        );
+
+      observables.push(observable);
+    });
+
+    return forkJoin(observables).pipe(
+      map((results: boolean[]) => {
+        return patients.filter((patient, index) => results[index]);
+      })
+    );
   }
 
 
