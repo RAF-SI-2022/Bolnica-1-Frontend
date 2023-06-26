@@ -25,7 +25,7 @@ spec:
             - --host
             - 0.0.0.0
             - --public-host
-            - "bolnica-1.k8s.elab.rs"
+            - {{ .Values.domain }}
             - --port
             - "4200"
           ports:
