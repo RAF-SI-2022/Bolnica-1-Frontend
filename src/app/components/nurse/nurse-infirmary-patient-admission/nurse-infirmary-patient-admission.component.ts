@@ -101,6 +101,11 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
 
 
   getPrescription(): void {
+    let hasPatientWithLbp = this.patients.some(patient => patient.lbp === this.form.value.lbp.split(":")[0].trim());
+
+    if (!hasPatientWithLbp) {
+        return;
+    } 
 
     this.prescriptionBoolean = false
     this.roomBoolean = false
@@ -308,7 +313,7 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     } else {
       this.filteredPatients = [];
     }
-    console.log("Imam nas " + this.filteredPatients.length)
+    console.log("{" + searchText + "} Imam nas " + this.filteredPatients.length)
   }
 
   selectSuggestion(patient: Patient){

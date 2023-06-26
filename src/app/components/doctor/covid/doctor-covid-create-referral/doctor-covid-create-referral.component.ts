@@ -312,8 +312,6 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
     this.resetElements2();
     referral.commentInfirmary = "";
     this.diagnosis = "";
-    this.selectedDepartmentInfirmary = "";
-    this.selectedDepartmentInfirmary = "";
     this.hospitalsInfirmary = [];
     
     // Update form controls with initial values

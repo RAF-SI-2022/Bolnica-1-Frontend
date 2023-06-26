@@ -347,8 +347,6 @@ export class DoctorCreateReferralComponent implements OnInit {
 
       referral.commentInfirmary = "";
       this.diagnosis = "";
-      this.selectedDepartmentInfirmary = "";
-      this.selectedDepartmentInfirmary = "";
       this.hospitalsInfirmary = [];
       this.resetElements2();
 
