@@ -61,20 +61,29 @@ export class BiochemistSearchWorkOrdersComponent implements OnInit {
 
   getWorkOrders(): void {
 
-    if(!this.selectedPatientBoolean){
-      this.snackBar.openWarningSnackBar("Niste izabrali pacijenta");
-      return;
-    }
+    // if(!this.selectedPatientBoolean){
+    //   this.snackBar.openWarningSnackBar("Niste izabrali pacijenta");
+    //   return;
+    // }
+
+    if (this.page == 0)
+      this.page = 1;
+
+
+
     const sendData = this.form.value;
     console.log(sendData)
     console.log(sendData.selectedStatus.toString())
 
+    if(sendData.lbp!='') this.page = 1;
+
     this.dateFrom.setHours(0, 0, 0, 0)
     this.dateTo.setHours(23, 59, 59, 999)
-    sendData.lbp = sendData.lbp.split(":")[0].toString().trim();
+    if(sendData.lbp != '') sendData.lbp = sendData.lbp.split(":")[0].toString().trim();
     console.log("SALJEMM " + sendData.lpb)
+
     this.laboratoryService.findWorkOrders(sendData.lbp, sendData.dateFrom, sendData.dateTo,
-      sendData.selectedStatus.toString(), this.page, this.PAGE_SIZE)
+      sendData.selectedStatus.toString(), this.page -1, this.PAGE_SIZE)
       .subscribe(res => {
         this.workOrdersPage = res
         this.workOrdersList = this.workOrdersPage.content

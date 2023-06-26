@@ -64,7 +64,7 @@ export class DoctorMedicalChartComponent implements OnInit {
 
   public diagnosis: string = ''
   public dateToPrescription: Date = new Date()
-  public dateFromPrescription: Date = new Date()
+  public dateFromPrescription: Date = new Date(0)
   public dateToLabaratory: Date = new Date()
   public dateFromLabaratory: Date = new Date(this.dateToLabaratory.getFullYear(), 0, 1);
   medicalHistories: MedicalHistory[] = []
@@ -182,7 +182,7 @@ export class DoctorMedicalChartComponent implements OnInit {
 
       })
     //za istoriju uputa
-    this.prescriptionService.getPrescriptions(this.lbz, new Date(0), new Date(), this.lbp, this.pagePrescription, this.pageSize).subscribe(
+    this.prescriptionService.getPrescriptions(this.lbz, new Date(0), new Date(), this.lbp, this.pagePrescription , this.pageSize).subscribe(
       response => {
         this.prescriptionPage = response
         this.prescriptionHistories = this.prescriptionPage.content
