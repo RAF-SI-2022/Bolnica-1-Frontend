@@ -119,7 +119,7 @@ export class NurseInfirmaryScheduledPatientsComponent implements OnInit {
     } else {
       this.filteredPatients = [];
     }
-    console.log("Imam nas " + this.filteredPatients.length)
+    console.log("{" + searchText + "} Imam nas " + this.filteredPatients.length)
   }
 
   selectSuggestion(patient: Patient){
