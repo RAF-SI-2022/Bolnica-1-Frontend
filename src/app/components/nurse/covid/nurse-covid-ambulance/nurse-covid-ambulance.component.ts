@@ -128,7 +128,7 @@ selectSuggestion(patient: Patient){
       sendData.doctorLbz, tmpLbp).subscribe(
       res => {
 //         this.getCovidExams();
-        this.snackBar.openSuccessSnackBar("Uspesno sacuvano!");
+
         this.form.reset();
         // Update form controls with initial values
         Object.keys(this.form.controls).forEach((controlName) => {
@@ -144,6 +144,8 @@ selectSuggestion(patient: Patient){
           control.updateValueAndValidity();
 
         });
+
+        this.snackBar.openSuccessSnackBar("Uspesno sacuvano!");
 
       }, err => {
         this.snackBar.openErrorSnackBar("Greska!")

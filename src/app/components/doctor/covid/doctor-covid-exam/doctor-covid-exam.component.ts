@@ -105,7 +105,7 @@ export class DoctorCovidExamComponent  implements OnInit {
       sendData.therapy
     ).subscribe(res=>{
 
-      this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
+
 
       this.examForm.reset();
 
@@ -127,6 +127,10 @@ export class DoctorCovidExamComponent  implements OnInit {
       this.examForm.get('gender')?.reset();
 
       form.classList.remove('was-validated');
+
+
+      this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
+
     },err => {
       this.snackBar.openErrorSnackBar("NIje sacuvano!")
     })
