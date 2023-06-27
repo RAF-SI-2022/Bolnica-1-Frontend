@@ -1,0 +1,149 @@
+<html xmlns:width="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet">
+  </head>
+
+<div class="container rounded bg-white mt-5 mb-5">
+  <form [formGroup]="examForm"  class="mb-5 needs-validation" novalidate>
+    <div class="row">
+      <div class="col-md-10 border-right">
+
+    <div class="container p-3 py-5">
+
+        <div class="row">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="text-right" style="font-weight: bold;">Kovid pregled</h3>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <div class="row">
+                    <h4 style="font-weight: bold;">LBP:</h4>
+                    <label class="label">{{patientLBP}}</label>
+                </div>
+
+                <div class="row">
+                    <h4 style="font-weight: bold;">Ime:</h4>
+                    <label class="label">{{patientName}}</label>
+                </div>
+
+                <div class="row">
+                    <h4 style="font-weight: bold;">Prezime:</h4>
+                    <label class="label">{{patientSurname}}</label>
+                </div>
+
+                <div class="row">
+                    <h4 style="font-weight: bold;">Datum rođenja:</h4>
+                    <label class="label">{{patientDateOfBirth | date: 'dd.MM.yyyy.'}}</label>
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="row-mt-5 p-2">
+                    <button class="btn btn-primary" (click)="goToUput()" data-cy="btnUput"><i class="bi bi-info-circle"></i> Uputi</button>
+                </div>
+
+                <div class="row-mt-5 p-2">
+                    <button class="btn btn-primary" (click)="goToScheduleExam()" data-cy="btnZakazivanjePregleda"><i class="bi bi-info-circle"></i> Zakazivanje pregleda</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container rounded bg-white mt-5 mb-5">
+
+
+
+            <table>
+                <tr>
+                  <td><label class="label">Simptomi</label></td>
+                </tr>
+                <tr>
+                    <td><textarea class="bi-textarea" placeholder="Simptomi" [formControlName]="'symptoms'" data-cy="Simptomi" required></textarea></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                  <td><label class="label">Trajanje</label></td>
+                </tr>
+                <tr>
+                    <td><textarea class="bi-textarea" placeholder="Trajanje" [formControlName]="'duration'" data-cy="Trajanje" required></textarea></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                  <td><label class="label">Temperatura</label></td>
+                </tr>
+                <tr>
+                    <td><textarea class="bi-textarea" placeholder="Temperatura" [formControlName]="'bodyTemperature'" data-cy="Temperatura" required></textarea></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                  <td><label class="label">Pritisak</label></td>
+                </tr>
+                <tr>
+                    <td><textarea class="bi-textarea" placeholder="Pritisak" [formControlName]="'bloodPressure'" data-cy="Pritisak" required></textarea></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                  <td><label class="label">Saturacija</label></td>
+                </tr>
+                <tr>
+                    <td><textarea class="bi-textarea" placeholder="Saturacija" [formControlName]="'saturation'" data-cy="Saturacija" required></textarea></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                  <td><label class="label">Stanje pluća</label></td>
+                </tr>
+                <tr>
+                    <td><textarea class="bi-textarea" placeholder="Stanje pluća" [formControlName]="'lungCondition'" data-cy="StanjePluca" required></textarea></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                  <td><label class="label">Terapija</label></td>
+                </tr>
+                <tr>
+                    <td><textarea class="bi-textarea" placeholder="Terapija" [formControlName]="'therapy'" data-cy="Terapija" required></textarea></td>
+                </tr>
+            </table>
+
+            <div class="mt-4 text-center">
+                <button (click)="finishExamination()" class="btn btn-primary" type="submit"><i
+                    class="bi bi-save me-1"></i> Završi</button>
+            </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

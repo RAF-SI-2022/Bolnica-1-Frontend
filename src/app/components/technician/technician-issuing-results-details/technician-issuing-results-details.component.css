@@ -1,0 +1,5 @@
+@media print {
+  .printTable {
+    display: none;
+  }
+}

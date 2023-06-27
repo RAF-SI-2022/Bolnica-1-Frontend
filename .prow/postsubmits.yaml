@@ -1,0 +1,96 @@
+postsubmits:
+  - name: post-bolnica-1-frontend-prod-deploy
+    labels:
+      preset-github-ro-token: "true"
+      preset-harbor-robot-push: "true"
+    always_run: true
+    decorate: true
+    branches:
+      - ^main$
+      # Matchuje grane i tagove (release-ove) koji su tipa v0.0.0
+      # - ^v\d+\.\d+\.\d+.*
+    spec:
+      serviceAccountName: prow-admin
+      containers:
+        - image: harbor.k8s.elab.rs/base-images/base:java-19-node-18-docker
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -euo pipefail
+
+              start-docker.sh
+
+              docker login -u $HARBOR_USERNAME -p $HARBOR_PASSWORD harbor.k8s.elab.rs
+
+              # Trenutni branch i commit hash
+              commit_hash=$(git rev-parse HEAD)
+
+
+              # build images
+              docker build -t harbor.k8s.elab.rs/bolnica-1/frontend-angular:prod ./
+              docker build -t harbor.k8s.elab.rs/bolnica-1/frontend-angular:$commit_hash ./
+
+
+              # push images
+              docker push harbor.k8s.elab.rs/bolnica-1/frontend-angular:prod
+              docker push harbor.k8s.elab.rs/bolnica-1/frontend-angular:$commit_hash
+
+
+              # sed --in-place "s;__COMMIT_HASH__;$commit_hash;g" kubernetes-front/
+              find . -type f -exec sed -i.bak "s;__COMMIT_HASH__;$commit_hash;g" {} \;
+
+              #kubectl apply -f kubernetes-front/
+              helm uninstall bolnica-1-frontend -n bolnica-1-prod
+              helm install bolnica-1-frontend ./kubernetes-front/b-1-frontend-chart --set namespace=bolnica-1-prod --set domain=bolnica-1.k8s.elab.rs --set image.tag=prod -n bolnica-1-prod
+          securityContext:
+            privileged: true
+          imagePullPolicy: Always
+
+  - name: post-bolnica-1-frontend-dev-deploy
+    labels:
+      preset-github-ro-token: "true"
+      preset-harbor-robot-push: "true"
+    always_run: true
+    decorate: true
+    branches:
+      - ^stacionar$
+      - ^kovid$
+      # Matchuje grane i tagove (release-ove) koji su tipa v0.0.0
+      # - ^v\d+\.\d+\.\d+.*
+    spec:
+      serviceAccountName: prow-admin
+      containers:
+        - image: harbor.k8s.elab.rs/base-images/base:java-19-node-18-docker
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -euo pipefail
+
+              start-docker.sh
+
+              docker login -u $HARBOR_USERNAME -p $HARBOR_PASSWORD harbor.k8s.elab.rs
+
+              # Trenutni branch i commit hash
+              commit_hash=$(git rev-parse HEAD)
+
+
+              # build images
+              docker build -t harbor.k8s.elab.rs/bolnica-1/frontend-angular:dev ./
+              docker build -t harbor.k8s.elab.rs/bolnica-1/frontend-angular:$commit_hash ./
+
+
+              # push images
+              docker push harbor.k8s.elab.rs/bolnica-1/frontend-angular:dev
+              docker push harbor.k8s.elab.rs/bolnica-1/frontend-angular:$commit_hash
+
+              # sed --in-place "s;__COMMIT_HASH__;$commit_hash;g" kubernetes-front/
+              find . -type f -exec sed -i.bak "s;__COMMIT_HASH__;$commit_hash;g" {} \;
+
+              #kubectl apply -f kubernetes-front/
+              helm uninstall bolnica-1-frontend -n bolnica-1-dev
+              helm install bolnica-1-frontend ./kubernetes-front/b-1-frontend-chart -n bolnica-1-dev
+          securityContext:
+            privileged: true
+          imagePullPolicy: Always

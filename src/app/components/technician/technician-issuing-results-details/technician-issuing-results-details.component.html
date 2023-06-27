@@ -1,0 +1,97 @@
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <link rel="stylesheet" href="/path/to/bootstrap.min.css">
+    <script src="/path/to/jquery.min.js"></script>
+    <script src="/path/to/bootstrap.bundle.min.js"></script>
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  </head>
+
+  <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+    <div class="row">
+
+        <div class="mb-3">
+            <button (click)="navigateBack()" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="nazad">Nazad</button>
+        </div>
+
+      <div id="printTable">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3 class="text-right">Laboratorijski rezultati pacijenta: {{patientLbp}}</h3>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6"><h5 style="font-weight: bold;">Ime i prezime pacijenta:</h5>
+            <label class="label">{{patientName}} {{patientSurname}}</label>
+          </div>
+          <div class="col-md-6"><h5 style="font-weight: bold;">Datum rođenja:</h5>
+            <label class="label">{{ patientDateOfBirth | date: 'dd.MM.yyyy.' }}</label>
+          </div>
+        </div>
+
+        <div class="row py-5">
+          <table class="table table-hover" data-cy="table">
+            <thead>
+            <tr>
+              <th>ID analize</th>
+              <th>Skraćenica analize</th>
+              <th>ID parametra</th>
+              <th>Naziv parametra</th>
+              <th>Rezultat</th>
+              <th>Jedinica mere</th>
+              <th>Donja granica</th>
+              <th>Gornja granica</th>
+              <th>Datum i vreme upisa rezultata</th>
+              <th>Biohemičar</th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr *ngFor="let p of parameterAnalysisResults">
+              <td>{{p.labAnalysis.id}}</td>
+              <td>{{p.labAnalysis.abbreviation}}</td>
+              <td>{{p.parameter.id}}</td>
+              <td>{{p.parameter.parameterName}}</td>
+              <td >{{p.result}}</td>
+              <td>{{p.parameter.unitOfMeasure}}</td>
+              <td>{{p.parameter.lowerLimit}}</td>
+              <td>{{p.parameter.upperLimit}}</td>
+              <td>{{p.dateTime|date: 'dd-MM-Y HH:mm:ss' : 'local'}}</td>
+              <td>{{p.biochemistName}} {{p.biochemistSurname}}</td>
+
+            </tr>
+
+            </tbody>
+          </table>
+
+
+        </div>
+
+      </div>
+
+      <div class="row justify-content-end">
+        <div class="col-md-2">
+          <button (click)="printTable()" class="btn btn-outline-danger" type="button"
+                  data-toggle="collapse" data-target="#search-table" aria-expanded="false"
+                  aria-controls="search-table" data-cy="nazad"> <i class="bi bi-printer-fill"></i> Štampaj</button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+

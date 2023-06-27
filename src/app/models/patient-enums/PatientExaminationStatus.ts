@@ -1,0 +1,7 @@
+export enum PatientExaminationStatus {
+  ZAKAZANO="ZAKAZANO",
+  OTKAZANO = "OTKAZANO",
+  ZAVRSENO="ZAVRSENO",
+  TRENUTNO="TRENUTNO",
+  CEKA="CEKA"
+}

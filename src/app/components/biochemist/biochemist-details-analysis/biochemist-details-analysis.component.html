@@ -1,0 +1,107 @@
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <script src="/path/to/jquery.min.js"></script>
+  <script src="/path/to/bootstrap.bundle.min.js"></script>
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+</head>
+<form class="mb-5 needs-validation" novalidate>
+
+  <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+
+    <h2 class="text-center"><b>Detaljan prikaz rezultata parametara analiza</b></h2>
+    <div class="row">
+
+      <div class="row">
+        <div class="col-md-4">
+          <label class="labels">LBP: {{lbp}} </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <label class="labels">Ime pacijenta: {{patientName}}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <label class="labels">Prezime pacijenta: {{patientSurname}} </label>
+        </div>
+      </div>
+
+
+      <div *ngIf="obradjen==false" class="mt-4 text-center">
+        <button (click)="verifyWorkOrder()" class="btn btn-primary" type="submit" data-toggle="collapse"
+          data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+          data-cy="verifikuj">Verifikuj</button>
+      </div>
+
+      <div class="row py-5">
+        <table class="table table-hover" data-cy="table">
+          <thead>
+            <tr>
+              <th>ID analize</th>
+              <th>Skraćenica analize</th>
+              <th>ID parametra</th>
+              <th>Naziv parametra</th>
+              <th>Rezultat</th>
+              <th>Jedinica mere</th>
+              <th>Donja granica</th>
+              <th>Gornja granica</th>
+              <th>Biohemičar</th>
+              <th *ngIf="obradjen==false">Akcija
+              <th>
+            </tr>
+          </thead>
+          <tbody>
+
+
+          <tr *ngFor="let p of parameterAnalysisResults; let i = index">
+            <td>{{p.labAnalysis.id}}</td>
+            <td>{{p.labAnalysis.abbreviation}}</td>
+            <td>{{p.parameter.id}}</td>
+            <td>{{p.parameter.parameterName}}</td>
+            <td *ngIf="!obradjen">
+              <input [(ngModel)]="p.result" name="rezultat{{i}}" type="text" class="form-control" data-cy="rezultat">
+            </td>
+            <td *ngIf="obradjen">
+              {{p.result}}
+            </td>
+            <td>{{p.parameter.unitOfMeasure}}</td>
+            <td>{{p.parameter.lowerLimit}}</td>
+            <td>{{p.parameter.upperLimit}}</td>
+            <td>{{p.lbzBiochemist}}</td>
+            <td *ngIf="!obradjen">
+              <button (click)="saveChanges(p.id, p.result)" class="btn btn-primary" type="submit"
+                      data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                      data-cy="sacuvaj">Sacuvaj</button>
+            </td>
+
+          </tr>
+
+
+          </tbody>
+        </table>
+
+        <div *ngIf="obradjen==true && shouldShowFromPRoute == true" class="row">
+          <div class="col-md-4">
+            <label class="labels">Zaposleni koji je verifikovao nalog: {{biochemistName}} {{biochemistSurname}}</label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

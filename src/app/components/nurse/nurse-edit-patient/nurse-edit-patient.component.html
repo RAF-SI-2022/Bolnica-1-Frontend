@@ -1,0 +1,166 @@
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  </head>
+
+  <div class="container rounded bg-white mt-5 mb-5">
+    <form [formGroup]="editGroup" (submit)="editPatient()" class="mb-5  needs-validation" novalidate>
+        <div class="row justify-content-center">
+            <div class="col-md-8 border-right">
+                <div class="p-3 py-5">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Azuriranje podataka pacijenta</h4>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4"><label class="labels">Ime</label>
+                            <input type="text" name="firstName" class="form-control" data-cy="firstName" [(ngModel)]="patientUpdate.name"
+                                   [formControlName]="'name'">
+                            <div class="invalid-feedback">Unesite ime pacijenta!</div>
+                        </div>
+                        <div class="col-md-4"><label class="labels">Ime roditelja</label>
+                            <input type="text" name ="middleName" class="form-control" data-cy="parentName" [(ngModel)]="patientUpdate.parentName"
+                                   [formControlName]="'parentName'">
+                            <div class="invalid-feedback">Unesite ime roditelja!</div>
+                        </div>
+                        <div class="col-md-4"><label class="labels">Prezime</label>
+                            <input type="text" name ="lastName" class="form-control" data-cy="surname" [(ngModel)]="patientUpdate.surname"
+                                   [formControlName]="'surname'">
+                            <div class="invalid-feedback">Unesite prezime pacijenta!</div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-1">
+                        <div class="col-md-8"><label class="labels">JMBG</label>
+                            <input type="text" name="JMBG" class="form-control" data-cy="jmbg" [(ngModel)]="patientUpdate.jmbg" [formControlName]="'jmbg'">
+                            <div class="invalid-feedback">Unesite JMBG pacijenta!</div>
+                        </div>
+
+                        <div class="col-md-4 ">
+                            <label class="labels">Pol: </label>
+                            <div class="container">
+                                <div class="col">
+                                    <div class="d-inline-block mt-1">Musko</div> &nbsp;
+                                    <div class="form-check form-switch d-inline-block"> &nbsp;
+                                        <input [formControlName]="'gender'" [(ngModel)]="patientUpdate.gender"  name=" gender" type="checkbox" class="form-check-input" id="site_state" style="cursor: pointer;">
+                                        <label for="site_state" class="form-check-label"> Zensko</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-1">
+                        <div class="col-md-4"><label class="labels">Datum rodjenja</label>
+                            <input type="date" name="dateOfBirth" class="form-control" data-cy="dateOfBirth" [(ngModel)]="patientUpdate.dateOfBirth"
+                                   [formControlName]="'dateOfBirth'">
+                            <div class="invalid-feedback">Unesite datum rodjenja!</div>
+                        </div>
+                        <div class="col-md-4"><label class="labels">Mesto rodjenja</label>
+                            <input type="text" name ="placeOfBirth" class="form-control" data-cy="placeOfBirth" [(ngModel)]="patientUpdate.birthPlace"
+                                   [formControlName]="'birthPlace'">
+                            <div class="invalid-feedback">Unesite mesto rodjenja!</div>
+                        </div>
+                      <div class="col-md-4"><label class="labels">Datum i vreme smrti</label>
+                        <input type="datetime-local" name="dateAndTimeOfDeath" class="form-control" data-cy="dateAndTimeOfDeath" [formControlName]="'dateAndTimeOfDeath'">
+                        <div class="invalid-feedback"></div>
+                      </div>
+<!--                        <div class="col-md-4"><label class="labels">Zemlja drzavljanstva</label>-->
+<!--                            <input type="text" name ="countryOfBirth" class="form-control" data-cy="countryOfBirth" [(ngModel)]="patientUpdate.citizenship"-->
+<!--                                   [formControlName]="'citizenship'">-->
+                      <div class="col-md-4"><label class="labels">Zemlja drzavljanstva</label>
+                      <select class="form-select" name="countryOfBirth" data-cy="countryOfBirth" [(ngModel)]="patientUpdate.citizenship"  [formControlName]="'citizenship'">
+                        <option *ngFor="let countryCode of countryCodes" [value]="countryCode">{{ countryCode }}</option>
+                      </select>
+                            <div class="invalid-feedback">Unesite zemlju drzavljanstva!</div>
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+
+                        <div class="col-md-4"><label class="labels">Mesto stanovanja</label>
+                            <input type="text" name ="city" class="form-control" data-cy="placeOfLiving" [(ngModel)]="patientUpdate.placeOfLiving"
+                                   [formControlName]="'placeOfLiving'">
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-1">
+                        <div class="col-md-6"><label class="labels">Kontakt telefon</label>
+                            <input type="text" name="phone" class="form-control" data-cy="phone" [(ngModel)]="patientUpdate.phone"
+                                   [formControlName]="'phone'">
+                        </div>
+                        <div class="col-md-6"><label class="labels">Email</label>
+                            <input type="text" name ="email" class="form-control" data-cy="email" [(ngModel)]="patientUpdate.email"
+                                   [formControlName]="'email'">
+                        </div>
+                    </div>
+
+                    <div class="row mt-1">
+                        <div class="col-md-6"><label class="labels">Ime i prezime staratelja</label>
+                            <input type="text" name="guardianName" class="form-control" data-cy="guardianNameAndSurname" [(ngModel)]="patientUpdate.guardianNameAndSurname"
+                                   [formControlName]="'guardianNameAndSurname'">
+                        </div>
+                        <div class="col-md-6"><label class="labels">JMBG staratelja</label>
+                            <input type="text" name ="guardianJMBG" class="form-control" data-cy="guardianJMBG" [(ngModel)]="patientUpdate.guardianJmbg"
+                                   [formControlName]="'guardianJmbg'">
+                        </div>
+                    </div>
+
+                    <div class="row mt-1">
+                        <div class="col-md-4"><label class="labels">Porodicni status</label>
+                            <select class="form-select" name="familyStatus" data-cy="familyStatus" [(ngModel)]="patientUpdate.familyStatus"  [formControlName]="'familyStatus'">
+                              <option *ngFor="let familyStatus of familyStatus" [value]="familyStatus">{{ familyStatus }}</option>
+
+                            </select>
+                        </div>
+                        <div class="col-md-4"><label class="labels">Bracni status</label>
+                            <select class="form-select" name="maritalStatus"  data-cy="maritalStatus" [(ngModel)]="patientUpdate.maritalStatus"[formControlName]="'maritalStatus'">
+                              <option *ngFor="let maritalStatus of maritalStatus" [value]="maritalStatus">{{ maritalStatus }}</option>
+
+                            </select>
+                        </div>
+                        <div class="col-md-4"><label class="labels">Broj Dece</label>
+                            <input type="text" name ="numberOfChildren" class="form-control" data-cy="numOfChildren" [(ngModel)]="patientUpdate.numOfChildren"
+                                   [formControlName]="'numOfChildren'">
+                        </div>
+                    </div>
+
+                    <div class="row mt-1">
+                        <div class="col-md-6"><label class="labels">Stepen strucne spreme</label>
+                            <select class="form-select" name="expertiseDegree"  data-cy="expertiseDegree" [(ngModel)]="patientUpdate.expertiseDegree"  [formControlName]="'expertiseDegree'">
+                              <option *ngFor="let expertiseDegree of expertiseDegree" [value]="expertiseDegree">{{ expertiseDegree }}</option>
+
+                            </select>
+                        </div>
+                        <div class="col-md-6"><label class="labels">Zanimanje</label>
+                            <input type="text" name ="job" class="form-control" data-cy="job" [(ngModel)]="patientUpdate.profession"
+                                   [formControlName]="'profession'">
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <button type="submit" class="btn btn-primary" data-cy="button"><i class="bi bi-save me-1"></i> Ažuriraj</button>
+                    </div>
+
+                    <br>
+                    <div *ngIf="errorMessage.length != 0" class="mt-4 text-center">
+                      <label style="color: red"> Neuspeh: {{ errorMessage }} </label>
+                    </div>
+
+                    <div *ngIf="successMessage.length != 0" class="mt-4 text-center">
+                      <label style="color: green" > {{ successMessage }} </label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+  </div>
