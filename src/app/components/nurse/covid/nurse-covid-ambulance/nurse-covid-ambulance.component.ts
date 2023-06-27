@@ -124,33 +124,57 @@ selectSuggestion(patient: Patient){
     const sendData = this.form.value;
 
     let tmpLbp = sendData.textLBP.split(":")[0].trim();
-    this.covidService.createCovidExam(new Date(), PatientArrival.CEKA, sendData.examType,
-      sendData.doctorLbz, tmpLbp).subscribe(
-      res => {
-//         this.getCovidExams();
 
-        this.form.reset();
-        // Update form controls with initial values
-        Object.keys(this.form.controls).forEach((controlName) => {
-          const control = this.form.get(controlName);
-          const initialValue = this.initialFormValues[controlName];
-          // @ts-ignore
-          control.setValue(initialValue);
-          // @ts-ignore
-          control.markAsPristine();
-          // @ts-ignore
-          control.markAsUntouched(); // Dodajte ovu liniju
-          // @ts-ignore
-          control.updateValueAndValidity();
+    this.examinationService.createExamination(new Date(), sendData.doctorLbz, tmpLbp, "covid").subscribe(
+        res => {
+            //         this.getCovidExams();
+                    this.snackBar.openSuccessSnackBar("Uspesno sacuvano!");
+                    this.form.reset();
+                    // Update form controls with initial values
+                    Object.keys(this.form.controls).forEach((controlName) => {
+                      const control = this.form.get(controlName);
+                      const initialValue = this.initialFormValues[controlName];
+                      // @ts-ignore
+                      control.setValue(initialValue);
+                      // @ts-ignore
+                      control.markAsPristine();
+                      // @ts-ignore
+                      control.markAsUntouched(); // Dodajte ovu liniju
+                      // @ts-ignore
+                      control.updateValueAndValidity();
+            
+                    });
+            
+                  }, err => {
+                    this.snackBar.openErrorSnackBar("Greska!")
+                  }
+    );
+    
+//     this.covidService.createCovidExam(new Date(), PatientArrival.CEKA, sendData.examType,
+//       sendData.doctorLbz, tmpLbp).subscribe(
+//       res => {
+// //         this.getCovidExams();
+//         this.snackBar.openSuccessSnackBar("Uspesno sacuvano!");
+//         this.form.reset();
+//         // Update form controls with initial values
+//         Object.keys(this.form.controls).forEach((controlName) => {
+//           const control = this.form.get(controlName);
+//           const initialValue = this.initialFormValues[controlName];
+//           // @ts-ignore
+//           control.setValue(initialValue);
+//           // @ts-ignore
+//           control.markAsPristine();
+//           // @ts-ignore
+//           control.markAsUntouched(); // Dodajte ovu liniju
+//           // @ts-ignore
+//           control.updateValueAndValidity();
 
-        });
+//         });
 
-        this.snackBar.openSuccessSnackBar("Uspesno sacuvano!");
-
-      }, err => {
-        this.snackBar.openErrorSnackBar("Greska!")
-      }
-    )
+//       }, err => {
+//         this.snackBar.openErrorSnackBar("Greska!")
+//       }
+//     )
   }
 
 }
