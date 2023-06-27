@@ -44,7 +44,7 @@ export class AppComponent {
                     this.checkSpecMedBiohemije();
                     this.checkReceptionist();
                     //DODATO:
-                    this.checkCovid();
+                    // this.checkCovid();
                 }
 
             }
@@ -72,9 +72,10 @@ export class AppComponent {
 
     //DODATO:
     isCovid(): boolean {
-        return this.covid;
+        // return this.covid;
+      return true;
     }
-    
+
     checkDoctorSpecOdeljenja(): boolean {
         this.userService.checkRole('ROLE_DR_SPEC_ODELJENJA').subscribe(hasRole => {
             if (hasRole) {
@@ -176,7 +177,7 @@ export class AppComponent {
         return this.receptionist;
     }
 
-    // DODATO: 
+    // DODATO:
     checkCovid() {
         let lbz = localStorage.getItem('LBZ');
         this.userService.findDepartmentByLbz(lbz!).subscribe(
