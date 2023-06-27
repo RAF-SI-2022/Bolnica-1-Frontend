@@ -104,8 +104,9 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     let hasPatientWithLbp = this.patients.some(patient => patient.lbp === this.form.value.lbp.split(":")[0].trim());
 
     if (!hasPatientWithLbp) {
-        return;
-    } 
+      this.snackBar.openWarningSnackBar("Pacijent je ili vec hospitalizovan ili nije u sistemu!")
+      return;
+    }
 
     this.prescriptionBoolean = false
     this.roomBoolean = false
@@ -113,12 +114,6 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     this.prescriptionList = []
     this.total = 0
 
-    let hasPatientWithLbp = this.patients.some(patient => patient.lbp === this.form.value.lbp.split(":")[0].trim());
-
-    if (!hasPatientWithLbp) {
-      this.snackBar.openWarningSnackBar("Pacijent je ili vec hospitalizovan ili nije u sistemu!")
-      return;
-    }
 
 
     const sendData = this.form.value;
