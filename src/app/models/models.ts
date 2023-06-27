@@ -175,6 +175,7 @@ export class Hospital {
     deleted: boolean = false;
 }
 
+// DepartmentDTO
 export class DeparmentShort {
     id: number = 0;
     pbo: string = '';

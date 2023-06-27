@@ -63,7 +63,7 @@ export class CovidServiceService {
 
     console.log("usao u kovid servis:")
     console.log(obj)
-
+// ALOO NE RAD
     return this.http.post<HttpStatusCode>(
       `${environmentCovid.apiURL}/exam/create`,
       obj, {headers: this.getHeaders()});
@@ -247,7 +247,6 @@ export class CovidServiceService {
     return this.http.post<HttpStatusCode>(`${environmentCovid.apiURL}/prescription/infirmary_prescription`,
       obj, {headers: this.getHeaders()});
   }
-
 
   /**
    * Evidentiranje broja testiranih, broja pozitivnih, broja hospitalizovanih,
