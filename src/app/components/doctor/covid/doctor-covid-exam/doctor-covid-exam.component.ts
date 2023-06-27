@@ -5,12 +5,10 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 import {ExamForPatient} from "../../../../models/patient/ExamForPatient";
 import {SharedService} from "../../../../services/shared.service";
-import {PatientArrival} from "../../../../models/laboratory-enums/PatientArrival";
 import {CovidServiceService} from "../../../../services/covid-service/covid-service.service";
 import {AuthService} from "../../../../services/auth.service";
 import {SnackbarServiceService} from "../../../../services/snackbar-service.service";
 import {CovidExamDto} from "../../../../models/covid/CovidExamDto";
-import {Patient} from "../../../../models/patient/Patient";
 import {PatientService} from "../../../../services/patient-service/patient.service";
 
 
@@ -31,6 +29,7 @@ export class DoctorCovidExamComponent  implements OnInit {
 
   lbz: string = ""
   examId: number = 0;
+  initialFormValues: any;
 
   currentCovidExam: CovidExamDto;
 
@@ -63,6 +62,8 @@ export class DoctorCovidExamComponent  implements OnInit {
     this.examId = this.currentCovidExam.id
     this.lbz = this.authService.getLBZ();
     this.updateData();
+    this.initialFormValues = this.examForm.getRawValue();
+
   }
 
   updateData() {
@@ -81,6 +82,7 @@ export class DoctorCovidExamComponent  implements OnInit {
 
 
   finishExamination(): void {
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
 
     if (!this.validateFields()) {
       this.snackBar.openWarningSnackBar("Popunite sva polja!")
@@ -104,6 +106,27 @@ export class DoctorCovidExamComponent  implements OnInit {
     ).subscribe(res=>{
 
       this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
+
+      this.examForm.reset();
+
+      // Update form controls with initial values
+      Object.keys(this.examForm.controls).forEach((controlName) => {
+        const control = this.examForm.get(controlName);
+        const initialValue = this.initialFormValues[controlName];
+        // @ts-ignore
+        control.setValue(initialValue);
+        // @ts-ignore
+        control.markAsPristine();
+        // @ts-ignore
+        control.markAsUntouched(); // Dodajte ovu liniju
+        // @ts-ignore
+        control.updateValueAndValidity();
+
+      });
+
+      this.examForm.get('gender')?.reset();
+
+      form.classList.remove('was-validated');
     },err => {
       this.snackBar.openErrorSnackBar("NIje sacuvano!")
     })
