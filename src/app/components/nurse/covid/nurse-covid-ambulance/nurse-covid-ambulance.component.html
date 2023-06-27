@@ -64,7 +64,7 @@
                 [(ngModel)]="lbp"
                 name="textLBP"
                 type="text"
-                class="form-control" 
+                class="form-control"
                 data-cy="textLBP"
                 required
                 (input)="filterPatientLbp(lbp)"
@@ -102,7 +102,7 @@
             </div>
             <div class="row justify-content-end">
               <div class="col-md-2">
-                <button (click)="addExamination()" class="btn btn-primary" type="submit" >Dodaj novog pacijenta</button>
+                <button (click)="addExamination()" class="btn btn-primary" type="submit" data-cy="dodajBtn">Dodaj novog pacijenta</button>
                 <!-- <button (click)="add()" class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#search-table"
                     aria-expanded="false" aria-controls="search-table" data-cy="btnPretrazi"> Dodaj</button> -->
               </div>

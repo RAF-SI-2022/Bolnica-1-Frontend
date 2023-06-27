@@ -124,6 +124,7 @@ selectSuggestion(patient: Patient){
     const sendData = this.form.value;
 
     let tmpLbp = sendData.textLBP.split(":")[0].trim();
+
     this.examinationService.createExamination(new Date(), sendData.doctorLbz, tmpLbp, "covid").subscribe(
         res => {
             //         this.getCovidExams();
