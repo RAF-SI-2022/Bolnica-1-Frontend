@@ -1,0 +1,81 @@
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <link rel="stylesheet" href="/path/to/bootstrap.min.css">
+  <script src="/path/to/jquery.min.js"></script>
+  <script src="/path/to/bootstrap.bundle.min.js"></script>
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+
+<div class="container rounded bg-white mt-5 mb-5 p-3 py-5 text-center">
+  <div class="row pt-5 justify-content-center">
+    <div class="col-md-4 col-lg-4 mb-4">
+      <div class="card card-custom bg-white border-white border-0">
+        <div class="card-custom-img" style="background-image: url(assets/image3.png);"></div>
+        <div class="card-custom-avatar">
+          <img class="img-fluid" src="assets/eelg.jpg" alt="Avatar" />
+        </div>
+        <div class="card-body d-flex align-items-center" style="overflow-y: auto">
+          <h4 class="card-title">Izdavanje kovid sertifikata</h4>
+          <p class="card-text">Posaljite kovid sertifikat za odredjenog pacijenta na njegov mejl.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-lg-4 mb-4">
+      <div class="card card-custom bg-white border-white border-0">
+        <div class="card-body">
+          <form [formGroup]="form" class="mb-5 needs-validation" novalidate>
+            <div class="form-group">
+              <label class="labels">LBP</label>
+              <input
+                [formControlName]="'lbp'"
+                [(ngModel)]="form.value.lbp"
+                (input)="filterPatientLbp(form.value.lbp)"
+                type="text"
+                class="form-control"
+                data-cy="lbp"
+              />
+              <div *ngIf="filteredPatients.length > 0" class="suggestions">
+                <div
+                  *ngFor="let fPatient of filteredPatients"
+                  (click)="selectSuggestion(fPatient)"
+                  class="suggestion"
+                >
+                  {{ fPatient.lbp }} : {{ fPatient.name }} {{ fPatient.surname }}
+                </div>
+              </div>
+            </div>
+
+            <br>
+
+            <div class="text-center">
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="sendCertificate()"
+                data-toggle="collapse"
+                data-target="#search-table"
+                aria-expanded="false"
+                aria-controls="search-table"
+                data-cy="pretrazi"
+              >
+                Posalji
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

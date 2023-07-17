@@ -52,6 +52,21 @@
 
             </div>
 
+            <div class="row mt-2">
+              <div class="col-md-6"><h4 style="font-weight: bold;">Alergije</h4>
+                <ul *ngIf="allergiesList.length > 0">
+                  <li *ngFor="let item of allergiesList">{{item.name}}</li>
+                </ul>
+                <p *ngIf="allergiesList.length === 0">Nema alergija</p>
+              </div>
+              <div class="col-md-6"><h4 style="font-weight: bold;">Vakcine</h4>
+                <ul *ngIf="vaccinationsList.length > 0">
+                  <li *ngFor="let item of vaccinationsList">{{item.name}}</li>
+                </ul>
+                <p *ngIf="vaccinationsList.length === 0">Nema vakcinacija</p>
+              </div>
+            </div>
+
             <div class="col-md-6">
 
                 <div class="row-mt-5 p-2">
@@ -60,6 +75,10 @@
 
                 <div class="row-mt-5 p-2">
                     <button class="btn btn-primary" (click)="goToScheduleExam()" data-cy="btnZakazivanjePregleda"><i class="bi bi-info-circle"></i> Zakazivanje pregleda</button>
+                </div>
+
+                <div class="row-mt-5 p-2">
+                  <button class="btn btn-primary" (click)="goToMedicalRecord()" data-cy="btnKarton"><i class="bi bi-info-circle"></i> Karton</button>
                 </div>
 
             </div>

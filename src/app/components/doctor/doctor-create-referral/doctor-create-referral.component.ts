@@ -83,6 +83,8 @@ export class DoctorCreateReferralComponent implements OnInit {
 
   initialFormValues: any;
 
+  covidBoolean : boolean = false;
+
 
   constructor(private prescriptionService: PrescriptionServiceService, private snackBar: SnackbarServiceService, private laboratoryService: LaboratoryService, private authService: AuthService, private userService: UserService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
     this.referralForm = this.formBuilder.group({
@@ -115,6 +117,8 @@ export class DoctorCreateReferralComponent implements OnInit {
       //dodato
       this.initialFormValues = this.referralForm.getRawValue();
       this.initialFormValues = this.referralInfirmaryForm.getRawValue();
+
+      this.checkCovid()
     }
 
 
@@ -353,6 +357,8 @@ export class DoctorCreateReferralComponent implements OnInit {
       //vidi sta treba sa ovim
       //this.permissions = []
 
+      this.snackBar.openSuccessSnackBar("Uspesno dodat uput!")
+
     }else{
       this.snackBar.openWarningSnackBar("Popunite dijagnozu!")
     }
@@ -377,10 +383,27 @@ export class DoctorCreateReferralComponent implements OnInit {
 
   getLabAnalysis(): void {
     console.log("dosao do ts");
-    this.laboratoryService.getAnalysis().subscribe(res => {
+    this.laboratoryService.getAnalysis(false).subscribe(res => {
       this.analysisSaBeka = res;
     });
     console.log("prosao ts");
+  }
+
+  checkCovid() {
+    let lbz = localStorage.getItem('LBZ');
+    this.userService.findDepartmentByLbz(lbz!).subscribe(
+      res => {
+        this.userService.getDepartmentDto(res).subscribe(
+          res2 =>{
+            if(res2.name == "Covid"){
+              this.covidBoolean = true;
+            }else{
+              this.covidBoolean = false;
+            }
+          }
+        );
+      }
+    );
   }
 
 

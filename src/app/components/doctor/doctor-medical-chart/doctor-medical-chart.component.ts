@@ -25,6 +25,7 @@ import { DiagnosisCodeDto } from 'src/app/models/patient/DiagnosisCode';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 import { interval } from 'rxjs';
 import {PrescriptionNewDto} from "../../../models/prescription/PrescriptionNewDto";
+import {UserService} from "../../../services/user-service/user.service";
 
 
 
@@ -102,7 +103,19 @@ export class DoctorMedicalChartComponent implements OnInit {
   totalLaboratory: number = 0
   generalMedical: GeneralMedicalData
 
-  constructor(private router: Router,private changeDetectorRef: ChangeDetectorRef, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder, private patientService: PatientService, private prescriptionService: PrescriptionServiceService, private route: ActivatedRoute, private labaratoryService: LaboratoryService) {
+  covidBoolean: boolean = false;
+
+
+
+  constructor(private router: Router,
+              private changeDetectorRef: ChangeDetectorRef,
+              private snackBar: SnackbarServiceService,
+              private formBuilder: FormBuilder,
+              private patientService: PatientService,
+              private prescriptionService: PrescriptionServiceService,
+              private route: ActivatedRoute,
+              private labaratoryService: LaboratoryService,
+              private userService: UserService) {
     this.generalMedical = {
       id: 0,
       bloodType: '',
@@ -145,6 +158,7 @@ export class DoctorMedicalChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.checkCovid()
     //nterval(5000).subscribe(() => {
       this.updateData();
 //    });
@@ -281,10 +295,27 @@ export class DoctorMedicalChartComponent implements OnInit {
   }
 
   getVaccine(): void {
-    this.patientService.getVaccine().subscribe(result => {
+    this.patientService.getVaccine(this.covidBoolean).subscribe(result => {
       this.vaccines = result;
       this.changeDetectorRef.detectChanges();
     }, err => { });
+  }
+
+  checkCovid() {
+    let lbz = localStorage.getItem('LBZ');
+    this.userService.findDepartmentByLbz(lbz!).subscribe(
+      res => {
+        this.userService.getDepartmentDto(res).subscribe(
+          res2 =>{
+            if(res2.name == "Covid"){
+              this.covidBoolean = true;
+            }else{
+              this.covidBoolean = false;
+            }
+          }
+        );
+      }
+    );
   }
 
   getDiagnosis(): void {

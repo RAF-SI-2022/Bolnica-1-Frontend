@@ -66,6 +66,8 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
   hospitalPage: Page<DeparmentShort> = new Page<DeparmentShort>()
   initialFormValues: any;
 
+  covidBoolean: boolean = false;
+
   constructor(private prescriptionService: PrescriptionServiceService,
               private snackBar: SnackbarServiceService,
               private laboratoryService: LaboratoryService,
@@ -102,6 +104,8 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
     this.getLabDoctorDepartments();
     this.initialFormValues = this.referralForm.getRawValue();
     //});
+
+    this.checkCovid()
   }
 
   getLabDoctorDepartments(){
@@ -141,7 +145,7 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
     }*/
 
 
-    
+
   resetElements(): boolean {
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     form.classList.remove('was-validated');
@@ -157,7 +161,7 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
     const url = `/doctor-infirmary-workspace/${this.lbp}`;
     this.router.navigateByUrl(url);
   }
-  
+
   resetElements2(): boolean{
     var form = document.getElementsByClassName('needs-validation')[1] as HTMLFormElement;
     form.classList.remove('was-validated');
@@ -169,7 +173,7 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
 
     return true;
   }
-  
+
   getDoctorDepartment(): void {
     this.userService.getEmployee(this.lbz).subscribe(result => { },
       err => {
@@ -315,10 +319,27 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
 
   getLabAnalysis(): void {
     console.log("dosao do ts");
-    this.laboratoryService.getAnalysis().subscribe(res => {
+    this.laboratoryService.getAnalysis(false).subscribe(res => {
       this.analysisSaBeka = res;
     });
     console.log("prosao ts");
+  }
+
+  checkCovid() {
+    let lbz = localStorage.getItem('LBZ');
+    this.userService.findDepartmentByLbz(lbz!).subscribe(
+      res => {
+        this.userService.getDepartmentDto(res).subscribe(
+          res2 =>{
+            if(res2.name == "Covid"){
+              this.covidBoolean = true;
+            }else{
+              this.covidBoolean = false;
+            }
+          }
+        );
+      }
+    );
   }
 
 

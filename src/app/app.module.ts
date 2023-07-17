@@ -93,6 +93,11 @@ import { DoctorCovidWaitingRoomComponent } from './components/doctor/covid/docto
 import { DoctorCovidStatisticsComponent } from './components/doctor/covid/doctor-covid-statistics/doctor-covid-statistics.component';
 import { DoctorCovidExamComponent } from './components/doctor/covid/doctor-covid-exam/doctor-covid-exam.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NurseVaccineRegularComponent } from './components/nurse/nurse-vaccine-regular/nurse-vaccine-regular.component';
+import { NurseVaccineCovidComponent } from './components/nurse/nurse-vaccine-covid/nurse-vaccine-covid.component';
+import { NurseCovidCertificateComponent } from './components/nurse/covid/nurse-covid-certificate/nurse-covid-certificate.component';
+import { NurseCovidStatsDetailsComponent } from './components/nurse/covid/nurse-covid-stats-details/nurse-covid-stats-details.component';
+import { DoctorCovidStatsDetailsComponent } from './components/doctor/covid/doctor-covid-stats-details/doctor-covid-stats-details.component';
 
 
 @NgModule({
@@ -161,6 +166,11 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     DoctorCovidWaitingRoomComponent,
     DoctorCovidStatisticsComponent,
     DoctorCovidExamComponent,
+    NurseVaccineRegularComponent,
+    NurseVaccineCovidComponent,
+    NurseCovidCertificateComponent,
+    NurseCovidStatsDetailsComponent,
+    DoctorCovidStatsDetailsComponent,
   ],
   imports: [
     BrowserModule,

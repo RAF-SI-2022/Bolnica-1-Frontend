@@ -1,0 +1,68 @@
+<div class="container rounded bg-white mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 border-right">
+      <div class="p-3 py-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h1>Statistika za datum {{date |  date: 'dd.MM.yyyy.' }}</h1>
+        </div>
+
+        <div class="mb-3">
+          <button (click)="navigateBack()" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="nazad">Nazad</button>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <p>Pozitivni: {{positive }}</p>
+          </div>
+        </div>
+
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <p>Negativni: {{negative}}</p>
+          </div>
+        </div>
+
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <p>Hospitalizovani: {{hospitalized}}</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <p>Ventilator: {{ventilator}}</p>
+          </div>
+        </div>
+
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <p>Umrli: {{dead}} </p>
+          </div>
+        </div>
+
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <p>Trenutno? : {{curr}}</p>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-12">
+            <p>Vakcinisani: {{vaccinated}}</p>
+          </div>
+        </div>
+
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <p>Izleceni: {{healed}} </p>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -28,6 +28,7 @@ import {PrescriptionNewDto} from "../../../models/prescription/PrescriptionNewDt
 import {InfirmaryService} from "../../../services/infirmary-service/infirmary.service";
 import {DischargeListDto} from "../../../models/infirmary/DischargeListDto";
 import {HospitalizationDto} from "../../../models/infirmary/HospitalizationDto";
+import {UserService} from "../../../services/user-service/user.service";
 
 
 
@@ -107,8 +108,18 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
   selectedDischargeList: DischargeListDto = new DischargeListDto();
   selectedDischargeListBoolean: boolean = false;
 
-  constructor(private router: Router,private changeDetectorRef: ChangeDetectorRef, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder, private patientService: PatientService, private prescriptionService: PrescriptionServiceService,
-              private route: ActivatedRoute, private labaratoryService: LaboratoryService, private infirmaryService: InfirmaryService) {
+  covidBoolean: boolean = false
+
+  constructor(private router: Router,
+              private changeDetectorRef: ChangeDetectorRef,
+              private snackBar: SnackbarServiceService,
+              private formBuilder: FormBuilder,
+              private patientService: PatientService,
+              private prescriptionService: PrescriptionServiceService,
+              private route: ActivatedRoute,
+              private labaratoryService: LaboratoryService,
+              private infirmaryService: InfirmaryService,
+              private userService: UserService) {
 
     this.currentHospitalization = history.state.hospitalization;
 
@@ -158,12 +169,13 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.checkCovid()
     //nterval(5000).subscribe(() => {
     this.updateData();
 //    });
 
   }
-  
+
 
   updateData(){
     this.prescriptionForm.get('deleteButton')?.disable()
@@ -241,7 +253,7 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
     this.generalForm.get('bloodGroup')?.enable()
     this.generalForm.get('rhFactor')?.enable()
   }
-  
+
 
   gotoone(): void {
     const url = `/doctor-infirmary-workspace/${this.lbp}`;
@@ -305,10 +317,27 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
   }
 
   getVaccine(): void {
-    this.patientService.getVaccine().subscribe(result => {
+    this.patientService.getVaccine(this.covidBoolean).subscribe(result => {
       this.vaccines = result;
       this.changeDetectorRef.detectChanges();
     }, err => { });
+  }
+
+  checkCovid() {
+    let lbz = localStorage.getItem('LBZ');
+    this.userService.findDepartmentByLbz(lbz!).subscribe(
+      res => {
+        this.userService.getDepartmentDto(res).subscribe(
+          res2 =>{
+            if(res2.name == "Covid"){
+              this.covidBoolean = true;
+            }else{
+              this.covidBoolean = false;
+            }
+          }
+        );
+      }
+    );
   }
 
   getDiagnosis(): void {

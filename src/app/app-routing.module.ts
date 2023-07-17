@@ -158,6 +158,15 @@ import {
 import {
   DoctorCovidCreateReferralComponent
 } from "./components/doctor/covid/doctor-covid-create-referral/doctor-covid-create-referral.component";
+import {
+  NurseCovidCertificateComponent
+} from "./components/nurse/covid/nurse-covid-certificate/nurse-covid-certificate.component";
+import {
+  NurseCovidStatsDetailsComponent
+} from "./components/nurse/covid/nurse-covid-stats-details/nurse-covid-stats-details.component";
+import {
+  DoctorCovidStatsDetailsComponent
+} from "./components/doctor/covid/doctor-covid-stats-details/doctor-covid-stats-details.component";
 
 
 const routes: Routes = [
@@ -312,6 +321,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
+    path: "doctor-covid-stats-details",
+    component: DoctorCovidStatsDetailsComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
     path: "doctor-covid-create-referral/:lbp",
     component: DoctorCovidCreateReferralComponent,
     canActivate: [AuthGuard, DoctorGuard]
@@ -403,6 +417,16 @@ const routes: Routes = [
   {
     path: "nurse-covid-statistics",
     component: NurseCovidStatisticsComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-covid-stats-details",
+    component: NurseCovidStatsDetailsComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-covid-certificate",
+    component: NurseCovidCertificateComponent,
     canActivate: [AuthGuard, NurseGuard]
   },
 

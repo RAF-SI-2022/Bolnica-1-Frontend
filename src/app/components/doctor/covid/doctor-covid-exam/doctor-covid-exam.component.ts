@@ -10,6 +10,9 @@ import {AuthService} from "../../../../services/auth.service";
 import {SnackbarServiceService} from "../../../../services/snackbar-service.service";
 import {CovidExamDto} from "../../../../models/covid/CovidExamDto";
 import {PatientService} from "../../../../services/patient-service/patient.service";
+import {GeneralMedicalData} from "../../../../models/patient/GeneralMedicalData";
+import {Vaccination} from "../../../../models/patient/Vaccination";
+import {Allergy} from "../../../../models/patient/Allergy";
 
 
 @Component({
@@ -31,7 +34,11 @@ export class DoctorCovidExamComponent  implements OnInit {
   examId: number = 0;
   initialFormValues: any;
 
-  currentCovidExam: CovidExamDto;
+  generalMedical: GeneralMedicalData;
+  vaccinationsList: Vaccination[] = [];
+  allergiesList: Allergy[] = [];
+
+  currentCovidExam: ExamForPatient;
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
@@ -42,7 +49,7 @@ export class DoctorCovidExamComponent  implements OnInit {
               private snackBar: SnackbarServiceService,
               private patientService: PatientService) {
 
-    this.currentCovidExam = history.state.covidExam;
+    this.currentCovidExam = history.state.patient;
 
     this.examForm = this.formBuilder.group({
       symptoms: ['', [Validators.required]],
@@ -54,6 +61,14 @@ export class DoctorCovidExamComponent  implements OnInit {
       therapy: ['', [Validators.required]],
     });
 
+    this.generalMedical = {
+      id: 0,
+      bloodType: '',
+      rh: '',
+      vaccinationDtos: [],
+      allergyDtos: []
+    };
+
   }
 
   ngOnInit(): void {
@@ -64,6 +79,22 @@ export class DoctorCovidExamComponent  implements OnInit {
     this.updateData();
     this.initialFormValues = this.examForm.getRawValue();
 
+    this.getGeneralMedicalData(this.patientLBP);
+
+  }
+
+  getGeneralMedicalData(lbp: string): void {
+    this.patientService.getGeneralMedicalDataByLbp(lbp).subscribe(result => {
+      if (!result) {
+        this.generalMedical.vaccinationDtos = []
+        this.generalMedical.allergyDtos = []
+
+      } else {
+        this.generalMedical = result
+        this.vaccinationsList = result.vaccinationDtos
+        this.allergiesList = result.allergyDtos
+      }
+    })
   }
 
   updateData() {
@@ -91,11 +122,12 @@ export class DoctorCovidExamComponent  implements OnInit {
 
     const sendData = this.examForm.value;
 
-    this.covidService.createCovidExaminationSummary(
-      this.examId,
-      this.patientLBP,
+    this.patientService.createCovidExaminationHistory(
       new Date(),
       this.lbz,
+      this.generalMedical.id,
+      this.patientLBP,
+
       sendData.symptoms,
       sendData.duration,
       sendData.bodyTemperature,
@@ -103,9 +135,8 @@ export class DoctorCovidExamComponent  implements OnInit {
       sendData.saturation,
       sendData.lungCondition,
       sendData.therapy
+
     ).subscribe(res=>{
-
-
 
       this.examForm.reset();
 
@@ -124,15 +155,12 @@ export class DoctorCovidExamComponent  implements OnInit {
 
       });
 
-      this.examForm.get('gender')?.reset();
-
       form.classList.remove('was-validated');
-
 
       this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
 
     },err => {
-      this.snackBar.openErrorSnackBar("NIje sacuvano!")
+      this.snackBar.openErrorSnackBar("Nije sacuvano!")
     })
 
 
@@ -154,6 +182,11 @@ export class DoctorCovidExamComponent  implements OnInit {
     console.log(this.patientLBP);
     this.saveFormData();
     this.router.navigate(['doctor-covid-create-referral', this.patientLBP]);
+  }
+
+  goToMedicalRecord(): void {
+    this.saveFormData();
+    this.router.navigate(['doctor-medical-chart', this.patientLBP]);
   }
 
   goToScheduleExam(): void {
