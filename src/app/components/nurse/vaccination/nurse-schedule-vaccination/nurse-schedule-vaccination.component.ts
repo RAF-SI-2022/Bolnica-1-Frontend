@@ -4,7 +4,7 @@ import {
   EventClickArgs,
   EventSettingsModel,
   PopupOpenEventArgs,
-  ScheduleComponent,
+  ScheduleComponent, TimeScaleModel,
   View
 } from '@syncfusion/ej2-angular-schedule';
 import {L10n} from "@syncfusion/ej2-base";
@@ -59,6 +59,14 @@ export class NurseScheduleVaccinationComponent implements OnInit {
         validation: { required: true }
       }
     }
+  };
+
+  public timeScale: TimeScaleModel = {
+    enable: true,
+    interval: 60,
+    slotCount: 4,
+    majorSlotTemplate: '#majorSlotTemplate',
+    minorSlotTemplate: '#minorSlotTemplate'
   };
 
   subject: string = '';
