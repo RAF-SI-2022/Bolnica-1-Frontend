@@ -73,9 +73,18 @@
             <td>{{p.labAnalysis.abbreviation}}</td>
             <td>{{p.parameter.id}}</td>
             <td>{{p.parameter.parameterName}}</td>
-            <td *ngIf="!obradjen">
+            <td *ngIf="!obradjen && !covidBoolean">
               <input [(ngModel)]="p.result" name="rezultat{{i}}" type="text" class="form-control" data-cy="rezultat">
             </td>
+
+            <td *ngIf="!obradjen && covidBoolean">
+              <select [(ngModel)]="p.result" name="rezultat{{i}}" class="form-control" data-cy="rezultatKovid">
+                <option value="POZITIVAN">Pozitivan</option>
+                <option value="NEGATIVAN">Negativan</option>
+              </select>
+
+            </td>
+
             <td *ngIf="obradjen">
               {{p.result}}
             </td>

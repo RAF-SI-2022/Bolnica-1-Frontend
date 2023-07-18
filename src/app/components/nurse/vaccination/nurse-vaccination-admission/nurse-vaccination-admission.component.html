@@ -43,7 +43,7 @@
             </div>
             <div class="col-md-6"><h4 style="font-weight: bold;">Vakcine</h4>
               <ul *ngIf="vaccinationsList.length > 0">
-                <li *ngFor="let item of vaccinationsList">{{item.name}}</li>
+                <li *ngFor="let item of vaccinationsList">{{item.name}} : {{item.vaccinationDate | date: 'dd.MM.yyyy.' }}</li>
               </ul>
               <p *ngIf="vaccinationsList.length === 0">Nema vakcinacija</p>
             </div>
@@ -51,9 +51,15 @@
           </div>
 
 
+          <div  class="col-md-6 mt-4">
+            <div class="col-md-6"><h4 style="font-weight: bold;">Vakcina koja se daje:</h4>
+              <label class="label">{{vaccinationName}}</label>
+            </div>
+          </div>
+
           <div *ngIf="!zavrseno" class="col-md-6 mt-4">
             <button (click)="finishVaccination()"
-                    class="btn btn-danger" > Gotova vakcinacija</button>
+                    class="btn btn-danger" >Sacuvaj vakcinu</button>
           </div>
 
 

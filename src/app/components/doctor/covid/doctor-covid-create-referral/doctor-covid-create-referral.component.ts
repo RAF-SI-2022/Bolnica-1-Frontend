@@ -519,12 +519,14 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
   }
 
   getLabAnalysisCovid(): void {
-    console.log("dosao do ts");
+    console.log("dosao do ts kovid");
     this.laboratoryService.getAnalysis(true).subscribe(res => {
       this.analysisSaBekaCovid = res;
       console.log(this.analysisSaBekaCovid)
     });
-    console.log("prosao ts");
+    console.log("prosao ts kovid");
+
+    console.log(this.analysisSaBekaCovid)
   }
 
   checkCovid() {

@@ -20,8 +20,16 @@ import {
 import * as uuid from 'uuid';
 import { LoginResponse } from "../../models/LoginResponse";
 import { ResetPasswordResponse } from "../../models/ResetPasswordResponse";
-import { environment } from 'src/environments/environment';
+import {environment, environmentPatient} from 'src/environments/environment';
 import { map } from 'rxjs/operators';
+import {CovidExaminationHistoryDto} from "../../models/covid/CovidExaminationHistoryDto";
+import {CovidExaminationHistoryCreateDto} from "../../models/covid/CovidExaminationHistoryCreateDto";
+import {ShiftDto} from "../../models/shifts/ShiftDto";
+import {ShiftCreateDto} from "../../models/shifts/ShiftCreateDto";
+import {AllShiftsDto} from "../../models/shifts/AllShiftsDto";
+import {ShiftScheduleDto} from "../../models/shifts/ShiftScheduleDto";
+import {ShiftScheduleCreateDto} from "../../models/shifts/ShiftScheduleCreateDto";
+import {ScheduledVaccinationDto} from "../../models/vaccination/ScheduledVaccinationDto";
 
 @Injectable({
   providedIn: 'root'
@@ -369,6 +377,116 @@ export class UserService {
   public getDepartmentDto(id: Number): Observable<DeparmentShort>{
     return this.http.get<DeparmentShort>(`${environment.apiURL}/department/id/${id}`, { headers: this.getHeaders() });
   }
+
+
+  /**
+   * SMENE
+   * */
+
+  public addShift(
+    shift: number,
+    startTime: string,
+    endTime: string,
+
+  ): Observable<ShiftDto> {
+
+    const obj: ShiftCreateDto  = {
+      shift: shift,
+      startTime: startTime,
+      endTime: endTime
+    }
+
+    return this.http.post<ShiftDto>(`${environment.apiURL}/shift`, obj,
+      {headers: this.getHeaders()});
+
+  }
+
+  public getShift(
+    num: number,
+  ): Observable<ShiftDto> {
+
+    let httpParams = new HttpParams()
+      .append("num",num);
+
+    return this.http.get<ShiftDto>(`${environment.apiURL}/shift`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
+
+  public getAllShift(): Observable<AllShiftsDto> {
+    return this.http.get<AllShiftsDto>(`${environment.apiURL}/shift/all`,
+      {headers:this.getHeaders()}
+    );
+  }
+
+  public addShiftSchedule(
+    lbz: string,
+    shiftId: number,
+    date: Date
+  ): Observable<ShiftScheduleDto> {
+
+    const obj: ShiftScheduleCreateDto   = {
+      lbz: lbz,
+      shiftId: shiftId,
+      date: date
+    }
+
+    return this.http.post<ShiftScheduleDto>(`${environment.apiURL}/shift/schedule`,
+      obj, {headers: this.getHeaders()});
+
+  }
+
+  public removeShiftSchedule(
+    id: number
+  ): Observable<HttpStatusCode>{
+
+    return this.http.delete<HttpStatusCode>(`${environment.apiURL}/shift/${id}`,
+      { headers: this.getHeaders() })
+  }
+
+
+  public getAllShiftSchedule(
+    startDate: Date,
+    endDate: Date,
+    page: number,
+    size: number
+
+  ): Observable<Page<ShiftScheduleDto>> {
+
+    let httpParams = new HttpParams()
+      .append("startDate", startDate.toISOString().slice(0,10))
+      .append("endDate", endDate.toISOString().slice(0,10))
+      .append("page", page)
+      .append("size",size)
+
+    return this.http.get<Page<ShiftScheduleDto>>(
+      `${environment.apiURL}/shift/schedule/all`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
+
+
+  public getShiftSchedule(
+    id: number,
+    startDate: Date,
+    endDate: Date,
+    page: number,
+    size: number
+
+  ): Observable<Page<ShiftScheduleDto>> {
+
+    let httpParams = new HttpParams()
+      .append("startDate", startDate.toISOString().slice(0,10))
+      .append("endDate", endDate.toISOString().slice(0,10))
+      .append("page", page)
+      .append("size",size)
+
+    return this.http.get<Page<ShiftScheduleDto>>(
+      `${environment.apiURL}/shift/schedule/${id}`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
+
 
 
 }

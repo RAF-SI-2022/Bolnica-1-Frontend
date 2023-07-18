@@ -252,8 +252,8 @@ export class InfirmaryService {
 
     let httpParams = new HttpParams()
       .append("hospitalizationId", hospitalizationId)
-      .append("startDate", startDate.toString())
-      .append("endDate",endDate.toString())
+      .append("startDate", startDate.toISOString().slice(0,10))
+      .append("endDate", endDate.toISOString().slice(0,10))
       .append("lbp", lbp)
       .append("page", page)
       .append("size",size)
@@ -276,8 +276,8 @@ export class InfirmaryService {
   ): Observable<Page<DischargeListDto>>{
 
     let httpParams = new HttpParams()
-      .append("startDate", startDate.toString())
-      .append("endDate",endDate.toString())
+      .append("startDate", startDate.toISOString().slice(0,10))
+      .append("endDate", endDate.toISOString().slice(0,10))
       .append("lbp", lbp)
       .append("page", page)
       .append("size",size)

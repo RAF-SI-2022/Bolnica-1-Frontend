@@ -260,7 +260,8 @@ export class PatientService {
     let httpParams = new HttpParams()
       .append("lbp",lbp)
 
-    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/record/vaccine/${lbp}`, obj, {params: httpParams, headers:this.getHeaders()});
+    return this.http.post<HttpStatusCode>(`${environmentPatient.apiURL}/record/vaccine/${lbp}`, obj,
+      {params: httpParams, headers:this.getHeaders()});
   }
 
   getAllergy(): Observable<Allergy[]>{
@@ -776,7 +777,7 @@ export class PatientService {
     }
 
     return this.http.post<ScheduledVaccinationDto>(
-      `${environmentPatient.apiURL}/patient/scheduleVaccination/${lbp}`, obj,
+      `${environmentPatient.apiURL}/patient/scheduleVaccination`, obj,
       {headers: this.getHeaders()});
 
   }

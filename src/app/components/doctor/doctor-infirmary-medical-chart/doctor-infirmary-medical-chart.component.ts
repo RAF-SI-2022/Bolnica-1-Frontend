@@ -123,6 +123,9 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
 
     this.currentHospitalization = history.state.hospitalization;
 
+    const now = new Date();
+    const before = new Date(0);
+
     this.generalMedical = {
       id: 0,
       bloodType: '',
@@ -156,11 +159,10 @@ export class DoctorInfirmaryMedicalChartComponent implements OnInit {
       deleteButton: '',
     })
     this.historyForm = this.formBuilder.group({
-      dateFromHistory: '',
-      dateToHistory: '',
+      dateFromHistory: [before.toISOString().slice(0,10), [Validators.required]],
+      dateToHistory: [now.toISOString().slice(0,10), [Validators.required]],
     })
-    const now = new Date();
-    const before = new Date(0);
+
 
     this.labaratoryForm = this.formBuilder.group({
       dateFrom: [before.toISOString().slice(0,10), [Validators.required]],

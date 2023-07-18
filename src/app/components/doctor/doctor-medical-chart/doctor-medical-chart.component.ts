@@ -284,6 +284,9 @@ export class DoctorMedicalChartComponent implements OnInit {
       }
       this.changeDetectorRef.detectChanges();
 
+      console.log("alergije")
+      console.log(this.allergiesList)
+
     })
   }
 
