@@ -3,13 +3,14 @@
     <div class="col-md-8 border-right">
       <div class="p-3 py-5">
 
+        <div class="mb-3">
+          <button (click)="navigateBack()" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="nazad">Nazad</button>
+        </div>
+
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h1>Statistika za datum {{date |  date: 'dd.MM.yyyy.' }}</h1>
         </div>
 
-        <div class="mb-3">
-          <button (click)="navigateBack()" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="nazad">Nazad</button>
-        </div>
 
         <div class="row">
           <div class="col-md-12">
@@ -41,11 +42,6 @@
           </div>
         </div>
 
-        <div class="row mt-1">
-          <div class="col-md-12">
-            <p>Trenutno? : {{curr}}</p>
-          </div>
-        </div>
 
 
         <div class="row">
@@ -60,9 +56,45 @@
           </div>
         </div>
 
-
+        <div class="charts-container">
+          <h2>Grafovski prikaz</h2>
+          <h4>Sva statistika - podaci</h4>
+          <ngx-charts-bar-vertical
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="single"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel">
+          </ngx-charts-bar-vertical>
+          <h4>Odnos pozitivnih i negativnih pacijenata</h4>
+          <ngx-charts-pie-chart
+            [results]="testedPieChartData"
+            [legend]="showLegend"
+            [scheme]="colorScheme"
+            [view]="pieChartDimensions"> >
+          </ngx-charts-pie-chart>
+          <h4>Hospitalizovani, izleceni, na respiratoru, umrli</h4>
+          <ngx-charts-bar-horizontal
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="barChartSingle"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+          >
+          </ngx-charts-bar-horizontal>
+        </div>
 
       </div>
     </div>
   </div>
 </div>
+
+

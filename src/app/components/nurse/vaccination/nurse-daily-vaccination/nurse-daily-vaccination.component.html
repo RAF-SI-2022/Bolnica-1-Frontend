@@ -48,8 +48,9 @@
             <span class="badge" [ngClass]="getStatusClass(vaccine.arrivalStatus)">{{ vaccine.arrivalStatus }}</span>
           </td>
 
-          <td ><button *ngIf="vaccine.arrivalStatus.toString() != 'ZAVRSENO' ||
-           vaccine.arrivalStatus.toString() != 'OTKAZANO'" (click)="startVaccination(vaccine)"
+          <td ><button  *ngIf="vaccine.arrivalStatus.toString() === 'ZAKAZANO' ||
+                        vaccine.arrivalStatus.toString() === 'TRENUTNO'"
+                        (click)="startVaccination(vaccine)"
                        class="btn btn-primary" >Zapocni</button></td>
         </tr>
         </tbody>

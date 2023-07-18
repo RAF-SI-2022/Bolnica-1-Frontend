@@ -24,7 +24,6 @@ export class NurseCovidStatisticsComponent  implements OnInit {
   statsList: CovidSummed[] = [];
   total = 0;
 
-
   positive: number = 0;
   negative: number = 0;
   hospitalized: number = 0;
@@ -33,8 +32,6 @@ export class NurseCovidStatisticsComponent  implements OnInit {
   curr: number = 0;
   vaccinated: number = 0;
   healed: number=0;
-
-
 
   numberOfTestedPatients : number;
   numberOfHospitalizedPatients : number;
@@ -62,6 +59,8 @@ export class NurseCovidStatisticsComponent  implements OnInit {
 
   colorScheme = 'vivid';
 
+
+
   constructor(private router: Router,
               private covidService: CovidServiceService,
               private snackBar: SnackbarServiceService,
@@ -78,6 +77,7 @@ export class NurseCovidStatisticsComponent  implements OnInit {
       ageCategory: ['0', [Validators.required]]
     });
 
+
     this.numberOfTestedPatients = 43;
     this.numberOfHospitalizedPatients = 1200;
     this.numberOfPositivePatients = 20;
@@ -86,59 +86,61 @@ export class NurseCovidStatisticsComponent  implements OnInit {
     this.numberOfDeadPatients = 40;
 
     this.single = [
-        {
-          "name": "Broj testiranih",
-          "value": this.numberOfTestedPatients
-        },
-        {
-          "name": "Broj hospitalizovanih",
-          "value": this.numberOfHospitalizedPatients
-        },
-        {
-          "name": "Broj pozitivnih",
-          "value": this.numberOfPositivePatients
-        },
-        {
-          "name": "Broj izlečenih",
-          "value": this.numberOfCuredPatients
-        },
-        {
-          "name": "Broj na respiratoru",
-          "value": this.numberOfPatientsOnRespirator
-        },
-        {
-          "name": "Broj umrlih",
-          "value": this.numberOfDeadPatients
-        }
-      ];
-      this.testedPieChartData = [
-        {
-          name: "Pozitivni pacijenti",
-          value: this.numberOfPositivePatients
-        },
-        {
-          name: "Negativni pacijenti",
-          value: this.numberOfTestedPatients - this.numberOfPositivePatients
-        }
-      ];
-      this.barChartSingle = [
-        {
-          "name": "Broj hospitalizovanih",
-          "value": this.numberOfHospitalizedPatients
-        },
-        {
-          "name": "Broj izlečenih",
-          "value": this.numberOfCuredPatients
-        },
-        {
-          "name": "Broj na respiratoru",
-          "value": this.numberOfPatientsOnRespirator
-        },
-        {
-          "name": "Broj umrlih",
-          "value": this.numberOfDeadPatients
-        }
-      ];
+      {
+        "name": "Broj testiranih",
+        "value": this.numberOfTestedPatients
+      },
+      {
+        "name": "Broj hospitalizovanih",
+        "value": this.numberOfHospitalizedPatients
+      },
+      {
+        "name": "Broj pozitivnih",
+        "value": this.numberOfPositivePatients
+      },
+      {
+        "name": "Broj izlečenih",
+        "value": this.numberOfCuredPatients
+      },
+      {
+        "name": "Broj na respiratoru",
+        "value": this.numberOfPatientsOnRespirator
+      },
+      {
+        "name": "Broj umrlih",
+        "value": this.numberOfDeadPatients
+      }
+    ];
+
+    this.testedPieChartData = [
+      {
+        name: "Pozitivni pacijenti",
+        value: this.numberOfPositivePatients
+      },
+      {
+        name: "Negativni pacijenti",
+        value: this.numberOfTestedPatients - this.numberOfPositivePatients
+      }
+    ];
+    this.barChartSingle = [
+      {
+        "name": "Broj hospitalizovanih",
+        "value": this.numberOfHospitalizedPatients
+      },
+      {
+        "name": "Broj izlečenih",
+        "value": this.numberOfCuredPatients
+      },
+      {
+        "name": "Broj na respiratoru",
+        "value": this.numberOfPatientsOnRespirator
+      },
+      {
+        "name": "Broj umrlih",
+        "value": this.numberOfDeadPatients
+      }
+    ];
+
   }
 
 
@@ -155,13 +157,12 @@ export class NurseCovidStatisticsComponent  implements OnInit {
       workOrder.gender, workOrder.ageCategory)
       .subscribe((response) => {
 
-
-      this.statsPage = response.list;
-      this.statsList = this.statsPage.content;
-      this.total = this.statsPage.totalElements
-      if(this.statsList.length == 0){
-        this.snackBar.openWarningSnackBar("Nema statistike za te filtere")
-      }
+        this.statsPage = response.list;
+        this.statsList = this.statsPage.content;
+        this.total = this.statsPage.totalElements
+        if(this.statsList.length == 0){
+          this.snackBar.openWarningSnackBar("Nema statistike za te filtere")
+        }
 
         this.positive = response.covidSummed.positive;
         this.negative = response.covidSummed.negative;
@@ -172,9 +173,11 @@ export class NurseCovidStatisticsComponent  implements OnInit {
         this.vaccinated = response.covidSummed.vaccinated;
         this.healed = response.covidSummed.healed;
 
-    }, err => {
-      this.snackBar.openErrorSnackBar("Greska")
-    });
+        // this.fillData();
+
+      }, err => {
+        this.snackBar.openErrorSnackBar("Greska")
+      });
   }
 
   navigateToDetails(stat: CovidSummed): void {
@@ -187,6 +190,70 @@ export class NurseCovidStatisticsComponent  implements OnInit {
     this.getCovidStats();
   }
 
+  fillData(): void{
 
+    this.single = [
+      {
+        "name": "Broj testiranih",
+        "value": this.positive + this.negative
+      },
+
+      {
+        "name": "Broj pozitivnih",
+        "value": this.positive
+      },
+      {
+        "name": "Broj hospitalizovanih",
+        "value": this.hospitalized
+      },
+      {
+        "name": "Broj na respiratoru",
+        "value": this.ventilator
+      },
+      {
+        "name": "Broj umrlih",
+        "value": this.dead
+      },
+      {
+        "name": "Broj vakcinisanih",
+        "value": this.vaccinated
+      },
+      {
+        "name": "Broj izlecenih",
+        "value": this.healed
+      },
+    ];
+
+    this.testedPieChartData = [
+      {
+        name: "Pozitivni pacijenti",
+        value: this.positive
+      },
+      {
+        name: "Negativni pacijenti",
+        value: this.negative
+      }
+    ];
+
+    this.barChartSingle = [
+      {
+        "name": "Broj hospitalizovanih",
+        "value": this.hospitalized
+      },
+      {
+        "name": "Broj izlečenih",
+        "value": this.healed
+      },
+      {
+        "name": "Broj na respiratoru",
+        "value": this.ventilator
+      },
+      {
+        "name": "Broj umrlih",
+        "value": this.dead
+      }
+    ];
+
+  }
 
 }

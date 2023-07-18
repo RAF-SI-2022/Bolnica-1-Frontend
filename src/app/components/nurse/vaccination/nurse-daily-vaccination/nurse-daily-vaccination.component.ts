@@ -98,6 +98,11 @@ export class NurseDailyVaccinationComponent implements OnInit{
       if (this.scheduledVaccinationList.length == 0) {
         this.snackBar.openWarningSnackBar("Nema zakazanih vakcinacija")
       }
+
+      this.scheduledVaccinationList.sort((a, b) => {
+        return new Date(a.dateAndTime).getTime() - new Date(b.dateAndTime).getTime();
+      });
+
     }, err => {
       this.snackBar.openErrorSnackBar("Greska")
     }
@@ -110,12 +115,13 @@ export class NurseDailyVaccinationComponent implements OnInit{
 
     console.log("id workspace " + vaccine.id)
 
-    this.examinationService.updatePatientStatus(vaccine.id, PatientArrival.TRENUTNO)
+    this.patientService.updateScheduledVaccination(vaccine.id, PatientArrival.TRENUTNO)
       .subscribe(res => {
       const url = `/nurse-vaccination-admission/${vaccine.id}`;
       this.router.navigateByUrl(url, { state: { vaccine } });
 
     });
+
 
   }
 

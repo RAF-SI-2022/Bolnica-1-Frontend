@@ -1,89 +1,3 @@
-
-<div class="container rounded bg-white mt-5 mb-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8 border-right">
-      <div class="p-3 py-5">
-
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h1>Statistika</h1>
-        </div>
-
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h4>Dnevni izveštaj: {{todayDate |  date: 'dd.MM.yyyy.' }}</h4>
-        </div>
-
-        <div class="row">
-          <div class="col-md-12">
-            <p>Broj testiranih: {{numberOfTestedPatients}}</p>
-          </div>
-        </div>
-        <div class="row mt-1">
-          <div class="col-md-12">
-            <p>Broj hospitalizovanih: {{numberOfHospitalizedPatients}}</p>
-          </div>
-        </div>
-        <div class="row mt-1">
-          <div class="col-md-12">
-            <p>Broj pozitivnih: {{numberOfPositivePatients}}</p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-12">
-            <p>Broj izlečenih: {{numberOfCuredPatients}}</p>
-          </div>
-        </div>
-        <div class="row mt-1">
-          <div class="col-md-12">
-            <p>Broj na respiratoru: {{numberOfPatientsOnRespirator}} </p>
-          </div>
-        </div>
-        <div class="row mt-1">
-          <div class="col-md-12">
-            <p>Broj umrlih: {{numberOfDeadPatients}}</p>
-          </div>
-        </div>
-        <div class="charts-container">
-          <h2>Grafovski prikaz</h2>
-          <h4>Sva statistika - podaci</h4>
-          <ngx-charts-bar-vertical
-            [view]="view"
-            [scheme]="colorScheme"
-            [results]="single"
-            [gradient]="gradient"
-            [xAxis]="showXAxis"
-            [yAxis]="showYAxis"
-            [legend]="showLegend"
-            [showXAxisLabel]="showXAxisLabel"
-            [showYAxisLabel]="showYAxisLabel"
-            [xAxisLabel]="xAxisLabel"
-            [yAxisLabel]="yAxisLabel">
-          </ngx-charts-bar-vertical>
-          <h4>Odnos pozitivnih i negativnih pacijenata</h4>
-          <ngx-charts-pie-chart
-            [results]="testedPieChartData"
-            [legend]="showLegend"
-            [scheme]="colorScheme"
-            [view]="pieChartDimensions"> >
-          </ngx-charts-pie-chart>
-          <h4>Hospatalizovani,na respiratoru, izleceni, umrli</h4>
-          <ngx-charts-bar-horizontal
-            [view]="view"
-            [scheme]="colorScheme"
-            [results]="barChartSingle"
-            [gradient]="gradient"
-            [xAxis]="showXAxis"
-            [yAxis]="showYAxis"
-            [legend]="showLegend"
-          >
-          </ngx-charts-bar-horizontal>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
 <h1>NOVO EMA</h1>
 
 <form [formGroup]="form" class="mb-5 needs-validation" novalidate>
@@ -95,16 +9,16 @@
 
       <div class="col-md-4 offset-2">
         <label class="labels">Od datuma</label>
-        <input [formControlName]="'dateFrom'" name="dateFrom" type="date" class="form-control" data-cy="dateFrom">
+        <input [formControlName]="'from'" name="dateFrom" type="date" class="form-control" data-cy="dateFrom">
       </div>
       <div class="col-md-4">
         <label class="labels">Do datuma</label>
-        <input [formControlName]="'dateTo'" type="date" class="form-control" data-cy="dateTo">
+        <input [formControlName]="'to'" type="date" class="form-control" data-cy="dateTo">
       </div>
 
       <div class="col-md-4 offset-2">
         <label class="labels">Pol</label>
-        <select [formControlName]="'selectedStatus'" class="form-control">
+        <select [formControlName]="'gender'" class="form-control">
           <option value="SVI">Svi</option>
           <option value="MUSKI">MUSKI</option>
           <option value="ZENSKI">ZENSKI</option>
@@ -113,13 +27,11 @@
 
       <div class="col-md-4">
         <label class="labels">Starost</label>
-        <select [formControlName]="'selectedStatus'" class="form-control">
+        <select [formControlName]="'ageCategory'" class="form-control">
           <option value="0">Svi</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="20">20</option>
+          <option value="1">Do 20 godina</option>
+          <option value="2">Od 20 do 65 godina</option>
+          <option value="3">Preko 65 godina</option>
         </select>
       </div>
 
@@ -177,4 +89,117 @@
     </div>
   </div>
 </form>
+
+
+<div class="container rounded bg-white mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 border-right">
+      <div class="p-3 py-5">
+
+        <div class="text-center mb-3">
+          <h2>Rezultati pretrage</h2>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <p>Pozitivni: {{positive }}</p>
+          </div>
+        </div>
+
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <p>Negativni: {{negative}}</p>
+          </div>
+        </div>
+
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <p>Hospitalizovani: {{hospitalized}}</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <p>Ventilator: {{ventilator}}</p>
+          </div>
+        </div>
+
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <p>Umrli: {{dead}} </p>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-12">
+            <p>Vakcinisani: {{vaccinated}}</p>
+          </div>
+        </div>
+
+        <div class="row mt-1">
+          <div class="col-md-12">
+            <p>Izleceni: {{healed}} </p>
+          </div>
+        </div>
+
+        <div class="charts-container">
+          <h2>Grafovski prikaz</h2>
+          <h4>Sva statistika - podaci</h4>
+          <ngx-charts-bar-vertical
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="single"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel">
+          </ngx-charts-bar-vertical>
+          <h4>Odnos pozitivnih i negativnih pacijenata</h4>
+          <ngx-charts-pie-chart
+            [results]="testedPieChartData"
+            [legend]="showLegend"
+            [scheme]="colorScheme"
+            [view]="pieChartDimensions"> >
+          </ngx-charts-pie-chart>
+          <h4>Hospitalizovani, izleceni, na respiratoru, umrli</h4>
+          <ngx-charts-bar-horizontal
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="barChartSingle"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+          >
+          </ngx-charts-bar-horizontal>
+
+
+          <ngx-charts-pie-chart
+            [results]="[
+              {
+                name: 'Vakcinisani pacijenti',
+                value: vaccinated
+              },
+              {
+                name: 'Izlečeni pacijenti',
+                value: healed
+              }
+            ]"
+            [legend]="showLegend"
+            [scheme]="colorScheme"
+            [view]="pieChartDimensions"
+          >
+          </ngx-charts-pie-chart>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
 

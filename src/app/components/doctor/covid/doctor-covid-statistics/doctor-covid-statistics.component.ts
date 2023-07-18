@@ -14,13 +14,13 @@ import {PatientService} from "../../../../services/patient-service/patient.servi
   styleUrls: ['./doctor-covid-statistics.component.css']
 })
 export class DoctorCovidStatisticsComponent  implements OnInit {
+
   form: FormGroup;
   page = 0;
   pageSize = 5;
   statsPage: Page<CovidSummed> = new Page<CovidSummed>();
   statsList: CovidSummed[] = [];
   total = 0;
-
 
   positive: number = 0;
   negative: number = 0;
@@ -30,8 +30,6 @@ export class DoctorCovidStatisticsComponent  implements OnInit {
   curr: number = 0;
   vaccinated: number = 0;
   healed: number=0;
-
-
 
   numberOfTestedPatients : number;
   numberOfHospitalizedPatients : number;
@@ -59,6 +57,8 @@ export class DoctorCovidStatisticsComponent  implements OnInit {
 
   colorScheme = 'vivid';
 
+
+
   constructor(private router: Router,
               private covidService: CovidServiceService,
               private snackBar: SnackbarServiceService,
@@ -74,6 +74,7 @@ export class DoctorCovidStatisticsComponent  implements OnInit {
       gender: ['SVI', [Validators.required]],
       ageCategory: ['0', [Validators.required]]
     });
+
 
     this.numberOfTestedPatients = 43;
     this.numberOfHospitalizedPatients = 1200;
@@ -108,6 +109,7 @@ export class DoctorCovidStatisticsComponent  implements OnInit {
         "value": this.numberOfDeadPatients
       }
     ];
+
     this.testedPieChartData = [
       {
         name: "Pozitivni pacijenti",
@@ -136,6 +138,7 @@ export class DoctorCovidStatisticsComponent  implements OnInit {
         "value": this.numberOfDeadPatients
       }
     ];
+
   }
 
 
@@ -151,7 +154,6 @@ export class DoctorCovidStatisticsComponent  implements OnInit {
       this.page, this.pageSize, workOrder.from, workOrder.to,
       workOrder.gender, workOrder.ageCategory)
       .subscribe((response) => {
-
 
         this.statsPage = response.list;
         this.statsList = this.statsPage.content;
@@ -169,6 +171,8 @@ export class DoctorCovidStatisticsComponent  implements OnInit {
         this.vaccinated = response.covidSummed.vaccinated;
         this.healed = response.covidSummed.healed;
 
+        // this.fillData();
+
       }, err => {
         this.snackBar.openErrorSnackBar("Greska")
       });
@@ -184,6 +188,71 @@ export class DoctorCovidStatisticsComponent  implements OnInit {
     this.getCovidStats();
   }
 
+  fillData(): void{
 
+    this.single = [
+      {
+        "name": "Broj testiranih",
+        "value": this.positive + this.negative
+      },
+
+      {
+        "name": "Broj pozitivnih",
+        "value": this.positive
+      },
+      {
+        "name": "Broj hospitalizovanih",
+        "value": this.hospitalized
+      },
+      {
+        "name": "Broj na respiratoru",
+        "value": this.ventilator
+      },
+      {
+        "name": "Broj umrlih",
+        "value": this.dead
+      },
+      {
+        "name": "Broj vakcinisanih",
+        "value": this.vaccinated
+      },
+      {
+        "name": "Broj izlecenih",
+        "value": this.healed
+      },
+    ];
+
+    this.testedPieChartData = [
+      {
+        name: "Pozitivni pacijenti",
+        value: this.positive
+      },
+      {
+        name: "Negativni pacijenti",
+        value: this.negative
+      }
+    ];
+
+    this.barChartSingle = [
+      {
+        "name": "Broj hospitalizovanih",
+        "value": this.hospitalized
+      },
+      {
+        "name": "Broj izlečenih",
+        "value": this.healed
+      },
+      {
+        "name": "Broj na respiratoru",
+        "value": this.ventilator
+      },
+      {
+        "name": "Broj umrlih",
+        "value": this.dead
+      }
+    ];
+
+  }
 
 }
+

@@ -1,0 +1,17 @@
+ul.no-bullets {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ngx-charts .legend-labels {
+  width: 500px !important;
+}
+
+.charts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+}
+

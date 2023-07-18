@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormBuilder} from "@angular/forms";
 import {Patient} from "../../../../models/patient/Patient";
 import {Anamnesis, AnamnesisDto} from "../../../../models/patient/Anamnesis";
@@ -15,6 +15,7 @@ import {SharedService} from "../../../../services/shared.service";
 import {ExaminationService} from "../../../../services/examination-service/examination.service";
 import {PatientArrival} from "../../../../models/laboratory-enums/PatientArrival";
 import {ScheduledVaccinationDto} from "../../../../models/vaccination/ScheduledVaccinationDto";
+import {switchMap} from "rxjs";
 
 @Component({
   selector: 'app-nurse-vaccination-admission',
@@ -47,6 +48,7 @@ export class NurseVaccinationAdmissionComponent implements OnInit{
 
   zavrseno: boolean = false;
 
+  vaccinationName: string = '';
 
   isPopupVisible = false;
   errorMessage: string = "";
@@ -59,7 +61,8 @@ export class NurseVaccinationAdmissionComponent implements OnInit{
               private router: Router,
               private route: ActivatedRoute,
               private sharedService: SharedService,
-              private examinationService:ExaminationService) {
+              private examinationService:ExaminationService,
+              private changeDetectorRef: ChangeDetectorRef,) {
     this.generalMedical = {
       id: 0,
       bloodType: '',
@@ -75,6 +78,8 @@ export class NurseVaccinationAdmissionComponent implements OnInit{
   ngOnInit(): void {
     let id = <string>this.route.snapshot.paramMap.get('lbp');
     this.idScheduledVaccination = parseInt(id)
+
+    this.vaccinationName = this.currentVaccineAdmission.vaccination.name
 
     this.lbz = this.authService.getLBZ();
     this.lbp = this.currentVaccineAdmission.patient.lbp
@@ -99,22 +104,26 @@ export class NurseVaccinationAdmissionComponent implements OnInit{
   // moze i this.idScheduledVaccination
 
   finishVaccination(): void {
+    this.patientService.addVacine(
+      this.lbp, this.currentVaccineAdmission.vaccination.name, new Date()
+    ).pipe(
+      switchMap(() => {
+        return this.patientService.updateScheduledVaccination(
+          this.currentVaccineAdmission.id, PatientArrival.ZAVRSENO
+        );
+      })
+    ).subscribe(
+      res => {
+        console.log("lbp: " + this.lbp + "; vaccination:" + this.currentVaccineAdmission.vaccination.name);
 
-    this.patientService.addVacine(this.lbp,
-      this.currentVaccineAdmission.vaccination.name, new Date()).subscribe(
-        res => {
-          this.updateData();
-
-          this.patientService.updateScheduledVaccination(this.currentVaccineAdmission.id,
-            PatientArrival.ZAVRSENO).subscribe(res => {
-              this.zavrseno = true;
-              this.snackBar.openSuccessSnackBar("Uspesno sacuvano!");
-            });
-        },
-        err => {
-          this.snackBar.openErrorSnackBar("Nije sacuvano!");
-        }
-      );
+        this.updateData();
+        this.zavrseno = true;
+        this.snackBar.openSuccessSnackBar("Uspesno sacuvano!");
+      },
+      err => {
+        this.snackBar.openErrorSnackBar("Nije sacuvano!");
+      }
+    );
   }
 
 
@@ -129,8 +138,16 @@ export class NurseVaccinationAdmissionComponent implements OnInit{
         this.generalMedical = result
         this.vaccinationsList = result.vaccinationDtos
         this.allergiesList = result.allergyDtos
+        console.log("alergije: "+ this.allergiesList)
+        console.log("vakcine: "+ this.vaccinationsList)
+
       }
+
+      this.changeDetectorRef.detectChanges();
+
     })
   }
+
+
 
 }

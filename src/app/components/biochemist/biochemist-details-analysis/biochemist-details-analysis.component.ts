@@ -46,6 +46,8 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
   biochemistName: string = ''
   biochemistSurname: string = ''
 
+  covidBoolean: boolean = false
+
 
   shouldShowFromPRoute = false;
   constructor(private route: ActivatedRoute, private userService: UserService, private snackBar: SnackbarServiceService,
@@ -104,6 +106,8 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
       console.log("Woww " + this.labWorkOrderWithAnalysis.biochemistLbz)
       this.biochemistLbzVerified = this.labWorkOrderWithAnalysis.biochemistLbz
     }
+
+    this.checkCovid()
 
   }
 
@@ -240,6 +244,23 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
       else this.biochemistSpec = false;
     });
     return this.biochemistSpec;
+  }
+
+  checkCovid() {
+    let lbz = localStorage.getItem('LBZ');
+    this.userService.findDepartmentByLbz(lbz!).subscribe(
+      res => {
+        this.userService.getDepartmentDto(res).subscribe(
+          res2 =>{
+            if(res2.name == "Covid"){
+              this.covidBoolean = true;
+            }else{
+              this.covidBoolean = false;
+            }
+          }
+        );
+      }
+    );
   }
 
 }
