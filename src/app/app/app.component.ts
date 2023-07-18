@@ -44,7 +44,7 @@ export class AppComponent {
                     this.checkSpecMedBiohemije();
                     this.checkReceptionist();
                     //DODATO:
-                    // this.checkCovid();
+                    this.checkCovid();
                 }
 
             }
@@ -72,8 +72,7 @@ export class AppComponent {
 
     //DODATO:
     isCovid(): boolean {
-        // return this.covid;
-      return true;
+        return this.covid;
     }
 
     checkDoctorSpecOdeljenja(): boolean {
@@ -189,6 +188,8 @@ export class AppComponent {
                         }else{
                             this.covid = false;
                         }
+
+                        console.log("kovid " + this.covid)
                     }
                 );
             }
@@ -197,6 +198,7 @@ export class AppComponent {
 
     logout() {
         this.userService.logout();
+        this.covid = false;
         this.router.navigate(['/login']);
     }
 
