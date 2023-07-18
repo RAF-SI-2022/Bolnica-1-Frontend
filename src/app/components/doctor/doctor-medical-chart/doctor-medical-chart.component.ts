@@ -25,6 +25,9 @@ import { DiagnosisCodeDto } from 'src/app/models/patient/DiagnosisCode';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service.service';
 import { interval } from 'rxjs';
 import {PrescriptionNewDto} from "../../../models/prescription/PrescriptionNewDto";
+import {UserService} from "../../../services/user-service/user.service";
+import {CovidExaminationHistoryDto} from "../../../models/covid/CovidExaminationHistoryDto";
+import {DischargeListDto} from "../../../models/infirmary/DischargeListDto";
 
 
 
@@ -88,6 +91,13 @@ export class DoctorMedicalChartComponent implements OnInit {
   detailsLabWorkOrderPage: Page<LabWorkOrderWithAnalysis> = new Page<LabWorkOrderWithAnalysis>()
 
   examinationPage: Page<ExaminationHistory> = new Page<ExaminationHistory>()
+
+  covidHistoryPage: Page<CovidExaminationHistoryDto> = new Page<CovidExaminationHistoryDto>();
+  covidHistoryList: CovidExaminationHistoryDto[] = [];
+  pageCovid: number= 0;
+  totalCovidHistory: number = 0;
+
+
   vaccinationsList: Vaccination[] = []
   allergiesList: Allergy[] = []
   patientName: string = ''
@@ -102,7 +112,35 @@ export class DoctorMedicalChartComponent implements OnInit {
   totalLaboratory: number = 0
   generalMedical: GeneralMedicalData
 
-  constructor(private router: Router,private changeDetectorRef: ChangeDetectorRef, private snackBar: SnackbarServiceService, private formBuilder: FormBuilder, private patientService: PatientService, private prescriptionService: PrescriptionServiceService, private route: ActivatedRoute, private labaratoryService: LaboratoryService) {
+  covidBoolean: boolean = false;
+
+  selectedCovidHistory: CovidExaminationHistoryDto = new class implements CovidExaminationHistoryDto {
+    bloodPressure: number = 0;
+    bodyTemperature: number = 0;
+    duration: string = '';
+    examDate: Date = new Date();
+    id: number = 0;
+    lbp: string = '';
+    lbz: string = '';
+    lungCondition: string = '';
+    medicalRecordId: number = 0;
+    saturation: number = 0;
+    symptoms: string = '';
+    therapy: string = '';
+  };
+  selectedCovidHistoryBoolean: boolean = false;
+
+
+
+  constructor(private router: Router,
+              private changeDetectorRef: ChangeDetectorRef,
+              private snackBar: SnackbarServiceService,
+              private formBuilder: FormBuilder,
+              private patientService: PatientService,
+              private prescriptionService: PrescriptionServiceService,
+              private route: ActivatedRoute,
+              private labaratoryService: LaboratoryService,
+              private userService: UserService) {
     this.generalMedical = {
       id: 0,
       bloodType: '',
@@ -145,6 +183,7 @@ export class DoctorMedicalChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.checkCovid()
     //nterval(5000).subscribe(() => {
       this.updateData();
 //    });
@@ -208,6 +247,16 @@ export class DoctorMedicalChartComponent implements OnInit {
         this.changeDetectorRef.detectChanges();
 
       })
+
+
+    this.patientService.getCovidExaminationHistoryByLbp(this.lbp, this.pageCovid, this.pageSize).subscribe(
+      response => {
+        this.covidHistoryPage = response
+        this.covidHistoryList = this.covidHistoryPage.content
+        this.totalCovidHistory = this.covidHistoryPage.totalElements
+        this.changeDetectorRef.detectChanges();
+      })
+
 
     this.getAllergy()
     this.getVaccine()
@@ -281,10 +330,27 @@ export class DoctorMedicalChartComponent implements OnInit {
   }
 
   getVaccine(): void {
-    this.patientService.getVaccine().subscribe(result => {
+    this.patientService.getVaccine(this.covidBoolean).subscribe(result => {
       this.vaccines = result;
       this.changeDetectorRef.detectChanges();
     }, err => { });
+  }
+
+  checkCovid() {
+    let lbz = localStorage.getItem('LBZ');
+    this.userService.findDepartmentByLbz(lbz!).subscribe(
+      res => {
+        this.userService.getDepartmentDto(res).subscribe(
+          res2 =>{
+            if(res2.name == "Covid"){
+              this.covidBoolean = true;
+            }else{
+              this.covidBoolean = false;
+            }
+          }
+        );
+      }
+    );
   }
 
   getDiagnosis(): void {
@@ -411,6 +477,20 @@ export class DoctorMedicalChartComponent implements OnInit {
         this.changeDetectorRef.detectChanges();
 
       })
+
+  }
+
+  getCovidHistory():void{
+    if(this.pageCovid == 0)
+      this.pageCovid = 1;
+
+    this.patientService.getCovidExaminationHistoryByLbp(this.lbp, this.pageCovid -1, this.pageSize).subscribe(
+      response => {
+        this.covidHistoryPage = response
+        this.covidHistoryList = this.covidHistoryPage.content
+        this.totalCovidHistory = this.covidHistoryPage.totalElements
+        this.changeDetectorRef.detectChanges();
+      })
   }
 
 
@@ -495,6 +575,11 @@ export class DoctorMedicalChartComponent implements OnInit {
     this.getLabaratory();
   }
 
+  onTableDataChangeCovid(event: any): void {
+    this.pageCovid = event;
+    this.getCovidHistory();
+  }
+
   onRowClick(prescription: PrescriptionDoneDto): void {
     this.idPrescription = prescription.id
 
@@ -514,6 +599,11 @@ export class DoctorMedicalChartComponent implements OnInit {
 
   closeDetails(): void {
     this.showDetailsBoolean = false
+  }
+
+  showDetailsCovidHistory(covidExaminationHistoryDto: CovidExaminationHistoryDto){
+    this.selectedCovidHistoryBoolean = true
+    this.selectedCovidHistory = covidExaminationHistoryDto
   }
 
   onRowClickExamination(examinationHistory: ExaminationHistory): void {

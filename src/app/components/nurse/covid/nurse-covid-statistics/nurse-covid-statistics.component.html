@@ -77,8 +77,103 @@
             >
         </ngx-charts-bar-horizontal>
         </div>
-       
+
       </div>
     </div>
   </div>
 </div>
+
+<h1>NOVO EMA</h1>
+
+<form [formGroup]="form" class="mb-5 needs-validation" novalidate>
+
+  <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+
+    <h2 class="text-center"><b>Pretraga statistike</b></h2>
+    <div class="row">
+
+      <div class="col-md-4 offset-2">
+        <label class="labels">Od datuma</label>
+        <input [formControlName]="'dateFrom'" name="dateFrom" type="date" class="form-control" data-cy="dateFrom">
+      </div>
+      <div class="col-md-4">
+        <label class="labels">Do datuma</label>
+        <input [formControlName]="'dateTo'" type="date" class="form-control" data-cy="dateTo">
+      </div>
+
+      <div class="col-md-4 offset-2">
+        <label class="labels">Pol</label>
+        <select [formControlName]="'selectedStatus'" class="form-control">
+          <option value="SVI">Svi</option>
+          <option value="MUSKI">MUSKI</option>
+          <option value="ZENSKI">ZENSKI</option>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label class="labels">Starost</label>
+        <select [formControlName]="'selectedStatus'" class="form-control">
+          <option value="0">Svi</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+
+
+
+      <div class="mt-4 text-center">
+        <button (click)="getCovidStats()" class="btn btn-primary" type="submit" data-toggle="collapse"
+                data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                data-cy="btnPretrazi">Pretrazi</button>
+      </div>
+
+      <div class="row py-5">
+        <table class="table table-hover" data-cy="table">
+          <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Pozitivni</th>
+            <th>Negativni</th>
+            <th>Hospitalizovani</th>
+            <th>Respirator</th>
+            <th>Umrli</th>
+            <th>Detalji</th>
+          </tr>
+          </thead>
+
+          <tbody>
+
+          <tr
+            *ngFor="let stat of statsList | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total}; let i = index"
+          >
+            <td>{{stat.date|date:'dd-MM-Y'}}</td>
+            <td>{{stat.positive}}</td>
+            <td>{{stat.negative}}</td>
+            <td>{{stat.hospitalized}}</td>
+            <td>{{stat.ventilator}}</td>
+            <td>{{stat.dead}}</td>
+
+            <td>
+              <button (click)="navigateToDetails(stat)" class="btn btn-primary" type="submit"
+                      data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                      data-cy="btnOtkazi">Detalji</button>
+            </td>
+
+          </tr>
+          </tbody>
+
+        </table>
+
+        <div class="d-flex align-items-center justify-content-center h-100">
+          <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
+          </pagination-controls>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>
+

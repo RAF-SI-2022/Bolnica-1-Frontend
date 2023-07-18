@@ -1,0 +1,101 @@
+<div style="padding-top: 70px;">
+
+  <h2 class="text-center">Zakazivanje vakcinacija</h2>
+
+    <ejs-schedule #scheduleObj
+                  [timeScale]="timeScale"
+                  dateFormat="M/d/yyyy h:mm a" [eventSettings]="eventSettings"
+                  (popupOpen)="onPopupOpen($event)" (cellClick)="onCellClick($event)" [editorTemplate]="editorTemplate"
+                  startHour="07:00" endHour="22:00" (eventClick)="onEventClick($event)">
+      <ng-template #editorTemplate let-data>
+        <div class="custom-event-editor">
+
+          <div class="card basic">
+            <div class="card-body">
+              <div class="container">
+                <div class="form-group">
+
+                  <div class="row justify-content-center mt-1 mt-1">
+
+                    <div class="col-md-6 ">
+                      <label for="patient">Vakcina</label>
+                      <ng-select name="patient" [(ngModel)]="vaccine" class="custom" id="vaccine"
+                                 aria-label="Default select example" data-cy="vaccine" required [searchable]="true"
+                                 bindLabel="name" bindValue="name">
+                        <ng-option *ngFor="let vaccine of vaccines" [value]="vaccine.name">{{vaccine.name }}</ng-option>
+                      </ng-select>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="card basic">
+            <div class="card-body">
+              <div class="container">
+                <div class="form-group">
+
+                  <div class="form-group">
+
+                    <div class="row justify-content-center mt-1 mt-1">
+
+                      <div class="col-md-6">
+                        <label for="patient">Pacijent</label>
+                        <ng-select name="patient" [(ngModel)]="patient" class="custom" id="patient"
+                                   aria-label="Default select example" data-cy="patient" required [searchable]="true"
+                                   bindLabel="name" bindValue="name">
+                          <ng-option *ngFor="let patient of patientList" [value]="patient.lbp">{{patient.name }}
+                            {{patient.surname}}</ng-option>
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card basic">
+            <div class="card-body">
+              <div class="container">
+                <div class="form-group">
+                  <div class="row justify-content-center mt-1 mt-1">
+                    <div class="col-md-6">
+                      <label>Datum primanja</label>
+                      <ejs-datetimepicker name="selectedDateTime" [(ngModel)]="selectedDateTime"></ejs-datetimepicker>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-center">
+            <div class="col-md-4 d-flex justify-content-center">
+              <button *ngIf="!editMenu" type="button" class="btn btn-primary" (click)="onSave()" data-cy="dodajBtn">Dodaj</button>
+              <button *ngIf="editMenu" type="button" class="btn btn-primary" (click)="onDelete()">Obrisi</button>
+            </div>
+            <div class="col-md-4 d-flex justify-content-center">
+              <button type="button" class="btn btn-secondary" (click)="onCancel()" data-cy="otkaziBtn">Otkazi</button>
+            </div>
+          </div>
+
+        </div>
+      </ng-template>
+
+      <ng-template #timeScaleMajorSlotTemplate let-data>
+        <div class="majorTime"></div>
+      </ng-template>
+      <ng-template #timeScaleMinorSlotTemplate let-data>
+        <div class="minorTime"></div>
+      </ng-template>
+
+    </ejs-schedule>
+
+</div>
+<!---
+<ejs-schedule height="700" width="1200" [currentView]="setView"></ejs-schedule>
+-->

@@ -158,6 +158,24 @@ import {
 import {
   DoctorCovidCreateReferralComponent
 } from "./components/doctor/covid/doctor-covid-create-referral/doctor-covid-create-referral.component";
+import {
+  NurseCovidCertificateComponent
+} from "./components/nurse/covid/nurse-covid-certificate/nurse-covid-certificate.component";
+import {
+  NurseCovidStatsDetailsComponent
+} from "./components/nurse/covid/nurse-covid-stats-details/nurse-covid-stats-details.component";
+import {
+  DoctorCovidStatsDetailsComponent
+} from "./components/doctor/covid/doctor-covid-stats-details/doctor-covid-stats-details.component";
+import {
+  NurseVaccinationAdmissionComponent
+} from "./components/nurse/vaccination/nurse-vaccination-admission/nurse-vaccination-admission.component";
+import {
+  NurseDailyVaccinationComponent
+} from "./components/nurse/vaccination/nurse-daily-vaccination/nurse-daily-vaccination.component";
+import {
+  NurseScheduleVaccinationComponent
+} from "./components/nurse/vaccination/nurse-schedule-vaccination/nurse-schedule-vaccination.component";
 
 
 const routes: Routes = [
@@ -312,6 +330,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, DoctorGuard]
   },
   {
+    path: "doctor-covid-stats-details",
+    component: DoctorCovidStatsDetailsComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
     path: "doctor-covid-create-referral/:lbp",
     component: DoctorCovidCreateReferralComponent,
     canActivate: [AuthGuard, DoctorGuard]
@@ -375,6 +398,22 @@ const routes: Routes = [
     canActivate: [AuthGuard, NurseGuard]
   },
   {
+    path: "nurse-vaccination-admission/:lbp",
+    component: NurseVaccinationAdmissionComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-daily-vaccination",
+    component: NurseDailyVaccinationComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-schedule-vaccination",
+    component: NurseScheduleVaccinationComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+
+  {
     path: "nurse-infirmary-state-history/:lbp",
     component: NurseInfirmaryStateHistoryComponent,
     canActivate: [AuthGuard, NurseGuard]
@@ -403,6 +442,16 @@ const routes: Routes = [
   {
     path: "nurse-covid-statistics",
     component: NurseCovidStatisticsComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-covid-stats-details",
+    component: NurseCovidStatsDetailsComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-covid-certificate",
+    component: NurseCovidCertificateComponent,
     canActivate: [AuthGuard, NurseGuard]
   },
 

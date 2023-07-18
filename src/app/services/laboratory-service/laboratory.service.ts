@@ -180,9 +180,17 @@ export class LaboratoryService {
   //   return this.http.get<LabAnalysisDto[]>(`${environmentLaboratory.apiURL}/analysis/getAllLabAnalysis`, {headers: this.getHeaders()});
   // }
 
-  getAnalysis(): Observable<LabAnalysisDto[]>{
+  getAnalysis(
+    covid: boolean
+  ): Observable<LabAnalysisDto[]>{
     console.log("dosao do servisa");
-    return this.http.get<LabAnalysisDto[]>(`${environmentLaboratory.apiURL}/analysis/getAllLabAnalysis`, { headers: this.getHeaders() });
+
+    let httpParams = new HttpParams()
+      .append("covid", covid)
+
+    return this.http.get<LabAnalysisDto[]>(
+      `${environmentLaboratory.apiURL}/analysis/getAllLabAnalysis`,
+      {  params: httpParams, headers: this.getHeaders() });
   }
 
   findAnalysisParametersResults(lab: LabWorkOrderNew): Observable<LabWorkOrderWithAnalysis>{

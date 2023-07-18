@@ -240,13 +240,13 @@ export class UserService {
     }
 
     // DepartmentShort vraca -> employee/department/id/brojID
-    // ukoliko je name == Covid -> to je covid ambulanta i pamtiti da je covid 
+    // ukoliko je name == Covid -> to je covid ambulanta i pamtiti da je covid
     // ukoliko je kovid
-    //      zakazivanje exam je isto 
+    //      zakazivanje exam je isto
     //      kad se pise exam history (pritisak, saturacija, stanje pluca) zovemo putanju koja prikazu to, ukoliko nije standardno
     //      kad se cuva exam history zovemo: post [ pacijent/examination/covid/$lbp] i za get ista ruta[], vraca Page
-    // 
-    // 
+    //
+    //
 
     getDepartments(): Observable<DeparmentShort[]>{
         return this.http.get<DeparmentShort[]>(`${environment.apiURL}/department`, { headers: this.getHeaders() });
@@ -339,10 +339,8 @@ export class UserService {
     return this.http.get<Number>(`${environment.apiURL}/department/employee/${lbz}`, { headers: this.getHeaders() });
   }
 
-    //DODATO:
-    public getDepartmentDto(id: Number): Observable<DeparmentShort>{
-        return this.http.get<DeparmentShort>(`${environment.apiURL}/department/id/${id}`, { headers: this.getHeaders() });
-    }
+
+
 
 
   getDepartmentForRefferal(
@@ -361,6 +359,16 @@ export class UserService {
       {params: httpParams, headers:this.getHeaders()});
   }
 
+
+
+  /**
+   * KOVID DODATO
+   * */
+
+  //DODATO:
+  public getDepartmentDto(id: Number): Observable<DeparmentShort>{
+    return this.http.get<DeparmentShort>(`${environment.apiURL}/department/id/${id}`, { headers: this.getHeaders() });
+  }
 
 
 }

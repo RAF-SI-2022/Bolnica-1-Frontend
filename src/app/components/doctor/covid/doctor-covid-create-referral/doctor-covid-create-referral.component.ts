@@ -39,21 +39,34 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
   prescriptionAnalyses1: PrescriptionAnalysis = new PrescriptionAnalysis();
   prescriptionArray: PrescriptionAnalysis[] = [];
 
+  prescriptionAnalyses1Covid: PrescriptionAnalysis = new PrescriptionAnalysis();
+  prescriptionArrayCovid: PrescriptionAnalysis[] = [];
+
   page = 0
-  pageSize = 5
+  pageSize = 10
   total = 0
   paramsPage: Page<ParameterDto> = new Page<ParameterDto>()
   paramsList: ParameterDto[] = []
+
+  pageCovid = 0
+  pageSizeCovid = 10
+  totalCovid = 0
+  paramsPageCovid: Page<ParameterDto> = new Page<ParameterDto>()
+  paramsListCovid: ParameterDto[] = []
 
   lbz = '';
   lbp = '';
 
   analysisSaBeka: LabAnalysisDto[] = [];
+  analysisSaBekaCovid: LabAnalysisDto[] = [];
+
   diagnosisSaBeka: DiagnosisCodeDto[] = [];
 
   analysisParams: ParameterDto[] = [];
 
   selectedAnalysis: number = 0;
+
+  selectedAnalysisCovid: number = 0;
 
   // hospitals: HospitalShort[] = [];
   // selectedHospital: HospitalShort = new HospitalShort();
@@ -70,6 +83,7 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
 
   referralForm: FormGroup;
   referralInfirmaryForm: FormGroup;
+  referralCovidForm: FormGroup;
   userEdit: AdminPromeniZaposlenog = new AdminPromeniZaposlenog();
 
   pageHospital = 0
@@ -83,6 +97,8 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
   diagnosis: string = ''
 
   initialFormValues: any;
+
+  covidBoolean: boolean = false;
 
 
   constructor(private prescriptionService: PrescriptionServiceService,
@@ -105,11 +121,18 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
         commentInfirmary: ['', [Validators.required]],
       });
 
+      this.referralCovidForm = this.formBuilder.group({
+        analysis: ['' ,[Validators.required]],
+        comment: ['', [Validators.required]],
+      });
+
     }
 
     isPopupVisible = false;
 
     ngOnInit(): void {
+      this.checkCovid()
+
       this.lbp = <string>this.route.snapshot.paramMap.get('lbp');
       console.log(this.lbp);
       //interval(5000).subscribe(() => {
@@ -126,36 +149,53 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
       //proveri
       this.initialFormValues = this.referralInfirmaryForm.getRawValue();
 
+      this.initialFormValues = this.referralCovidForm.getRawValue();
+
+
+
     }
 
     resetElements(): boolean {
         var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
         form.classList.remove('was-validated');
-    
+
         if(form.checkValidity() === false){
           return false;
         }
-    
+
         return true;
       }
-    
+
       resetElements2(): boolean{
         var form = document.getElementsByClassName('needs-validation')[1] as HTMLFormElement;
         form.classList.remove('was-validated');
-    
-    
+
+
         if(form.checkValidity() === false){
           return false;
         }
-    
+
         return true;
       }
+
+  resetElements3(): boolean{
+    var form = document.getElementsByClassName('needs-validation')[2] as HTMLFormElement;
+    form.classList.remove('was-validated');
+
+
+    if(form.checkValidity() === false){
+      return false;
+    }
+
+    return true;
+  }
 
   getLabDoctorDepartments(){
       this.getDepartments();
       this.lbz = this.authService.getLBZ();
       console.log(this.lbz);
       this.getLabAnalysis();
+      this.getLabAnalysisCovid();
       this.getDoctorDepartment()
     }
 
@@ -203,6 +243,17 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
 
   validateInfirmaryEntries() : boolean {
     var form = document.getElementsByClassName('needs-validation')[1] as HTMLFormElement;
+    form.classList.add('was-validated');
+
+    if(form.checkValidity() === false){
+      return false;
+    }
+
+    return true;
+  }
+
+  validateCovidEntries() : boolean {
+    var form = document.getElementsByClassName('needs-validation')[2] as HTMLFormElement;
     form.classList.add('was-validated');
 
     if(form.checkValidity() === false){
@@ -313,7 +364,7 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
     referral.commentInfirmary = "";
     this.diagnosis = "";
     this.hospitalsInfirmary = [];
-    
+
     // Update form controls with initial values
     Object.keys(this.referralInfirmaryForm.controls).forEach((controlName) => {
       const control = this.referralInfirmaryForm.get(controlName);
@@ -364,6 +415,85 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
 
   }
 
+
+  confirmCovidUput(): void {
+
+    if(!this.validateCovidEntries()){
+      this.snackBar.openErrorSnackBar("Popunite trazena polja!")
+      return;
+    }
+    if(this.totalDepartmentsCheckedCovid == 0){
+      this.snackBar.openErrorSnackBar("Izaberite parametre")
+      return;
+    }
+    // if(this.totalHopsitalChecked == 0){
+    //   this.snackBar.openErrorSnackBar("Izaberite bolnicu")
+    //   return;
+    // }
+
+    if(!confirm('Da li ste sigurni da želite da napravite uput?')){
+      return;
+    }
+
+
+    const referral = this.referralCovidForm.value;
+    console.log("uput potvrdjen");
+    console.log(this.selectedAnalysisCovid);
+    console.log("selected params: " + this.selectedParamsCovid);
+
+    this.prescriptionAnalyses1Covid.analysisId = this.selectedAnalysisCovid;
+    this.prescriptionAnalyses1Covid.parametersIds = this.selectedParamsCovid;
+
+    this.prescriptionArrayCovid.push(this.prescriptionAnalyses1Covid);
+
+    console.log(this.prescriptionAnalyses1Covid)
+
+
+
+
+
+    //proveri sta treba
+    //this.permissions = []
+
+
+    this.covidService.writeLabPerscription(
+      this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArrayCovid
+    ).subscribe(res => {
+        console.log(res)
+        // this.errorMessage = '';
+        // this.successMessage = 'Uspesno dodat uput!';
+
+      this.referralCovidForm.reset();
+      this.paramsListCovid = [];
+      this.resetElements3();
+
+      // Update form controls with initial values
+      Object.keys(this.referralCovidForm.controls).forEach((controlName) => {
+        const control = this.referralCovidForm.get(controlName);
+        const initialValue = this.initialFormValues[controlName];
+        // @ts-ignore
+        control.setValue(initialValue);
+        // @ts-ignore
+        control.markAsPristine();
+      });
+
+
+        this.snackBar.openSuccessSnackBar("Uspesno dodat uput!")
+
+
+
+        //dodato
+
+      }, error => {
+        console.log("Error " + error.status);
+        // this.successMessage = '';
+        // this.errorMessage = 'ERROR: Uput nije kreiran!';
+        this.snackBar.openErrorSnackBar("Uput nije kreiran");
+      }
+    );
+  }
+
+
   getDepartments(): void {
     this.userService.getDepartments().subscribe(res => {
       this.departments = res;
@@ -381,10 +511,37 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
 
   getLabAnalysis(): void {
     console.log("dosao do ts");
-    this.laboratoryService.getAnalysis().subscribe(res => {
+    this.laboratoryService.getAnalysis(false).subscribe(res => {
       this.analysisSaBeka = res;
+      console.log(this.analysisSaBeka)
     });
     console.log("prosao ts");
+  }
+
+  getLabAnalysisCovid(): void {
+    console.log("dosao do ts");
+    this.laboratoryService.getAnalysis(true).subscribe(res => {
+      this.analysisSaBekaCovid = res;
+      console.log(this.analysisSaBekaCovid)
+    });
+    console.log("prosao ts");
+  }
+
+  checkCovid() {
+    let lbz = localStorage.getItem('LBZ');
+    this.userService.findDepartmentByLbz(lbz!).subscribe(
+      res => {
+        this.userService.getDepartmentDto(res).subscribe(
+          res2 =>{
+            if(res2.name == "Covid"){
+              this.covidBoolean = true;
+            }else{
+              this.covidBoolean = false;
+            }
+          }
+        );
+      }
+    );
   }
 
 
@@ -395,6 +552,19 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
       this.total = this.paramsPage.totalElements
       console.log(this.paramsList)
       if(this.paramsList.length == 0){
+        this.snackBar.openWarningSnackBar("Izaberite tip parametra")
+      }
+    })
+  }
+
+  getParamsCovid() {
+    this.laboratoryService.getAnalysisParams(this.selectedAnalysisCovid, this.pageCovid,
+      this.pageSizeCovid).subscribe((response) => {
+      this.paramsPageCovid = response
+      this.paramsListCovid = this.paramsPageCovid.content
+      this.totalCovid = this.paramsPageCovid.totalElements
+      console.log(this.paramsListCovid)
+      if(this.paramsListCovid.length == 0){
         this.snackBar.openWarningSnackBar("Izaberite tip parametra")
       }
     })
@@ -428,6 +598,26 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
         this.snackBar.openWarningSnackBar("Izaberite ustanovu")
       }
     })
+  }
+
+
+  selectedParamsCovid = [];
+
+  totalDepartmentsCheckedCovid = 0;
+  onCheckboxChangeCovid(event: any, id: number) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      this.totalDepartmentsCheckedCovid++;
+      // @ts-ignore
+      this.selectedParamsCovid.push(id);
+    } else {
+      // @ts-ignore
+      const index = this.selectedParamsCovid.indexOf(id);
+      this.totalDepartmentsCheckedCovid--;
+      if (index !== -1) {
+        this.selectedParamsCovid.splice(index, 1);
+      }
+    }
   }
 
 

@@ -10,6 +10,7 @@ import { ScheduleExam } from "../../../models/patient/ScheduleExam";
 import { ExamForPatient } from "../../../models/patient/ExamForPatient";
 import { PatientArrival } from "../../../models/laboratory-enums/PatientArrival";
 import { Subscription, forkJoin, interval, switchMap } from "rxjs";
+import {UserService} from "../../../services/user-service/user.service";
 
 @Component({
   selector: 'app-doctor-workspace',
@@ -41,6 +42,8 @@ export class DoctorWorkspaceComponent implements OnInit {
 
   intervalSubscription: Subscription | undefined;
 
+  covidBoolean: boolean = false;
+
 
   /*
   //popup se pojavljujem kliktajem na red
@@ -55,7 +58,8 @@ export class DoctorWorkspaceComponent implements OnInit {
   */
 
   constructor(private patientService: PatientService, private formBuilder: FormBuilder,
-    private examinationService: ExaminationService, private router: Router) { }
+    private examinationService: ExaminationService, private router: Router,
+              private userService: UserService) { }
 
   // showPopup(event: any): void {
   //     const row = event.target.closest('.table-row');
@@ -88,6 +92,7 @@ export class DoctorWorkspaceComponent implements OnInit {
 
     // @ts-ignore
     this.lbz = localStorage.getItem('LBZ');
+    this.checkCovid()
 
     console.log(this.lbz)
     this.getSheduledExams();
@@ -226,10 +231,34 @@ export class DoctorWorkspaceComponent implements OnInit {
       //this.router.navigate(['doctor-workspace-one', lbp])
       // const encodedUser = encodeURIComponent(JSON.stringify(patient));
 
-      const url = `/doctor-workspace-one/${patient.lbp}`;
+      let url = ''
+      if(this.covidBoolean){
+        url =  `/doctor-covid-exam/${patient.lbp}`;
+      }else{
+        url = `/doctor-workspace-one/${patient.lbp}`;
+      }
+
       this.router.navigateByUrl(url, { state: { patient } });
     });
 
+  }
+
+
+  checkCovid() {
+    let lbz = localStorage.getItem('LBZ');
+    this.userService.findDepartmentByLbz(lbz!).subscribe(
+      res => {
+        this.userService.getDepartmentDto(res).subscribe(
+          res2 =>{
+            if(res2.name == "Covid"){
+              this.covidBoolean = true;
+            }else{
+              this.covidBoolean = false;
+            }
+          }
+        );
+      }
+    );
   }
 
   // goToChart(examForPatient: ExamForPatient): void {
@@ -254,7 +283,7 @@ export class DoctorWorkspaceComponent implements OnInit {
         return 'badge-secondary';
     }
   }
-  
+
 
 
 

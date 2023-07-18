@@ -1,7 +1,7 @@
 <div class="card">
   <div style="margin-top: 25px;" class="card-body">
-    <h5 class="card-title"><button (click)="gotoone()" class="btn btn-primary" data-cy = "nazadBttn">Nazad</button> Doctor medical chart</h5>
-    
+<!--    <h5 class="card-title"><button (click)="gotoone()" class="btn btn-primary" data-cy = "nazadBttn">Nazad</button> Doctor medical chart</h5>-->
+
 
     <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
       <li class="nav-item flex-fill" role="presentation">
@@ -28,6 +28,12 @@
         <button class="nav-link w-100" id="historyLab-tab" data-bs-toggle="tab"
                 data-bs-target="#bordered-justified-historyLab" type="button" role="tab" aria-controls="historyLab"
                 aria-selected="false" tabindex="-1">Istorija laboratorijskih izveštaja</button>
+      </li>
+
+      <li class="nav-item flex-fill" role="presentation">
+        <button class="nav-link w-100" id="history-tab-covid" data-bs-toggle="tab"
+                data-bs-target="#bordered-justified-history-covid" type="button" role="tab" aria-controls="historyCovid"
+                aria-selected="false" tabindex="-1">Kovid istorija</button>
       </li>
     </ul>
     <div class="tab-content pt-2" id="borderedTabJustifiedContent">
@@ -606,6 +612,88 @@
           <!--            </div>-->
         </div>
       </div>
+
+
+      <div class="tab-pane fade" id="bordered-justified-history-covid" role="tabpanel" aria-labelledby="history-tab">
+        <div class="container rounded bg-white mt-0 mb-5 p-3 py-5">
+              <div class="row py-5">
+                <table class="table table-hover" data-cy="tableCovid">
+                  <thead>
+                  <tr>
+                    <th>Datum pregleda</th>
+                    <th>Simptomi</th>
+                    <th>Terapija</th>
+                    <th>Detalji</th>
+
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr
+                    *ngFor="let history of covidHistoryList | paginate: {itemsPerPage: pageSize, currentPage: pageCovid, totalItems: totalCovidHistory}; let i = index" >
+
+                    <td>{{history.examDate|date:'dd-MM-Y'}}</td>
+                    <td>{{history.symptoms}}</td>
+                    <td>{{history.therapy}}</td>
+
+                    <td>
+                      <button (click)="showDetailsCovidHistory(history)"  class="btn btn-primary" type="submit"
+                              data-toggle="collapse" data-target="#search-table" aria-expanded="false" aria-controls="search-table" data-cy="sacuvaj">Detalji</button>
+                    </td>
+
+
+                  </tr>
+                  </tbody>
+                </table>
+                <div class="d-flex align-items-center justify-content-center h-100">
+
+                  <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChangeCovid($event)">
+                  </pagination-controls>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="selectedCovidHistoryBoolean">
+              <div class="row py-5">
+                <table class="table table-hover" data-cy="table2Covid">
+                  <thead>
+                  <tr>
+                    <th>Datum pregleda</th>
+                    <th>Lbz</th>
+                    <th>Simptomi</th>
+                    <th>Trajanje</th>
+                    <th>Temperatura</th>
+                    <th>Pritisak</th>
+                    <th>Saturacija</th>
+                    <th>Stanje pluca</th>
+                    <th>Terapija</th>
+
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+
+                    <td>{{selectedCovidHistory.examDate|date:'dd-MM-Y'}}</td>
+                    <td>{{selectedCovidHistory.lbz}}</td>
+                    <td>{{selectedCovidHistory.symptoms}}</td>
+                    <td>{{selectedCovidHistory.duration}}</td>
+                    <td>{{selectedCovidHistory.bloodPressure}}</td>
+                    <td>{{selectedCovidHistory.bodyTemperature}}</td>
+                    <td>{{selectedCovidHistory.saturation}}</td>
+                    <td>{{selectedCovidHistory.lungCondition}}</td>
+                    <td>{{selectedCovidHistory.therapy}}</td>
+
+                  </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+      </div>
+
+
+
+
+
     </div>
   </div>
 </div>

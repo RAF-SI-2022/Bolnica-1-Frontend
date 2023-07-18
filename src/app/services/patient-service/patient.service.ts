@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams, HttpStatusCode} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
-import {environment, environmentPatient} from "../../../environments/environment";
+import {environment, environmentInfirmary, environmentPatient} from "../../../environments/environment";
 import {PatientCreate} from "../../models/patient/PatientCreate";
 import {Gender} from "../../models/patient-enums/Gender";
 import {CountryCode} from "../../models/patient-enums/CountryCode";
@@ -36,6 +36,13 @@ import {Prescription} from "../../models/laboratory/Prescription";
 import {MedicalHistoryCreateDto} from "../../models/patient/MedicalHistoryCreateDto";
 import {VaccinationDataDto} from "../../models/patient/VaccinationDataDto";
 import {PrescriptionNewDto} from "../../models/prescription/PrescriptionNewDto";
+import {CovidExaminationHistoryDto} from "../../models/covid/CovidExaminationHistoryDto";
+import {CovidExaminationHistoryCreateDto} from "../../models/covid/CovidExaminationHistoryCreateDto";
+import {ScheduledVaccinationCreateDto} from "../../models/vaccination/ScheduledVaccinationCreateDto";
+import {ScheduledVaccinationDto} from "../../models/vaccination/ScheduledVaccinationDto";
+import {PatientArrival} from "../../models/laboratory-enums/PatientArrival";
+import {ScheduledAppointmentDto} from "../../models/infirmary/ScheduledAppointmentDto";
+import {CovidStatsResultDto} from "../../models/covid/CovidStatsResultDto";
 
 @Injectable({
   providedIn: 'root'
@@ -260,8 +267,15 @@ export class PatientService {
     return this.http.get<Allergy[]>(`${environmentPatient.apiURL}/record/gather_allergies`, { headers: this.getHeaders() });
   }
 
-  getVaccine(): Observable<Vaccination[]>{
-    return this.http.get<Vaccination[]>(`${environmentPatient.apiURL}/record/gather_vaccines`, { headers: this.getHeaders() });
+  getVaccine(
+    covid: boolean
+  ): Observable<Vaccination[]>{
+    let httpParams = new HttpParams()
+      .append("covid", covid)
+
+    return this.http.get<Vaccination[]>(
+      `${environmentPatient.apiURL}/record/gather_vaccines`,
+      {  params: httpParams, headers: this.getHeaders() });
   }
 
   getDiagnosis(): Observable<DiagnosisCodeDto[]>{
@@ -676,6 +690,219 @@ export class PatientService {
       {params: httpParams, headers:this.getHeaders()}
     );
   }
+
+
+
+  /**
+   * KOVID DEO NOVE RUTE
+   * */
+
+  public createCovidExaminationHistory(
+    examDate: Date,
+    lbz: string,
+    medicalRecordId: number,
+
+    lbp: string,
+    symptoms: string,
+    duration: string,
+    bodyTemperature: number,
+    bloodPressure: number,
+    saturation: number,
+    lungCondition: string,
+    therapy: string
+
+  ): Observable<CovidExaminationHistoryDto> {
+
+    const obj: CovidExaminationHistoryCreateDto = {
+      examDate: examDate,
+      lbz: lbz,
+      medicalRecordId: medicalRecordId,
+      lbp: lbp,
+      symptoms: symptoms,
+      duration: duration,
+      bodyTemperature: bodyTemperature,
+      bloodPressure: bloodPressure,
+      saturation: saturation,
+      lungCondition: lungCondition,
+      therapy: therapy
+    }
+
+
+    return this.http.post<CovidExaminationHistoryDto>(
+      `${environmentPatient.apiURL}/examination/covid/${lbp}`, obj,
+      {headers: this.getHeaders()});
+
+  }
+
+  public getCovidExaminationHistoryByLbp(
+    lbp: string,
+    page: number,
+    size:number
+  ): Observable<Page<CovidExaminationHistoryDto>> {
+
+
+    let httpParams = new HttpParams()
+      .append("page",page)
+      .append("size",size);
+
+    return this.http.get<Page<CovidExaminationHistoryDto>>(
+      `${environmentPatient.apiURL}/examination/covid/${lbp}`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+
+
+  }
+
+
+  /**
+   * KOVID VAKCINE
+   * */
+
+
+  public scheduleVaccination(
+    dateAndTime: Date,
+    note: string,
+    lbz: string,
+    vaccineName: string,
+    lbp: string
+  ): Observable<ScheduledVaccinationDto> {
+
+    const obj: ScheduledVaccinationCreateDto = {
+      dateAndTime: dateAndTime,
+      note: note,
+      lbz: lbz,
+      vaccineName: vaccineName,
+      lbp: lbp
+    }
+
+    return this.http.post<ScheduledVaccinationDto>(
+      `${environmentPatient.apiURL}/patient/scheduleVaccination/${lbp}`, obj,
+      {headers: this.getHeaders()});
+
+  }
+
+  public updateScheduledVaccination(
+    scheduledVaccinationId: number,
+    arrivalStatus: PatientArrival
+  ): Observable<ScheduledVaccinationDto>{
+
+    let httpParams = new HttpParams()
+      .append("scheduledVaccinationId", scheduledVaccinationId)
+      .append("arrivalStatus",arrivalStatus)
+
+    return this.http.put<ScheduledVaccinationDto>(
+      `${environmentPatient.apiURL}/patient/updateScheduledVaccination`, '',
+      {params: httpParams,headers: this.getHeaders()});
+
+  }
+
+  public findScheduledVaccinationsWithFilter(
+    page: number,
+    size: number,
+    startDate: Date,
+    endDate: Date,
+    lbp:string,
+    lbz: string,
+    covid: boolean,
+    arrivalStatus: string
+
+  ): Observable<Page<ScheduledVaccinationDto>> {
+
+    let httpParams = new HttpParams()
+
+     if(lbp =='-1' && arrivalStatus =='SVEJEDNO') {
+       httpParams = httpParams
+         .append("page", page)
+         .append("size",size)
+         .append("startDate", startDate.toISOString().slice(0,10))
+         .append("endDate", endDate.toISOString().slice(0,10))
+         .append("lbz",lbz)
+         .append("covid",covid)
+     } else{
+       httpParams = httpParams
+         .append("page", page)
+         .append("size",size)
+         .append("startDate", startDate.toISOString().slice(0,10))
+         .append("endDate", endDate.toISOString().slice(0,10))
+         .append("lbp",lbp)
+         .append("lbz",lbz)
+         .append("covid",covid)
+         .append("arrivalStatus",arrivalStatus)
+     }
+
+
+    return this.http.get<Page<ScheduledVaccinationDto>>(
+      `${environmentPatient.apiURL}/patient/findScheduledVaccinationsWithFilter`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
+
+
+  /**
+   * Kovid sertifikat
+   * */
+
+  public sendVaccinationCertificateToMail(
+    lbp: string
+  ): Observable<HttpStatusCode> {
+
+    let httpParams = new HttpParams()
+      .append("lbp",lbp)
+
+    return this.http.post<HttpStatusCode>(
+      `${environmentPatient.apiURL}/patient/sendVaccinationCertificateToMail`,'',
+      {params: httpParams, headers:this.getHeaders()}
+    );
+
+  }
+
+
+  public getCovidStats(
+    page: number,
+    size: number,
+    startDate: Date,
+    endDate: Date,
+    gender:string,
+    ageCategory: number,
+
+  ): Observable<CovidStatsResultDto> {
+
+
+    let httpParams = new HttpParams()
+
+    if (gender== 'SVI'){
+      httpParams = httpParams
+        .append("page", page)
+        .append("size",size)
+        .append("startDate", startDate.toString())
+        .append("endDate",endDate.toString())
+        .append("ageCategory",ageCategory)
+    } else if (gender == 'MUSKI'){
+      httpParams = httpParams
+        .append("page", page)
+        .append("size",size)
+        .append("startDate", startDate.toString())
+        .append("endDate",endDate.toString())
+        .append("gender", "MUSKO")
+        .append("ageCategory",ageCategory)
+    } else if (gender == 'ZENSKI') {
+      httpParams = httpParams
+        .append("page", page)
+        .append("size", size)
+        .append("startDate", startDate.toString())
+        .append("endDate", endDate.toString())
+        .append("gender", "ZENSKO")
+        .append("ageCategory", ageCategory)
+    }
+
+
+
+    return this.http.get<CovidStatsResultDto>(
+      `${environmentPatient.apiURL}/covid_stats`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
+
 }
 
 
