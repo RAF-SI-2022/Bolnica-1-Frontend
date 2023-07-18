@@ -86,11 +86,10 @@
         </div>
       </ng-template>
 
-      <ng-template #timeScaleMajorSlotTemplate let-data>
-        <div class="majorTime"></div>
-      </ng-template>
-      <ng-template #timeScaleMinorSlotTemplate let-data>
-        <div class="minorTime"></div>
+      <ng-template #timeHeaderTemplate let-data>
+        <div class="time-header">
+          {{ data.date | date:'hh:mm a' }}
+        </div>
       </ng-template>
 
     </ejs-schedule>

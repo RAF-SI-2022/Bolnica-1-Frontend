@@ -64,9 +64,7 @@ export class NurseScheduleVaccinationComponent implements OnInit {
   public timeScale: TimeScaleModel = {
     enable: true,
     interval: 60,
-    slotCount: 4,
-    majorSlotTemplate: '#majorSlotTemplate',
-    minorSlotTemplate: '#minorSlotTemplate'
+    slotCount: 4
   };
 
   subject: string = '';
