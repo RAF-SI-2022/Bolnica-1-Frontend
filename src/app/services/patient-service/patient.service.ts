@@ -763,7 +763,7 @@ export class PatientService {
     dateAndTime: Date,
     note: string,
     lbz: string,
-    vaccinationId: number,
+    vaccineName: string,
     lbp: string
   ): Observable<ScheduledVaccinationDto> {
 
@@ -771,7 +771,7 @@ export class PatientService {
       dateAndTime: dateAndTime,
       note: note,
       lbz: lbz,
-      vaccinationId: vaccinationId,
+      vaccineName: vaccineName,
       lbp: lbp
     }
 
@@ -804,19 +804,32 @@ export class PatientService {
     lbp:string,
     lbz: string,
     covid: boolean,
-    arrivalStatus: PatientArrival
+    arrivalStatus: string
 
   ): Observable<Page<ScheduledVaccinationDto>> {
 
     let httpParams = new HttpParams()
-      .append("page", page)
-      .append("size",size)
-      .append("startDate", startDate.toString())
-      .append("endDate",endDate.toString())
-      .append("lbp",lbp)
-      .append("lbz",lbz)
-      .append("covid",covid)
-      .append("arrivalStatus",arrivalStatus)
+
+     if(lbp =='-1' && arrivalStatus =='SVEJEDNO') {
+       httpParams = httpParams
+         .append("page", page)
+         .append("size",size)
+         .append("startDate", startDate.toISOString().slice(0,10))
+         .append("endDate", endDate.toISOString().slice(0,10))
+         .append("lbz",lbz)
+         .append("covid",covid)
+     } else{
+       httpParams = httpParams
+         .append("page", page)
+         .append("size",size)
+         .append("startDate", startDate.toISOString().slice(0,10))
+         .append("endDate", endDate.toISOString().slice(0,10))
+         .append("lbp",lbp)
+         .append("lbz",lbz)
+         .append("covid",covid)
+         .append("arrivalStatus",arrivalStatus)
+     }
+
 
     return this.http.get<Page<ScheduledVaccinationDto>>(
       `${environmentPatient.apiURL}/patient/findScheduledVaccinationsWithFilter`,

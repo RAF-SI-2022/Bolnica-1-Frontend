@@ -2,6 +2,6 @@ export interface ScheduledVaccinationCreateDto{
   dateAndTime: Date;
   note: string;
   lbz: string;
-  vaccinationId: number;
+  vaccineName: string;
   lbp: string;
 }

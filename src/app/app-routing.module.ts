@@ -167,6 +167,15 @@ import {
 import {
   DoctorCovidStatsDetailsComponent
 } from "./components/doctor/covid/doctor-covid-stats-details/doctor-covid-stats-details.component";
+import {
+  NurseVaccinationAdmissionComponent
+} from "./components/nurse/vaccination/nurse-vaccination-admission/nurse-vaccination-admission.component";
+import {
+  NurseDailyVaccinationComponent
+} from "./components/nurse/vaccination/nurse-daily-vaccination/nurse-daily-vaccination.component";
+import {
+  NurseScheduleVaccinationComponent
+} from "./components/nurse/vaccination/nurse-schedule-vaccination/nurse-schedule-vaccination.component";
 
 
 const routes: Routes = [
@@ -388,6 +397,22 @@ const routes: Routes = [
     component: NurseInfirmaryWorkspaceOneComponent,
     canActivate: [AuthGuard, NurseGuard]
   },
+  {
+    path: "nurse-vaccination-admission/:lbp",
+    component: NurseVaccinationAdmissionComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-daily-vaccination",
+    component: NurseDailyVaccinationComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-schedule-vaccination",
+    component: NurseScheduleVaccinationComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+
   {
     path: "nurse-infirmary-state-history/:lbp",
     component: NurseInfirmaryStateHistoryComponent,
