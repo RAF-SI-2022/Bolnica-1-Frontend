@@ -295,19 +295,7 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
 
     console.log(this.prescriptionAnalyses1)
 
-    this.referralForm.reset();
-    this.paramsList = [];
-    this.resetElements();
 
-    // Update form controls with initial values
-    Object.keys(this.referralForm.controls).forEach((controlName) => {
-      const control = this.referralForm.get(controlName);
-      const initialValue = this.initialFormValues[controlName];
-      // @ts-ignore
-      control.setValue(initialValue);
-      // @ts-ignore
-      control.markAsPristine();
-    });
 
 
 
@@ -315,12 +303,27 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
     //this.permissions = []
 
 
-    this.covidService.writeLabPerscription(
+    this.prescriptionService.writeLabPerscription(
       this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArray
     ).subscribe(res => {
       console.log(res)
       // this.errorMessage = '';
       // this.successMessage = 'Uspesno dodat uput!';
+
+      this.referralForm.reset();
+      this.paramsList = [];
+      this.resetElements();
+
+      // Update form controls with initial values
+      Object.keys(this.referralForm.controls).forEach((controlName) => {
+        const control = this.referralForm.get(controlName);
+        const initialValue = this.initialFormValues[controlName];
+        // @ts-ignore
+        control.setValue(initialValue);
+        // @ts-ignore
+        control.markAsPristine();
+      });
+
       this.snackBar.openSuccessSnackBar("Uspesno dodat uput!")
 
 
@@ -359,25 +362,7 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
     // console.log(this.selectedAnalysis);
     // console.log("selected params: " + this.selectedParams);
 
-    this.referralInfirmaryForm.reset();
-    this.resetElements2();
-    referral.commentInfirmary = "";
-    this.diagnosis = "";
-    this.hospitalsInfirmary = [];
 
-    // Update form controls with initial values
-    Object.keys(this.referralInfirmaryForm.controls).forEach((controlName) => {
-      const control = this.referralInfirmaryForm.get(controlName);
-      const initialValue = this.initialFormValues[controlName];
-      // @ts-ignore
-      control.setValue(initialValue);
-      // @ts-ignore
-      control.markAsPristine();
-
-      control?.markAsUntouched();
-
-      control?.updateValueAndValidity();
-    });
 
 
     //proveri sta treba
@@ -388,13 +373,33 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
 
 
 
-      this.covidService.writeInfirmaryPerscription(
+      this.prescriptionService.writeInfirmaryPerscription(
         this.lbz, this.departmentFromId, this.departmentToIdInfirmary, this.lbp, tmpdiagnosis,
         referral.commentInfirmary
       ).subscribe(res => {
           console.log(res)
           // this.errorMessage = '';
           // this.successMessage = 'Uspesno dodat uput!';
+
+        this.referralInfirmaryForm.reset();
+        this.resetElements2();
+        referral.commentInfirmary = "";
+        this.diagnosis = "";
+        this.hospitalsInfirmary = [];
+
+        // Update form controls with initial values
+        Object.keys(this.referralInfirmaryForm.controls).forEach((controlName) => {
+          const control = this.referralInfirmaryForm.get(controlName);
+          const initialValue = this.initialFormValues[controlName];
+          // @ts-ignore
+          control.setValue(initialValue);
+          // @ts-ignore
+          control.markAsPristine();
+
+          control?.markAsUntouched();
+
+          control?.updateValueAndValidity();
+        });
           this.snackBar.openSuccessSnackBar("Uspesno dodat uput!")
 
 
@@ -456,7 +461,7 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
     //this.permissions = []
 
 
-    this.covidService.writeLabPerscription(
+    this.prescriptionService.writeLabPerscription(
       this.lbz, this.departmentFromId, this.departmentToId, this.lbp, referral.comment, this.prescriptionArrayCovid
     ).subscribe(res => {
         console.log(res)
