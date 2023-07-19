@@ -57,13 +57,13 @@ export class DoctorInfirmaryWorkspaceComponent implements OnInit {
 
   goToStateHistory(): void {
     const url = `/doctor-infirmary-state-history/${this.patientLbp}`;
-    const hospitalization = this.currentHospitalization
-    this.router.navigateByUrl(url, { state: { hospitalization } });
+    // const hospitalization = this.currentHospitalization
+    this.router.navigateByUrl(url);
   }
 
 
   goToMedicalChart(): void {
-    const url = `/doctor-infirmary-medical-chart/${this.patientLbp}`;
+    const url = `/doctor-medical-chart/${this.patientLbp}`;
     const hospitalization = this.currentHospitalization
     this.router.navigateByUrl(url, { state: { hospitalization } });
   }
