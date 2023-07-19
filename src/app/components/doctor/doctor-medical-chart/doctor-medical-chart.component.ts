@@ -28,6 +28,7 @@ import {PrescriptionNewDto} from "../../../models/prescription/PrescriptionNewDt
 import {UserService} from "../../../services/user-service/user.service";
 import {CovidExaminationHistoryDto} from "../../../models/covid/CovidExaminationHistoryDto";
 import {DischargeListDto} from "../../../models/infirmary/DischargeListDto";
+import {InfirmaryService} from "../../../services/infirmary-service/infirmary.service";
 
 
 
@@ -49,6 +50,7 @@ export class DoctorMedicalChartComponent implements OnInit {
   examinationForm: FormGroup
   medicalForm: FormGroup
   prescriptionForm: FormGroup
+  historyForm: FormGroup
   labaratoryForm: FormGroup
   delete: boolean = false
   doctor: boolean = false
@@ -60,6 +62,7 @@ export class DoctorMedicalChartComponent implements OnInit {
   idStr: string = ''
   public idPrescription: number = 0
   public idExaminationHistory: number = 0
+  public idDischargeList: number = 0
   public dateFrom: string = ''
   public dateTo: string = ''
   public correctDate: string = ''
@@ -69,10 +72,15 @@ export class DoctorMedicalChartComponent implements OnInit {
   public dateToPrescription: Date = new Date()
   public dateFromPrescription: Date = new Date(0)
   public dateToLabaratory: Date = new Date()
-  public dateFromLabaratory: Date = new Date(this.dateToLabaratory.getFullYear(), 0, 1);
+  // public dateFromLabaratory: Date = new Date(this.dateToLabaratory.getFullYear(), 0, 1);
+  public dateFromLabaratory: Date = new Date(0)
+  public dateFromHistory: Date = new Date(0);
+  public dateToHistory: Date = new Date()
+
   medicalHistories: MedicalHistory[] = []
   examinationHistories: ExaminationHistory[] = []
   prescriptionHistories: PrescriptionDoneDto[] = []
+  dischargeListHistories: DischargeListDto[] = []
   labaratoryHistories: LabAnalysis[] = []
   labWorkOrders: LabWorkOrderNew[] = []
   allergies: Allergy[] = []
@@ -89,7 +97,7 @@ export class DoctorMedicalChartComponent implements OnInit {
   prescriptionPage: Page<PrescriptionDoneDto> = new Page<PrescriptionDoneDto>()
   labWorkOrderPage: Page<LabWorkOrderNew> = new Page<LabWorkOrderNew>()
   detailsLabWorkOrderPage: Page<LabWorkOrderWithAnalysis> = new Page<LabWorkOrderWithAnalysis>()
-
+  historyPage: Page<DischargeListDto> = new Page<DischargeListDto>()
   examinationPage: Page<ExaminationHistory> = new Page<ExaminationHistory>()
 
   covidHistoryPage: Page<CovidExaminationHistoryDto> = new Page<CovidExaminationHistoryDto>();
@@ -105,12 +113,17 @@ export class DoctorMedicalChartComponent implements OnInit {
   pageMedical = 0;
   pagePrescription = 0;
   pageLaboratory = 0;
+  pageHistory = 0;
   pageSize = 5
   totalExamination: number = 0
   totalMedicalHistory: number = 0;
   totalPrescription: number = 0
   totalLaboratory: number = 0
+  totalHistory: number = 0
   generalMedical: GeneralMedicalData
+
+  selectedDischargeList: DischargeListDto = new DischargeListDto();
+  selectedDischargeListBoolean: boolean = false;
 
   covidBoolean: boolean = false;
 
@@ -140,7 +153,8 @@ export class DoctorMedicalChartComponent implements OnInit {
               private prescriptionService: PrescriptionServiceService,
               private route: ActivatedRoute,
               private labaratoryService: LaboratoryService,
-              private userService: UserService) {
+              private userService: UserService,
+              private infirmaryService: InfirmaryService,) {
     this.generalMedical = {
       id: 0,
       bloodType: '',
@@ -175,10 +189,14 @@ export class DoctorMedicalChartComponent implements OnInit {
       deleteButton: '',
     })
 
-
     this.labaratoryForm = this.formBuilder.group({
       dateFrom: [this.dateFromLabaratory.toISOString().slice(0,10), [Validators.required]],
       dateTo: [this.dateToLabaratory.toISOString().slice(0,10), [Validators.required]],
+    })
+
+    this.historyForm = this.formBuilder.group({
+      dateFromHistory: [this.dateFromHistory.toISOString().slice(0,10), [Validators.required]],
+      dateToHistory: [this.dateToHistory.toISOString().slice(0,10), [Validators.required]],
     })
   }
 
@@ -261,6 +279,15 @@ export class DoctorMedicalChartComponent implements OnInit {
     this.getAllergy()
     this.getVaccine()
     this.getDiagnosis()
+
+    this.infirmaryService.getDischargeListWithoutHospitalizationId( new Date(0), new Date(), this.lbp, this.pageHistory, this.pageSize).subscribe(
+      response => {
+        this.historyPage = response
+        this.dischargeListHistories = this.historyPage.content
+        this.totalHistory = this.historyPage.totalElements
+        this.changeDetectorRef.detectChanges();
+
+      })
   }
 
   updateGeneral(): void {
@@ -529,6 +556,23 @@ export class DoctorMedicalChartComponent implements OnInit {
 
   }
 
+  getInfirmaryHistory(): void {
+    if(this.pageHistory == 0)
+      this.pageHistory = 1;
+
+    this.infirmaryService.getDischargeListWithoutHospitalizationId( this.dateFromHistory, this.dateToHistory, this.lbp, this.pageHistory-1, this.pageSize).subscribe(
+      response => {
+        this.historyPage = response
+        this.dischargeListHistories = this.historyPage.content
+        this.totalHistory = this.historyPage.totalElements
+        console.log("promene broj: " + this.totalHistory)
+        console.log("lista ispod:")
+        console.log(this.dischargeListHistories)
+        this.changeDetectorRef.detectChanges();
+
+      })
+  }
+
   getLabaratoryObradjeni(): void {
 
   }
@@ -583,6 +627,11 @@ export class DoctorMedicalChartComponent implements OnInit {
     this.getCovidHistory();
   }
 
+  onTableDataChangeDischarge(event: any): void {
+    this.pageHistory = event;
+    this.getInfirmaryHistory();
+  }
+
   onRowClick(prescription: PrescriptionDoneDto): void {
     this.idPrescription = prescription.id
 
@@ -600,6 +649,12 @@ export class DoctorMedicalChartComponent implements OnInit {
     this.getLabWorkOrderWithAnalysis(lab.id);
   }
 
+  showDetailsDischargeList(dischargeListDto: DischargeListDto){
+    this.idDischargeList = dischargeListDto.id
+    this.selectedDischargeListBoolean = true
+    this.selectedDischargeList = dischargeListDto
+  }
+
   closeDetails(): void {
     this.showDetailsBoolean = false
   }
@@ -612,6 +667,11 @@ export class DoctorMedicalChartComponent implements OnInit {
   onRowClickExamination(examinationHistory: ExaminationHistory): void {
     this.idExaminationHistory = 0
     this.idExaminationHistory = examinationHistory.id
+  }
+
+  onRowClickDischarge(dischargeHistory: DischargeListDto): void {
+    this.idDischargeList = 0
+    this.id = dischargeHistory.id
   }
 
   check(status: PrescriptionStatus): boolean {
