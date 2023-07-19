@@ -157,6 +157,20 @@ export class ExaminationService {
   }
 
   /**
+   * Pretraga sestara po odeljenju
+   */
+  public getNursesByDepartment(
+    pbo: string
+  ): Observable<DoctorDepartmentDto[]> {
+
+    console.log("usao "+pbo)
+
+    return this.http.get<DoctorDepartmentDto[]>(
+      `${environment.apiURL}/department/getAllNurses/${pbo}`,
+      { headers: this.getHeaders()});
+  }
+
+  /**
    * Azuriranje statusa pacijenta
    * */
   public updatePatientStatus(

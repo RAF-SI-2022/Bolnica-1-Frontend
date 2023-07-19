@@ -93,10 +93,10 @@ export class DoctorScheduleShiftsComponent implements OnInit{
   }
 
   getNurses(): void {
-    // this.examinationService.getNursesByDepartment(this.pbo).subscribe(res => {
-    //   this.nurses = res
-    //   console.log(this.nurses)
-    // })
+    this.examinationService.getNursesByDepartment(this.pbo).subscribe(res => {
+      this.nurses = res
+      console.log(this.nurses)
+    })
   }
 
   combineEmployees(): void {
