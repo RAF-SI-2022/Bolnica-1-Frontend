@@ -288,9 +288,17 @@
         </a>
       </li>
 
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-my-shifts">
+          <i class="bi bi-clock-fill"></i>
+          <span style="color: orange;">Moje smene</span>
+        </a>
+      </li>
 
 
-<!--      <li *ngIf="nurse || nurseVisa" class="nav-item">-->
+
+
+      <!--      <li *ngIf="nurse || nurseVisa" class="nav-item">-->
 <!--        <a class="nav-link collapsed" routerLink="../nurse-schedule-appointment-new">-->
 <!--          <i class="bi bi-calendar-plus"></i>-->
 <!--          <span>Zakazivanje pregleda NOVO</span>-->

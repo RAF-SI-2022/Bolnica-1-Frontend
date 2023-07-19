@@ -180,6 +180,7 @@ import {
   DoctorScheduleShiftsComponent
 } from "./components/doctor/shifts/doctor-schedule-shifts/doctor-schedule-shifts.component";
 import {DoctorMyShiftsComponent} from "./components/doctor/shifts/doctor-my-shifts/doctor-my-shifts.component";
+import {NurseMyShiftComponent} from "./components/nurse/nurse-my-shift/nurse-my-shift.component";
 
 
 const routes: Routes = [
@@ -361,6 +362,11 @@ const routes: Routes = [
   {
     path: "nurse-edit-patient/:lbp",
     component: NurseEditPatientComponent,
+    canActivate: [AuthGuard, NurseGuard]
+  },
+  {
+    path: "nurse-my-shifts",
+    component: NurseMyShiftComponent,
     canActivate: [AuthGuard, NurseGuard]
   },
 

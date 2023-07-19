@@ -103,6 +103,7 @@ import { NurseDailyVaccinationComponent } from './components/nurse/vaccination/n
 import { NurseVaccinationAdmissionComponent } from './components/nurse/vaccination/nurse-vaccination-admission/nurse-vaccination-admission.component';
 import { DoctorScheduleShiftsComponent } from './components/doctor/shifts/doctor-schedule-shifts/doctor-schedule-shifts.component';
 import { DoctorMyShiftsComponent } from './components/doctor/shifts/doctor-my-shifts/doctor-my-shifts.component';
+import { NurseMyShiftComponent } from './components/nurse/nurse-my-shift/nurse-my-shift.component';
 
 
 @NgModule({
@@ -181,6 +182,7 @@ import { DoctorMyShiftsComponent } from './components/doctor/shifts/doctor-my-sh
     NurseVaccinationAdmissionComponent,
     DoctorScheduleShiftsComponent,
     DoctorMyShiftsComponent,
+    NurseMyShiftComponent,
   ],
   imports: [
     BrowserModule,
