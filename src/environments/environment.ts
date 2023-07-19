@@ -21,7 +21,7 @@
 //   title: 'Local Infirmary Environment',
 //   apiURL: 'http://localhost:8084/api/infirmary'
 // };
-//
+
 // export const environmentCovid = {
 //   production: false,
 //   title: 'Local Covid Environment',

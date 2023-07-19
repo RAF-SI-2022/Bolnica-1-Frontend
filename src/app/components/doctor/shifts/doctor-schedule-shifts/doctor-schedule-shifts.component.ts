@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {PatientService} from "../../../../services/patient-service/patient.service";
 import {SnackbarServiceService} from "../../../../services/snackbar-service.service";
 import {UserService} from "../../../../services/user-service/user.service";
@@ -28,9 +28,13 @@ export class DoctorScheduleShiftsComponent implements OnInit{
   formSearch: FormGroup;
 
   form: FormGroup;
+  formNurse: FormGroup;
+
   lbz: string = '';
   pbo: string = '';
   doctors: DoctorDepartmentDto[] = [];
+  nurses: DoctorDepartmentDto[] = [];
+  employees: DoctorDepartmentDto[] = [];
   shifts: ShiftDto[] = [];
 
   selectedDoctor: string = '';
@@ -42,7 +46,8 @@ export class DoctorScheduleShiftsComponent implements OnInit{
               private userService: UserService,
               private formBuilder: FormBuilder,
               private examinationService: ExaminationService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private changeDetectorRef: ChangeDetectorRef,) {
 
     const now = new Date();
 
@@ -50,6 +55,12 @@ export class DoctorScheduleShiftsComponent implements OnInit{
       lbz: ['', [Validators.required]],
       shiftId: [0, [Validators.required]],
       date: [now.toISOString().slice(0,10), [Validators.required]]
+    });
+
+    this.formNurse = this.formBuilder.group({
+      lbzNurse: ['', [Validators.required]],
+      shiftIdNurse: [0, [Validators.required]],
+      dateNurse: [now.toISOString().slice(0,10), [Validators.required]]
     });
 
 
@@ -67,8 +78,11 @@ export class DoctorScheduleShiftsComponent implements OnInit{
     this.lbz = localStorage.getItem('LBZ').toString()
     this.pbo = this.authService.getPBO();
     this.getDoctors();
+    this.getNurses();
     this.getShifts();
     this.searchShifts();
+    this.combineEmployees();
+
   }
 
   getDoctors(): void {
@@ -76,6 +90,17 @@ export class DoctorScheduleShiftsComponent implements OnInit{
       this.doctors = res
       console.log(this.doctors)
     })
+  }
+
+  getNurses(): void {
+    // this.examinationService.getNursesByDepartment(this.pbo).subscribe(res => {
+    //   this.nurses = res
+    //   console.log(this.nurses)
+    // })
+  }
+
+  combineEmployees(): void {
+    this.employees = this.doctors.concat(this.nurses);
   }
 
   getShifts() {
@@ -88,18 +113,35 @@ export class DoctorScheduleShiftsComponent implements OnInit{
   addShiftToDoctor(){
     const shift = this.form.value;
     console.log(shift.lbz)
-    this.addShiftSchedule(shift.lbz, shift.shiftId, shift.date)
-
+    this.addShiftScheduleDoctor(shift.lbz, shift.shiftId, shift.date)
   }
 
-  addShiftSchedule(lbz: string, shiftId: number, date: Date) {
+  addShiftToNurse(){
+    const shift = this.formNurse.value;
+    console.log(shift.lbz)
+    this.addShiftScheduleNurse(shift.lbzNurse, shift.shiftIdNurse, shift.dateNurse)
+  }
+
+  addShiftScheduleDoctor(lbz: string, shiftId: number, date: Date) {
+
+    this.userService.addShiftSchedule(lbz, shiftId, date)
+      .subscribe(res => {
+        this.form.reset();
+        this.selectedDoctor = '';
+        this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
+      }, error => {
+        console.log("Error " + error.status);
+        this.snackBar.openErrorSnackBar("Nije sacuvano!")
+
+      });
+  }
+
+  addShiftScheduleNurse(lbz: string, shiftId: number, date: Date) {
 
     this.userService.addShiftSchedule(lbz, shiftId, date)
       .subscribe(res => {
         console.log("uspeo")
-        this.form.reset();
-        this.selectedDoctor = '';
-
+        this.formNurse.reset();
         this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
       }, error => {
         console.log("Error " + error.status);
@@ -140,6 +182,7 @@ export class DoctorScheduleShiftsComponent implements OnInit{
           this.shiftScheduleDtoPage= res
           this.shiftScheduleDtoList = this.shiftScheduleDtoPage.content
           this.total = this.shiftScheduleDtoPage.totalElements
+          this.changeDetectorRef.detectChanges();
           if(this.shiftScheduleDtoList.length == 0){
             this.snackBar.openWarningSnackBar("Nema smena")
           }
@@ -150,6 +193,7 @@ export class DoctorScheduleShiftsComponent implements OnInit{
         this.shiftScheduleDtoPage= res
         this.shiftScheduleDtoList = this.shiftScheduleDtoPage.content
         this.total = this.shiftScheduleDtoPage.totalElements
+        this.changeDetectorRef.detectChanges();
         if(this.shiftScheduleDtoList.length == 0){
           this.snackBar.openWarningSnackBar("Nema smena")
         }
