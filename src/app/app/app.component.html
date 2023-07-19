@@ -165,7 +165,22 @@
         </a>
       </li>
 
-<!--      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">-->
+      <li *ngIf="doctorSpecOdeljenja " class="nav-item">
+        <a class="nav-link collapsed" routerLink="../doctor-schedule-shifts">
+          <i class="bi bi-clock"></i>
+          <span style="color: orange;">Smene</span>
+        </a>
+      </li>
+
+      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../doctor-my-shifts">
+          <i class="bi bi-clock-fill"></i>
+          <span style="color: orange;">Moje smene</span>
+        </a>
+      </li>
+
+
+      <!--      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">-->
 <!--        <a class="nav-link collapsed" routerLink="../doctor-create-referral">-->
 <!--          <i class="bi bi-journal-text"></i>-->
 <!--          <span>Kreiranje uputa</span>-->

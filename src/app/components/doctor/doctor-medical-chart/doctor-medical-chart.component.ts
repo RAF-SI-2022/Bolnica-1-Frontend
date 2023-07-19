@@ -241,6 +241,8 @@ export class DoctorMedicalChartComponent implements OnInit {
     //za istoriju uputa
     this.prescriptionService.getPrescriptions(this.lbz, new Date(0), new Date(), this.lbp, this.pagePrescription , this.pageSize).subscribe(
       response => {
+
+        console.log("emica bebica je pametna")
         this.prescriptionPage = response
         this.prescriptionHistories = this.prescriptionPage.content
         this.totalPrescription = this.prescriptionPage.totalElements

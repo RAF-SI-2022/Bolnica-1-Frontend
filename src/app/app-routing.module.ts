@@ -176,6 +176,10 @@ import {
 import {
   NurseScheduleVaccinationComponent
 } from "./components/nurse/vaccination/nurse-schedule-vaccination/nurse-schedule-vaccination.component";
+import {
+  DoctorScheduleShiftsComponent
+} from "./components/doctor/shifts/doctor-schedule-shifts/doctor-schedule-shifts.component";
+import {DoctorMyShiftsComponent} from "./components/doctor/shifts/doctor-my-shifts/doctor-my-shifts.component";
 
 
 const routes: Routes = [
@@ -257,6 +261,16 @@ const routes: Routes = [
   {
     path: "doctor-search-patients",
     component: DoctorSearchPatientsComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-schedule-shifts",
+    component: DoctorScheduleShiftsComponent,
+    canActivate: [AuthGuard, DoctorGuard]
+  },
+  {
+    path: "doctor-my-shifts",
+    component: DoctorMyShiftsComponent,
     canActivate: [AuthGuard, DoctorGuard]
   },
   {

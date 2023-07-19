@@ -1,1 +1,64 @@
-<p>doctor-my-shifts works!</p>
+<form [formGroup]="formSearch" class="mb-5 needs-validation" novalidate>
+
+  <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+
+    <h2 class="text-center"><b>Pretraga mojih smena</b></h2>
+
+    <h5>Lista smena:</h5>
+    <ul>
+      <li *ngFor="let shift of shifts">
+        {{ shift.startTime }} - {{ shift.endTime }}
+      </li>
+    </ul>
+
+    <div class="row">
+
+      <div class="col-md-4 offset-2">
+        <label class="labels">Od datuma</label>
+        <input [formControlName]="'startDate'" name="dateFrom" type="date" class="form-control" data-cy="dateFrom">
+      </div>
+      <div class="col-md-4">
+        <label class="labels">Do datuma</label>
+        <input [formControlName]="'endDate'" type="date" class="form-control" data-cy="dateTo">
+      </div>
+
+
+      <div class="mt-4 text-center">
+        <button (click)="searchShifts()" class="btn btn-primary" type="submit" data-toggle="collapse"
+                data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                data-cy="pretrazi">Pretrazi</button>
+      </div>
+
+      <div class="row py-5">
+        <table class="table table-hover" data-cy="table">
+          <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Smena</th>
+
+          </tr>
+          </thead>
+
+          <tbody>
+
+          <tr
+            *ngFor="let shift of shiftScheduleDtoList | paginate: {itemsPerPage: size, currentPage: page, totalItems: total}; let i = index"
+
+          >
+            <td>{{shift.date | date: 'dd.MM.yyyy.' }}</td>
+            <td>{{shift.shift}}</td>
+
+          </tr>
+          </tbody>
+
+        </table>
+
+        <div class="d-flex align-items-center justify-content-center h-100">
+          <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
+          </pagination-controls>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

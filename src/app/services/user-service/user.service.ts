@@ -467,7 +467,7 @@ export class UserService {
 
 
   public getShiftSchedule(
-    id: number,
+    lbz: string,
     startDate: Date,
     endDate: Date,
     page: number,
@@ -482,11 +482,27 @@ export class UserService {
       .append("size",size)
 
     return this.http.get<Page<ShiftScheduleDto>>(
-      `${environment.apiURL}/shift/schedule/${id}`,
+      `${environment.apiURL}/shift/schedule/${lbz}`,
       {params: httpParams, headers:this.getHeaders()}
     );
   }
 
+
+  public isWorking(
+    lbz: string,
+    date: Date,
+    time: string
+  ): Observable<Boolean> {
+
+    let httpParams = new HttpParams()
+      .append("date", date.toISOString().slice(0,10))
+      .append("time", time)
+
+    return this.http.get<Boolean>(
+      `${environment.apiURL}/shift/working/${lbz}`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
 
 
 }
