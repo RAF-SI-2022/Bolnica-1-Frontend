@@ -141,7 +141,7 @@
                         <div class="col-md-6">
                           <h4>Lista primljenih vakcina</h4>
                           <ul>
-                            <li *ngFor="let item of vaccinationsList">{{item.name}}</li>
+                            <li *ngFor="let item of vaccinationsList">{{item.name}} : {{item.vaccinationDate | date: 'dd.MM.yyyy.' }}</li>
                           </ul>
                         </div>
                         <div class="col-md-6">
