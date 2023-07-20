@@ -8,11 +8,11 @@ import {SnackbarServiceService} from "../../../services/snackbar-service.service
 import {UserService} from "../../../services/user-service/user.service";
 
 @Component({
-  selector: 'app-nurse-my-shift',
-  templateUrl: './nurse-my-shift.component.html',
-  styleUrls: ['./nurse-my-shift.component.css']
+  selector: 'app-technician-my-shifts',
+  templateUrl: './technician-my-shifts.component.html',
+  styleUrls: ['./technician-my-shifts.component.css']
 })
-export class NurseMyShiftComponent implements OnInit{
+export class TechnicianMyShiftsComponent implements OnInit{
 
   shiftScheduleDtoList: ShiftScheduleDto[] = [];
   shiftScheduleDtoPage: Page<ShiftScheduleDto> = new Page<ShiftScheduleDto>();
@@ -83,4 +83,3 @@ export class NurseMyShiftComponent implements OnInit{
   }
 
 }
-

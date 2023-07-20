@@ -181,6 +181,9 @@ import {
 } from "./components/doctor/shifts/doctor-schedule-shifts/doctor-schedule-shifts.component";
 import {DoctorMyShiftsComponent} from "./components/doctor/shifts/doctor-my-shifts/doctor-my-shifts.component";
 import {NurseMyShiftComponent} from "./components/nurse/nurse-my-shift/nurse-my-shift.component";
+import {BiochemistMyShiftsComponent} from "./components/biochemist/biochemist-my-shifts/biochemist-my-shifts.component";
+import {TechnicianMyShiftsComponent} from "./components/technician/technician-my-shifts/technician-my-shifts.component";
+import {AdminMyShiftsComponent} from "./components/admin/admin-my-shifts/admin-my-shifts.component";
 
 
 const routes: Routes = [
@@ -230,6 +233,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, AdminGuard]
   },
   {
+    path: "admin-my-shifts",
+    component: AdminMyShiftsComponent,
+    canActivate: [AuthGuard, AdminGuard]
+  },
+  {
     path: "admin-workspace",
     component: AdminWorkspaceComponent,
     canActivate: [AuthGuard, AdminGuard]
@@ -247,6 +255,11 @@ const routes: Routes = [
   {
     path: "biochemist-daily",
     component: BiochemistDailyWorkOrdersComponent,
+    canActivate: [AuthGuard, BiochemistGuard]
+  },
+  {
+    path: "biochemist-my-shifts",
+    component: BiochemistMyShiftsComponent,
     canActivate: [AuthGuard, BiochemistGuard]
   },
   {
@@ -528,6 +541,11 @@ const routes: Routes = [
   {
     path: "technician-workspace",
     component: TechnicianWorkspaceComponent,
+    canActivate: [AuthGuard, TechnicianGuard]
+  },
+  {
+    path: "technician-my-shifts",
+    component: TechnicianMyShiftsComponent,
     canActivate: [AuthGuard, TechnicianGuard]
   },
   {

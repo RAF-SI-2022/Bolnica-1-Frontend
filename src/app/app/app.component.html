@@ -130,6 +130,13 @@
         </a>
       </li>
 
+      <li *ngIf="admin" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../admin-my-shifts">
+          <i class="bi bi-clock-fill"></i>
+          <span style="color: orange;">Moje smene</span>
+        </a>
+      </li>
+
       <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
         <a class="nav-link collapsed" routerLink="../doctor-workspace">
           <i class="bi bi-table"></i>
@@ -346,6 +353,13 @@
         </a>
       </li>
 
+      <li *ngIf="biochemist || biochemistSpec" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../biochemist-my-shifts">
+          <i class="bi bi-clock-fill"></i>
+          <span style="color: orange;">Moje smene</span>
+        </a>
+      </li>
+
       <li *ngIf="technician|| technicianVisi" class="nav-item">
         <a class="nav-link collapsed" routerLink="../technician-workspace">
           <i class="bi bi-house"></i>
@@ -373,6 +387,14 @@
           <span>Prijem pacijenata</span>
         </a>
       </li>
+
+      <li *ngIf="technician|| technicianVisi" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../technician-my-shifts">
+          <i class="bi bi-clock-fill"></i>
+          <span style="color: orange;">Moje smene</span>
+        </a>
+      </li>
+
 
 
       <li *ngIf="receptionist" class="nav-item">
