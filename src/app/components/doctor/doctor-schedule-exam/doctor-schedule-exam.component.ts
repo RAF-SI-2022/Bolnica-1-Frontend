@@ -24,6 +24,7 @@ import {PatientArrival} from "../../../models/laboratory-enums/PatientArrival";
 import * as moment from "moment";
 import {ExamPatientDoctorDto} from "../../../models/ExamPatientDoctorDto";
 import {ExamForPatientDto} from "../../../models/ExamForPatientDto";
+import {ShiftScheduleDto} from "../../../models/shifts/ShiftScheduleDto";
 
 L10n.load({
   'en-US': {
@@ -97,6 +98,13 @@ export class DoctorScheduleExamComponent implements OnInit {
   departmentSelectedBoolean: boolean = false;
 
   examsForLbp: ExamForPatientDto[] = [];
+
+  shiftScheduleDtoList: ShiftScheduleDto[] = [];
+  shiftScheduleDtoPage: Page<ShiftScheduleDto> = new Page<ShiftScheduleDto>();
+
+  sizeShift: number = 99999;
+  pageShift: number = 0;
+  totalShift: number = 0;
 
   constructor(private formBuilder: FormBuilder,
               private snackBar: SnackbarServiceService,
@@ -183,6 +191,24 @@ export class DoctorScheduleExamComponent implements OnInit {
 
 
   public addEventsData(): void {
+
+    this.shiftScheduleDtoList = []
+
+    const today = new Date();
+    const sevenDaysLater = new Date(today);
+    sevenDaysLater.setDate(today.getDate() + 7);
+
+    this.userService.getShiftScheduleCalendar(this.selectedDoctor, today,
+      sevenDaysLater, this.pageShift, this.sizeShift).subscribe(res=>{
+      this.shiftScheduleDtoPage= res
+      this.shiftScheduleDtoList = this.shiftScheduleDtoPage.content
+      this.total = this.shiftScheduleDtoPage.totalElements
+      if(this.shiftScheduleDtoList.length == 0){
+        this.snackBar.openWarningSnackBar("Nema smena")
+      }
+    })
+
+
     this.examinationService.getScheduledExaminationByDoctor(
       this.selectedDoctor
     ).subscribe(res => {

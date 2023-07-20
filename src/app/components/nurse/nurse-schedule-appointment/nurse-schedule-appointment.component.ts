@@ -15,6 +15,7 @@ import { SnackbarServiceService } from 'src/app/services/snackbar-service.servic
 import { first, update } from 'cypress/types/lodash';
 import { interval } from 'rxjs';
 import {AuthService} from "../../../services/auth.service";
+import {ShiftScheduleDto} from "../../../models/shifts/ShiftScheduleDto";
 
 
 L10n.load({
@@ -58,6 +59,13 @@ export class NurseScheduleAppointmentComponent implements OnInit {
       }
     }
   };
+
+  shiftScheduleDtoList: ShiftScheduleDto[] = [];
+  shiftScheduleDtoPage: Page<ShiftScheduleDto> = new Page<ShiftScheduleDto>();
+
+  sizeShift: number = 99999;
+  pageShift: number = 0;
+  totalShift: number = 0;
 
   subject: string = '';
   note: string = '';
@@ -134,7 +142,25 @@ export class NurseScheduleAppointmentComponent implements OnInit {
   }
 
 
+
+
   public addEventsData(): void {
+
+    this.shiftScheduleDtoList = []
+
+    const today = new Date();
+    const sevenDaysLater = new Date(today);
+    sevenDaysLater.setDate(today.getDate() + 7);
+
+    this.userService.getShiftScheduleCalendar(this.selectedDoctor, today,
+      sevenDaysLater, this.pageShift, this.sizeShift).subscribe(res=>{
+      this.shiftScheduleDtoPage= res
+      this.shiftScheduleDtoList = this.shiftScheduleDtoPage.content
+      this.total = this.shiftScheduleDtoPage.totalElements
+      if(this.shiftScheduleDtoList.length == 0){
+        this.snackBar.openWarningSnackBar("Nema smena")
+      }
+    })
 
 
     this.examinationService.getScheduledExaminationByDoctor(
