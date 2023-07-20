@@ -35,9 +35,12 @@ export class DoctorMyShiftsComponent implements OnInit{
               private formBuilder: FormBuilder) {
 
     const now = new Date();
+    const sevenDaysLater = new Date(now);
+    sevenDaysLater.setDate(now.getDate() + 7);
+
     this.formSearch = this.formBuilder.group({
       startDate: [now.toISOString().slice(0,10), [Validators.required]],
-      endDate: [now.toISOString().slice(0,10), [Validators.required]]
+      endDate: [sevenDaysLater.toISOString().slice(0,10), [Validators.required]]
     });
 
   }
