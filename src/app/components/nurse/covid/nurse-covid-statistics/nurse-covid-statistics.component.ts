@@ -24,21 +24,14 @@ export class NurseCovidStatisticsComponent  implements OnInit {
   statsList: CovidSummed[] = [];
   total = 0;
 
-  positive: number = 0;
-  negative: number = 0;
-  hospitalized: number = 0;
-  ventilator: number = 0;
-  dead: number = 0;
-  curr: number = 0;
-  vaccinated: number = 0;
-  healed: number=0;
-
-  numberOfTestedPatients : number;
-  numberOfHospitalizedPatients : number;
-  numberOfPositivePatients : number;
-  numberOfCuredPatients : number;
-  numberOfPatientsOnRespirator : number;
-  numberOfDeadPatients : number;
+  positive: number = 135;
+  negative: number = 788;
+  hospitalized: number = 1232;
+  ventilator: number = 150;
+  dead: number = 218;
+  curr: number = 18;
+  vaccinated: number = 1102;
+  healed: number=900;
 
   todayDate: Date = new Date();
 
@@ -47,6 +40,10 @@ export class NurseCovidStatisticsComponent  implements OnInit {
   pieChartDimensions: [number, number] = [400, 400];
   barChartSingle: ChartData[];
   testedPieChartData: ChartData[];
+
+  caseCategoriesData: ChartData[];
+  cumulativeData: any[];
+
   // options
   showXAxis = true;
   showYAxis = true;
@@ -58,6 +55,14 @@ export class NurseCovidStatisticsComponent  implements OnInit {
   yAxisLabel = 'Broj';
 
   colorScheme = 'vivid';
+
+  lineChartData: { name: string, series: { name: Date, value: number }[] }[];
+
+  lineChartView: [number, number] = [700, 400];
+  lineChartLegend = true;
+  lineChartXAxisLabel = 'Datum';
+  lineChartYAxisLabel = 'Broj';
+  lineChartColorScheme = 'vivid';
 
 
 
@@ -78,74 +83,21 @@ export class NurseCovidStatisticsComponent  implements OnInit {
     });
 
 
-    this.numberOfTestedPatients = 43;
-    this.numberOfHospitalizedPatients = 1200;
-    this.numberOfPositivePatients = 20;
-    this.numberOfCuredPatients = 245;
-    this.numberOfPatientsOnRespirator = 823;
-    this.numberOfDeadPatients = 40;
-
-    this.single = [
-      {
-        "name": "Broj testiranih",
-        "value": this.numberOfTestedPatients
-      },
-      {
-        "name": "Broj hospitalizovanih",
-        "value": this.numberOfHospitalizedPatients
-      },
-      {
-        "name": "Broj pozitivnih",
-        "value": this.numberOfPositivePatients
-      },
-      {
-        "name": "Broj izlečenih",
-        "value": this.numberOfCuredPatients
-      },
-      {
-        "name": "Broj na respiratoru",
-        "value": this.numberOfPatientsOnRespirator
-      },
-      {
-        "name": "Broj umrlih",
-        "value": this.numberOfDeadPatients
-      }
-    ];
-
-    this.testedPieChartData = [
-      {
-        name: "Pozitivni pacijenti",
-        value: this.numberOfPositivePatients
-      },
-      {
-        name: "Negativni pacijenti",
-        value: this.numberOfTestedPatients - this.numberOfPositivePatients
-      }
-    ];
-    this.barChartSingle = [
-      {
-        "name": "Broj hospitalizovanih",
-        "value": this.numberOfHospitalizedPatients
-      },
-      {
-        "name": "Broj izlečenih",
-        "value": this.numberOfCuredPatients
-      },
-      {
-        "name": "Broj na respiratoru",
-        "value": this.numberOfPatientsOnRespirator
-      },
-      {
-        "name": "Broj umrlih",
-        "value": this.numberOfDeadPatients
-      }
-    ];
+    this.single = [];
+    this.testedPieChartData = [];
+    this.barChartSingle = [];
+    this.caseCategoriesData = [];
+    this.cumulativeData = [];
+    this.lineChartData = [];
 
   }
 
 
   ngOnInit(): void {
     this.getCovidStats()
+    // this.fillData()
+    // this.fillSampleData()
+
   }
 
 
@@ -173,7 +125,7 @@ export class NurseCovidStatisticsComponent  implements OnInit {
         this.vaccinated = response.covidSummed.vaccinated;
         this.healed = response.covidSummed.healed;
 
-        // this.fillData();
+        this.fillData();
 
       }, err => {
         this.snackBar.openErrorSnackBar("Greska")
@@ -254,6 +206,135 @@ export class NurseCovidStatisticsComponent  implements OnInit {
       }
     ];
 
+    this.caseCategoriesData = [
+      {
+        "name": "Hospitalizovani",
+        "value": this.hospitalized
+      },
+      {
+        "name": "Na respiratoru",
+        "value": this.ventilator
+      },
+      {
+        "name": "Umrli",
+        "value": this.dead
+      },
+      {
+        "name": "Izleceni",
+        "value": this.healed
+      }
+    ];
+
+    // Calculate cumulative data over time
+    let cumulativePositive = 0;
+    let cumulativeNegative = 0;
+    let cumulativeHospitalized = 0;
+    let cumulativeVentilator = 0;
+    let cumulativeDead = 0;
+    let cumulativeVaccinated = 0;
+    let cumulativeHealed = 0;
+
+    this.cumulativeData = this.statsList.map((stat) => {
+      console.log("usao")
+      cumulativePositive += stat.positive;
+      cumulativeNegative += stat.negative;
+      cumulativeHospitalized += stat.hospitalized;
+      cumulativeVentilator += stat.ventilator;
+      cumulativeDead += stat.dead;
+      cumulativeVaccinated += stat.vaccinated;
+      cumulativeHealed += stat.healed;
+
+      console.log("cumulative")
+      console.log(cumulativePositive)
+
+      return {
+        "name": stat.date.getTime(), // Use the timestamp as the unique identifier for the data points
+        "Positive": cumulativePositive,
+        "Negative": cumulativeNegative,
+        "Hospitalized": cumulativeHospitalized,
+        "Ventilator": cumulativeVentilator,
+        "Dead": cumulativeDead,
+        "Vaccinated": cumulativeVaccinated,
+        "Healed": cumulativeHealed,
+      };
+    });
+
+
+    // Line chart data
+    this.lineChartData = [
+      {
+        name: 'Broj novih pozitivnih',
+        series: this.calculateDailyRate('positive')
+      },
+      {
+        name: 'Broj hospitalizovanih',
+        series: this.calculateDailyRate('hospitalized')
+      },
+      {
+        name: 'Broj na respiratoru',
+        series: this.calculateDailyRate('ventilator')
+      },
+      {
+        name: 'Broj umrlih',
+        series: this.calculateDailyRate('dead')
+      },
+      {
+        name: 'Broj vakcinisanih',
+        series: this.calculateDailyRate('vaccinated')
+      },
+    ];
+
+    console.log(this.lineChartData)
+
   }
 
+
+  calculateDailyRate(category: keyof CovidSummed): { name: Date; value: number }[] {
+    console.log("Calculating daily rates for category:", category);
+
+    const data = this.statsList.map((stat, index) => {
+      const currentValue: number = Number(stat[category]); // Convert to number
+      const previousValue: number = index > 0 ? Number(this.statsList[index - 1][category]) : 0; // Convert to number
+      const dailyRate: number = currentValue - previousValue;
+      console.log("Daily Rate:", dailyRate);
+
+      return {
+        name: new Date(stat.date.getTime()), // Convert timestamp to Date object
+        value: dailyRate,
+      };
+    });
+
+    console.log("Calculated data:", data);
+
+    return data;
+  }
+
+
+  fillSampleData(): void {
+    // Clear any existing data
+    this.statsList = [];
+
+    for (let i = 1; i <= 20; i++) {
+      const covidSummed: CovidSummed = {
+        positive: Math.floor(Math.random() * 1000),
+        negative: Math.floor(Math.random() * 1000),
+        hospitalized: Math.floor(Math.random() * 100),
+        ventilator: Math.floor(Math.random() * 50),
+        dead: Math.floor(Math.random() * 30),
+        curr: Math.floor(Math.random() * 100),
+        vaccinated: Math.floor(Math.random() * 500),
+        healed: Math.floor(Math.random() * 800),
+        date: new Date(2023, 6, i), // Replace 'i' with your desired day of the month
+      };
+      this.statsList.push(covidSummed);
+    }
+
+    // Sort the statsList by date in ascending order
+    this.statsList.sort((a, b) => a.date.getTime() - b.date.getTime());
+    console.log(this.statsList)
+
+  }
+
+
 }
+

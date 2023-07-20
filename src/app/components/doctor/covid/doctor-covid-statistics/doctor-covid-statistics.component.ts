@@ -92,9 +92,9 @@ export class DoctorCovidStatisticsComponent  implements OnInit {
 
 
   ngOnInit(): void {
-    // this.getCovidStats()
-    this.fillData()
-    this.fillSampleData()
+    this.getCovidStats()
+    // this.fillData()
+    // this.fillSampleData()
 
   }
 
