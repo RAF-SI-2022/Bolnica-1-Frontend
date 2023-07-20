@@ -115,6 +115,49 @@
         </a>
       </li><!-- End Profile Page Nav -->
 
+      <li *ngIf="admin" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../admin-my-shifts">
+          <i class="bi bi-clock-fill"></i>
+          <span style="color: orange;">Moje smene</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-my-shifts">
+          <i class="bi bi-clock-fill"></i>
+          <span style="color: orange;">Moje smene</span>
+        </a>
+      </li>
+
+      <li *ngIf="biochemist || biochemistSpec" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../biochemist-my-shifts">
+          <i class="bi bi-clock-fill"></i>
+          <span style="color: orange;">Moje smene</span>
+        </a>
+      </li>
+
+      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../doctor-my-shifts">
+          <i class="bi bi-clock-fill"></i>
+          <span style="color: orange;">Moje smene</span>
+        </a>
+      </li>
+
+      <li *ngIf="doctorSpecOdeljenja " class="nav-item">
+        <a class="nav-link collapsed" routerLink="../doctor-schedule-shifts">
+          <i class="bi bi-clock"></i>
+          <span style="color: orange;">Smene</span>
+        </a>
+      </li>
+
+      <li *ngIf="technician|| technicianVisi" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../technician-my-shifts">
+          <i class="bi bi-clock-fill"></i>
+          <span style="color: orange;">Moje smene</span>
+        </a>
+      </li>
+
+
       <li  *ngIf="admin" class="nav-item">
         <a class="nav-link collapsed" routerLink="../admin-search-employee">
           <i class="bi bi-search"></i>
@@ -129,6 +172,8 @@
           <span>Dodaj zaposlenog</span>
         </a>
       </li>
+
+
 
       <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
         <a class="nav-link collapsed" routerLink="../doctor-workspace">
@@ -147,7 +192,7 @@
       <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
         <a class="nav-link collapsed" routerLink="../doctor-patients-infirmary">
           <i class="bi bi-book"></i>
-          <span>Stacionar</span>
+          <span style="color: green;">Stacionar</span>
         </a>
       </li>
 
@@ -158,27 +203,17 @@
 <!--        </a>-->
 <!--      </li>-->
 
-<!--      <li *ngIf="(doctorSpec || doctorSpecOdeljenja || doctorSpecPov) && isCovid()" class="nav-item">-->
-      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
+      <li *ngIf="(doctorSpec || doctorSpecOdeljenja || doctorSpecPov) && isCovid()" class="nav-item">
+<!--      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">-->
         <a class="nav-link collapsed" routerLink="../doctor-covid-statistics">
           <i class="bi bi-bar-chart"></i>
           <span style="color: red;">KOVID statistika</span>
         </a>
       </li>
 
-      <li *ngIf="doctorSpecOdeljenja " class="nav-item">
-        <a class="nav-link collapsed" routerLink="../doctor-schedule-shifts">
-          <i class="bi bi-clock"></i>
-          <span style="color: orange;">Smene</span>
-        </a>
-      </li>
 
-      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
-        <a class="nav-link collapsed" routerLink="../doctor-my-shifts">
-          <i class="bi bi-clock-fill"></i>
-          <span style="color: orange;">Moje smene</span>
-        </a>
-      </li>
+
+
 
 
       <!--      <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">-->
@@ -202,44 +237,6 @@
         </a>
       </li>
 
-
-
-      <li *ngIf="nurse || nurseVisa" class="nav-item">
-        <a class="nav-link collapsed" routerLink="../nurse-infirmary-schedule-admission">
-          <i class="bi bi-file-earmark-medical"></i>
-          <span>Zakazivanje prijema</span>
-        </a>
-      </li>
-
-      <li *ngIf="nurse || nurseVisa" class="nav-item">
-        <a class="nav-link collapsed" routerLink="../nurse-infirmary-search-admission">
-          <i class="bi bi-search"></i>
-          <span>Pretraga prijema</span>
-        </a>
-      </li>
-
-
-      <li *ngIf="nurse || nurseVisa" class="nav-item">
-        <a class="nav-link collapsed" routerLink="../nurse-infirmary-scheduled-patients">
-          <i class="bi bi-alarm"></i>
-          <span>Danasnji prijemi</span>
-        </a>
-      </li>
-
-      <li *ngIf="nurse || nurseVisa" class="nav-item">
-        <a class="nav-link collapsed" routerLink="../nurse-infirmary-patient-admission">
-          <i class="bi bi-file-medical"></i>
-          <span>Prijem na stacionar</span>
-        </a>
-      </li>
-
-      <li *ngIf="nurse || nurseVisa" class="nav-item">
-        <a class="nav-link collapsed" routerLink="../nurse-infirmary-workspace">
-          <i class="bi bi-book"></i>
-          <span>Pacijenti na odeljenju</span>
-        </a>
-      </li>
-
       <li *ngIf="nurse || nurseVisa" class="nav-item">
         <a class="nav-link collapsed" routerLink="../nurse-search-patients">
           <i class="bi bi-search"></i>
@@ -254,6 +251,46 @@
         </a>
       </li>
 
+
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-infirmary-schedule-admission">
+          <i class="bi bi-file-earmark-medical"></i>
+          <span style="color: green;">Zakazivanje prijema</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-infirmary-search-admission">
+          <i class="bi bi-search"></i>
+          <span style="color: green;">Pretraga prijema</span>
+        </a>
+      </li>
+
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-infirmary-scheduled-patients">
+          <i class="bi bi-alarm"></i>
+          <span style="color: green;">Danasnji prijemi</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-infirmary-patient-admission">
+          <i class="bi bi-file-medical"></i>
+          <span style="color: green;">Prijem na stacionar</span>
+        </a>
+      </li>
+
+      <li *ngIf="nurse || nurseVisa" class="nav-item">
+        <a class="nav-link collapsed" routerLink="../nurse-infirmary-workspace">
+          <i class="bi bi-book"></i>
+          <span style="color: green;">Pacijenti na odeljenju</span>
+        </a>
+      </li>
+
+
+
 <!--      <li *ngIf="nurse || nurseVisa" class="nav-item">-->
 <!--        <a class="nav-link collapsed" routerLink="../nurse-covid-ambulance">-->
 <!--          <i class="bi bi-virus2"></i>-->
@@ -261,16 +298,16 @@
 <!--        </a>-->
 <!--      </li>-->
 
-<!--      <li *ngIf="(nurse || nurseVisa) && isCovid()" class="nav-item">-->
-      <li *ngIf="nurse || nurseVisa" class="nav-item">
+      <li *ngIf="(nurse || nurseVisa) && isCovid()" class="nav-item">
+<!--      <li *ngIf="nurse || nurseVisa" class="nav-item">-->
         <a class="nav-link collapsed" routerLink="../nurse-covid-statistics">
           <i class="bi bi-bar-chart"></i>
           <span style="color: red;">KOVID statistika</span>
         </a>
       </li>
 
-<!--      <li *ngIf="(nurse || nurseVisa) && isCovid()" class="nav-item">-->
-      <li *ngIf="nurse || nurseVisa" class="nav-item">
+      <li *ngIf="(nurse || nurseVisa) && isCovid()" class="nav-item">
+<!--      <li *ngIf="nurse || nurseVisa" class="nav-item">-->
         <a class="nav-link collapsed" routerLink="../nurse-covid-certificate">
           <i class="bi bi-patch-check"></i>
           <span style="color: red;">KOVID sertifikat</span>
@@ -291,12 +328,7 @@
         </a>
       </li>
 
-      <li *ngIf="nurse || nurseVisa" class="nav-item">
-        <a class="nav-link collapsed" routerLink="../nurse-my-shifts">
-          <i class="bi bi-clock-fill"></i>
-          <span style="color: orange;">Moje smene</span>
-        </a>
-      </li>
+
 
 
 
@@ -346,6 +378,8 @@
         </a>
       </li>
 
+
+
       <li *ngIf="technician|| technicianVisi" class="nav-item">
         <a class="nav-link collapsed" routerLink="../technician-workspace">
           <i class="bi bi-house"></i>
@@ -373,6 +407,9 @@
           <span>Prijem pacijenata</span>
         </a>
       </li>
+
+
+
 
 
       <li *ngIf="receptionist" class="nav-item">

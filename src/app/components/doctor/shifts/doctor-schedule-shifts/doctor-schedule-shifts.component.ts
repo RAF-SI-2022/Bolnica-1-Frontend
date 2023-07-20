@@ -50,6 +50,8 @@ export class DoctorScheduleShiftsComponent implements OnInit{
               private changeDetectorRef: ChangeDetectorRef,) {
 
     const now = new Date();
+    const sevenDaysLater = new Date(now);
+    sevenDaysLater.setDate(now.getDate() + 7);
 
     this.form = this.formBuilder.group({
       lbz: ['', [Validators.required]],
@@ -67,7 +69,7 @@ export class DoctorScheduleShiftsComponent implements OnInit{
     this.formSearch = this.formBuilder.group({
       doctorLbz: ['', [Validators.required]],
       startDate: [now.toISOString().slice(0,10), [Validators.required]],
-      endDate: [now.toISOString().slice(0,10), [Validators.required]]
+      endDate: [sevenDaysLater.toISOString().slice(0,10), [Validators.required]]
     });
 
   }
@@ -183,6 +185,8 @@ export class DoctorScheduleShiftsComponent implements OnInit{
       this.page = 1;
 
     const sendData = this.formSearch.value;
+
+    if(sendData.doctorLbz == '') sendData.doctorLbz = this.lbz
 
     if(sendData.lbp != '') {
       this.userService.getShiftSchedule(sendData.doctorLbz, sendData.startDate,

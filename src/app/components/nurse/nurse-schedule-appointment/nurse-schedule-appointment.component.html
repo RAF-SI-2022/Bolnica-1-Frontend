@@ -21,10 +21,22 @@
         </div>
       </div>
 
+      <div *ngIf="doctorSearched">
+        <div class="mb-3 mt-3" *ngIf="shiftScheduleDtoList.length!=0">
+          <h5 class="text-right">Smene izabranog doktora {{selectedDoctor}} u narednih 7 dana:</h5>
+          <ul>
+            <li *ngFor="let shiftDoc of shiftScheduleDtoList">
+              <p>{{ shiftDoc.date | date: 'dd.MM.yyyy.' }} | smena: {{ shiftDoc.shift }}</p>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
     </div>
 
   </div>
-  <div *ngIf="doctorSearched">
+
 
   <ejs-schedule #scheduleObj dateFormat="M/d/yyyy h:mm a" [eventSettings]="eventSettings"
     (popupOpen)="onPopupOpen($event)" (cellClick)="onCellClick($event)" [editorTemplate]="editorTemplate"
@@ -111,7 +123,7 @@
 
   </ejs-schedule>
 
-  </div>
+
 </div>
 <!---
 <ejs-schedule height="700" width="1200" [currentView]="setView"></ejs-schedule>

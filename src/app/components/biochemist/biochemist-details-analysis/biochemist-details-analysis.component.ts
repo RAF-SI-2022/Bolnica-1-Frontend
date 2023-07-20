@@ -172,58 +172,42 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
       })
   }
 
-  verifyWorkOrder(): void {
-    for (let par of this.parameterAnalysisResults) {
-      console.log("Evo " + par.result)
-      if(par.result == null || par.result.length == 0){
-        this.snackBar.openErrorSnackBar("Popunite sva polja")
+  async verifyWorkOrder(): Promise<void> {
+    for (let i = 0; i < this.parameterAnalysisResults.length; i++) {
+      const parameter = this.parameterAnalysisResults[i];
+      console.log("Evo " + parameter.result);
+
+      if (parameter.result == null || parameter.result.length == 0) {
+        this.snackBar.openErrorSnackBar("Popunite sva polja");
+        return;
+      }
+
+      try {
+        await this.laboratoryService.updateResults(this.workOrderId, parameter.id, parameter.result, new Date(), this.lbz).toPromise();
+        console.log(`Parameter ${i + 1} saved successfully.`);
+      } catch (error) {
+        console.log("Error while saving parameter: ", error);
+        this.snackBar.openErrorSnackBar("Greška prilikom čuvanja rezultata!");
         return;
       }
     }
-    // this.laboratoryService.verifyResult(this.workOrderId).subscribe(res => {
-    //   console.log("usao ")
-    //   // this.successMessage = res.message
-    //   this.obradjen = true
-    //   this.biochemistLbzVerified = this.lbz
-    //   this.getBiochemistVerified()
-    //   this.getLabWorkOrderWithAnalysis();
-    //   this.snackBar.openSuccessSnackBar("Verifikovan uspesno!")
-    // }, error => {
-    //   console.log("Error " + error.status);
-    //   if (error.status == 409) {
-    //     // this.errorMessage = 'Promena nije sacuvana!';
-    //     this.snackBar.openErrorSnackBar("Promena nije sacuvana!")
-    //   }
-    // })
 
-    // Save all parameter results before verifying
-    const savePromises = this.parameterAnalysisResults.map((p) =>
-      this.laboratoryService.updateResults(this.workOrderId, p.id, p.result, new Date(), this.lbz).toPromise()
+    // All parameters saved successfully, now verify the work order
+    this.laboratoryService.verifyResult(this.workOrderId).subscribe(
+      (res) => {
+        this.obradjen = true;
+        this.biochemistLbzVerified = this.lbz;
+        this.getBiochemistVerified();
+        this.getLabWorkOrderWithAnalysis();
+        this.snackBar.openSuccessSnackBar("Verifikovan uspešno!");
+      },
+      (error) => {
+        console.log("Error " + error.status);
+        if (error.status == 409) {
+          this.snackBar.openErrorSnackBar("Promena nije sačuvana!");
+        }
+      }
     );
-
-    Promise.all(savePromises)
-      .then(() => {
-        // All results saved successfully, now verify the work order
-        this.laboratoryService.verifyResult(this.workOrderId).subscribe(
-          (res) => {
-            this.obradjen = true;
-            this.biochemistLbzVerified = this.lbz;
-            this.getBiochemistVerified();
-            this.getLabWorkOrderWithAnalysis();
-            this.snackBar.openSuccessSnackBar("Verifikovan uspesno!");
-          },
-          (error) => {
-            console.log("Error " + error.status);
-            if (error.status == 409) {
-              this.snackBar.openErrorSnackBar("Promena nije sacuvana!");
-            }
-          }
-        );
-      })
-      .catch((error) => {
-        console.log("Error while saving results: ", error);
-        this.snackBar.openErrorSnackBar("Greška prilikom čuvanja rezultata!");
-      });
   }
 
 

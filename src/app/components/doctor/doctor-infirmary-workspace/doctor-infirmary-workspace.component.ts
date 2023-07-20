@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {HospitalizationDto} from "../../../models/infirmary/HospitalizationDto";
+import {InfirmaryService} from "../../../services/infirmary-service/infirmary.service";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-doctor-infirmary-workspace',
@@ -19,9 +21,15 @@ export class DoctorInfirmaryWorkspaceComponent implements OnInit {
 
   currentHospitalization: HospitalizationDto;
 
+  dischargeShow: boolean = false;
+  covidBoolean: boolean = false;
+  ventilatorBoolean: boolean = false;
+
 
   constructor(private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private infirmaryService: InfirmaryService,
+              private authService: AuthService) {
     this.currentHospitalization = history.state.hospitalization;
 
   }
@@ -40,6 +48,30 @@ export class DoctorInfirmaryWorkspaceComponent implements OnInit {
     this.patientDateAdmission = this.currentHospitalization.patientAdmission
     this.patientDischargeDate = this.currentHospitalization.dischargeDateAndTime
 
+    this.dischargeShow = this.isDischargeDateAndTimeEmpty();
+    console.log(this.dischargeShow)
+
+    this.covidBoolean = this.authService.isCovid();
+    this.checkVentilator();
+
+
+  }
+
+  gotoone(): void {
+    const url = `/doctor-patients-infirmary`;
+    this.router.navigateByUrl(url);
+  }
+
+  checkVentilator(): void{
+    this.infirmaryService.isVentilator(this.currentHospitalization.id).subscribe(res=>{
+        this.ventilatorBoolean = res
+      }
+    )
+  }
+
+
+  isDischargeDateAndTimeEmpty(): boolean {
+    return !this.currentHospitalization.dischargeDateAndTime;
   }
 
   goToMedicalRecord(): void {
@@ -51,14 +83,14 @@ export class DoctorInfirmaryWorkspaceComponent implements OnInit {
 
   goToUput(): void {
     const url = `/doctor-infirmary-create-referral/${this.patientLbp}`;
-    const hospitalization = this.currentHospitalization
+    const hospitalization = true
     this.router.navigateByUrl(url, { state: { hospitalization } });
   }
 
   goToStateHistory(): void {
     const url = `/doctor-infirmary-state-history/${this.patientLbp}`;
-    // const hospitalization = this.currentHospitalization
-    this.router.navigateByUrl(url);
+    const hospitalization = this.currentHospitalization
+    this.router.navigateByUrl(url, { state: { hospitalization }});
   }
 
 

@@ -19,6 +19,9 @@
   </head>
 
   <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+
+    <h2 class="text-center mb-5">Pretraga rezultata</h2>
+
     <form [formGroup]="form"  class="mb-5 needs-validation" novalidate>
     <div class="row">
         <div class="col-md-4">
@@ -62,6 +65,7 @@
         <table class="table table-hover" data-cy="table">
             <thead>
                 <tr>
+                    <th>LBP</th>
                     <th>ID radnog naloga</th>
                     <th>ID uputa</th>
                     <th>Datum i vreme kreiranja</th>
@@ -72,6 +76,7 @@
             <tbody>
                <tr
                  *ngFor="let labWorkOrder of labWorkOrderList | paginate: {itemsPerPage: pageSize, currentPage: page, totalItems: total};  let i = index" >
+                 <td>{{labWorkOrder.lbp}}</td>
                  <td>{{labWorkOrder.id}}</td>
                  <td>{{labWorkOrder.prescription.id}}</td>
                  <td>{{labWorkOrder.creationDateTime |date:'dd-MM-Y'}}</td>

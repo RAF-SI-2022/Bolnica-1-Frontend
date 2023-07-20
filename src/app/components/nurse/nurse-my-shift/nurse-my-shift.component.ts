@@ -32,9 +32,12 @@ export class NurseMyShiftComponent implements OnInit{
               private formBuilder: FormBuilder) {
 
     const now = new Date();
+    const sevenDaysLater = new Date(now);
+    sevenDaysLater.setDate(now.getDate() + 7);
+
     this.formSearch = this.formBuilder.group({
       startDate: [now.toISOString().slice(0,10), [Validators.required]],
-      endDate: [now.toISOString().slice(0,10), [Validators.required]]
+      endDate: [sevenDaysLater.toISOString().slice(0,10), [Validators.required]]
     });
 
   }
@@ -43,6 +46,14 @@ export class NurseMyShiftComponent implements OnInit{
     // @ts-ignore
     this.lbz = localStorage.getItem('LBZ').toString()
     this.searchShifts();
+    this.getShifts();
+  }
+
+  getShifts() {
+    // Call your service to get all shifts
+    this.userService.getAllShift().subscribe(res => {
+      this.shifts = res.shifts;
+    });
   }
 
 
@@ -55,7 +66,7 @@ export class NurseMyShiftComponent implements OnInit{
 
 
     this.userService.getShiftSchedule(this.lbz, sendData.startDate,
-      sendData.endDate, this.page, this.size).subscribe(res=>{
+      sendData.endDate, this.page-1, this.size).subscribe(res=>{
       this.shiftScheduleDtoPage= res
       this.shiftScheduleDtoList = this.shiftScheduleDtoPage.content
       this.total = this.shiftScheduleDtoPage.totalElements
@@ -72,3 +83,4 @@ export class NurseMyShiftComponent implements OnInit{
   }
 
 }
+

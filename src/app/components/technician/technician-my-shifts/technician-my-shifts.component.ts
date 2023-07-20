@@ -1,21 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {ShiftScheduleDto} from "../../../../models/shifts/ShiftScheduleDto";
-import {Page} from "../../../../models/models";
+import {ShiftScheduleDto} from "../../../models/shifts/ShiftScheduleDto";
+import {Page} from "../../../models/models";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {DoctorDepartmentDto} from "../../../../models/DoctorDepartmentDto";
-import {ShiftDto} from "../../../../models/shifts/ShiftDto";
-import {PatientService} from "../../../../services/patient-service/patient.service";
-import {SnackbarServiceService} from "../../../../services/snackbar-service.service";
-import {UserService} from "../../../../services/user-service/user.service";
-import {ExaminationService} from "../../../../services/examination-service/examination.service";
-import {AuthService} from "../../../../services/auth.service";
+import {ShiftDto} from "../../../models/shifts/ShiftDto";
+import {PatientService} from "../../../services/patient-service/patient.service";
+import {SnackbarServiceService} from "../../../services/snackbar-service.service";
+import {UserService} from "../../../services/user-service/user.service";
 
 @Component({
-  selector: 'app-doctor-my-shifts',
-  templateUrl: './doctor-my-shifts.component.html',
-  styleUrls: ['./doctor-my-shifts.component.css']
+  selector: 'app-technician-my-shifts',
+  templateUrl: './technician-my-shifts.component.html',
+  styleUrls: ['./technician-my-shifts.component.css']
 })
-export class DoctorMyShiftsComponent implements OnInit{
+export class TechnicianMyShiftsComponent implements OnInit{
 
   shiftScheduleDtoList: ShiftScheduleDto[] = [];
   shiftScheduleDtoPage: Page<ShiftScheduleDto> = new Page<ShiftScheduleDto>();
@@ -70,13 +67,13 @@ export class DoctorMyShiftsComponent implements OnInit{
 
     this.userService.getShiftSchedule(this.lbz, sendData.startDate,
       sendData.endDate, this.page-1, this.size).subscribe(res=>{
-        this.shiftScheduleDtoPage= res
-        this.shiftScheduleDtoList = this.shiftScheduleDtoPage.content
-        this.total = this.shiftScheduleDtoPage.totalElements
-        if(this.shiftScheduleDtoList.length == 0){
-          this.snackBar.openWarningSnackBar("Nema smena")
-        }
-      })
+      this.shiftScheduleDtoPage= res
+      this.shiftScheduleDtoList = this.shiftScheduleDtoPage.content
+      this.total = this.shiftScheduleDtoPage.totalElements
+      if(this.shiftScheduleDtoList.length == 0){
+        this.snackBar.openWarningSnackBar("Nema smena")
+      }
+    })
 
   }
 

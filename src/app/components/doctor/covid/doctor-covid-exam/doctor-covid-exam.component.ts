@@ -13,6 +13,9 @@ import {PatientService} from "../../../../services/patient-service/patient.servi
 import {GeneralMedicalData} from "../../../../models/patient/GeneralMedicalData";
 import {Vaccination} from "../../../../models/patient/Vaccination";
 import {Allergy} from "../../../../models/patient/Allergy";
+import {PatientArrival} from "../../../../models/laboratory-enums/PatientArrival";
+import {switchMap} from "rxjs";
+import {ExaminationService} from "../../../../services/examination-service/examination.service";
 
 
 @Component({
@@ -47,7 +50,8 @@ export class DoctorCovidExamComponent  implements OnInit {
               private covidService: CovidServiceService,
               private authService: AuthService,
               private snackBar: SnackbarServiceService,
-              private patientService: PatientService) {
+              private patientService: PatientService,
+              private examinationService: ExaminationService) {
 
     this.currentCovidExam = history.state.patient;
 
@@ -136,7 +140,7 @@ export class DoctorCovidExamComponent  implements OnInit {
       sendData.lungCondition,
       sendData.therapy
 
-    ).subscribe(res=>{
+    ).subscribe(res=> {
 
       this.examForm.reset();
 
@@ -157,13 +161,20 @@ export class DoctorCovidExamComponent  implements OnInit {
 
       form.classList.remove('was-validated');
 
-      this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
-
-    },err => {
-      this.snackBar.openErrorSnackBar("Nije sacuvano!")
+      this.examinationService.updatePatientStatus(this.currentCovidExam.id, PatientArrival.ZAVRSENO)
+        .subscribe(res => {
+          this.snackBar.openSuccessSnackBar("Uspesno sacuvano!")
+        }, err => {
+          this.snackBar.openErrorSnackBar("Nije sacuvano!")
+        })
     })
 
 
+  }
+
+  gotoone(): void {
+    const url = `/doctor-workspace`;
+    this.router.navigateByUrl(url);
   }
 
 

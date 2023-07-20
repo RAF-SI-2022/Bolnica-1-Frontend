@@ -2,6 +2,18 @@
 
   <h2 class="text-center">Zakazivanje vakcinacija</h2>
 
+  <div class = "row mt-2">
+    <div class="mb-3 mt-3" *ngIf="shiftScheduleDtoList.length!=0">
+      <h5 class="text-right">Smene u narednih 7 dana:</h5>
+      <ul>
+        <li *ngFor="let shiftDoc of shiftScheduleDtoList">
+          <p>{{ shiftDoc.date | date: 'dd.MM.yyyy.' }} | smena: {{ shiftDoc.shift }}</p>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
     <ejs-schedule #scheduleObj
                   [timeScale]="timeScale"
                   dateFormat="M/d/yyyy h:mm a" [eventSettings]="eventSettings"

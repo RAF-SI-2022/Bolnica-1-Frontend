@@ -329,7 +329,14 @@ export class DoctorWorkspaceOnePatientComponent implements OnInit {
     console.log("usao");
     console.log(this.lbp);
     this.saveFormData();
-    this.router.navigate(['doctor-create-referral', this.lbp]);
+    const url = `/doctor-covid-create-referral/${this.lbp}`;
+    const hospitalization = false
+    this.router.navigateByUrl(url, { state: { hospitalization } });
+  }
+
+  gotoone(): void {
+    const url = `/doctor-workspace`;
+    this.router.navigateByUrl(url);
   }
 
 

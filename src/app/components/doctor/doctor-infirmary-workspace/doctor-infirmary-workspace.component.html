@@ -16,6 +16,9 @@
 
 
 <div class="container rounded bg-white mt-5 mb-5">
+      <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+        <button (click)="gotoone()" class="btn btn-primary" data-cy = "nazadBttn">Nazad</button>
+      </div>
 
   <form class="mb-5 needs-validation" novalidate>
     <div class="row">
@@ -53,6 +56,21 @@
             </div>
           </div>
 
+          <div *ngIf="covidBoolean" class="row mt-4">
+            <h4 style="font-weight: bold;"> Respirator:</h4>
+
+              <div *ngIf="!ventilatorBoolean" class="col-md-6">
+                <p>Pacijent nije na respiratoru</p>
+              </div>
+
+            <div class="row mt-2">
+              <div *ngIf="ventilatorBoolean" class="col-md-6">
+              <p>Pacijent je na respiratoru</p>
+              </div>
+            </div>
+
+          </div>
+
 
           <div class="row mt-2">
             <div class="col-md-6">
@@ -73,7 +91,7 @@
             </div>
           </div>
           <div class="row mt-2">
-            <div class="col-md-6">
+            <div *ngIf="dischargeShow" class="col-md-6">
               <button class="btn btn-primary" (click)="goToDischargeList()"><i class="bi bi-info-circle"></i> Otpusna lista</button>
             </div>
 

@@ -6,6 +6,8 @@
 <!--      <h4 class="text-right"><button (click)="gotoone()" class="btn btn-primary" data-cy = "nazadBttn">Nazad</button> Zakazivanje pregleda: {{patientLbp}}</h4>-->
 <!--    </div>-->
 
+    <h2 class="text-center mt-5"><b>Zakazivanje pregleda za pacijenta: {{patientLbp}}</b></h2>
+
 
     <div class="mb-3 mt-3" *ngIf="examsForLbp.length!=0">
       <h5 class="text-right">Vec zakazani pregledi za pacijenta:</h5>
@@ -49,11 +51,25 @@
         </div>
       </div>
 
+      <div *ngIf="doctorSearched">
+        <div class="mb-3 mt-3" *ngIf="shiftScheduleDtoList.length!=0">
+          <h5 class="text-right">Smene izabranog doktora {{selectedDoctor}} u narednih 7 dana:</h5>
+          <ul>
+            <li *ngFor="let shiftDoc of shiftScheduleDtoList">
+              <p>{{ shiftDoc.date | date: 'dd.MM.yyyy.' }} | smena: {{ shiftDoc.shift }}</p>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+
+
     </div>
 
   </div>
 
-  <ejs-schedule *ngIf="departmentSelectedBoolean"
+  <ejs-schedule *ngIf="departmentSelectedBoolean && doctorSearched"
     #scheduleObj dateFormat="M/d/yyyy h:mm a" [eventSettings]="eventSettings"
                 (popupOpen)="onPopupOpen($event)" (cellClick)="onCellClick($event)" [editorTemplate]="editorTemplate"
                 startHour="07:00" endHour="22:00" (eventClick)="onEventClick($event)">

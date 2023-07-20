@@ -20,6 +20,7 @@ import {PatientArrival} from "../../../../models/laboratory-enums/PatientArrival
 import * as moment from 'moment';
 import {Vaccination} from "../../../../models/patient/Vaccination";
 import {ScheduledVaccinationDto} from "../../../../models/vaccination/ScheduledVaccinationDto";
+import {ShiftScheduleDto} from "../../../../models/shifts/ShiftScheduleDto";
 
 L10n.load({
   'en-US': {
@@ -67,6 +68,13 @@ export class NurseScheduleVaccinationComponent implements OnInit {
     slotCount: 4
   };
 
+  shiftScheduleDtoList: ShiftScheduleDto[] = [];
+  shiftScheduleDtoPage: Page<ShiftScheduleDto> = new Page<ShiftScheduleDto>();
+
+  sizeShift: number = 99999;
+  pageShift: number = 0;
+  totalShift: number = 0;
+
   subject: string = '';
   note: string = '';
   patient: string = '';
@@ -105,6 +113,7 @@ export class NurseScheduleVaccinationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.covidBoolean = this.authService.isCovid()
     // @ts-ignore
     this.lbz = localStorage.getItem('LBZ').toString()
     this.nurseDepartmentPbo = this.authService.getPBO();
@@ -114,8 +123,9 @@ export class NurseScheduleVaccinationComponent implements OnInit {
   }
 
   updateData(){
+
     this.addEventsData();
-    this.checkCovid();
+    // this.checkCovid();
     this.getPatientList();
     this.getVaccine();
 
@@ -157,6 +167,22 @@ export class NurseScheduleVaccinationComponent implements OnInit {
 
 
   public addEventsData(): void {
+
+    this.shiftScheduleDtoList = []
+
+    const today = new Date();
+    const sevenDaysLater = new Date(today);
+    sevenDaysLater.setDate(today.getDate() + 7);
+
+    this.userService.getShiftScheduleCalendar(this.lbz, today,
+      sevenDaysLater, this.pageShift, this.sizeShift).subscribe(res=>{
+      this.shiftScheduleDtoPage= res
+      this.shiftScheduleDtoList = this.shiftScheduleDtoPage.content
+      this.total = this.shiftScheduleDtoPage.totalElements
+      if(this.shiftScheduleDtoList.length == 0){
+        this.snackBar.openWarningSnackBar("Nema smena")
+      }
+    })
 
 
     this.patientService.findScheduledVaccinationsWithFilter(

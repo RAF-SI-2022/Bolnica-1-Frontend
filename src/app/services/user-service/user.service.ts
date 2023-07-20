@@ -482,6 +482,7 @@ export class UserService {
 
   ): Observable<Page<ShiftScheduleDto>> {
 
+
     let httpParams = new HttpParams()
       .append("startDate", startDate.toString())
       .append("endDate", endDate.toString())
@@ -498,6 +499,51 @@ export class UserService {
       `${environment.apiURL}/shift/schedule/${lbz}`,
       {params: httpParams, headers:this.getHeaders()}
     );
+  }
+
+  public getShiftScheduleCalendar(
+    lbz: string,
+    startDate: Date,
+    endDate: Date,
+    page: number,
+    size: number
+
+  ): Observable<Page<ShiftScheduleDto>> {
+
+    const startDateStr = this.formatDate(startDate); // Format to "yyyy-MM-dd"
+    const endDateStr = this.formatDate(endDate);
+
+    let httpParams = new HttpParams()
+      .append("startDate", startDateStr)
+      .append("endDate", endDateStr)
+      .append("page", page)
+      .append("size",size)
+
+    console.log("start "+ startDate.toString())
+    console.log("end "+endDate.toString())
+    console.log("page "+page)
+    console.log("size "+size)
+    console.log("lbz "+lbz)
+
+    return this.http.get<Page<ShiftScheduleDto>>(
+      `${environment.apiURL}/shift/schedule/${lbz}`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
+
+  private formatDate(date: Date): string {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is zero-based
+    const year = date.getFullYear();
+
+    return `${year}-${month}-${day}`;
+  }
+
+  private isDateInFormat(dateString: string): boolean {
+    // Regular expression to match the "yyyy-MM-dd" format
+    const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+    return dateFormatRegex.test(dateString);
   }
 
 

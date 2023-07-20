@@ -192,6 +192,7 @@ export class AppComponent {
 
                         localStorage.setItem('covid', String(this.covid));
                         console.log("kovid " + this.covid)
+                        console.log("kovid iz storidza "+ localStorage.getItem('covid'))
                     }
                 );
             }

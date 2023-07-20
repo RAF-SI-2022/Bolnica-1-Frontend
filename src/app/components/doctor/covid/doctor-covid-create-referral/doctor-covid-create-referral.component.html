@@ -13,7 +13,7 @@
             </li>
 
 
-            <li class="nav-item flex-fill" role="presentation">
+            <li *ngIf="!hospitalization" class="nav-item flex-fill" role="presentation">
                 <button class="nav-link w-100" id="infirmary-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-infirmary" type="button" role="tab" aria-controls="infirmary" aria-selected="false" tabindex="-1">Uput za stacionar</button>
             </li>
 
@@ -128,7 +128,7 @@
 
             <!-- Stacionar -->
 
-            <div class="tab-pane fade" id="bordered-justified-infirmary" role="tabpanel" aria-labelledby="contact-tab">
+            <div *ngIf="!hospitalization" class="tab-pane fade" id="bordered-justified-infirmary" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="container rounded bg-white mt-0 mb-4 p-3 py-5">
 
                     <form [formGroup]="referralInfirmaryForm" class="mb-5 needs-validation" novalidate>

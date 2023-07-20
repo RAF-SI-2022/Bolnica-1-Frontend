@@ -11,6 +11,7 @@ import { ExamForPatient } from "../../../models/patient/ExamForPatient";
 import { PatientArrival } from "../../../models/laboratory-enums/PatientArrival";
 import { Subscription, forkJoin, interval, switchMap } from "rxjs";
 import {UserService} from "../../../services/user-service/user.service";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-doctor-workspace',
@@ -59,7 +60,8 @@ export class DoctorWorkspaceComponent implements OnInit {
 
   constructor(private patientService: PatientService, private formBuilder: FormBuilder,
     private examinationService: ExaminationService, private router: Router,
-              private userService: UserService) { }
+              private userService: UserService,
+              private authService: AuthService) { }
 
   // showPopup(event: any): void {
   //     const row = event.target.closest('.table-row');
@@ -90,9 +92,10 @@ export class DoctorWorkspaceComponent implements OnInit {
     //     this.total = this.patientPage.totalElements
     // })
 
+    this.covidBoolean = this.authService.isCovid()
     // @ts-ignore
     this.lbz = localStorage.getItem('LBZ');
-    this.checkCovid()
+    // this.checkCovid()
 
     console.log(this.lbz)
     this.getSheduledExams();

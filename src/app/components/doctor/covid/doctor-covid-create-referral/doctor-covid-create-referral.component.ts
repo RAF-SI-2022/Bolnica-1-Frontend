@@ -100,6 +100,8 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
 
   covidBoolean: boolean = false;
 
+  hospitalization: boolean = false;
+
 
   constructor(private prescriptionService: PrescriptionServiceService,
               private snackBar: SnackbarServiceService,
@@ -111,6 +113,9 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               private covidService: CovidServiceService) {
+
+    this.hospitalization = history.state.hospitalization
+
     this.referralForm = this.formBuilder.group({
         analysis: ['' ,[Validators.required]],
         comment: ['', [Validators.required]],
