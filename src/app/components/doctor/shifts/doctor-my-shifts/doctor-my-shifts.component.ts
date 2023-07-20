@@ -46,6 +46,14 @@ export class DoctorMyShiftsComponent implements OnInit{
     // @ts-ignore
     this.lbz = localStorage.getItem('LBZ').toString()
     this.searchShifts();
+    this.getShifts();
+  }
+
+  getShifts() {
+    // Call your service to get all shifts
+    this.userService.getAllShift().subscribe(res => {
+      this.shifts = res.shifts;
+    });
   }
 
 
@@ -58,7 +66,7 @@ export class DoctorMyShiftsComponent implements OnInit{
 
 
     this.userService.getShiftSchedule(this.lbz, sendData.startDate,
-      sendData.endDate, this.page, this.size).subscribe(res=>{
+      sendData.endDate, this.page-1, this.size).subscribe(res=>{
         this.shiftScheduleDtoPage= res
         this.shiftScheduleDtoList = this.shiftScheduleDtoPage.content
         this.total = this.shiftScheduleDtoPage.totalElements

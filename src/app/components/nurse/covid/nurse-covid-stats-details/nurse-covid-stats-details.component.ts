@@ -26,12 +26,6 @@ export class NurseCovidStatsDetailsComponent  implements OnInit  {
   date: Date = new Date();
 
 
-  numberOfTestedPatients : number;
-  numberOfHospitalizedPatients : number;
-  numberOfPositivePatients : number;
-  numberOfCuredPatients : number;
-  numberOfPatientsOnRespirator : number;
-  numberOfDeadPatients : number;
 
   todayDate: Date = new Date();
 
@@ -40,6 +34,7 @@ export class NurseCovidStatsDetailsComponent  implements OnInit  {
   pieChartDimensions: [number, number] = [400, 400];
   barChartSingle: ChartData[];
   testedPieChartData: ChartData[];
+  caseCategoriesData: ChartData[];
   // options
   showXAxis = true;
   showYAxis = true;
@@ -56,68 +51,10 @@ export class NurseCovidStatsDetailsComponent  implements OnInit  {
               private router: Router){
     this.currentStat = history.state.stat;
 
-
-    this.numberOfTestedPatients = 43;
-    this.numberOfHospitalizedPatients = 1200;
-    this.numberOfPositivePatients = 20;
-    this.numberOfCuredPatients = 245;
-    this.numberOfPatientsOnRespirator = 823;
-    this.numberOfDeadPatients = 40;
-
-    this.single = [
-      {
-        "name": "Broj testiranih",
-        "value": this.numberOfTestedPatients
-      },
-      {
-        "name": "Broj hospitalizovanih",
-        "value": this.numberOfHospitalizedPatients
-      },
-      {
-        "name": "Broj pozitivnih",
-        "value": this.numberOfPositivePatients
-      },
-      {
-        "name": "Broj izlečenih",
-        "value": this.numberOfCuredPatients
-      },
-      {
-        "name": "Broj na respiratoru",
-        "value": this.numberOfPatientsOnRespirator
-      },
-      {
-        "name": "Broj umrlih",
-        "value": this.numberOfDeadPatients
-      }
-    ];
-    this.testedPieChartData = [
-      {
-        name: "Pozitivni pacijenti",
-        value: this.numberOfPositivePatients
-      },
-      {
-        name: "Negativni pacijenti",
-        value: this.numberOfTestedPatients - this.numberOfPositivePatients
-      }
-    ];
-    this.barChartSingle = [
-      {
-        "name": "Broj hospitalizovanih",
-        "value": this.numberOfHospitalizedPatients
-      },
-      {
-        "name": "Broj izlečenih",
-        "value": this.numberOfCuredPatients
-      },
-      {
-        "name": "Broj na respiratoru",
-        "value": this.numberOfPatientsOnRespirator
-      },
-      {
-        "name": "Broj umrlih",
-        "value": this.numberOfDeadPatients
-      }
-    ];
+    this.single = [];
+    this.testedPieChartData = [];
+    this.barChartSingle = [];
+    this.caseCategoriesData = [];
 
   }
 
@@ -203,8 +140,26 @@ export class NurseCovidStatsDetailsComponent  implements OnInit  {
       }
     ];
 
+    this.caseCategoriesData = [
+      {
+        "name": "Hospitalizovani",
+        "value": this.hospitalized
+      },
+      {
+        "name": "Na respiratoru",
+        "value": this.ventilator
+      },
+      {
+        "name": "Umrli",
+        "value": this.dead
+      },
+      {
+        "name": "Izleceni",
+        "value": this.healed
+      }
+    ];
+
   }
 
 
 }
-

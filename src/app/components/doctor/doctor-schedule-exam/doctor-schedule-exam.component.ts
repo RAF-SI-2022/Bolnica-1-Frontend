@@ -278,15 +278,29 @@ export class DoctorScheduleExamComponent implements OnInit {
         this.snackBar.openWarningSnackBar("Izaberite skoriji datum i vreme")
         return;
       }
-      let data = args.data as { [key: string]: Object };
-      if (!this.updateEJSView()) {
-        this.scheduleObj?.openEditor(data, 'Add');
-        this.editMenu = false;
-      }
-      else {
-        this.scheduleObj?.openEditor(this.eventsOnCellClick[0], 'Add');
-        this.editMenu = true;
-      }
+
+      const timeString = this.getTimeAsString(this.selectedDateTime);
+      console.log("timeString+"+timeString)
+
+      this.userService.isWorking(this.selectedDoctor, this.selectedDateTime,
+        timeString).subscribe(res=> {
+          let working = res
+          if (!working) {
+            this.snackBar.openErrorSnackBar("Doktor ne radi u ovoj smeni!")
+            return;
+          } else {
+
+            let data = args.data as { [key: string]: Object };
+            if (!this.updateEJSView()) {
+              this.scheduleObj?.openEditor(data, 'Add');
+              this.editMenu = false;
+            } else {
+              this.scheduleObj?.openEditor(this.eventsOnCellClick[0], 'Add');
+              this.editMenu = true;
+            }
+          }
+        }
+        )
     }
     if (args.type === 'Editor') {
       setTimeout(() => {
@@ -363,6 +377,16 @@ export class DoctorScheduleExamComponent implements OnInit {
   }
 
 
+  getTimeAsString(date: Date): string {
+    const hours = this.padZero(date.getHours());
+    const minutes = this.padZero(date.getMinutes());
+    const seconds = this.padZero(date.getSeconds());
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
+  padZero(num: number): string {
+    return num.toString().padStart(2, '0');
+  }
 
 
 

@@ -185,10 +185,12 @@ export class AppComponent {
                     res2 =>{
                         if(res2.name == "Covid"){
                             this.covid = true;
+
                         }else{
                             this.covid = false;
                         }
 
+                        localStorage.setItem('covid', String(this.covid));
                         console.log("kovid " + this.covid)
                     }
                 );

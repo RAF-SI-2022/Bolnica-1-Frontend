@@ -322,6 +322,10 @@ export class DoctorInfirmaryCreateReferralComponent  implements OnInit {
     this.laboratoryService.getAnalysis(false).subscribe(res => {
       this.analysisSaBeka = res;
     });
+
+    this.laboratoryService.getAnalysis(true).subscribe(res=>{
+      this.analysisSaBeka = this.analysisSaBeka.concat(res);
+    })
     console.log("prosao ts");
   }
 

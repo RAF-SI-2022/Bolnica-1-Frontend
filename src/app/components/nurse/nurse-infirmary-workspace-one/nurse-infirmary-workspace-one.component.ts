@@ -1,6 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {HospitalizationDto} from "../../../models/infirmary/HospitalizationDto";
 import {ActivatedRoute, Router} from "@angular/router";
+import {InfirmaryService} from "../../../services/infirmary-service/infirmary.service";
+import {Observable} from "rxjs";
+import {HttpStatusCode} from "@angular/common/http";
+import {environmentInfirmary} from "../../../../environments/environment";
+import {SnackbarServiceService} from "../../../services/snackbar-service.service";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-nurse-infirmary-workspace-one',
@@ -19,9 +25,16 @@ export class NurseInfirmaryWorkspaceOneComponent implements OnInit {
 
   currentHospitalization: HospitalizationDto;
 
+  covidBoolean: boolean = false;
+
+  ventilatorBoolean : boolean = false;
+
 
   constructor(private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private infirmaryService: InfirmaryService,
+              private snackBar: SnackbarServiceService,
+              private authService: AuthService) {
 
     this.currentHospitalization = history.state.hospitalization;
   }
@@ -38,7 +51,19 @@ export class NurseInfirmaryWorkspaceOneComponent implements OnInit {
     this.patientDateAdmission = this.currentHospitalization.patientAdmission
     this.patientDischargeDate = this.currentHospitalization.dischargeDateAndTime
 
+    this.covidBoolean = this.authService.isCovid();
+    this.checkVentilator();
+
+
   }
+
+  checkVentilator(): void{
+    this.infirmaryService.isVentilator(this.currentHospitalization.id).subscribe(res=>{
+      this.ventilatorBoolean = res
+    }
+    )
+  }
+
 
 
   goToStateHistory(): void {
@@ -59,6 +84,30 @@ export class NurseInfirmaryWorkspaceOneComponent implements OnInit {
     const hospitalization = this.currentHospitalization
     this.router.navigateByUrl(url, { state: { hospitalization } });
   }
+
+  public addOnVentilator(): void{
+    this.infirmaryService.addOnVentilator(this.currentHospitalization.id)
+      .subscribe(res=>{
+        this.checkVentilator()
+        this.snackBar.openSuccessSnackBar("Sacuvana izmena!")
+
+      }, err => {
+        this.snackBar.openErrorSnackBar("Greska")
+      })
+  }
+
+  public removeFromVentilator(): void{
+    this.infirmaryService.removeFromVentilator(this.currentHospitalization.id)
+      .subscribe(res=>{
+        this.checkVentilator()
+        this.snackBar.openSuccessSnackBar("Sacuvana izmena!")
+
+      }, err => {
+        this.snackBar.openErrorSnackBar("Greska")
+      })
+  }
+
+
 
 
 

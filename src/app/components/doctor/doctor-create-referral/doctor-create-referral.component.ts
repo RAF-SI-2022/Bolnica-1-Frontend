@@ -94,7 +94,7 @@ export class DoctorCreateReferralComponent implements OnInit {
 
       this.referralInfirmaryForm = this.formBuilder.group({
         diagnosis: ['' ,[Validators.required]],
-        commentInfirmary: ['', [Validators.required]],
+        commentInfirmary: ['Covid', [Validators.required]],
       });
 
     }
@@ -349,7 +349,7 @@ export class DoctorCreateReferralComponent implements OnInit {
         control.markAsPristine();
       });
 
-      referral.commentInfirmary = "";
+      referral.commentInfirmary = "Covid";
       this.diagnosis = "";
       this.hospitalsInfirmary = [];
       this.resetElements2();

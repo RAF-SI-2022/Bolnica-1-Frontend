@@ -158,6 +158,7 @@
 <!--        </a>-->
 <!--      </li>-->
 
+<!--      <li *ngIf="(doctorSpec || doctorSpecOdeljenja || doctorSpecPov) && isCovid()" class="nav-item">-->
       <li *ngIf="doctorSpec || doctorSpecOdeljenja || doctorSpecPov" class="nav-item">
         <a class="nav-link collapsed" routerLink="../doctor-covid-statistics">
           <i class="bi bi-bar-chart"></i>
@@ -260,6 +261,7 @@
 <!--        </a>-->
 <!--      </li>-->
 
+<!--      <li *ngIf="(nurse || nurseVisa) && isCovid()" class="nav-item">-->
       <li *ngIf="nurse || nurseVisa" class="nav-item">
         <a class="nav-link collapsed" routerLink="../nurse-covid-statistics">
           <i class="bi bi-bar-chart"></i>
@@ -267,6 +269,7 @@
         </a>
       </li>
 
+<!--      <li *ngIf="(nurse || nurseVisa) && isCovid()" class="nav-item">-->
       <li *ngIf="nurse || nurseVisa" class="nav-item">
         <a class="nav-link collapsed" routerLink="../nurse-covid-certificate">
           <i class="bi bi-patch-check"></i>

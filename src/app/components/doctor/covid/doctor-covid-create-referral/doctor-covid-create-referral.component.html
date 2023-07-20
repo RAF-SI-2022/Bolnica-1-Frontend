@@ -153,10 +153,15 @@
                                         </div>
 
 
-                                        <div class="col-12 mt-3">
-                                            <label class="labels">Razlog upućivanja</label>
-                                            <input name="commentInfirmary" [formControlName]="'commentInfirmary'" type="text" class="form-control" id="commentInfirmary" placeholder="Unesite razlog uputa" value="" data-cy="KomentarStacionar" required>
+                                      <div class="row">
+                                        <div class="col-4 mt-3">
+                                            <label class="labels">Izaberite razlog upućivanja</label>
+                                            <select [formControlName]="'commentInfirmary'" class="form-control" required>
+                                              <option value="Covid">Kovid</option>
+                                              <option value="Other">Drugo</option>
+                                            </select>
                                         </div>
+                                      </div>
 
 
                                         <div class="col-4 mt-3">

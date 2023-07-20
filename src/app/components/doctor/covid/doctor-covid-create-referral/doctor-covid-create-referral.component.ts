@@ -118,7 +118,7 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
 
       this.referralInfirmaryForm = this.formBuilder.group({
         diagnosis: ['' ,[Validators.required]],
-        commentInfirmary: ['', [Validators.required]],
+        commentInfirmary: ['Covid', [Validators.required]],
       });
 
       this.referralCovidForm = this.formBuilder.group({
@@ -383,7 +383,7 @@ export class DoctorCovidCreateReferralComponent implements OnInit {
 
         this.referralInfirmaryForm.reset();
         this.resetElements2();
-        referral.commentInfirmary = "";
+        referral.commentInfirmary = "Covid";
         this.diagnosis = "";
         this.hospitalsInfirmary = [];
 

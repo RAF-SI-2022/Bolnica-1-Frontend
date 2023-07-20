@@ -3,7 +3,8 @@ import {HttpClient, HttpHeaders, HttpParams, HttpStatusCode} from "@angular/comm
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {
-  environmentInfirmary
+  environment,
+  environmentInfirmary, environmentPatient
 } from "../../../environments/environment";
 import {Page} from "../../models/models";
 import {HospitalizationDto} from "../../models/infirmary/HospitalizationDto";
@@ -34,6 +35,8 @@ import {Message} from "../../models/Message";
 import {PrescriptionCreateDtoInfirmary} from "../../models/infirmary/externalPatient/PrescriptionCreateDtoInfirmary";
 import {Time} from "@angular/common";
 import {CreateDischargeListDto} from "../../models/infirmary/CreateDischargeListDto";
+import {PatientArrival} from "../../models/laboratory-enums/PatientArrival";
+import {ScheduledVaccinationDto} from "../../models/vaccination/ScheduledVaccinationDto";
 
 @Injectable({
   providedIn: 'root'
@@ -735,6 +738,32 @@ export class InfirmaryService {
     return this.http.get<Page<VisitDto>>(
       `${environmentInfirmary.apiURL}/visit/getVisitsWithFilter`,
       {params: httpParams, headers:this.getHeaders()}
+    );
+  }
+
+  public addOnVentilator(
+    id: number
+  ): Observable<HttpStatusCode>{
+    return this.http.put<HttpStatusCode>(
+      `${environmentInfirmary.apiURL}/hospitalization/add_ventilator/${id}`, '',
+      {headers: this.getHeaders()});
+  }
+
+  public removeFromVentilator(
+    id: number
+  ): Observable<HttpStatusCode>{
+    return this.http.put<HttpStatusCode>(
+      `${environmentInfirmary.apiURL}/hospitalization/remove_ventilator/${id}`, '',
+      {headers: this.getHeaders()});
+  }
+
+  public isVentilator(
+    id: number
+  ): Observable<boolean> {
+
+    return this.http.get<boolean>(
+      `${environmentInfirmary.apiURL}/hospitalization/is_ventilator/${id}`,
+      { headers:this.getHeaders()}
     );
   }
 

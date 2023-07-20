@@ -33,7 +33,7 @@ export class DoctorScheduleShiftsComponent implements OnInit{
   lbz: string = '';
   pbo: string = '';
   doctors: DoctorDepartmentDto[] = [];
-  nurses: DoctorDepartmentDto[] = [];
+  nonDoctors: DoctorDepartmentDto[] = [];
   employees: DoctorDepartmentDto[] = [];
   shifts: ShiftDto[] = [];
 
@@ -78,30 +78,37 @@ export class DoctorScheduleShiftsComponent implements OnInit{
     this.lbz = localStorage.getItem('LBZ').toString()
     this.pbo = this.authService.getPBO();
     this.getDoctors();
-    this.getNurses();
+    this.getNonDoctors();
+
     this.getShifts();
     this.searchShifts();
-    this.combineEmployees();
 
   }
 
   getDoctors(): void {
     this.examinationService.getDoctorsByDepartment(this.pbo).subscribe(res => {
       this.doctors = res
+      this.combineEmployees();
       console.log(this.doctors)
     })
   }
 
-  getNurses(): void {
-    this.examinationService.getNursesByDepartment(this.pbo).subscribe(res => {
-      this.nurses = res
-      console.log(this.nurses)
+  getNonDoctors(): void {
+    this.userService.findNonDoctorsByDepartment(this.pbo).subscribe(res => {
+      this.nonDoctors = res
+      this.combineEmployees();
+      console.log(this.nonDoctors)
     })
   }
 
   combineEmployees(): void {
-    this.employees = this.doctors.concat(this.nurses);
+    if (this.doctors.length > 0 || this.nonDoctors.length > 0) {
+      this.employees = [...this.doctors, ...this.nonDoctors];
+      console.log(this.employees);
+    }
   }
+
+
 
   getShifts() {
     // Call your service to get all shifts
@@ -154,6 +161,7 @@ export class DoctorScheduleShiftsComponent implements OnInit{
     this.userService.removeShiftSchedule(id)
       .subscribe(res => {
         console.log("uspeo")
+        this.searchShifts()
 
         this.snackBar.openSuccessSnackBar("Uspesno uklonjeno!")
       }, error => {
@@ -178,7 +186,7 @@ export class DoctorScheduleShiftsComponent implements OnInit{
 
     if(sendData.lbp != '') {
       this.userService.getShiftSchedule(sendData.doctorLbz, sendData.startDate,
-        sendData.endDate, this.page, this.size).subscribe(res=>{
+        sendData.endDate, this.page - 1, this.size).subscribe(res=>{
           this.shiftScheduleDtoPage= res
           this.shiftScheduleDtoList = this.shiftScheduleDtoPage.content
           this.total = this.shiftScheduleDtoPage.totalElements

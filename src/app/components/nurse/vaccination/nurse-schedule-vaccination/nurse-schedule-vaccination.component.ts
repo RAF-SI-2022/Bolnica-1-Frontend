@@ -260,33 +260,47 @@ export class NurseScheduleVaccinationComponent implements OnInit {
     if (args.type === 'QuickInfo') {
       args.cancel = true;
 
-      if(this.selectedDateTime < new Date()){
+      if (this.selectedDateTime < new Date()) {
         this.snackBar.openWarningSnackBar("Izaberite skoriji datum i vreme")
         return;
       }
-      let data = args.data as { [key: string]: Object };
-      if (!this.updateEJSView()) {
-        this.scheduleObj?.openEditor(data, 'Add');
-        this.editMenu = false;
-      }
-      else {
-        this.scheduleObj?.openEditor(this.eventsOnCellClick[0], 'Add');
-        this.editMenu = true;
-      }
-    }
-    if (args.type === 'Editor') {
-      setTimeout(() => {
-        const saveButton = args.element.querySelector('.e-event-save') as HTMLElement;
-        const cancelButton = args.element.querySelector('.e-event-cancel') as HTMLElement;
 
-        if (saveButton) {
-          saveButton.style.display = 'none';
-        }
-        if (cancelButton) {
-          cancelButton.style.display = 'none';
-        }
-      });
+      const timeString = this.getTimeAsString(this.selectedDateTime);
+      console.log("timeString+" + timeString)
 
+      this.userService.isWorking(this.lbz, this.selectedDateTime,
+        timeString).subscribe(res => {
+          let working = res
+          if (!working) {
+            this.snackBar.openErrorSnackBar("Ne radite u ovoj smeni!")
+            return;
+          } else {
+
+            let data = args.data as { [key: string]: Object };
+            if (!this.updateEJSView()) {
+              this.scheduleObj?.openEditor(data, 'Add');
+              this.editMenu = false;
+            } else {
+              this.scheduleObj?.openEditor(this.eventsOnCellClick[0], 'Add');
+              this.editMenu = true;
+            }
+          }
+          if (args.type === 'Editor') {
+            setTimeout(() => {
+              const saveButton = args.element.querySelector('.e-event-save') as HTMLElement;
+              const cancelButton = args.element.querySelector('.e-event-cancel') as HTMLElement;
+
+              if (saveButton) {
+                saveButton.style.display = 'none';
+              }
+              if (cancelButton) {
+                cancelButton.style.display = 'none';
+              }
+            });
+
+          }
+        }
+      )
     }
   }
 
@@ -330,6 +344,17 @@ export class NurseScheduleVaccinationComponent implements OnInit {
   public onEventClick(args: EventClickArgs): void {
     this.eventsOnCellClick[0] = args.event
     this.editMenu = true;
+  }
+
+  getTimeAsString(date: Date): string {
+    const hours = this.padZero(date.getHours());
+    const minutes = this.padZero(date.getMinutes());
+    const seconds = this.padZero(date.getSeconds());
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
+  padZero(num: number): string {
+    return num.toString().padStart(2, '0');
   }
 
 }

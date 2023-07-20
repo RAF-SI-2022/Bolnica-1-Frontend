@@ -40,6 +40,7 @@ export class TechnicianIssuingResultsComponent implements OnInit {
 
   ngOnInit(): void {
     this.populatePatients()
+    this.findWorkOrders()
   }
 
   findWorkOrders() {

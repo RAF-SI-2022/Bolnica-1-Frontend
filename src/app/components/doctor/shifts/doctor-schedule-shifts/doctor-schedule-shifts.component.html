@@ -18,9 +18,9 @@
       </li>
     </ul>
 
-    <h5>Lista medicinskih sestara na odeljenju:</h5>
+    <h5>Lista ostalih zaposlenih na odeljenju:</h5>
     <ul>
-      <li *ngFor="let nurse of nurses">
+      <li *ngFor="let nurse of nonDoctors">
         {{ nurse.name }} {{nurse.surname}} ({{ nurse.lbz }})
       </li>
     </ul>
@@ -80,7 +80,7 @@
 
   <div class="row mb-1">
 
-    <h4 class="text-center mb-5"><b>Zakazivanje sestre</b></h4>
+    <h4 class="text-center mb-5"><b>Zakazivanje ostalih zaposlenih</b></h4>
 
     <div class="col-md-3 offset-2">
       <h5 class="labels">Datum smene:</h5>
@@ -98,7 +98,7 @@
     </div>
 
     <div class="col-md-3">
-      <h5 for="nurse">Medicinska sestra:</h5>
+      <h5 for="nurse">Zaposleni:</h5>
 
       <ng-select name="nurses"
                  [formControlName]="'lbzNurse'"
@@ -109,7 +109,7 @@
                  bindLabel="lbz"
                  bindValue="id"
                  data-cy="nurses"  >
-        <ng-option *ngFor="let item of nurses" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
+        <ng-option *ngFor="let item of nonDoctors" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
       </ng-select>
 
     </div>
@@ -137,7 +137,7 @@
     <h2 class="text-center"><b>Pretraga smena</b></h2>
     <div class="row">
 
-      <div class="col-md-4 offset-2">
+      <div class="col-md-3 offset-2">
         <h5 for="doctor2">Zaposleni:</h5>
 
         <ng-select name="patients2"
@@ -154,12 +154,12 @@
 
       </div>
 
-      <div class="col-md-4 offset-2">
-        <label class="labels">Od datuma</label>
+      <div class="col-md-3">
+        <h5 class="labels">Od datuma</h5>
         <input [formControlName]="'startDate'" name="dateFrom" type="date" class="form-control" data-cy="dateFrom">
       </div>
-      <div class="col-md-4">
-        <label class="labels">Do datuma</label>
+      <div class="col-md-3">
+        <h5 class="labels">Do datuma</h5>
         <input [formControlName]="'endDate'" type="date" class="form-control" data-cy="dateTo">
       </div>
 
