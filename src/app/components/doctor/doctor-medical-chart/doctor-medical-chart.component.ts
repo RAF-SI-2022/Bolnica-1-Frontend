@@ -562,17 +562,21 @@ export class DoctorMedicalChartComponent implements OnInit {
     if(this.pageHistory == 0)
       this.pageHistory = 1;
 
-    this.infirmaryService.getDischargeListWithoutHospitalizationId( this.dateFromHistory, this.dateToHistory, this.lbp, this.pageHistory-1, this.pageSize).subscribe(
-      response => {
-        this.historyPage = response
-        this.dischargeListHistories = this.historyPage.content
-        this.totalHistory = this.historyPage.totalElements
-        console.log("promene broj: " + this.totalHistory)
-        console.log("lista ispod:")
-        console.log(this.dischargeListHistories)
-        this.changeDetectorRef.detectChanges();
 
-      })
+
+      this.infirmaryService.getDischargeListWithoutHospitalizationId( this.dateFromHistory, this.dateToHistory, this.lbp, this.pageHistory-1, this.pageSize).subscribe(
+        response => {
+          this.historyPage = response
+          this.dischargeListHistories = this.historyPage.content
+          this.totalHistory = this.historyPage.totalElements
+          console.log("promene broj: " + this.totalHistory)
+          console.log("lista ispod:")
+          console.log(this.dischargeListHistories)
+          this.changeDetectorRef.detectChanges();
+
+        })
+
+
   }
 
   getLabaratoryObradjeni(): void {
