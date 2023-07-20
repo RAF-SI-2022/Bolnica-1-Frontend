@@ -311,22 +311,22 @@ export class NurseScheduleVaccinationComponent implements OnInit {
               this.editMenu = true;
             }
           }
-          if (args.type === 'Editor') {
-            setTimeout(() => {
-              const saveButton = args.element.querySelector('.e-event-save') as HTMLElement;
-              const cancelButton = args.element.querySelector('.e-event-cancel') as HTMLElement;
-
-              if (saveButton) {
-                saveButton.style.display = 'none';
-              }
-              if (cancelButton) {
-                cancelButton.style.display = 'none';
-              }
-            });
-
-          }
         }
       )
+    }
+    if (args.type === 'Editor') {
+      setTimeout(() => {
+        const saveButton = args.element.querySelector('.e-event-save') as HTMLElement;
+        const cancelButton = args.element.querySelector('.e-event-cancel') as HTMLElement;
+
+        if (saveButton) {
+          saveButton.style.display = 'none';
+        }
+        if (cancelButton) {
+          cancelButton.style.display = 'none';
+        }
+      });
+
     }
   }
 
