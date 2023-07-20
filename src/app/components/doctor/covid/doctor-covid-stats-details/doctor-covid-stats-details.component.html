@@ -90,6 +90,16 @@
             [legend]="showLegend"
           >
           </ngx-charts-bar-horizontal>
+
+          <!-- Tree Map - Case Categories -->
+          <h4>Case Categories</h4>
+          <ngx-charts-tree-map
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="caseCategoriesData"
+            [gradient]="gradient"
+          >
+          </ngx-charts-tree-map>
         </div>
 
       </div>

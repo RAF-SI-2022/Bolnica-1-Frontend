@@ -30,6 +30,7 @@ import {AllShiftsDto} from "../../models/shifts/AllShiftsDto";
 import {ShiftScheduleDto} from "../../models/shifts/ShiftScheduleDto";
 import {ShiftScheduleCreateDto} from "../../models/shifts/ShiftScheduleCreateDto";
 import {ScheduledVaccinationDto} from "../../models/vaccination/ScheduledVaccinationDto";
+import {DoctorDepartmentDto} from "../../models/DoctorDepartmentDto";
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,7 @@ export class UserService {
         localStorage.removeItem('LBZ');
         localStorage.removeItem('PBO');
         localStorage.removeItem('username');
+        localStorage.removeItem('covid')
         this.router.navigate(['']);
     }
 
@@ -454,10 +456,15 @@ export class UserService {
   ): Observable<Page<ShiftScheduleDto>> {
 
     let httpParams = new HttpParams()
-      .append("startDate", startDate.toISOString().slice(0,10))
-      .append("endDate", endDate.toISOString().slice(0,10))
+      .append("startDate", startDate.toString())
+      .append("endDate", endDate.toString())
       .append("page", page)
       .append("size",size)
+
+    console.log("start "+ startDate.toString())
+    console.log("end "+endDate.toString())
+    console.log("page "+page)
+    console.log("size "+size)
 
     return this.http.get<Page<ShiftScheduleDto>>(
       `${environment.apiURL}/shift/schedule/all`,
@@ -467,7 +474,7 @@ export class UserService {
 
 
   public getShiftSchedule(
-    id: number,
+    lbz: string,
     startDate: Date,
     endDate: Date,
     page: number,
@@ -476,15 +483,52 @@ export class UserService {
   ): Observable<Page<ShiftScheduleDto>> {
 
     let httpParams = new HttpParams()
-      .append("startDate", startDate.toISOString().slice(0,10))
-      .append("endDate", endDate.toISOString().slice(0,10))
+      .append("startDate", startDate.toString())
+      .append("endDate", endDate.toString())
       .append("page", page)
       .append("size",size)
 
+    console.log("start "+ startDate.toString())
+    console.log("end "+endDate.toString())
+    console.log("page "+page)
+    console.log("size "+size)
+    console.log("lbz "+lbz)
+
     return this.http.get<Page<ShiftScheduleDto>>(
-      `${environment.apiURL}/shift/schedule/${id}`,
+      `${environment.apiURL}/shift/schedule/${lbz}`,
       {params: httpParams, headers:this.getHeaders()}
     );
+  }
+
+
+  public isWorking(
+    lbz: string,
+    date: Date,
+    time: string
+  ): Observable<boolean> {
+
+    let httpParams = new HttpParams()
+      .append("date", date.toISOString().slice(0,10))
+      .append("time", time)
+
+    return this.http.get<boolean>(
+      `${environment.apiURL}/shift/working/${lbz}`,
+      {params: httpParams, headers:this.getHeaders()}
+    );
+  }
+
+  /**
+   * Pretraga sestara po odeljenju
+   */
+  public findNonDoctorsByDepartment(
+    pbo: string
+  ): Observable<DoctorDepartmentDto[]> {
+
+    console.log("usao "+pbo)
+
+    return this.http.get<DoctorDepartmentDto[]>(
+      `${environment.apiURL}/employee/find_non_doctors_by_department/${pbo}`,
+      { headers: this.getHeaders()});
   }
 
 

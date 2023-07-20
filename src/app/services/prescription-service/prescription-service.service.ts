@@ -181,6 +181,9 @@ export class PrescriptionServiceService {
       .append("page",page)
       .append("size",size);
 
+    console.log(httpParams)
+    console.log(lbz + ":"+lbp)
+
     return this.http.get<Page<PrescriptionDoneDto>>(
       `${environmentLaboratory.apiURL}/prescription/${lbz}/get/${lbp}`,
       {params: httpParams, headers:this.getHeaders()}

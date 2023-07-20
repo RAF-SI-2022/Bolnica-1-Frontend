@@ -3,19 +3,19 @@
 //     title: 'Local Environment',
 //     apiURL: 'http://localhost:8080/api'
 //   };
-
+//
 // export const environmentPatient = {
 //   production: false,
 //   title: 'Local Patient Environment',
 //   apiURL: 'http://localhost:8081/api'
 // };
-
+//
 // export const environmentLaboratory = {
 //   production: false,
 //   title: 'Local Laboratory Environment',
 //   apiURL: 'http://localhost:8083/api/laboratory'
 // };
-
+//
 // export const environmentInfirmary = {
 //   production: false,
 //   title: 'Local Infirmary Environment',
@@ -24,7 +24,7 @@
 
 // export const environmentCovid = {
 //   production: false,
-//   title: 'Local Infirmary Environment',
+//   title: 'Local Covid Environment',
 //   apiURL: 'http://localhost:9000'
 // };
 
@@ -54,6 +54,6 @@ export const environmentInfirmary = {
 
 export const environmentCovid = {
   production: false,
-  title: 'Local Infirmary Environment',
+  title: 'Local Covid Environment',
   apiURL: 'https://bolnica-1.k8s.elab.rs/api/covid'
 };

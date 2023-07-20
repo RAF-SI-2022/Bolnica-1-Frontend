@@ -19,7 +19,7 @@ export class TechnicianScheduleLabExaminationComponent implements OnInit {
 
   // Pagination properites
   page = 0
-  pageSize = 5
+  pageSize = 6
   totalSchedule = 0
   totalView = 0
 

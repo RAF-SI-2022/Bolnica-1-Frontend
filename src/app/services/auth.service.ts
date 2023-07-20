@@ -21,6 +21,12 @@ export class AuthService {
         return !(token == null || token == '');
     }
 
+    isCovid(): boolean{
+      let covid = localStorage.getItem("covid");
+      if (covid ==='true') return true;
+      return false;
+    }
+
     /**
      * Get LBZ from local storage
      * @returns LBZ - licni broj zaposlenog

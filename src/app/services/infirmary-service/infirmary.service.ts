@@ -3,7 +3,8 @@ import {HttpClient, HttpHeaders, HttpParams, HttpStatusCode} from "@angular/comm
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {
-  environmentInfirmary
+  environment,
+  environmentInfirmary, environmentPatient
 } from "../../../environments/environment";
 import {Page} from "../../models/models";
 import {HospitalizationDto} from "../../models/infirmary/HospitalizationDto";
@@ -34,6 +35,8 @@ import {Message} from "../../models/Message";
 import {PrescriptionCreateDtoInfirmary} from "../../models/infirmary/externalPatient/PrescriptionCreateDtoInfirmary";
 import {Time} from "@angular/common";
 import {CreateDischargeListDto} from "../../models/infirmary/CreateDischargeListDto";
+import {PatientArrival} from "../../models/laboratory-enums/PatientArrival";
+import {ScheduledVaccinationDto} from "../../models/vaccination/ScheduledVaccinationDto";
 
 @Injectable({
   providedIn: 'root'
@@ -275,17 +278,56 @@ export class InfirmaryService {
     size: number
   ): Observable<Page<DischargeListDto>>{
 
+    console.log("pre " + startDate)
+
     let httpParams = new HttpParams()
-      .append("startDate", startDate.toISOString().slice(0,10))
-      .append("endDate", endDate.toISOString().slice(0,10))
-      .append("lbp", lbp)
-      .append("page", page)
-      .append("size",size)
+
+    if (this.isDateInFormat(startDate.toString()) && this.isDateInFormat(endDate.toString())){
+
+      httpParams = httpParams
+        .append("startDate", startDate.toString())
+        .append("endDate", endDate.toString())
+        .append("lbp", lbp)
+        .append("page", page)
+        .append("size",size)
+
+    }else{
+      const startDateStr = this.formatDate(startDate); // Format to "yyyy-MM-dd"
+      const endDateStr = this.formatDate(endDate); // Format to "yyyy-MM-dd"
+
+
+      httpParams = httpParams
+        .append("startDate", startDateStr)
+        .append("endDate", endDateStr)
+        .append("lbp", lbp)
+        .append("page", page)
+        .append("size",size)
+    }
+
+
+    console.log("posle "+ endDate)
+
+
 
     return this.http.get<Page<DischargeListDto>>(
       `${environmentInfirmary.apiURL}/dischargeList/getDischargeListByHospitalizationId`,
       {params: httpParams, headers: this.getHeaders() });
 
+  }
+
+  private formatDate(date: Date): string {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is zero-based
+    const year = date.getFullYear();
+
+    return `${year}-${month}-${day}`;
+  }
+
+  private isDateInFormat(dateString: string): boolean {
+    // Regular expression to match the "yyyy-MM-dd" format
+    const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+    return dateFormatRegex.test(dateString);
   }
 
 
@@ -735,6 +777,32 @@ export class InfirmaryService {
     return this.http.get<Page<VisitDto>>(
       `${environmentInfirmary.apiURL}/visit/getVisitsWithFilter`,
       {params: httpParams, headers:this.getHeaders()}
+    );
+  }
+
+  public addOnVentilator(
+    id: number
+  ): Observable<HttpStatusCode>{
+    return this.http.put<HttpStatusCode>(
+      `${environmentInfirmary.apiURL}/hospitalization/add_ventilator/${id}`, '',
+      {headers: this.getHeaders()});
+  }
+
+  public removeFromVentilator(
+    id: number
+  ): Observable<HttpStatusCode>{
+    return this.http.put<HttpStatusCode>(
+      `${environmentInfirmary.apiURL}/hospitalization/remove_ventilator/${id}`, '',
+      {headers: this.getHeaders()});
+  }
+
+  public isVentilator(
+    id: number
+  ): Observable<boolean> {
+
+    return this.http.get<boolean>(
+      `${environmentInfirmary.apiURL}/hospitalization/is_ventilator/${id}`,
+      { headers:this.getHeaders()}
     );
   }
 

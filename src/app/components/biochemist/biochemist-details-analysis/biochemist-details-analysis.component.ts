@@ -107,7 +107,8 @@ export class BiochemistDetailsAnalysisComponent implements OnInit {
       this.biochemistLbzVerified = this.labWorkOrderWithAnalysis.biochemistLbz
     }
 
-    this.checkCovid()
+    // this.checkCovid()
+    this.covidBoolean = this.authService.isCovid();
 
   }
 

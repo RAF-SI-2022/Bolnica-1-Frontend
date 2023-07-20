@@ -1,1 +1,212 @@
-<p>doctor-schedule-shifts works!</p>
+<form [formGroup]="form" class="mb-1 needs-validation" novalidate>
+
+  <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+
+    <h2 class="text-center"><b>Smene</b></h2>
+
+    <h5>Lista smena:</h5>
+    <ul>
+      <li *ngFor="let shift of shifts">
+        {{ shift.startTime }} - {{ shift.endTime }}
+      </li>
+    </ul>
+
+    <h5>Lista doktora na odeljenju:</h5>
+    <ul>
+      <li *ngFor="let doctor of doctors">
+        {{ doctor.name }} {{doctor.surname}} ({{ doctor.lbz }})
+      </li>
+    </ul>
+
+    <h5>Lista ostalih zaposlenih na odeljenju:</h5>
+    <ul>
+      <li *ngFor="let nurse of nonDoctors">
+        {{ nurse.name }} {{nurse.surname}} ({{ nurse.lbz }})
+      </li>
+    </ul>
+
+
+    <div class="row mb-2">
+
+      <h4 class="text-center mb-5"><b>Zakazivanje doktora</b></h4>
+
+      <div class="col-md-3 offset-2">
+        <h5 class="labels">Datum smene:</h5>
+        <input [formControlName]="'date'" name="date" type="date" class="form-control" data-cy="date">
+
+      </div>
+
+      <div class="col-md-3">
+        <h5 class="labels">Smena:</h5>
+        <select [formControlName]="'shiftId'" class="form-control">
+          <option value="1">Prva 08-16</option>
+          <option value="2">Druga 16-00</option>
+          <option value="3">Nocna 00-08</option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <h5 for="doctorE">Doktor:</h5>
+
+        <ng-select name="patients1"
+                   [formControlName]="'lbz'"
+                   class="custom"
+                   id="patients"
+                   required
+                   [searchable]="true"
+                   bindLabel="lbz"
+                   bindValue="id"
+                   data-cy="patients1"  >
+          <ng-option *ngFor="let item of doctors" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
+        </ng-select>
+
+      </div>
+
+
+      <div class="mt-4 text-center">
+        <button (click)="addShiftToDoctor()" class="btn btn-success" type="submit" data-toggle="collapse"
+                data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                data-cy="btnPretrazi">Zakazi</button>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</form>
+
+<form [formGroup]="formNurse" class="mb-5 needs-validation" novalidate>
+
+  <div class="row mb-1">
+
+    <h4 class="text-center mb-5"><b>Zakazivanje ostalih zaposlenih</b></h4>
+
+    <div class="col-md-3 offset-2">
+      <h5 class="labels">Datum smene:</h5>
+      <input [formControlName]="'dateNurse'" name="date" type="date" class="form-control" data-cy="date">
+
+    </div>
+
+    <div class="col-md-3">
+      <h5 class="labels">Smena:</h5>
+      <select [formControlName]="'shiftIdNurse'" class="form-control">
+        <option value="1">Prva 08-16</option>
+        <option value="2">Druga 16-00</option>
+        <option value="3">Nocna 00-08</option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <h5 for="nurse">Zaposleni:</h5>
+
+      <ng-select name="nurses"
+                 [formControlName]="'lbzNurse'"
+                 class="custom"
+                 id="nurses"
+                 required
+                 [searchable]="true"
+                 bindLabel="lbz"
+                 bindValue="id"
+                 data-cy="nurses"  >
+        <ng-option *ngFor="let item of nonDoctors" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
+      </ng-select>
+
+    </div>
+
+
+    <div class="mt-4 text-center">
+      <button (click)="addShiftToNurse()" class="btn btn-success" type="submit" data-toggle="collapse"
+              data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+              data-cy="btnNurses">Zakazi</button>
+
+    </div>
+
+
+    </div>
+
+
+</form>
+
+
+
+<form [formGroup]="formSearch" class="mb-5 needs-validation" novalidate>
+
+  <div class="container rounded bg-white mt-5 mb-5 p-3 py-5">
+
+    <h2 class="text-center"><b>Pretraga smena</b></h2>
+    <div class="row">
+
+      <div class="col-md-3 offset-2">
+        <h5 for="doctor2">Zaposleni:</h5>
+
+        <ng-select name="patients2"
+                   [formControlName]="'doctorLbz'"
+                   class="custom"
+                   id="patients2"
+                   required
+                   [searchable]="true"
+                   bindLabel="lbp"
+                   bindValue="id"
+                   data-cy="patients2"  >
+          <ng-option *ngFor="let item of employees" [value]="item.lbz">{{item.name}} {{item.surname}}</ng-option>
+        </ng-select>
+
+      </div>
+
+      <div class="col-md-3">
+        <h5 class="labels">Od datuma</h5>
+        <input [formControlName]="'startDate'" name="dateFrom" type="date" class="form-control" data-cy="dateFrom">
+      </div>
+      <div class="col-md-3">
+        <h5 class="labels">Do datuma</h5>
+        <input [formControlName]="'endDate'" type="date" class="form-control" data-cy="dateTo">
+      </div>
+
+
+      <div class="mt-4 text-center">
+        <button (click)="searchShifts()" class="btn btn-primary" type="submit" data-toggle="collapse"
+                data-target="#search-table" aria-expanded="false" aria-controls="search-table"
+                data-cy="pretrazi">Pretrazi</button>
+      </div>
+
+      <div class="row py-5">
+        <table class="table table-hover" data-cy="table">
+          <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Smena</th>
+            <th>Lbz</th>
+            <th>Doktor</th>
+            <th>Ukloni</th>
+          </tr>
+          </thead>
+
+          <tbody>
+
+          <tr
+            *ngFor="let shift of shiftScheduleDtoList | paginate: {itemsPerPage: size, currentPage: page, totalItems: total}; let i = index"
+
+          >
+            <td>{{shift.date | date: 'dd.MM.yyyy.' }}</td>
+            <td>{{shift.shift}}</td>
+            <td>{{shift.lbz}}</td>
+            <td>{{shift.doctor}}</td>
+            <td>
+              <button (click)="removeShiftSchedule(shift.id)" class="btn btn-danger" >Otkaži</button>
+            </td>
+
+          </tr>
+          </tbody>
+
+        </table>
+
+        <div class="d-flex align-items-center justify-content-center h-100">
+          <pagination-controls previousLabel="Pret" nextLabel="Sled" (pageChange)="onTableDataChange($event)">
+          </pagination-controls>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>
