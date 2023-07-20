@@ -13,6 +13,7 @@ import {HospitalizationDto} from "../../../../models/infirmary/HospitalizationDt
 import {SnackbarServiceService} from "../../../../services/snackbar-service.service";
 import {ScheduledVaccinationDto} from "../../../../models/vaccination/ScheduledVaccinationDto";
 import {UserService} from "../../../../services/user-service/user.service";
+import {AuthService} from "../../../../services/auth.service";
 
 @Component({
   selector: 'app-nurse-daily-vaccination',
@@ -52,7 +53,8 @@ export class NurseDailyVaccinationComponent implements OnInit{
               private examinationService: ExaminationService,
               private router: Router,
               private snackBar: SnackbarServiceService,
-              private userService: UserService) {
+              private userService: UserService,
+              private authService: AuthService) {
 
   }
 
@@ -66,10 +68,13 @@ export class NurseDailyVaccinationComponent implements OnInit{
 
   ngOnInit(): void {
 
+    this.covidBoolean = this.authService.isCovid()
+
+
 
     // @ts-ignore
     this.lbz = localStorage.getItem('LBZ');
-    this.checkCovid()
+    // this.checkCovid()
 
     console.log(this.lbz)
     this.getScheduledVaccinations();
@@ -88,7 +93,7 @@ export class NurseDailyVaccinationComponent implements OnInit{
       new Date(),
       '-1',
       this.lbz,
-      true,
+      this.covidBoolean,
       'SVEJEDNO'
 
     ).subscribe(res=>{

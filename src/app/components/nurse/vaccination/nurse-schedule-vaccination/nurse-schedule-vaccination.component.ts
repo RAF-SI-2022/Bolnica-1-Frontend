@@ -113,6 +113,7 @@ export class NurseScheduleVaccinationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.covidBoolean = this.authService.isCovid()
     // @ts-ignore
     this.lbz = localStorage.getItem('LBZ').toString()
     this.nurseDepartmentPbo = this.authService.getPBO();
@@ -122,8 +123,9 @@ export class NurseScheduleVaccinationComponent implements OnInit {
   }
 
   updateData(){
+
     this.addEventsData();
-    this.checkCovid();
+    // this.checkCovid();
     this.getPatientList();
     this.getVaccine();
 

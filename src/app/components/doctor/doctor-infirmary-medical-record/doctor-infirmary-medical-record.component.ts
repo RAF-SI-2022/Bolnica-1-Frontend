@@ -346,5 +346,7 @@ export class DoctorInfirmaryMedicalRecordComponent implements OnInit {
   disableFields() {
     this.addReport.disable();
   }
+
+
 }
 

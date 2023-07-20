@@ -101,6 +101,11 @@ export class NurseVaccinationAdmissionComponent implements OnInit{
 
   }
 
+  gotoone(): void {
+    const url = `/nurse-daily-vaccination`;
+    this.router.navigateByUrl(url);
+  }
+
   // moze i this.idScheduledVaccination
 
   finishVaccination(): void {

@@ -198,7 +198,7 @@
 
 
           <!-- Tree Map - Case Categories -->
-          <h4>Case Categories</h4>
+          <h4>Studije slucaja</h4>
           <ngx-charts-tree-map
             [view]="view"
             [scheme]="colorScheme"
@@ -207,74 +207,74 @@
           >
           </ngx-charts-tree-map>
 
-          <!-- Stacked Bar Chart - Cumulative Data Over Time -->
-          <h4>Cumulative Data Over Time (Stacked Bar Chart)</h4>
-          <ngx-charts-bar-vertical-stacked
-            [view]="view"
-            [scheme]="colorScheme"
-            [results]="cumulativeData"
-            [gradient]="gradient"
-            [xAxis]="showXAxis"
-            [yAxis]="showYAxis"
-            [showXAxisLabel]="showXAxisLabel"
-            [showYAxisLabel]="showYAxisLabel"
-            [xAxisLabel]="xAxisLabel"
-            [yAxisLabel]="yAxisLabel"
-            [legend]="showLegend"
-          >
-          <ng-container *ngFor="let data of cumulativeData" ngx-tooltip>
-            <ng-template let-model="model" let-index="index" ngx-tooltip>
-              <div class="custom-tooltip">
-                {{ data.name | date: 'dd-MM-Y' }}
-                <div *ngFor="let d of model">
-                  <div>{{ d.name }}: {{ d.value.toLocaleString() }}</div>
-                </div>
-              </div>
-            </ng-template>
-          </ng-container>
-          </ngx-charts-bar-vertical-stacked>
+<!--          &lt;!&ndash; Stacked Bar Chart - Cumulative Data Over Time &ndash;&gt;-->
+<!--          <h4>Cumulative Data Over Time (Stacked Bar Chart)</h4>-->
+<!--          <ngx-charts-bar-vertical-stacked-->
+<!--            [view]="view"-->
+<!--            [scheme]="colorScheme"-->
+<!--            [results]="cumulativeData"-->
+<!--            [gradient]="gradient"-->
+<!--            [xAxis]="showXAxis"-->
+<!--            [yAxis]="showYAxis"-->
+<!--            [showXAxisLabel]="showXAxisLabel"-->
+<!--            [showYAxisLabel]="showYAxisLabel"-->
+<!--            [xAxisLabel]="xAxisLabel"-->
+<!--            [yAxisLabel]="yAxisLabel"-->
+<!--            [legend]="showLegend"-->
+<!--          >-->
+<!--          <ng-container *ngFor="let data of cumulativeData" ngx-tooltip>-->
+<!--            <ng-template let-model="model" let-index="index" ngx-tooltip>-->
+<!--              <div class="custom-tooltip">-->
+<!--                {{ data.name | date: 'dd-MM-Y' }}-->
+<!--                <div *ngFor="let d of model">-->
+<!--                  <div>{{ d.name }}: {{ d.value.toLocaleString() }}</div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </ng-template>-->
+<!--          </ng-container>-->
+<!--          </ngx-charts-bar-vertical-stacked>-->
 
-          <!-- Area Chart - Cumulative Data Over Time -->
-          <h4>Cumulative Data Over Time (Area Chart)</h4>
-          <ngx-charts-area-chart
-            [view]="view"
-            [scheme]="colorScheme"
-            [results]="cumulativeData"
-            [gradient]="gradient"
-            [xAxis]="showXAxis"
-            [yAxis]="showYAxis"
-            [showXAxisLabel]="showXAxisLabel"
-            [showYAxisLabel]="showYAxisLabel"
-            [xAxisLabel]="xAxisLabel"
-            [yAxisLabel]="yAxisLabel"
-            [legend]="showLegend"
-          >
-          <ng-container *ngFor="let data of cumulativeData" ngx-tooltip>
-            <ng-template let-model="model" let-index="index" ngx-tooltip>
-              <div class="custom-tooltip">
-                {{ data.name | date: 'dd-MM-Y' }}
-                <div *ngFor="let d of model">
-                  <div>{{ d.name }}: {{ d.value.toLocaleString() }}</div>
-                </div>
-              </div>
-            </ng-template>
-          </ng-container>
-          </ngx-charts-area-chart>
+<!--          &lt;!&ndash; Area Chart - Cumulative Data Over Time &ndash;&gt;-->
+<!--          <h4>Cumulative Data Over Time (Area Chart)</h4>-->
+<!--          <ngx-charts-area-chart-->
+<!--            [view]="view"-->
+<!--            [scheme]="colorScheme"-->
+<!--            [results]="cumulativeData"-->
+<!--            [gradient]="gradient"-->
+<!--            [xAxis]="showXAxis"-->
+<!--            [yAxis]="showYAxis"-->
+<!--            [showXAxisLabel]="showXAxisLabel"-->
+<!--            [showYAxisLabel]="showYAxisLabel"-->
+<!--            [xAxisLabel]="xAxisLabel"-->
+<!--            [yAxisLabel]="yAxisLabel"-->
+<!--            [legend]="showLegend"-->
+<!--          >-->
+<!--          <ng-container *ngFor="let data of cumulativeData" ngx-tooltip>-->
+<!--            <ng-template let-model="model" let-index="index" ngx-tooltip>-->
+<!--              <div class="custom-tooltip">-->
+<!--                {{ data.name | date: 'dd-MM-Y' }}-->
+<!--                <div *ngFor="let d of model">-->
+<!--                  <div>{{ d.name }}: {{ d.value.toLocaleString() }}</div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </ng-template>-->
+<!--          </ng-container>-->
+<!--          </ngx-charts-area-chart>-->
 
-          <!-- Line Chart - Case Rate Over Time -->
-          <h4>Case Rate Over Time (Line Chart)</h4>
-          <ngx-charts-line-chart
-            [view]="lineChartView"
-            [scheme]="lineChartColorScheme"
-            [results]="lineChartData"
-            [gradient]="false"
-            [xAxis]="true"
-            [yAxis]="true"
-            [legend]="lineChartLegend"
-            [xAxisLabel]="lineChartXAxisLabel"
-            [yAxisLabel]="lineChartYAxisLabel"
-          >
-          </ngx-charts-line-chart>
+<!--          &lt;!&ndash; Line Chart - Case Rate Over Time &ndash;&gt;-->
+<!--          <h4>Case Rate Over Time (Line Chart)</h4>-->
+<!--          <ngx-charts-line-chart-->
+<!--            [view]="lineChartView"-->
+<!--            [scheme]="lineChartColorScheme"-->
+<!--            [results]="lineChartData"-->
+<!--            [gradient]="false"-->
+<!--            [xAxis]="true"-->
+<!--            [yAxis]="true"-->
+<!--            [legend]="lineChartLegend"-->
+<!--            [xAxisLabel]="lineChartXAxisLabel"-->
+<!--            [yAxisLabel]="lineChartYAxisLabel"-->
+<!--          >-->
+<!--          </ngx-charts-line-chart>-->
 
 
 
