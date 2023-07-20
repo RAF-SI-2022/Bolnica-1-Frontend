@@ -19,6 +19,8 @@ export class DoctorInfirmaryWorkspaceComponent implements OnInit {
 
   currentHospitalization: HospitalizationDto;
 
+  dischargeShow: boolean = false;
+
 
   constructor(private router: Router,
               private route: ActivatedRoute) {
@@ -40,6 +42,14 @@ export class DoctorInfirmaryWorkspaceComponent implements OnInit {
     this.patientDateAdmission = this.currentHospitalization.patientAdmission
     this.patientDischargeDate = this.currentHospitalization.dischargeDateAndTime
 
+    this.dischargeShow = this.isDischargeDateAndTimeEmpty();
+    console.log(this.dischargeShow)
+
+  }
+
+
+  isDischargeDateAndTimeEmpty(): boolean {
+    return !this.currentHospitalization.dischargeDateAndTime;
   }
 
   goToMedicalRecord(): void {
@@ -57,8 +67,8 @@ export class DoctorInfirmaryWorkspaceComponent implements OnInit {
 
   goToStateHistory(): void {
     const url = `/doctor-infirmary-state-history/${this.patientLbp}`;
-    // const hospitalization = this.currentHospitalization
-    this.router.navigateByUrl(url);
+    const hospitalization = this.currentHospitalization
+    this.router.navigateByUrl(url, { state: { hospitalization }});
   }
 
 

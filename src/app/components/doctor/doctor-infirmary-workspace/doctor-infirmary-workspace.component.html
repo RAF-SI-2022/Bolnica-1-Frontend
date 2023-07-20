@@ -73,7 +73,7 @@
             </div>
           </div>
           <div class="row mt-2">
-            <div class="col-md-6">
+            <div *ngIf="dischargeShow" class="col-md-6">
               <button class="btn btn-primary" (click)="goToDischargeList()"><i class="bi bi-info-circle"></i> Otpusna lista</button>
             </div>
 

@@ -35,7 +35,7 @@
 
               <select name="selektovanaOrdinacija" [(ngModel)]="selektovanaOrdinacija" class="form-select"
                 aria-label="Default select example" [ngModelOptions]="{standalone: true}">
-                <option selected>Odaberite odeljenje</option>
+<!--                <option selected>Odaberite odeljenje</option>-->
                 <option *ngFor="let department of departments" [value]="department.name">{{ department.name }}</option>
               </select>
               <div class="invalid-feedback">Izaberite odeljenje!</div>
@@ -44,7 +44,7 @@
             <div class="col-md-3"><label class="labels">Bolnica</label>
               <select name="selektovanaOrdinacija" [(ngModel)]="selektovanaBolnica" class="form-select"
                 aria-label="Default select example" [ngModelOptions]="{standalone: true}">
-                <option selected>Odaberite bolnicu</option>
+<!--                <option selected>Odaberite bolnicu</option>-->
                 <option *ngFor="let hospital of hospitals" [value]="hospital.id">{{ hospital.name }}</option>
               </select>
               <div class="invalid-feedback">Izaberite bolnicu!</div>

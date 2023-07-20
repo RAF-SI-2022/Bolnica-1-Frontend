@@ -26,6 +26,8 @@ export class DoctorInfirmaryDischargeListComponent implements OnInit {
   pbo: string = '';
   initialFormValues: any;
 
+  dischargeShow: boolean = true;
+
   constructor(private formBuilder: FormBuilder,
               private snackBar: SnackbarServiceService,
               private router: Router,
@@ -51,11 +53,23 @@ export class DoctorInfirmaryDischargeListComponent implements OnInit {
     this.lbz = this.authService.getLBZ();
     this.pbo = this.authService.getPBO();
     this.initialFormValues = this.addGroup.getRawValue();
+
+
+    this.dischargeShow = this.isDischargeDateAndTimeEmpty();
+    console.log(this.dischargeShow)
+
+    if(this.dischargeShow==false)  this.gotoone();
   }
 
   gotoone(): void {
     const url = `/doctor-infirmary-workspace/${this.patientLbp}`;
-    this.router.navigateByUrl(url);
+    const hospitalization = this.currentHospitalization
+    this.router.navigateByUrl(url, { state: { hospitalization } });
+  }
+
+
+  isDischargeDateAndTimeEmpty(): boolean {
+    return !this.currentHospitalization.dischargeDateAndTime;
   }
 
   addDischargeList() {
@@ -68,23 +82,7 @@ export class DoctorInfirmaryDischargeListComponent implements OnInit {
       return;
     }
 
-    this.addGroup.reset();
 
-    // Update form controls with initial values
-    Object.keys(this.addGroup.controls).forEach((controlName) => {
-      const control = this.addGroup.get(controlName);
-      const initialValue = this.initialFormValues[controlName];
-      // @ts-ignore
-      control.setValue(initialValue);
-      // @ts-ignore
-      control.markAsPristine();
-
-      control?.markAsUntouched();
-
-      control?.updateValueAndValidity();
-    });
-
-    form.classList.remove("was-validated");
 
     //proveri sta treba za ovo
     //this.permissions = []
@@ -96,7 +94,29 @@ export class DoctorInfirmaryDischargeListComponent implements OnInit {
       this.currentHospitalization.id).subscribe((response) => {
       this.snackBar.openSuccessSnackBar("Uspesno kreirana otpusna lista!")
 
+      const now = new Date();
+      this.currentHospitalization.dischargeDateAndTime = now;
+
       //dodato
+      this.addGroup.reset();
+
+      // Update form controls with initial values
+      Object.keys(this.addGroup.controls).forEach((controlName) => {
+        const control = this.addGroup.get(controlName);
+        const initialValue = this.initialFormValues[controlName];
+        // @ts-ignore
+        control.setValue(initialValue);
+        // @ts-ignore
+        control.markAsPristine();
+
+        control?.markAsUntouched();
+
+        control?.updateValueAndValidity();
+      });
+
+      form.classList.remove("was-validated");
+
+      this.gotoone()
 
 
     }, error => {

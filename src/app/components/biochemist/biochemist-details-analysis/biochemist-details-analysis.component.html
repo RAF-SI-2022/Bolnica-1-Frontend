@@ -57,10 +57,10 @@
               <th>ID parametra</th>
               <th>Naziv parametra</th>
               <th>Rezultat</th>
-              <th>Jedinica mere</th>
-              <th>Donja granica</th>
-              <th>Gornja granica</th>
-              <th>Biohemičar</th>
+              <th *ngIf="!covidBoolean">Jedinica mere</th>
+              <th *ngIf="!covidBoolean">Donja granica</th>
+              <th *ngIf="!covidBoolean">Gornja granica</th>
+              <th *ngIf="!covidBoolean">Biohemičar</th>
               <th *ngIf="obradjen==false">Akcija
               <th>
             </tr>

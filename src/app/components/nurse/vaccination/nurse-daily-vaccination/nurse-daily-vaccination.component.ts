@@ -88,7 +88,7 @@ export class NurseDailyVaccinationComponent implements OnInit{
       new Date(),
       '-1',
       this.lbz,
-      this.covidBoolean,
+      true,
       'SVEJEDNO'
 
     ).subscribe(res=>{
