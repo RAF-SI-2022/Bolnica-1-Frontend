@@ -173,6 +173,7 @@ export class DoctorCovidExamComponent  implements OnInit {
   }
 
   gotoone(): void {
+    this.saveFormData();
     const url = `/doctor-workspace`;
     this.router.navigateByUrl(url);
   }
@@ -201,6 +202,7 @@ export class DoctorCovidExamComponent  implements OnInit {
   }
 
   goToScheduleExam(): void {
+    this.saveFormData();
     const url = `/doctor-schedule-exam/${this.patientLBP}`;
     this.router.navigateByUrl(url);
   }
