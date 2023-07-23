@@ -18,7 +18,7 @@
 
       <div class="col-md-4 offset-2">
         <label class="labels">Pol</label>
-        <select [formControlName]="'gender'" class="form-control">
+        <select [formControlName]="'gender'" class="form-control" data-cy="pol">
           <option value="SVI">Svi</option>
           <option value="MUSKI">MUSKI</option>
           <option value="ZENSKI">ZENSKI</option>
@@ -27,7 +27,7 @@
 
       <div class="col-md-4">
         <label class="labels">Starost</label>
-        <select [formControlName]="'ageCategory'" class="form-control">
+        <select [formControlName]="'ageCategory'" class="form-control" data-cy="godine">
           <option value="0">Svi</option>
           <option value="1">Do 20 godina</option>
           <option value="2">Od 20 do 65 godina</option>

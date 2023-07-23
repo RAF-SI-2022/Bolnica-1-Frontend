@@ -51,7 +51,7 @@
           <td ><button  *ngIf="vaccine.arrivalStatus.toString() === 'ZAKAZANO' ||
                         vaccine.arrivalStatus.toString() === 'TRENUTNO'"
                         (click)="startVaccination(vaccine)"
-                       class="btn btn-primary" >Zapocni</button></td>
+                       class="btn btn-primary" data-cy="btnVaccine">Zapocni</button></td>
         </tr>
         </tbody>
       </table>

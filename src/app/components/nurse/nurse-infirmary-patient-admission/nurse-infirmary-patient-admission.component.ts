@@ -248,7 +248,7 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
     this.infirmaryService.createHospitalization(this.selectedDoctor, new Date(),
       this.selectedRoomId, this.selectedPrescriptionId, sendData.note)
       .subscribe((response) => {
-        this.snackBar.openSuccessSnackBar("Uspesno registrovan prijem!")
+
 
         this.prescriptionBoolean = false;
         this.roomBoolean = false;
@@ -289,12 +289,14 @@ export class NurseInfirmaryPatientAdmissionComponent implements OnInit {
 
         if(this.currentAdmission != null) this.registerAdmission(this.currentAdmission)
 
+        this.snackBar.openSuccessSnackBar("Uspesno registrovan prijem!")
+
 
       }, error => {
         console.log("Error " + error.status);
-        if (error.status == 409) {
+        // if (error.status == 409) {
           this.snackBar.openErrorSnackBar("Prijem nije registrovan!")
-        }
+        // }
       })
 
   }
