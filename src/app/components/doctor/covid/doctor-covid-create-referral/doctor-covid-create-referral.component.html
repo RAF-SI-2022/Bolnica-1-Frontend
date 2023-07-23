@@ -14,11 +14,11 @@
 
 
             <li *ngIf="!hospitalization" class="nav-item flex-fill" role="presentation">
-                <button class="nav-link w-100" id="infirmary-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-infirmary" type="button" role="tab" aria-controls="infirmary" aria-selected="false" tabindex="-1">Uput za stacionar</button>
+                <button class="nav-link w-100" id="infirmary-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-infirmary" type="button" role="tab" aria-controls="infirmary" aria-selected="false" tabindex="-1" data-cy="infirmary-tab">Uput za stacionar</button>
             </li>
 
             <li class="nav-item flex-fill" role="presentation">
-              <button class="nav-link w-100" id="covid-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-covid" type="button" role="tab" aria-controls="covid" aria-selected="false" tabindex="-2">Uput za kovid</button>
+              <button class="nav-link w-100" id="covid-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-covid" type="button" role="tab" aria-controls="covid" aria-selected="false" tabindex="-2" data-cy="covid-tab">Uput za kovid</button>
             </li>
 
         </ul>
@@ -156,7 +156,7 @@
                                       <div class="row">
                                         <div class="col-4 mt-3">
                                             <label class="labels">Izaberite razlog upućivanja</label>
-                                            <select [formControlName]="'commentInfirmary'" class="form-control" required>
+                                            <select [formControlName]="'commentInfirmary'" class="form-control" data-cy="razlogStacionar" required>
                                               <option value="Covid">Kovid</option>
                                               <option value="Other">Drugo</option>
                                             </select>
@@ -234,16 +234,16 @@
                           <div class="row">
                             <div class="col-6">
                               <label>Odaberite laboratorijske analize za uput na kovid:</label>
-                              <select [(ngModel)]="selectedAnalysisCovid" [formControlName]="'analysis'" id="analysisCovid" required name="analysis" class="form-select" aria-label="Default select example" data-cy="Analize">
+                              <select [(ngModel)]="selectedAnalysisCovid" [formControlName]="'analysis'" id="analysisCovid" required name="analysis" class="form-select" aria-label="Default select example" data-cy="AnalizeCovid">
                                 <option *ngFor="let item of analysisSaBekaCovid" [value]="item.id">{{item.analysisName}}</option>
                               </select>
                             </div>
                             <div class="col-12 mt-3">
-                              <button class="btn btn-outline-primary" (click)="getParamsCovid()" data-cy="btnDodajParametre">Dodaj parametre</button>
+                              <button class="btn btn-outline-primary" (click)="getParamsCovid()" data-cy="btnDodajParametreCovid">Dodaj parametre</button>
                             </div>
                             <div class="col-12 mt-3">
                               <label class="labels">Komentar</label>
-                              <input name="comment" [formControlName]="'comment'" type="text" class="form-control" id="commentCovid" placeholder="Unesite opcioni komentar" value="" data-cy="Komentar">
+                              <input name="comment" [formControlName]="'comment'" type="text" class="form-control" id="commentCovid" placeholder="Unesite opcioni komentar" value="" data-cy="KomentarCovid">
                             </div>
 
 
@@ -254,7 +254,7 @@
                           <label>Odaberite parametre:</label>
                           <div *ngFor="let params of paramsListCovid">
                             <div class="form-check">
-                              <input class="" type="checkbox" id="{{ params.id }}" name="{{ params.parameterName }}" (change)="onCheckboxChangeCovid($event, params.id)" data-cy="cbParametar">
+                              <input class="" type="checkbox" id="{{ params.id }}" name="{{ params.parameterName }}" (change)="onCheckboxChangeCovid($event, params.id)" data-cy="cbParametarCovid">
                               &nbsp;
                               <label class="form-check-label" for="{{ params }}">
                                 {{ params.parameterName }}</label>
@@ -269,7 +269,7 @@
                       <div class="d-flex justify-content-center align-items-center">
                         <div class="row mt-3">
                           <div class="col-md-4">
-                            <button type="submit" (click)="confirmCovidUput()" class="btn btn-primary" data-cy="btnDodaj">Dodaj</button>
+                            <button type="submit" (click)="confirmCovidUput()" class="btn btn-primary" data-cy="btnDodajCovid">Dodaj</button>
 
                           </div>
                         </div>

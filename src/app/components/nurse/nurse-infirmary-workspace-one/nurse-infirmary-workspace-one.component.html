@@ -82,12 +82,12 @@
             <h4> Respirator:</h4>
 
             <div *ngIf="!ventilatorBoolean" class="col-md-6">
-              <button class="btn btn-success" (click)="addOnVentilator()">Stavi na respirator</button>
+              <button class="btn btn-success" data-cy="btnAdd" (click)="addOnVentilator()">Stavi na respirator</button>
             </div>
 
             <div class="row mt-2">
             <div *ngIf="ventilatorBoolean" class="col-md-6">
-              <button class="btn btn-danger" (click)="removeFromVentilator()">Skini sa respiratora</button>
+              <button class="btn btn-danger" data-cy="btnRemove" (click)="removeFromVentilator()">Skini sa respiratora</button>
             </div>
             </div>
 
